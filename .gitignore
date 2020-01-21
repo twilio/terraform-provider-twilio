@@ -15,6 +15,7 @@
 # vendor/
 
 # Terraform files for testing
+terraform-provider-twilio
 .terraform
 *.tf
 terraform.tfstate

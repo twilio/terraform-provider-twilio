@@ -1,8 +1,8 @@
-package main
+package twilio
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	twilio "github.com/twilio/twilio-go/client"
+	client "github.com/twilio/twilio-go/client"
 )
 
 func Provider() *schema.Provider {
@@ -32,7 +32,7 @@ func Provider() *schema.Provider {
 type Config struct {
 	AccountSID string
 	AuthToken  string
-	Client     *twilio.Twilio
+	Client     *client.Twilio
 }
 
 func providerClient(p *schema.Provider) schema.ConfigureFunc {
@@ -40,7 +40,7 @@ func providerClient(p *schema.Provider) schema.ConfigureFunc {
 		config := &Config{
 			AccountSID: d.Get("account_sid").(string),
 			AuthToken:  d.Get("auth_token").(string),
-			Client:     twilio.NewClient(d.Get("account_sid").(string), d.Get("auth_token").(string)),
+			Client:     client.NewClient(d.Get("account_sid").(string), d.Get("auth_token").(string)),
 		}
 
 		return config, nil

@@ -1,8 +1,8 @@
-package main
+package twilio
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	twilio "github.com/twilio/twilio-go"
+	types "github.com/twilio/twilio-go"
 )
 
 func resourceChatService() *schema.Resource {
@@ -29,8 +29,8 @@ func resourceChatService() *schema.Resource {
 	}
 }
 
-func resourceChatServiceParams(d *schema.ResourceData) *twilio.ChatServiceParams {
-	return &twilio.ChatServiceParams{
+func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams {
+	return &types.ChatServiceParams{
 		FriendlyName:                 d.Get("friendly_name").(string),
 		DefaultServiceRoleSid:        d.Get("default_service_role_sid").(string),
 		DefaultChannelRoleSid:        d.Get("default_channel_role_sid").(string),
@@ -51,7 +51,7 @@ func resourceChatServiceParams(d *schema.ResourceData) *twilio.ChatServiceParams
 func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
 
-	chatService, err := m.(*Config).Client.Chat.Create(&twilio.ChatServiceParams{
+	chatService, err := m.(*Config).Client.Chat.Create(&types.ChatServiceParams{
 		FriendlyName: d.Get("friendly_name").(string),
 	})
 

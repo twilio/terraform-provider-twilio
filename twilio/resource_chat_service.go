@@ -17,13 +17,60 @@ func resourceChatService() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"default_service_role_sid": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"default_channel_role_sid": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"default_channel_creator_role_sid": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"read_status_enabled": &schema.Schema{
 				Type:     schema.TypeBool,
-				Required: false,
+				Optional: true,
 			},
 			"reachability_enabled": &schema.Schema{
 				Type:     schema.TypeBool,
-				Required: false,
+				Optional: true,
+			},
+			"typing_indicator_timeout": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"consumption_report_interval": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"pre_webhook_url": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"post_webhook_url": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"webhook_method": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"webhook_filters": &schema.Schema{
+				Type:     schema.TypeSet,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"pre_webhook_retry_count": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"post_webhook_retry_count": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 		},
 	}
@@ -35,14 +82,14 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 		DefaultServiceRoleSid:        d.Get("default_service_role_sid").(string),
 		DefaultChannelRoleSid:        d.Get("default_channel_role_sid").(string),
 		DefaultChannelCreatorRoleSid: d.Get("default_channel_creator_role_sid").(string),
-		ReadStatusEnabled:            d.Get("read_status_enabled").(string),
-		ReachabilityEnabled:          d.Get("reachability_enabled").(string),
-		TypingIndicatorTimeout:       d.Get("typing_indicator_timeout").(string),
-		ConsumptionReportInterval:    d.Get("consumption_report_interval").(string),
+		ReadStatusEnabled:            d.Get("read_status_enabled").(bool),
+		ReachabilityEnabled:          d.Get("reachability_enabled").(bool),
+		TypingIndicatorTimeout:       d.Get("typing_indicator_timeout").(int),
+		ConsumptionReportInterval:    d.Get("consumption_report_interval").(int),
 		PreWebhookURL:                d.Get("pre_webhook_url").(string),
 		PostWebhookURL:               d.Get("post_webhook_url").(string),
 		WebhookMethod:                d.Get("webhook_method").(string),
-		WebhookFilters:               d.Get("webhook_filters").(string),
+		WebhookFilters:               d.Get("webhook_filters").(*schema.Set).List(),
 		PreWebhookRetryCount:         d.Get("pre_webhook_retry_count").(int),
 		PostWebhookRetryCount:        d.Get("post_webhook_retry_count").(int),
 	}
@@ -120,6 +167,14 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceChatServiceUpdate(d *schema.ResourceData, m interface{}) error {
+	chatService, err := m.(*Config).Client.Chat.Update(d.Id(), resourceChatServiceParams(d))
+
+	if err != nil {
+		return err
+	}
+
+	d.SetId(chatService.Sid)
+
 	return resourceChatServiceRead(d, m)
 }
 

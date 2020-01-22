@@ -1,7 +1,9 @@
 package twilio
 
 import (
+	"errors"
 	"fmt"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	types "github.com/twilio/twilio-go"
@@ -121,15 +123,33 @@ func resourceChatService() *schema.Resource {
 				Type:     schema.TypeList,
 				MaxItems: 1,
 				Computed: true,
+				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"size_limit_mb": {
-							Type:     schema.TypeInt,
+						"removed_from_channel": {
+							Type:     schema.TypeList,
+							MaxItems: 1,
 							Computed: true,
-						},
-						"compatibility_message": {
-							Type:     schema.TypeString,
-							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"sound": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"template": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -149,7 +169,84 @@ func resourceChatService() *schema.Resource {
 	}
 }
 
+func expandBaseNotification(b []map[string]interface{}) (*types.BaseNotification, error) {
+	if len(b) > 1 {
+		return nil, errors.New("cannot specify more than one notification of each type")
+	}
+
+	notification := new(types.BaseNotification)
+
+	for _, n := range b {
+		notification.Enabled = n["enabled"].(bool)
+		notification.Sound = n["sound"].(*string)
+		notification.Template = n["template"].(*string)
+	}
+
+	return notification, nil
+}
+
+func expandNewMessage(b []map[string]interface{}) (*types.NewMessage, error) {
+	if len(b) > 1 {
+		return nil, errors.New("cannot specify more than new message notification")
+	}
+
+	notification := new(types.NewMessage)
+
+	for _, n := range b {
+		notification.Enabled = n["enabled"].(bool)
+		notification.Sound = n["sound"].(string)
+		notification.Template = n["template"].(string)
+		notification.BadgeCountEnabled = n["template"].(bool)
+	}
+
+	return notification, nil
+}
+
+func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
+	if n, ok := d.GetOk("notifications"); ok {
+		notifications := new(types.Notifications)
+		nL := n.([]interface{})
+
+		if len(nL) > 1 {
+			return nil, errors.New("cannot specify notifications more than one time")
+		}
+
+		for _, notification := range nL {
+			m := notification.(map[string]interface{})
+			removedFromChannel, err := expandBaseNotification(m["removed_from_channel"].([]map[string]interface{}))
+			if err != nil {
+				return nil, err
+			}
+
+			addedToChannel, err := expandBaseNotification(m["added_to_channel"].([]map[string]interface{}))
+			if err != nil {
+				return nil, err
+			}
+
+			invitedToChannel, err := expandBaseNotification(m["invited_to_channel"].([]map[string]interface{}))
+			if err != nil {
+				return nil, err
+			}
+
+			newMessage, err := expandNewMessage(m["new_message"].([]map[string]interface{}))
+			if err != nil {
+				return nil, err
+			}
+
+			notifications.RemovedFromChannel = removedFromChannel
+			notifications.AddedToChannel = addedToChannel
+			notifications.InvitedToChannel = invitedToChannel
+			notifications.NewMessage = newMessage
+			notifications.LogEnabled = m["log_enabled"].(bool)
+
+			return notifications, nil
+		}
+	}
+	return nil, nil
+}
+
 func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams {
+
 	return &types.ChatServiceParams{
 		FriendlyName:                 d.Get("friendly_name").(string),
 		DefaultServiceRoleSid:        d.Get("default_service_role_sid").(string),
@@ -165,8 +262,34 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 		WebhookFilters:               d.Get("webhook_filters").(*schema.Set).List(),
 		PreWebhookRetryCount:         d.Get("pre_webhook_retry_count").(int),
 		PostWebhookRetryCount:        d.Get("post_webhook_retry_count").(int),
+		// Notifications:                d.Get("notifications").(*types.Notifications),
 	}
 }
+
+// func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
+// if v, ok := d.GetOk("notifications"); ok {
+// vL := v.([]interface{})
+
+// if len(vL) > 1 {
+// 	return nil, errors.New("cannot specify restrictions more than one time")
+// }
+
+// notifications := new(types.Notifications)
+
+// for _, v := range vL {
+// 	if v == nil {
+// 		return notifications, nil
+// 	}
+
+// 	notifications.RemovedFromChannel = removeFromChannel
+
+// }
+// return notifications, nil
+
+// }
+
+// return nil, nil
+// }
 
 func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
@@ -211,6 +334,8 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
+	log.Printf("[DEBUG]: ChatService Notifications %+v\n", chatService.Notifications)
+
 	d.Set("sid", chatService.Sid)
 	d.Set("account_sid", chatService.AccountSid)
 	d.Set("friendly_name", chatService.FriendlyName)
@@ -232,19 +357,23 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("post_webhook_retry_count", chatService.PostWebhookRetryCount)
 	d.Set("notifications", []interface{}{
 		map[string]interface{}{
-			"removed_from_channel": map[string]interface{}{
-				"enabled": chatService.Notifications.RemoveFromChannel.Enabled,
+			"removed_from_channel": []interface{}{
+				map[string]interface{}{
+					"enabled":  chatService.Notifications.RemovedFromChannel.Enabled,
+					"sound":    chatService.Notifications.RemovedFromChannel.Sound,
+					"template": chatService.Notifications.RemovedFromChannel.Template,
+				},
 			},
-			"log_enabled": chatService.Notifications.LogEnabled,
-			"added_to_channel": map[string]interface{}{
-				"enabled": chatService.Notifications.AddedToChannel.Enabled,
-			},
-			"new_message": map[string]interface{}{
-				"enabled": chatService.Notifications.NewMessage.Enabled,
-			},
-			"invited_to_channel": map[string]interface{}{
-				"enabled": chatService.Notifications.InvitedToChannel.Enabled,
-			},
+			// "log_enabled": chatService.Notifications.LogEnabled,
+			// "added_to_channel": map[string]interface{}{
+			// 	"enabled": chatService.Notifications.AddedToChannel.Enabled,
+			// },
+			// "new_message": map[string]interface{}{
+			// 	"enabled": chatService.Notifications.NewMessage.Enabled,
+			// },
+			// "invited_to_channel": map[string]interface{}{
+			// 	"enabled": chatService.Notifications.InvitedToChannel.Enabled,
+			// },
 		},
 	})
 	d.Set("media", []interface{}{

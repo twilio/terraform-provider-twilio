@@ -184,6 +184,8 @@ github.com/twilio/twilio-go v0.0.0-20200122172336-6dfec49146fa h1:g7wBJky/HMj7cU
 github.com/twilio/twilio-go v0.0.0-20200122172336-6dfec49146fa/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
 github.com/twilio/twilio-go v0.0.0-20200122193832-efa34020381f h1:I0dwtOW91hNHqC7z9actILuTts9Wqha2taIS0XrILig=
 github.com/twilio/twilio-go v0.0.0-20200122193832-efa34020381f/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
+github.com/twilio/twilio-go v0.0.0-20200122234301-c53876701972 h1:egzjsADlJb0EBrxQO9eQIjR5uMU+PihfcFoy27fWXmc=
+github.com/twilio/twilio-go v0.0.0-20200122234301-c53876701972/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
 github.com/ulikunitz/xz v0.5.5 h1:pFrO0lVpTBXLpYw+pnLj6TbvHuyjXMfjGeCwSqCVwok=
 github.com/ulikunitz/xz v0.5.5/go.mod h1:2bypXElzHzzJZwzH67Y6wb67pO62Rzfn7BSiF4ABRW8=
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=

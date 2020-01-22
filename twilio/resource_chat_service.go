@@ -169,7 +169,13 @@ func resourceChatService() *schema.Resource {
 	}
 }
 
-func expandBaseNotification(b []map[string]interface{}) (*types.BaseNotification, error) {
+func expandBaseNotification(a interface{}) (*types.BaseNotification, error) {
+	if a == nil {
+		return nil, nil
+	}
+
+	b := a.([]interface{})
+
 	if len(b) > 1 {
 		return nil, errors.New("cannot specify more than one notification of each type")
 	}
@@ -177,15 +183,22 @@ func expandBaseNotification(b []map[string]interface{}) (*types.BaseNotification
 	notification := new(types.BaseNotification)
 
 	for _, n := range b {
-		notification.Enabled = n["enabled"].(bool)
-		notification.Sound = n["sound"].(*string)
-		notification.Template = n["template"].(*string)
+		foo := n.(map[string]interface{})
+		notification.Enabled = foo["enabled"].(bool)
+		notification.Sound = foo["sound"].(string)
+		notification.Template = foo["template"].(string)
 	}
 
 	return notification, nil
 }
 
-func expandNewMessage(b []map[string]interface{}) (*types.NewMessage, error) {
+func expandNewMessage(a interface{}) (*types.NewMessage, error) {
+	if a == nil {
+		return nil, nil
+	}
+
+	b := a.([]map[string]interface{})
+
 	if len(b) > 1 {
 		return nil, errors.New("cannot specify more than new message notification")
 	}
@@ -213,22 +226,22 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 
 		for _, notification := range nL {
 			m := notification.(map[string]interface{})
-			removedFromChannel, err := expandBaseNotification(m["removed_from_channel"].([]map[string]interface{}))
+			removedFromChannel, err := expandBaseNotification(m["removed_from_channel"])
 			if err != nil {
 				return nil, err
 			}
 
-			addedToChannel, err := expandBaseNotification(m["added_to_channel"].([]map[string]interface{}))
+			addedToChannel, err := expandBaseNotification(m["added_to_channel"])
 			if err != nil {
 				return nil, err
 			}
 
-			invitedToChannel, err := expandBaseNotification(m["invited_to_channel"].([]map[string]interface{}))
+			invitedToChannel, err := expandBaseNotification(m["invited_to_channel"])
 			if err != nil {
 				return nil, err
 			}
 
-			newMessage, err := expandNewMessage(m["new_message"].([]map[string]interface{}))
+			newMessage, err := expandNewMessage(m["new_message"])
 			if err != nil {
 				return nil, err
 			}
@@ -237,7 +250,10 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 			notifications.AddedToChannel = addedToChannel
 			notifications.InvitedToChannel = invitedToChannel
 			notifications.NewMessage = newMessage
-			notifications.LogEnabled = m["log_enabled"].(bool)
+
+			if m["log_enabled"] != nil {
+				notifications.LogEnabled = m["log_enabled"].(bool)
+			}
 
 			return notifications, nil
 		}
@@ -246,6 +262,10 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 }
 
 func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams {
+	notifications, err := expandNotifications(d)
+	if err != err {
+		log.Printf("[DEBUG] Notification Error: %v", err)
+	}
 
 	return &types.ChatServiceParams{
 		FriendlyName:                 d.Get("friendly_name").(string),
@@ -262,7 +282,7 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 		WebhookFilters:               d.Get("webhook_filters").(*schema.Set).List(),
 		PreWebhookRetryCount:         d.Get("pre_webhook_retry_count").(int),
 		PostWebhookRetryCount:        d.Get("post_webhook_retry_count").(int),
-		// Notifications:                d.Get("notifications").(*types.Notifications),
+		Notifications:                notifications,
 	}
 }
 

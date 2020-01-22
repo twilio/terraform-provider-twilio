@@ -5,6 +5,7 @@ import (
 	client "github.com/twilio/twilio-go/client"
 )
 
+// Provider initializes terraform-provider-twilio
 func Provider() *schema.Provider {
 	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{

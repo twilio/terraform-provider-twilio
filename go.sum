@@ -172,6 +172,14 @@ github.com/twilio/twilio-go v0.0.0-20200121192227-3cb9dfdc620d h1:M+YFKL3YADhjsT
 github.com/twilio/twilio-go v0.0.0-20200121192227-3cb9dfdc620d/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
 github.com/twilio/twilio-go v0.0.0-20200121195352-fe5fb8dbbfb6 h1:8XAFLsqEBZr1qcPs/RBC9WOJLV+gTIJj07uliLAIAPw=
 github.com/twilio/twilio-go v0.0.0-20200121195352-fe5fb8dbbfb6/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
+github.com/twilio/twilio-go v0.0.0-20200121200100-94ba0495991f h1:Iezg1WLf4ZAF05b7+hsWCHzAy1AkATNxrK5y1XiH1l4=
+github.com/twilio/twilio-go v0.0.0-20200121200100-94ba0495991f/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
+github.com/twilio/twilio-go v0.0.0-20200121204408-ec065bb237fa h1:/J8lKBM4eSo/P1oMML/kvSLLvXcokBTrFTvQnXENo0M=
+github.com/twilio/twilio-go v0.0.0-20200121204408-ec065bb237fa/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
+github.com/twilio/twilio-go v0.0.0-20200121214209-70ab8ed7595a h1:m3CVxQMRl6Jx0+Ji48Isar8AqTknfO/qTwBPhXK8IjU=
+github.com/twilio/twilio-go v0.0.0-20200121214209-70ab8ed7595a/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
+github.com/twilio/twilio-go v0.0.0-20200121221815-bb55bea63e20 h1:/Y4C+4pv3jpW9VZmHMUp203sQQjjnLTz2NIpvAWT7jk=
+github.com/twilio/twilio-go v0.0.0-20200121221815-bb55bea63e20/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
 github.com/ulikunitz/xz v0.5.5 h1:pFrO0lVpTBXLpYw+pnLj6TbvHuyjXMfjGeCwSqCVwok=
 github.com/ulikunitz/xz v0.5.5/go.mod h1:2bypXElzHzzJZwzH67Y6wb67pO62Rzfn7BSiF4ABRW8=
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=

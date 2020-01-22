@@ -1,6 +1,8 @@
 package twilio
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	types "github.com/twilio/twilio-go"
 )
@@ -13,64 +15,135 @@ func resourceChatService() *schema.Resource {
 		Delete: resourceChatServiceDelete,
 
 		Schema: map[string]*schema.Schema{
-			"friendly_name": &schema.Schema{
+			"friendly_name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"default_service_role_sid": &schema.Schema{
+			"default_service_role_sid": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
-			"default_channel_role_sid": &schema.Schema{
+			"default_channel_role_sid": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
-			"default_channel_creator_role_sid": &schema.Schema{
+			"default_channel_creator_role_sid": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
-			"read_status_enabled": &schema.Schema{
+			"read_status_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  true,
 			},
-			"reachability_enabled": &schema.Schema{
+			"reachability_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
-			"typing_indicator_timeout": &schema.Schema{
+			"typing_indicator_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
-			"consumption_report_interval": &schema.Schema{
+			"consumption_report_interval": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
-			"pre_webhook_url": &schema.Schema{
+			"pre_webhook_url": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"post_webhook_url": &schema.Schema{
+			"post_webhook_url": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"webhook_method": &schema.Schema{
+			"webhook_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"webhook_filters": &schema.Schema{
+			"webhook_filters": {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
-			"pre_webhook_retry_count": &schema.Schema{
+			"pre_webhook_retry_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"post_webhook_retry_count": &schema.Schema{
+			"post_webhook_retry_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
+			},
+			"account_sid": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"date_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"date_update": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"limits": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeInt,
+				},
+			},
+			"media": {
+				Type:     schema.TypeList,
+				MaxItems: 1,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"size_limit_mb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"compatibility_message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"notifications": {
+				Type:     schema.TypeList,
+				MaxItems: 1,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"size_limit_mb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"compatibility_message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"links": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 		},
 	}
@@ -103,13 +176,14 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	})
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Error creating Chat Service: %s", err)
 	}
 
+	d.SetId(chatService.Sid)
 	d.SetPartial("friendly_name")
 
 	if _, err := m.(*Config).Client.Chat.Update(chatService.Sid, resourceChatServiceParams(d)); err != nil {
-		return err
+		return fmt.Errorf("Error creating Chat Service with optional parameters: %s", err)
 	}
 
 	d.SetPartial("default_service_role_sid")
@@ -126,14 +200,12 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 
 	d.Partial(false)
 
-	d.SetId(chatService.Sid)
-
 	return resourceChatServiceRead(d, m)
 }
 
 func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 	id := d.Id()
-	chatService, err := m.(*Config).Client.Chat.Read(id, nil)
+	chatService, err := m.(*Config).Client.Chat.Read(id)
 
 	if err != nil {
 		return err
@@ -158,8 +230,29 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("webhook_filters", chatService.WebhookFilters)
 	d.Set("pre_webhook_retry_count", chatService.PreWebhookRetryCount)
 	d.Set("post_webhook_retry_count", chatService.PostWebhookRetryCount)
-	d.Set("notifications", chatService.Notifications)
-	d.Set("media", chatService.Media)
+	d.Set("notifications", []interface{}{
+		map[string]interface{}{
+			"removed_from_channel": map[string]interface{}{
+				"enabled": chatService.Notifications.RemoveFromChannel.Enabled,
+			},
+			"log_enabled": chatService.Notifications.LogEnabled,
+			"added_to_channel": map[string]interface{}{
+				"enabled": chatService.Notifications.AddedToChannel.Enabled,
+			},
+			"new_message": map[string]interface{}{
+				"enabled": chatService.Notifications.NewMessage.Enabled,
+			},
+			"invited_to_channel": map[string]interface{}{
+				"enabled": chatService.Notifications.InvitedToChannel.Enabled,
+			},
+		},
+	})
+	d.Set("media", []interface{}{
+		map[string]interface{}{
+			"size_limit_mb":         chatService.Media.SizeLimitMB,
+			"compatibility_message": chatService.Media.CompatibilityMessage,
+		},
+	})
 	d.Set("url", chatService.URL)
 	d.Set("links", chatService.Links)
 
@@ -167,24 +260,19 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceChatServiceUpdate(d *schema.ResourceData, m interface{}) error {
-	chatService, err := m.(*Config).Client.Chat.Update(d.Id(), resourceChatServiceParams(d))
-
-	if err != nil {
-		return err
+	if _, err := m.(*Config).Client.Chat.Update(d.Id(), resourceChatServiceParams(d)); err != nil {
+		return fmt.Errorf("Error updating Chat Service: %s", err)
 	}
-
-	d.SetId(chatService.Sid)
 
 	return resourceChatServiceRead(d, m)
 }
 
 func resourceChatServiceDelete(d *schema.ResourceData, m interface{}) error {
-	id := d.Id()
-	_, err := m.(*Config).Client.Chat.Delete(id, nil)
-
-	if err != nil {
-		return err
+	if err := m.(*Config).Client.Chat.Delete(d.Id()); err != nil {
+		return fmt.Errorf("Error deleting Chat Service: %s", err)
 	}
+
+	d.SetId("")
 
 	return nil
 }

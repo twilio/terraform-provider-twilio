@@ -141,15 +141,87 @@ func resourceChatService() *schema.Resource {
 									"sound": {
 										Type:     schema.TypeString,
 										Optional: true,
-										Computed: true,
 									},
 									"template": {
 										Type:     schema.TypeString,
 										Optional: true,
-										Computed: true,
 									},
 								},
 							},
+						},
+						"added_to_channel": {
+							Type:     schema.TypeList,
+							MaxItems: 1,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"sound": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"template": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"invited_to_chhannel": {
+							Type:     schema.TypeList,
+							MaxItems: 1,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"sound": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"template": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"new_message": {
+							Type:     schema.TypeList,
+							MaxItems: 1,
+							Computed: true,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"sound": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"template": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"log_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+							Optional: true,
 						},
 					},
 				},
@@ -169,47 +241,51 @@ func resourceChatService() *schema.Resource {
 	}
 }
 
-func expandBaseNotification(a interface{}) (*types.BaseNotification, error) {
-	if a == nil {
+func expandBaseNotification(base interface{}) (*types.BaseNotification, error) {
+	if base == nil {
 		return nil, nil
 	}
 
-	b := a.([]interface{})
+	baseL := base.([]interface{})
 
-	if len(b) > 1 {
+	if len(baseL) > 1 {
 		return nil, errors.New("cannot specify more than one notification of each type")
 	}
 
 	notification := new(types.BaseNotification)
 
-	for _, n := range b {
-		foo := n.(map[string]interface{})
-		notification.Enabled = foo["enabled"].(bool)
-		notification.Sound = foo["sound"].(string)
-		notification.Template = foo["template"].(string)
+	for _, n := range baseL {
+		setting := n.(map[string]interface{})
+		notification.Enabled = setting["enabled"].(bool)
+		notification.Sound = setting["sound"].(string)
+		notification.Template = setting["template"].(string)
 	}
 
 	return notification, nil
 }
 
-func expandNewMessage(a interface{}) (*types.NewMessage, error) {
-	if a == nil {
+func expandNewMessage(base interface{}) (*types.NewMessage, error) {
+	if base == nil {
 		return nil, nil
 	}
 
-	b := a.([]map[string]interface{})
+	messageL := base.([]interface{})
 
-	if len(b) > 1 {
+	if len(messageL) > 1 {
 		return nil, errors.New("cannot specify more than new message notification")
 	}
 
 	notification := new(types.NewMessage)
 
-	for _, n := range b {
-		notification.Enabled = n["enabled"].(bool)
-		notification.Sound = n["sound"].(string)
-		notification.Template = n["template"].(string)
-		notification.BadgeCountEnabled = n["template"].(bool)
+	for _, n := range messageL {
+		message := n.(map[string]interface{})
+		notification.Enabled = message["enabled"].(bool)
+		notification.Sound = message["sound"].(string)
+		notification.Template = message["template"].(string)
+
+		if message["badge_count_enabled"] != nil {
+			notification.BadgeCountEnabled = message["badge_count_enabled"].(bool)
+		}
 	}
 
 	return notification, nil
@@ -286,31 +362,6 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 	}
 }
 
-// func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
-// if v, ok := d.GetOk("notifications"); ok {
-// vL := v.([]interface{})
-
-// if len(vL) > 1 {
-// 	return nil, errors.New("cannot specify restrictions more than one time")
-// }
-
-// notifications := new(types.Notifications)
-
-// for _, v := range vL {
-// 	if v == nil {
-// 		return notifications, nil
-// 	}
-
-// 	notifications.RemovedFromChannel = removeFromChannel
-
-// }
-// return notifications, nil
-
-// }
-
-// return nil, nil
-// }
-
 func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
 
@@ -354,7 +405,7 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	log.Printf("[DEBUG]: ChatService Notifications %+v\n", chatService.Notifications)
+	log.Printf("[DEBUG]: ChatService Notifications %+v\n", chatService.Notifications.AddedToChannel)
 
 	d.Set("sid", chatService.Sid)
 	d.Set("account_sid", chatService.AccountSid)
@@ -384,16 +435,29 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 					"template": chatService.Notifications.RemovedFromChannel.Template,
 				},
 			},
-			// "log_enabled": chatService.Notifications.LogEnabled,
-			// "added_to_channel": map[string]interface{}{
-			// 	"enabled": chatService.Notifications.AddedToChannel.Enabled,
-			// },
-			// "new_message": map[string]interface{}{
-			// 	"enabled": chatService.Notifications.NewMessage.Enabled,
-			// },
-			// "invited_to_channel": map[string]interface{}{
-			// 	"enabled": chatService.Notifications.InvitedToChannel.Enabled,
-			// },
+			"log_enabled": chatService.Notifications.LogEnabled,
+			"added_to_channel": []interface{}{
+				map[string]interface{}{
+					"enabled":  chatService.Notifications.AddedToChannel.Enabled,
+					"sound":    chatService.Notifications.AddedToChannel.Sound,
+					"template": chatService.Notifications.AddedToChannel.Template,
+				},
+			},
+			"new_message": []interface{}{
+				map[string]interface{}{
+					"enabled":             chatService.Notifications.NewMessage.Enabled,
+					"sound":               chatService.Notifications.NewMessage.Sound,
+					"template":            chatService.Notifications.NewMessage.Template,
+					"badge_count_enabled": chatService.Notifications.NewMessage.BadgeCountEnabled,
+				},
+			},
+			"invited_to_channel": []interface{}{
+				map[string]interface{}{
+					"enabled":  chatService.Notifications.InvitedToChannel.Enabled,
+					"sound":    chatService.Notifications.InvitedToChannel.Sound,
+					"template": chatService.Notifications.InvitedToChannel.Template,
+				},
+			},
 		},
 	})
 	d.Set("media", []interface{}{

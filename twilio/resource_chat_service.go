@@ -405,7 +405,7 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	log.Printf("[DEBUG]: ChatService Notifications %+v\n", chatService.Notifications.AddedToChannel)
+	log.Printf("[DEBUG]: ChatService Notifications %+v\n", chatService.Notifications.LogEnabled)
 
 	d.Set("sid", chatService.Sid)
 	d.Set("account_sid", chatService.AccountSid)

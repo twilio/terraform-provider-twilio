@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	types "github.com/twilio/twilio-go"
 )
 
@@ -47,9 +48,10 @@ func resourceChatService() *schema.Resource {
 				Computed: true,
 			},
 			"typing_indicator_timeout": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validation.IntAtLeast(0),
 			},
 			"consumption_report_interval": {
 				Type:     schema.TypeInt,
@@ -59,10 +61,12 @@ func resourceChatService() *schema.Resource {
 			"pre_webhook_url": {
 				Type:     schema.TypeString,
 				Optional: true,
+				// ValidateFunc: validation.IsURLWithHTTPorHTTPS(), v1.6.0
 			},
 			"post_webhook_url": {
 				Type:     schema.TypeString,
 				Optional: true,
+				// ValidateFunc: validation.IsURLWithHTTPorHTTPS(), v1.6.0
 			},
 			"webhook_method": {
 				Type:     schema.TypeString,
@@ -76,12 +80,14 @@ func resourceChatService() *schema.Resource {
 				},
 			},
 			"pre_webhook_retry_count": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:         schema.TypeInt,
+				Optional:     true,
+				ValidateFunc: validation.IntAtLeast(0),
 			},
 			"post_webhook_retry_count": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:         schema.TypeInt,
+				Optional:     true,
+				ValidateFunc: validation.IntAtLeast(0),
 			},
 			"account_sid": {
 				Type:     schema.TypeString,
@@ -172,7 +178,7 @@ func resourceChatService() *schema.Resource {
 								},
 							},
 						},
-						"invited_to_chhannel": {
+						"invited_to_channel": {
 							Type:     schema.TypeList,
 							MaxItems: 1,
 							Computed: true,
@@ -339,7 +345,8 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 
 func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams {
 	notifications, err := expandNotifications(d)
-	if err != err {
+
+	if err != nil {
 		log.Printf("[DEBUG] Notification Error: %v", err)
 	}
 
@@ -484,8 +491,6 @@ func resourceChatServiceDelete(d *schema.ResourceData, m interface{}) error {
 	if err := m.(*Config).Client.Chat.Delete(d.Id()); err != nil {
 		return fmt.Errorf("Error deleting Chat Service: %s", err)
 	}
-
-	d.SetId("")
 
 	return nil
 }

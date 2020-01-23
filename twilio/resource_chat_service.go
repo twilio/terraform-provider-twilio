@@ -309,6 +309,7 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 		for _, notification := range nL {
 			m := notification.(map[string]interface{})
 			removedFromChannel, err := expandBaseNotification(m["removed_from_channel"])
+
 			if err != nil {
 				return nil, err
 			}
@@ -336,10 +337,11 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 			if m["log_enabled"] != nil {
 				notifications.LogEnabled = m["log_enabled"].(bool)
 			}
-
-			return notifications, nil
 		}
+
+		return notifications, nil
 	}
+
 	return nil, nil
 }
 
@@ -377,14 +379,14 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	})
 
 	if err != nil {
-		return fmt.Errorf("Error creating Chat Service: %s", err)
+		return fmt.Errorf("error creating Chat Service: %s", err)
 	}
 
 	d.SetId(chatService.Sid)
 	d.SetPartial("friendly_name")
 
 	if _, err := m.(*Config).Client.Chat.Update(chatService.Sid, resourceChatServiceParams(d)); err != nil {
-		return fmt.Errorf("Error creating Chat Service with optional parameters: %s", err)
+		return fmt.Errorf("error creating Chat Service with optional parameters: %s", err)
 	}
 
 	d.SetPartial("default_service_role_sid")
@@ -481,7 +483,7 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 
 func resourceChatServiceUpdate(d *schema.ResourceData, m interface{}) error {
 	if _, err := m.(*Config).Client.Chat.Update(d.Id(), resourceChatServiceParams(d)); err != nil {
-		return fmt.Errorf("Error updating Chat Service: %s", err)
+		return fmt.Errorf("error updating Chat Service: %s", err)
 	}
 
 	return resourceChatServiceRead(d, m)
@@ -489,7 +491,7 @@ func resourceChatServiceUpdate(d *schema.ResourceData, m interface{}) error {
 
 func resourceChatServiceDelete(d *schema.ResourceData, m interface{}) error {
 	if err := m.(*Config).Client.Chat.Delete(d.Id()); err != nil {
-		return fmt.Errorf("Error deleting Chat Service: %s", err)
+		return fmt.Errorf("error deleting Chat Service: %s", err)
 	}
 
 	return nil

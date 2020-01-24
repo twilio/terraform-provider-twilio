@@ -11,13 +11,13 @@ func Provider() *schema.Provider {
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:        schema.TypeString,
-				Optional:    true,
 				Description: "You Account SID can be found on the Twilio dashboard.",
+				Required:    true,
 			},
 			"auth_token": {
 				Type:        schema.TypeString,
-				Optional:    true,
-				Description: "You Auth Token can be found on the Twilio dashboard.",
+				Description: "Your Auth Token can be found on the Twilio dashboard.",
+				Required:    true,
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{

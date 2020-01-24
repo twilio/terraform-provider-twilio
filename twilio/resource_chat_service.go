@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go"
 )
 
@@ -358,7 +359,7 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 		PreWebhookURL:                d.Get("pre_webhook_url").(string),
 		PostWebhookURL:               d.Get("post_webhook_url").(string),
 		WebhookMethod:                d.Get("webhook_method").(string),
-		WebhookFilters:               d.Get("webhook_filters").(*schema.Set).List(),
+		WebhookFilters:               expandStringList(d.Get("webhook_filters").(*schema.Set).List()),
 		PreWebhookRetryCount:         d.Get("pre_webhook_retry_count").(int),
 		PostWebhookRetryCount:        d.Get("post_webhook_retry_count").(int),
 		Notifications:                notifications,
@@ -431,8 +432,8 @@ func expandBaseNotification(base interface{}) (*types.BaseNotification, error) {
 	for _, n := range baseL {
 		setting := n.(map[string]interface{})
 		notification.Enabled = setting["enabled"].(bool)
-		notification.Sound = setting["sound"].(string)
-		notification.Template = setting["template"].(string)
+		notification.Sound = util.String(setting["sound"].(string))
+		notification.Template = util.String(setting["template"].(string))
 	}
 
 	return notification, nil
@@ -454,11 +455,11 @@ func expandNewMessage(base interface{}) (*types.NewMessage, error) {
 	for _, n := range messageL {
 		message := n.(map[string]interface{})
 		notification.Enabled = message["enabled"].(bool)
-		notification.Sound = message["sound"].(string)
-		notification.Template = message["template"].(string)
+		notification.Sound = util.String(message["sound"].(string))
+		notification.Template = util.String(message["template"].(string))
 
 		if message["badge_count_enabled"] != nil {
-			notification.BadgeCountEnabled = message["badge_count_enabled"].(bool)
+			notification.BadgeCountEnabled = util.Bool(message["badge_count_enabled"].(bool))
 		}
 	}
 
@@ -506,4 +507,15 @@ func flattenMedia(m *types.Media) []interface{} {
 	values["compatibility_message"] = m.SizeLimitMB
 
 	return []interface{}{values}
+}
+
+func expandStringList(configured []interface{}) []string {
+	vs := make([]string, 0, len(configured))
+	for _, v := range configured {
+		val, ok := v.(string)
+		if ok && val != "" {
+			vs = append(vs, val)
+		}
+	}
+	return vs
 }

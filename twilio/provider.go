@@ -32,17 +32,13 @@ func Provider() *schema.Provider {
 
 // Config is provided as context to the underlying resources.
 type Config struct {
-	AccountSID string
-	AuthToken  string
-	Client     *client.Twilio
+	Client *client.Twilio
 }
 
 func providerClient(p *schema.Provider) schema.ConfigureFunc {
 	return func(d *schema.ResourceData) (interface{}, error) {
 		config := &Config{
-			AccountSID: d.Get("account_sid").(string),
-			AuthToken:  d.Get("auth_token").(string),
-			Client:     client.NewClient(d.Get("account_sid").(string), d.Get("auth_token").(string)),
+			Client: client.NewClient(d.Get("account_sid").(string), d.Get("auth_token").(string)),
 		}
 
 		return config, nil

@@ -10,7 +10,7 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceChatService() *schema.Resource {
+func resourceChatService() *schema.Resource { //nolint:golint,funlen
 	return &schema.Resource{
 		Create: resourceChatServiceCreate,
 		Read:   resourceChatServiceRead,
@@ -289,6 +289,7 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 
 func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 	id := d.Id()
+
 	chatService, err := m.(*Config).Client.Chat.Read(id)
 
 	if err != nil {
@@ -359,7 +360,7 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 		PreWebhookURL:                d.Get("pre_webhook_url").(string),
 		PostWebhookURL:               d.Get("post_webhook_url").(string),
 		WebhookMethod:                d.Get("webhook_method").(string),
-		WebhookFilters:               expandStringList(d.Get("webhook_filters").(*schema.Set).List()),
+		WebhookFilters:               util.ExpandStringList(d.Get("webhook_filters").(*schema.Set).List()),
 		PreWebhookRetryCount:         d.Get("pre_webhook_retry_count").(int),
 		PostWebhookRetryCount:        d.Get("post_webhook_retry_count").(int),
 		Notifications:                notifications,
@@ -406,11 +407,9 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 			if m["log_enabled"] != nil {
 				notifications.LogEnabled = m["log_enabled"].(bool)
 			}
-
-			return notifications, nil
 		}
 
-		return nil, nil
+		return notifications, nil
 	}
 
 	return nil, nil
@@ -497,7 +496,6 @@ func flattenNewMessage(b *types.NewMessage) []interface{} {
 	values["badge_count_enabled"] = b.BadgeCountEnabled
 
 	return []interface{}{values}
-
 }
 
 func flattenMedia(m *types.Media) []interface{} {
@@ -507,15 +505,4 @@ func flattenMedia(m *types.Media) []interface{} {
 	values["compatibility_message"] = m.SizeLimitMB
 
 	return []interface{}{values}
-}
-
-func expandStringList(configured []interface{}) []string {
-	vs := make([]string, 0, len(configured))
-	for _, v := range configured {
-		val, ok := v.(string)
-		if ok && val != "" {
-			vs = append(vs, val)
-		}
-	}
-	return vs
 }

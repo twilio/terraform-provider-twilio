@@ -1,20 +1,19 @@
 name: reviewdog
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-
+on: [pull_request]
 jobs:
   golangci-lint:
-    if: github.event_name == 'pull_request'
     name: runner / golangci-lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: reviewdog/action-golangci-lint@v1
+      - name: Configure internal GitHub
+        run: git config --global url."https://${{ secrets.github_token }}:x-oauth-basic@github.com/twilio".insteadOf "https://github.com/twilio"
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+      - name: golangci-lint
+        uses: docker://reviewdog/action-golangci-lint:v1
         with:
           github_token: ${{ secrets.github_token }}
-          golangci_lint_flags: "--enable-all --exclude-use-default=false"
-          level: "warning"
-          reporter: github-pr-check
+          golangci_lint_flags: "--enable-all --exclude-use-default=false -D errcheck"
+          level: error
+          tool_name: golint
+

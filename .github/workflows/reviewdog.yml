@@ -4,8 +4,6 @@ jobs:
   golangci-lint:
     name: runner / golangci-lint
     runs-on: ubuntu-latest
-    run:
-      modules-download-mode: vendor  
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
@@ -13,6 +11,6 @@ jobs:
         uses: docker://reviewdog/action-golangci-lint:v1
         with:
           github_token: ${{ secrets.TERRAFORM_GITHUB_ACTIONS_TOKEN }}
-          golangci_lint_flags: "--enable-all  --exclude-use-default=true -D gomnd -D errcheck"
+          golangci_lint_flags: "--enable-all --modules-download-mode vendor --exclude-use-default=true -D gomnd -D errcheck"
           level: error
           tool_name: golint

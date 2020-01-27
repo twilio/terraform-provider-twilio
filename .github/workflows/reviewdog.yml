@@ -10,7 +10,7 @@ jobs:
       - name: golangci-lint
         uses: docker://reviewdog/action-golangci-lint:v1
         with:
-          run: git config --global url."https://${{GITHUB_TOKEN}}:x-oauth-basic@github.com/mycompany".insteadOf "https://github.com/mycompany"
+          run: git config --global url."https://${{secrets.GITHUB_TOKEN}}:x-oauth-basic@github.com/mycompany".insteadOf "https://github.com/mycompany"
           github_token: ${{ secrets.github_token }}
           golangci_lint_flags: "--enable-all --exclude-use-default=false -D errcheck"
           level: error

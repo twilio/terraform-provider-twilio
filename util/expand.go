@@ -1,6 +1,6 @@
 package util
 
-// ExpandStringList converts a schema.Set of strings from []interface{} to []string
+// ExpandStringList converts a schema.Set of strings from []interface{} to []string.
 func ExpandStringList(configured []interface{}) []string {
 	vs := make([]string, 0, len(configured))
 

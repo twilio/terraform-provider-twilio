@@ -9,6 +9,6 @@ jobs:
         - uses: reviewdog/action-golangci-lint@v1
           with:
             github_token: ${{ secrets.TERRAFORM_GITHUB_ACTIONS_TOKEN }}
-            golangci_lint_flags: "--enable-all --modules-download-mode vendor --exclude-use-default=true -D gomnd -D errcheck"
+            golangci_lint_flags: "--enable-all --exclude-use-default=true -D gomnd -D errcheck"
             level: error
             tool_name: golint

@@ -14,3 +14,5 @@ jobs:
           golangci_lint_flags: "--enable-all  --exclude-use-default=true -D gomnd -D errcheck"
           level: error
           tool_name: golint
+run:
+  modules-download-mode: vendor  

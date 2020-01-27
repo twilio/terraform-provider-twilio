@@ -10,7 +10,7 @@ jobs:
       - name: golangci-lint
         uses: docker://reviewdog/action-golangci-lint:v1
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.TERRAFORM_GITHUB_ACTIONS_TOKEN }}
           golangci_lint_flags: "--enable-all  --exclude-use-default=true -D gomnd -D errcheck"
           level: error
           tool_name: golint

@@ -156,6 +156,8 @@ github.com/mitchellh/reflectwalk v1.0.1/go.mod h1:mSTlrgnPZtwu0c4WaC2kGObEpuNDbx
 github.com/oklog/run v1.0.0 h1:Ru7dDtJNOyC66gQ5dQmaCa0qIsAUFY3sFpK1Xk8igrw=
 github.com/oklog/run v1.0.0/go.mod h1:dlhp/R75TPv97u0XWUtDeV/lRKWPKSdTuV0TZvrmrQA=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
+github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
+github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/posener/complete v1.1.1/go.mod h1:em0nMJCgc9GFtwrmVmEMR/ZL6WyhyjMBndrE9hABlRI=
@@ -173,6 +175,10 @@ github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/twilio/twilio-go v0.0.0-20200124032618-97954d1ed3ba h1:zumPaxtYlKrblDSy5Zx5OSrBkMows5lNTlsLsecD6sw=
 github.com/twilio/twilio-go v0.0.0-20200124032618-97954d1ed3ba/go.mod h1:CAb9BzuUlEQMMZtT7TuY5VLATP29XcB92/5J/uSmtj8=
+github.com/twilio/twilio-go v0.0.0-20200128182238-323ccc134871 h1:9rTbU6UR/W9gwZ1m0G03JoE6MpBnNjVnRZd3bBNbPIc=
+github.com/twilio/twilio-go v0.0.0-20200128182238-323ccc134871/go.mod h1:f9PVgHJLv3yA2dATmCvUT/Je/WAGQfMBYXZePvPocvA=
+github.com/twilio/twilio-go v0.0.0-20200128213026-f96a3fcfb730 h1:qyMRltoQRyj4ErZM1xWuaMR4N31yLvwrgq1inbjyuio=
+github.com/twilio/twilio-go v0.0.0-20200128213026-f96a3fcfb730/go.mod h1:f9PVgHJLv3yA2dATmCvUT/Je/WAGQfMBYXZePvPocvA=
 github.com/ulikunitz/xz v0.5.5 h1:pFrO0lVpTBXLpYw+pnLj6TbvHuyjXMfjGeCwSqCVwok=
 github.com/ulikunitz/xz v0.5.5/go.mod h1:2bypXElzHzzJZwzH67Y6wb67pO62Rzfn7BSiF4ABRW8=
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=

@@ -255,7 +255,7 @@ func resourceChatService() *schema.Resource { //nolint:golint,funlen
 func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
 
-	chatService, err := m.(*Config).Client.Chat.Create(&types.ChatServiceParams{
+	chatService, err := m.(*Config).Client.Chat.Service.Create(&types.ChatServiceParams{
 		FriendlyName: d.Get("friendly_name").(string),
 	})
 
@@ -266,7 +266,7 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	d.SetId(chatService.Sid)
 	d.SetPartial("friendly_name")
 
-	if _, err := m.(*Config).Client.Chat.Update(chatService.Sid, resourceChatServiceParams(d)); err != nil {
+	if _, err := m.(*Config).Client.Chat.Service.Update(chatService.Sid, resourceChatServiceParams(d)); err != nil {
 		return fmt.Errorf("error creating Chat Service with optional parameters: %s", err)
 	}
 
@@ -290,7 +290,7 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 	id := d.Id()
 
-	chatService, err := m.(*Config).Client.Chat.Read(id)
+	chatService, err := m.(*Config).Client.Chat.Service.Read(id)
 
 	if err != nil {
 		return err
@@ -330,7 +330,7 @@ func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceChatServiceUpdate(d *schema.ResourceData, m interface{}) error {
-	if _, err := m.(*Config).Client.Chat.Update(d.Id(), resourceChatServiceParams(d)); err != nil {
+	if _, err := m.(*Config).Client.Chat.Service.Update(d.Id(), resourceChatServiceParams(d)); err != nil {
 		return fmt.Errorf("error updating Chat Service: %s", err)
 	}
 
@@ -338,7 +338,7 @@ func resourceChatServiceUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceChatServiceDelete(d *schema.ResourceData, m interface{}) error {
-	if err := m.(*Config).Client.Chat.Delete(d.Id()); err != nil {
+	if err := m.(*Config).Client.Chat.Service.Delete(d.Id()); err != nil {
 		return fmt.Errorf("error deleting Chat Service: %s", err)
 	}
 
@@ -502,7 +502,7 @@ func flattenMedia(m *types.Media) []interface{} {
 	values := map[string]interface{}{}
 
 	values["size_limit_mb"] = m.SizeLimitMB
-	values["compatibility_message"] = m.SizeLimitMB
+	values["compatibility_message"] = m.CompatibilityMessage
 
 	return []interface{}{values}
 }

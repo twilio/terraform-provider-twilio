@@ -2,7 +2,7 @@ package twilio
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	client "github.com/twilio/twilio-go/client"
+	client "github.com/twilio/twilio-go"
 )
 
 // Provider initializes terraform-provider-twilio.

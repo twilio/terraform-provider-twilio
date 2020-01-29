@@ -7,6 +7,6 @@ require (
 	github.com/hashicorp/hcl/v2 v2.3.0 // indirect
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20191212124732-c6ae6269b9d7 // indirect
 	github.com/hashicorp/terraform-plugin-sdk v1.5.0
-	github.com/twilio/twilio-go v0.0.0-20200128213026-f96a3fcfb730
+	github.com/twilio/twilio-go v0.0.0-20200129192643-85919ce502fc
 	github.com/zclconf/go-cty v1.2.1 // indirect
 )

@@ -48,10 +48,9 @@ func resourceChatService() *schema.Resource { //nolint:golint,funlen
 				Computed: true,
 			},
 			"typing_indicator_timeout": {
-				Type:         schema.TypeInt,
-				Optional:     true,
-				Computed:     true,
-				ValidateFunc: validation.IntAtLeast(0),
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"consumption_report_interval": {
 				Type:     schema.TypeInt,

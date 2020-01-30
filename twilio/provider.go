@@ -20,8 +20,12 @@ func Provider() *schema.Provider {
 				Required:    true,
 			},
 		},
+		DataSourcesMap: map[string]*schema.Resource{
+			"twilio_available_phone_numbers_local": dataSourceAvailablePhoneNumbersLocal(),
+		},
 		ResourcesMap: map[string]*schema.Resource{
-			"twilio_chat_service": resourceChatService(),
+			"twilio_chat_service":          resourceChatService(),
+			"twilio_incoming_phone_number": resourceIncomingPhoneNumber(),
 		},
 	}
 

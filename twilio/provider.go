@@ -21,8 +21,9 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"twilio_chat_service":  resourceChatService(),
-			"twilio_proxy_service": resourceProxyService(),
+			"twilio_chat_service":       resourceChatService(),
+			"twilio_proxy_service":      resourceProxyService(),
+			"twilio_proxy_phone_number": resourceProxyPhoneNumber(),
 		},
 	}
 

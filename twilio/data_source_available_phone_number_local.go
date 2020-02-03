@@ -197,9 +197,7 @@ func dataSourceAvailablePhoneNumbersLocal() *schema.Resource {
 }
 
 func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interface{}) error {
-
 	params := dataSourceAvailablePhoneNumberLocalParams(d)
-
 	availablePhoneNumbersLocal, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
 	if err != nil {
 		return err

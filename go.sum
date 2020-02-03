@@ -173,6 +173,17 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
+<<<<<<< HEAD
+=======
+github.com/twilio/twilio-go v0.0.0-20200128213026-f96a3fcfb730 h1:qyMRltoQRyj4ErZM1xWuaMR4N31yLvwrgq1inbjyuio=
+github.com/twilio/twilio-go v0.0.0-20200128213026-f96a3fcfb730/go.mod h1:f9PVgHJLv3yA2dATmCvUT/Je/WAGQfMBYXZePvPocvA=
+github.com/twilio/twilio-go v0.0.0-20200129192643-85919ce502fc h1:55vVCMWE1xTpDw1YqmRO5m8gSzjwgD+UMWg+xTo4MnQ=
+github.com/twilio/twilio-go v0.0.0-20200129192643-85919ce502fc/go.mod h1:f9PVgHJLv3yA2dATmCvUT/Je/WAGQfMBYXZePvPocvA=
+github.com/twilio/twilio-go v0.0.0-20200131150659-07b3140c00c5 h1:0aM+BNOmGSI+KtcMWoYia0qL2F0XT9Z5wWN44rG7dRs=
+github.com/twilio/twilio-go v0.0.0-20200131150659-07b3140c00c5/go.mod h1:aZNPnPi7tQPrvFopHJF0VIHm4V3r5sE6hVu+bCGpWPY=
+github.com/twilio/twilio-go v0.0.0-20200131175610-d1c3388675dc h1:bNt1tcSoschFpV10w/CRm6jxdgqfaKf3IzniUAT5Tgw=
+github.com/twilio/twilio-go v0.0.0-20200131175610-d1c3388675dc/go.mod h1:aZNPnPi7tQPrvFopHJF0VIHm4V3r5sE6hVu+bCGpWPY=
+>>>>>>> feat: Task-Router sub-resources terraform providers
 github.com/twilio/twilio-go v0.0.0-20200131224344-977bd5d26222 h1:vFLup27yVtS47fiZ93acL6Zn6BA0OYbGSBKjnhBnuh0=
 github.com/twilio/twilio-go v0.0.0-20200131224344-977bd5d26222/go.mod h1:aZNPnPi7tQPrvFopHJF0VIHm4V3r5sE6hVu+bCGpWPY=
 github.com/ulikunitz/xz v0.5.5 h1:pFrO0lVpTBXLpYw+pnLj6TbvHuyjXMfjGeCwSqCVwok=

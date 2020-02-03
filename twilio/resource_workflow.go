@@ -25,7 +25,6 @@ func resourceWorkflow() *schema.Resource { //nolint:golint,funlen
 			"account_sid": {
 				Type:     schema.TypeString,
 				Computed: true,
-				ForceNew: true,
 			},
 			"date_created": {
 				Type:     schema.TypeString,
@@ -49,7 +48,7 @@ func resourceWorkflow() *schema.Resource { //nolint:golint,funlen
 			},
 			"sid": {
 				Type:     schema.TypeString,
-				ForceNew: true,
+				Computed: true,
 			},
 			"task_reservation_timeout": {
 				Type:     schema.TypeInt,
@@ -79,13 +78,7 @@ func resourceWorkflowCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Create(*workspaceSID,
-		&types.WorkflowParams{
-			FriendlyName:                  *types.String(d.Get("friendly_name").(string)),
-			AssignmentCallbackURL:         types.String(d.Get("assignment_callback_url").(string)),
-			Configuration:                 *types.String(d.Get("configuration").(string)),
-			TaskReservationTimeout:        types.Int(d.Get("task_reservation_timeout").(int)),
-			FallbackAssignmentCallbackURL: types.String(d.Get("fallback_assignment_callback_url").(string)),
-		},
+		getWorkflowParams(d, m),
 	)
 
 	if err != nil {
@@ -129,13 +122,7 @@ func resourceWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Update(*workspaceSID,
-		&types.WorkflowParams{
-			FriendlyName:                  *types.String(d.Get("friendly_name").(string)),
-			AssignmentCallbackURL:         types.String(d.Get("assignment_callback_url").(string)),
-			Configuration:                 *types.String(d.Get("configuration").(string)),
-			TaskReservationTimeout:        types.Int(d.Get("task_reservation_timeout").(int)),
-			FallbackAssignmentCallbackURL: types.String(d.Get("fallback_assignment_callback_url").(string)),
-		}, workflowSID,
+		getWorkflowParams(d, m), workflowSID,
 	)
 
 	if err != nil {
@@ -155,4 +142,31 @@ func resourceWorkflowDelete(d *schema.ResourceData, m interface{}) error {
 	}
 
 	return nil
+}
+
+func getWorkflowParams(d *schema.ResourceData, m interface{}) *types.WorkflowParams {
+	var assignmentCallbackURL *string
+	var taskReservationTimeout *int
+	var fallbackAssignmentCallbackURL *string
+
+	if v, exists := d.GetOk("assignment_callback_url"); exists {
+		assignmentCallbackURL = types.String((v).(string))
+	}
+	if v, exists := d.GetOk("task_reservation_timeout"); exists {
+		taskReservationTimeout = types.Int((v).(int))
+	}
+	if v, exists := d.GetOk("fallback_assignment_callback_url"); exists {
+		fallbackAssignmentCallbackURL = types.String((v).(string))
+	}
+
+	params :=
+		&types.WorkflowParams{
+			FriendlyName:                  *types.String(d.Get("friendly_name").(string)),
+			Configuration:                 *types.String(d.Get("configuration").(string)),
+			AssignmentCallbackURL:         assignmentCallbackURL,
+			TaskReservationTimeout:        taskReservationTimeout,
+			FallbackAssignmentCallbackURL: fallbackAssignmentCallbackURL,
+		}
+
+	return params
 }

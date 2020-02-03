@@ -87,16 +87,7 @@ func resourceTaskQueue() *schema.Resource { //nolint:golint,funlen
 func resourceTaskQueueCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Create(*workspaceSID,
-		&types.TaskQueueParams{
-			FriendlyName:           *types.String(d.Get("friendly_name").(string)),
-			AssignmentActivitySid:  types.String(d.Get("assignment_activity_sid").(string)),
-			MaxReservedWorkers:     types.Int(d.Get("max_reserved_workers").(int)),
-			TargetWorkers:          types.String(d.Get("target_workers").(string)),
-			TaskOrder:              types.String(d.Get("task_order").(string)),
-			ReservationActivitySid: types.String(d.Get("reservation_activity_sid").(string)),
-		},
-	)
+	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Create(*workspaceSID, getTaskQueueParams(d, m))
 
 	if err != nil {
 		return fmt.Errorf("error creating taskqueue: %s", err)
@@ -141,14 +132,7 @@ func resourceTaskQueueUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Update(
-		&types.TaskQueueParams{
-			FriendlyName:           *types.String(d.Get("friendly_name").(string)),
-			AssignmentActivitySid:  types.String(d.Get("assignment_activity_sid").(string)),
-			MaxReservedWorkers:     types.Int(d.Get("max_reserved_workers").(int)),
-			TargetWorkers:          types.String(d.Get("target_workers").(string)),
-			TaskOrder:              types.String(d.Get("task_order").(string)),
-			ReservationActivitySid: types.String(d.Get("reservation_activity_sid").(string)),
-		},
+		getTaskQueueParams(d, m),
 		*workspaceSID,
 		taskQueueSID,
 	)
@@ -171,4 +155,40 @@ func resourceTaskQueueDelete(d *schema.ResourceData, m interface{}) error {
 	}
 
 	return nil
+}
+
+func getTaskQueueParams(d *schema.ResourceData, m interface{}) *types.TaskQueueParams {
+	var assignmentActivitySid *string
+	var maxReservedWorkers *int
+	var targetWorkers *string
+	var taskOrder *string
+	var reservationActivitySid *string
+
+	if v, exists := d.GetOk("assignment_activity_sid"); exists {
+		assignmentActivitySid = types.String((v).(string))
+	}
+	if v, exists := d.GetOk("max_reserved_workers"); exists {
+		maxReservedWorkers = types.Int((v).(int))
+	}
+	if v, exists := d.GetOk("target_workers"); exists {
+		targetWorkers = types.String((v).(string))
+	}
+	if v, exists := d.GetOk("task_order"); exists {
+		taskOrder = types.String((v).(string))
+	}
+	if v, exists := d.GetOk("reservation_activity_sid"); exists {
+		reservationActivitySid = types.String((v).(string))
+	}
+
+	params :=
+		&types.TaskQueueParams{
+			FriendlyName:           *types.String(d.Get("friendly_name").(string)),
+			AssignmentActivitySid:  assignmentActivitySid,
+			MaxReservedWorkers:     maxReservedWorkers,
+			TargetWorkers:          targetWorkers,
+			TaskOrder:              taskOrder,
+			ReservationActivitySid: reservationActivitySid,
+		}
+
+	return params
 }

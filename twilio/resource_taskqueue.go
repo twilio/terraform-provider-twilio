@@ -17,7 +17,6 @@ func resourceTaskQueue() *schema.Resource { //nolint:golint,funlen
 			"account_sid": {
 				Type:     schema.TypeString,
 				Computed: true,
-				ForceNew: true,
 			},
 			"assignment_activity_sid": {
 				Type:     schema.TypeString,

@@ -34,10 +34,6 @@ func resourceActivity() *schema.Resource { //nolint:golint,funlen
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"sid": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"workspace_sid": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -83,7 +79,6 @@ func resourceActivityRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("date_created", r.DateCreated)
 	d.Set("date_updated", r.DateUpdated)
 	d.Set("friendly_name", r.FriendlyName)
-	d.Set("sid", r.Sid)
 	d.Set("workspace_sid", r.WorkspaceSid)
 	d.Set("url", r.URI)
 

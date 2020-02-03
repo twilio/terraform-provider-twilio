@@ -14,11 +14,6 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 		Update: resourceWorkspaceUpdate,
 		Delete: resourceWorkspaceDelete,
 		Schema: map[string]*schema.Schema{
-			"sid": {
-				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
-			},
 			"account_sid": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -110,7 +105,6 @@ func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	d.Set("sid", workspaceSID)
 	d.Set("account_sid", r.AccountSid)
 	d.Set("date_created", r.DateCreated)
 	d.Set("date_updated", r.DateUpdated)

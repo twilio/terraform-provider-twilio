@@ -46,10 +46,6 @@ func resourceWorkflow() *schema.Resource { //nolint:golint,funlen
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"sid": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"task_reservation_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -108,7 +104,6 @@ func resourceWorkflowRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("document_content_type", r.DocumentContentType)
 	d.Set("fallback_assignment_callback_url", r.FallbackAssignmentCallbackURL)
 	d.Set("friendly_name", r.FriendlyName)
-	d.Set("sid", r.Sid)
 	d.Set("task_reservation_timeout", r.TaskReservationTimeout)
 	d.Set("WorkspaceSid", r.WorkspaceSid)
 	d.Set("url", r.URL)

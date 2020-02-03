@@ -51,11 +51,6 @@ func resourceTaskQueue() *schema.Resource { //nolint:golint,funlen
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sid": {
-				Type:     schema.TypeString,
-				Computed: true,
-				ForceNew: true,
-			},
 			"target_workers": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -117,7 +112,6 @@ func resourceTaskQueueRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("max_reserved_workers", r.MaxReservedWorkers)
 	d.Set("reservation_activity_sid", r.ReservationActivitySid)
 	d.Set("reservation_activity_name", r.ReservationActivityName)
-	d.Set("sid", r.Sid)
 	d.Set("target_workers", r.TargetWorkers)
 	d.Set("task_order", r.TaskOrder)
 	d.Set("url", r.URI)

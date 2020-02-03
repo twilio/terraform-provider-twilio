@@ -17,7 +17,6 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 			"account_sid": {
 				Type:     schema.TypeString,
 				Computed: true,
-				ForceNew: true,
 			},
 			"date_created": {
 				Type:     schema.TypeString,

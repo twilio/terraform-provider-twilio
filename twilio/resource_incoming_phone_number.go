@@ -16,15 +16,15 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"beta": {
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 			"voice_caller_id_lookup": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"account_sid": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"address_sid": {
 				Type:     schema.TypeString,
@@ -32,46 +32,47 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 			},
 			"address_requirements": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"api_version": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"capabilities": {
 				Type:     schema.TypeMap,
-				Optional: true,
+				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeBool,
 				},
 			},
 			"date_created": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"date_updated": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"friendly_name": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"identity_sid": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"phone_number": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
+				ForceNew: true,
 			},
 			"origin": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"sid": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"sms_application_sid": {
 				Type:     schema.TypeString,
@@ -103,11 +104,11 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 			},
 			"trunk_sid": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"uri": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"voice_application_sid": {
 				Type:     schema.TypeString,
@@ -131,7 +132,7 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 			},
 			"emergency_status": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"emergency_address_sid": {
 				Type:     schema.TypeString,
@@ -187,8 +188,8 @@ func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) er
 
 	d.SetId(iPN.Sid)
 	d.SetPartial("friendly_name")
-
-	return nil
+	d.Partial(false)
+	return resourceIncomingPhoneNumberRead(d, m)
 }
 
 func resourceIncomingPhoneNumberRead(d *schema.ResourceData, m interface{}) error {
@@ -243,7 +244,7 @@ func resourceIncomingPhoneNumberUpdate(d *schema.ResourceData, m interface{}) er
 }
 
 func resourceIncomingPhoneNumberDelete(d *schema.ResourceData, m interface{}) error {
-	if err := m.(*Config).Client.Chat.Service.Delete(d.Id()); err != nil {
+	if err := m.(*Config).Client.IncomingPhoneNumbers.Delete(d.Id()); err != nil {
 		return fmt.Errorf("error deleting Incoming Phone Number: %s", err)
 	}
 

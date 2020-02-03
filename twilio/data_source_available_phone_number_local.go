@@ -5,67 +5,60 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceAvailablePhoneNumberLocal() *schema.Resource { //nolint:golint,funlen
+func dataSourceAvailablePhoneNumberLocal() *schema.Resource { //nolint:golint,funlen
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
 			"friendly_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 			"phone_number": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"lata": {
 				Type:     schema.TypeInt,
-				Optional: true,
 				Computed: true,
 			},
 			"locality": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"rate_center": {
 				Type:     schema.TypeString,
-				Optional: true,
-				Default:  true,
+				Computed: true,
 			},
 			"latitude": {
 				Type:     schema.TypeFloat,
-				Optional: true,
 				Computed: true,
 			},
 			"longitude": {
 				Type:     schema.TypeFloat,
-				Optional: true,
 				Computed: true,
 			},
 			"region": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"postal_code": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"iso_country": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"address_requirements": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"beta": {
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 			"capabilities": {
 				Type:     schema.TypeMap,
-				Optional: true,
+				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeBool,
 				},
@@ -78,77 +71,158 @@ func dataSourceAvailablePhoneNumbersLocal() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceAvailablePhoneNumbersLocalRead,
 		Schema: map[string]*schema.Schema{
+			"country_code": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"area_code": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"contains": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"sms_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"mms_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"voice_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"exclude_all_address_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"exclude_local_address_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"exclude_foreign_address_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"beta": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"near_number": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"near_lat_long": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"distance": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"in_postal_code": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"in_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"in_rate_center": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"in_lata": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"in_locality": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"fax_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"num_pages": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Computed: true,
 			},
 			"page": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Computed: true,
 			},
 			"page_size": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Computed: true,
 			},
 			"start": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Computed: true,
 			},
 			"end": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Computed: true,
 			},
 			"first_page_uri": {
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 			"last_page_uri": {
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 			"next_page_uri": {
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 			"uri": {
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 			"previous_page_uri": {
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
-			"available_phone_number": {
+			"available_phone_numbers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Optional: true,
-				Elem:     resourceAvailablePhoneNumberLocal(),
+				Elem:     dataSourceAvailablePhoneNumberLocal(),
 			},
 		},
 	}
 }
 
 func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interface{}) error {
-	params := dataSourceAvailablePhoneNumberLocalParams(d)
-	availablePhoneNumbersLocal, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
 
+	params := dataSourceAvailablePhoneNumberLocalParams(d)
+
+	availablePhoneNumbersLocal, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
 	if err != nil {
 		return err
 	}
-
+	d.SetId(availablePhoneNumbersLocal.URI)
 	d.Set("num_pages", availablePhoneNumbersLocal.NumPages)
 	d.Set("page", availablePhoneNumbersLocal.Page)
 	d.Set("page_size", availablePhoneNumbersLocal.PageSize)
 	d.Set("start", availablePhoneNumbersLocal.Start)
 	d.Set("total", availablePhoneNumbersLocal.Total)
 	d.Set("end", availablePhoneNumbersLocal.End)
+	d.Set("uri", availablePhoneNumbersLocal.URI)
 	d.Set("first_page_uri", availablePhoneNumbersLocal.FirstPageURI)
 	d.Set("last_page_uri", availablePhoneNumbersLocal.LastPageURI)
 	d.Set("next_page_uri", availablePhoneNumbersLocal.NextPageURI)
-	d.Set("uri", availablePhoneNumbersLocal.URI)
 	d.Set("previous_page_uri", availablePhoneNumbersLocal.PreviousPageURI)
-	d.Set("available_phone_numbers", availablePhoneNumbersLocal.AvailablePhoneNumbers)
 
+	var availablePhoneNumbers []interface{}
+	for _, v := range availablePhoneNumbersLocal.AvailablePhoneNumbers {
+		availablePhoneNumbers = append(availablePhoneNumbers, flattenPhoneNumber(v))
+	}
+
+	d.Set("available_phone_numbers", availablePhoneNumbers)
 	return nil
 }
 
@@ -159,12 +233,12 @@ func dataSourceAvailablePhoneNumberLocalParams(d *schema.ResourceData) *types.Av
 		MMSEnabled:                    d.Get("mms_enabled").(bool),
 		VoiceEnabled:                  d.Get("voice_enabled").(bool),
 		ExcludeAllAddressRequired:     d.Get("exclude_all_address_required").(bool),
-		ExcludeLocalAddressRequired:   d.Get("exclude_all_local_address_required").(bool),
-		ExcludeForeignAddressRequired: d.Get("exclude_all_foreign_address_required").(bool),
+		ExcludeLocalAddressRequired:   d.Get("exclude_local_address_required").(bool),
+		ExcludeForeignAddressRequired: d.Get("exclude_foreign_address_required").(bool),
 		Beta:                          d.Get("beta").(bool),
 		Distance:                      d.Get("distance").(int),
 		AreaCode:                      d.Get("area_code").(int),
-		InPostalCode:                  d.Get("postal_code").(string),
+		InPostalCode:                  d.Get("in_postal_code").(string),
 		NearNumber:                    d.Get("near_number").(string),
 		NearLatLong:                   d.Get("near_lat_long").(string),
 		Contains:                      d.Get("contains").(string),
@@ -173,4 +247,21 @@ func dataSourceAvailablePhoneNumberLocalParams(d *schema.ResourceData) *types.Av
 		InLATA:                        d.Get("in_lata").(string),
 		InLocality:                    d.Get("in_locality").(string),
 	}
+}
+
+func flattenPhoneNumber(p *types.AvailablePhoneNumberLocal) interface{} {
+	values := map[string]interface{}{}
+	values["phone_number"] = p.PhoneNumber
+	values["friendly_name"] = p.FriendlyName
+	values["address_requirements"] = p.AddressRequirements
+	values["beta"] = p.Beta
+	values["iso_country"] = p.ISOCountry
+	values["lata"] = p.LATA
+	values["locality"] = p.Locality
+	values["latitude"] = p.Latitude
+	values["longitude"] = p.Longitude
+	values["postal_code"] = p.PostalCode
+	values["rate_center"] = p.RateCenter
+	values["region"] = p.Region
+	return values
 }

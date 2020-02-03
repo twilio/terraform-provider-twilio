@@ -88,14 +88,9 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 }
 
 func resourceWorkspaceCreate(d *schema.ResourceData, m interface{}) error {
+
 	r, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Create(
-		types.WorkspaceParams{
-			FriendlyName:         *types.String(d.Get("friendly_name").(string)),
-			EventCallbackURL:     types.String(d.Get("event_callback_url").(string)),
-			EventsFilter:         types.String(d.Get("events_filter").(string)),
-			MultitaskEnabled:     types.Bool(d.Get("multi_task_enabled").(bool)),
-			PrioritizeQueueOrder: types.String(d.Get("prioritize_queue_order").(string)),
-		},
+		*getWorkspaceParams(d, m),
 	)
 
 	if err != nil {
@@ -136,15 +131,7 @@ func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 func resourceWorkspaceUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := d.Id()
 
-	params :=
-		types.WorkspaceParams{
-			FriendlyName:         *types.String(d.Get("friendly_name").(string)),
-			EventCallbackURL:     types.String(d.Get("event_callback_url").(string)),
-			EventsFilter:         types.String(d.Get("events_filter").(string)),
-			MultitaskEnabled:     types.Bool(d.Get("multi_task_enabled").(bool)),
-			PrioritizeQueueOrder: types.String(d.Get("prioritize_queue_order").(string))}
-
-	if _, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Update(params, workspaceSID); err != nil {
+	if _, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Update(*getWorkspaceParams(d, m), workspaceSID); err != nil {
 		return fmt.Errorf("error updating workspace: %s", err)
 	}
 
@@ -159,4 +146,35 @@ func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 	}
 
 	return nil
+}
+
+func getWorkspaceParams(d *schema.ResourceData, m interface{}) *types.WorkspaceParams {
+	var eventCallBackURL *string
+	var eventsFilter *string
+	var multitaskEnabled *bool
+	var prioritizeQueueOrder *string
+
+	if v, exists := d.GetOk("event_callback_url"); exists {
+		eventCallBackURL = types.String((v).(string))
+	}
+	if v, exists := d.GetOk("events_filter"); exists {
+		eventsFilter = types.String((v).(string))
+	}
+	if v, exists := d.GetOk("multi_task_enabled"); exists {
+		multitaskEnabled = types.Bool((v).(bool))
+	}
+	if v, exists := d.GetOk("prioritize_queue_order"); exists {
+		prioritizeQueueOrder = types.String((v).(string))
+	}
+
+	params :=
+		&types.WorkspaceParams{
+			FriendlyName:         *types.String(d.Get("friendly_name").(string)),
+			EventCallbackURL:     eventCallBackURL,
+			EventsFilter:         eventsFilter,
+			MultitaskEnabled:     multitaskEnabled,
+			PrioritizeQueueOrder: prioritizeQueueOrder,
+		}
+
+	return params
 }

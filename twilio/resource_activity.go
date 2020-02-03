@@ -16,7 +16,7 @@ func resourceActivity() *schema.Resource { //nolint:golint,funlen
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:     schema.TypeString,
-				ForceNew: true,
+				Computed: true,
 			},
 			"available": {
 				Type:     schema.TypeString,
@@ -37,7 +37,6 @@ func resourceActivity() *schema.Resource { //nolint:golint,funlen
 			"sid": {
 				Type:     schema.TypeString,
 				Computed: true,
-				ForceNew: true,
 			},
 			"workspace_sid": {
 				Type:     schema.TypeString,
@@ -56,10 +55,7 @@ func resourceActivityCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Create(
-		&types.ActivityParams{
-			FriendlyName: *types.String(d.Get("friendly_name").(string)),
-			Available:    types.String(d.Get("available").(string)),
-		},
+		getActivityParams(d, m),
 		*workspaceSID,
 	)
 
@@ -99,10 +95,7 @@ func resourceActivityUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Update(
-		&types.ActivityParams{
-			FriendlyName: *types.String(d.Get("friendly_name").(string)),
-			Available:    types.String(d.Get("available").(string)),
-		},
+		getActivityParams(d, m),
 		*workspaceSID,
 		activitySID,
 	)
@@ -125,4 +118,20 @@ func resourceActivityDelete(d *schema.ResourceData, m interface{}) error {
 	}
 
 	return nil
+}
+
+func getActivityParams(d *schema.ResourceData, m interface{}) *types.ActivityParams {
+	var available *string
+
+	if v, exists := d.GetOk("available"); exists {
+		available = types.String((v).(string))
+	}
+
+	params :=
+		&types.ActivityParams{
+			FriendlyName: *types.String(d.Get("friendly_name").(string)),
+			Available:    available,
+		}
+
+	return params
 }

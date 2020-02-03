@@ -24,6 +24,10 @@ func Provider() *schema.Provider {
 			"twilio_chat_service":       resourceChatService(),
 			"twilio_proxy_service":      resourceProxyService(),
 			"twilio_proxy_phone_number": resourceProxyPhoneNumber(),
+			"twilio_workspace":          resourceWorkspace(),
+			"twilio_workflow":           resourceWorkflow(),
+			"twilio_taskqueue":          resourceTaskQueue(),
+			"twilio_activity":           resourceActivity(),
 		},
 	}
 

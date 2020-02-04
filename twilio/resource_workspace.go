@@ -68,6 +68,7 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 			"multi_task_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 			"template": {
 				Type:     schema.TypeBool,
@@ -76,6 +77,7 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 			"prioritize_queue_order": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -105,8 +107,8 @@ func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.Set("account_sid", r.AccountSid)
-	d.Set("date_created", r.DateCreated)
-	d.Set("date_updated", r.DateUpdated)
+	d.Set("date_created", r.DateCreated.String)
+	d.Set("date_updated", r.DateUpdated.String)
 	d.Set("default_activity_name", r.DefaultActivityName)
 	d.Set("default_activity_sid", r.DefaultActivitySid)
 	d.Set("url", r.URL)

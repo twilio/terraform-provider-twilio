@@ -49,6 +49,7 @@ func resourceWorkflow() *schema.Resource { //nolint:golint,funlen
 			"task_reservation_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"workspace_sid": {
 				Type:     schema.TypeString,
@@ -121,7 +122,7 @@ func resourceWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
 	)
 
 	if err != nil {
-		return fmt.Errorf("error updating workspace: %s", err)
+		return fmt.Errorf("error updating workflow: %s", err)
 	}
 
 	d.SetId(r.Sid)
@@ -130,10 +131,11 @@ func resourceWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceWorkflowDelete(d *schema.ResourceData, m interface{}) error {
-	workspaceSID := d.Id()
+	workflowSID := d.Id()
+	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	if err := m.(*Config).Client.TaskRouter.WorkspaceClient.Delete(workspaceSID); err != nil {
-		return fmt.Errorf("error deleting workspace: %s", err)
+	if err := m.(*Config).Client.TaskRouter.WorkflowClient.Delete(*workspaceSID, workflowSID); err != nil {
+		return fmt.Errorf("error deleting workflow: %s", err)
 	}
 
 	return nil

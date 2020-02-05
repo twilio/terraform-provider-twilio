@@ -235,54 +235,71 @@ func dataSourceAvailablePhoneNumberLocalParams(d *schema.ResourceData) *types.Av
 	if v, ok := d.GetOk("fax_enabled"); ok {
 		p.FaxEnabled = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("sms_enabled"); ok {
 		p.SMSEnabled = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("mms_enabled"); ok {
 		p.MMSEnabled = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("voice_enabled"); ok {
 		p.VoiceEnabled = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("exclude_all_address_required"); ok {
 		p.ExcludeAllAddressRequired = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("exclude_local_address_required"); ok {
 		p.ExcludeLocalAddressRequired = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("exclude_foreign_address_required"); ok {
 		p.ExcludeForeignAddressRequired = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("beta"); ok {
 		p.Beta = util.Bool(v.(bool))
 	}
+
 	if v, ok := d.GetOk("distance"); ok {
 		p.Distance = util.Int(v.(int))
 	}
+
 	if v, ok := d.GetOk("area_code"); ok {
 		p.AreaCode = util.Int(v.(int))
 	}
+
 	if v, ok := d.GetOk("in_postal_code"); ok {
 		p.InPostalCode = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("near_number"); ok {
 		p.NearNumber = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("near_lat_long"); ok {
 		p.NearLatLong = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("contains"); ok {
 		p.Contains = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("in_region"); ok {
 		p.InRegion = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("in_rate_center"); ok {
 		p.InRateCenter = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("in_lata"); ok {
 		p.InLATA = util.String(v.(string))
 	}
+
 	if v, ok := d.GetOk("in_locality"); ok {
 		p.InLocality = util.String(v.(string))
 	}

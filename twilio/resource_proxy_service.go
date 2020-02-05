@@ -61,7 +61,7 @@ func resourceProxyServiceCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating Proxy Service: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.Sid)
 
 	return resourceProxyServiceRead(d, m)
 }

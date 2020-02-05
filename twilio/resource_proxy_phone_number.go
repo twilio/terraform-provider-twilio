@@ -64,7 +64,7 @@ func resourceProxyPhoneNumberCreate(d *schema.ResourceData, m interface{}) error
 		return fmt.Errorf("error creating Proxy Phone Number: %s", err)
 	}
 
-	d.SetId(r.SID)
+	d.SetId(*r.SID)
 
 	return resourceProxyPhoneNumberRead(d, m)
 }

@@ -43,7 +43,7 @@ func resourceStudioFlowCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating Proxy Phone Number: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.Sid)
 
 	return resourceStudioFlowRead(d, m)
 }

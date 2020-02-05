@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go"
 )
 
@@ -148,37 +149,37 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 
 func resourceIncomingPhoneNumberParams(d *schema.ResourceData) *types.IncomingPhoneNumberParams {
 	return &types.IncomingPhoneNumberParams{
-		AccountSid:           d.Get("accound_sid").(string),
-		APIVersion:           d.Get("api_version").(string),
-		FriendlyName:         d.Get("friendly_name").(string),
-		SMSApplicationSid:    d.Get("sms_application_sid").(string),
-		SMSFallbackMethod:    d.Get("sms_fallback_method").(string),
-		PhoneNumber:          d.Get("phone_number").(string),
-		AreaCode:             d.Get("area_code").(string),
-		SMSFallbackURL:       d.Get("sms_fallback_url").(string),
-		SMSMethod:            d.Get("sms_method").(string),
-		SMSURL:               d.Get("sms_url").(string),
-		StatusCallback:       d.Get("status_callback").(string),
-		AddressSid:           d.Get("address_sid").(string),
-		StatusCallbackMethod: d.Get("status_callback_method").(string),
-		VoiceApplicationSid:  d.Get("voice_application_sid").(string),
-		VoiceCallerIDLookup:  d.Get("voice_called_id_lookup").(bool),
-		VoiceFallbackMethod:  d.Get("voice_fallback_method").(string),
-		VoiceFallbackURL:     d.Get("voice_fallback_url").(string),
-		VoiceMethod:          d.Get("voice_method").(string),
-		VoiceURL:             d.Get("voice_url").(string),
-		VoiceReceiveMode:     d.Get("voice_receive_mode").(string),
-		EmergencyStatus:      d.Get("emergency_status").(string),
-		EmergencyAddressSid:  d.Get("emergency_address_sid").(string),
-		BundleSid:            d.Get("bundle_sid").(string),
-		IdentitySid:          d.Get("identity_sid").(string),
-		TrunkSid:             d.Get("trunk_sid").(string),
+		AccountSID:           util.String(d.Get("accound_sid").(string)),
+		APIVersion:           util.String(d.Get("api_version").(string)),
+		FriendlyName:         util.String(d.Get("friendly_name").(string)),
+		SMSApplicationSid:    util.String(d.Get("sms_application_sid").(string)),
+		SMSFallbackMethod:    util.String(d.Get("sms_fallback_method").(string)),
+		PhoneNumber:          util.String(d.Get("phone_number").(string)),
+		AreaCode:             util.String(d.Get("area_code").(string)),
+		SMSFallbackURL:       util.String(d.Get("sms_fallback_url").(string)),
+		SMSMethod:            util.String(d.Get("sms_method").(string)),
+		SMSURL:               util.String(d.Get("sms_url").(string)),
+		StatusCallback:       util.String(d.Get("status_callback").(string)),
+		AddressSID:           util.String(d.Get("address_sid").(string)),
+		StatusCallbackMethod: util.String(d.Get("status_callback_method").(string)),
+		VoiceApplicationSID:  util.String(d.Get("voice_application_sid").(string)),
+		VoiceCallerIDLookup:  util.Bool(d.Get("voice_called_id_lookup").(bool)),
+		VoiceFallbackMethod:  util.String(d.Get("voice_fallback_method").(string)),
+		VoiceFallbackURL:     util.String(d.Get("voice_fallback_url").(string)),
+		VoiceMethod:          util.String(d.Get("voice_method").(string)),
+		VoiceURL:             util.String(d.Get("voice_url").(string)),
+		VoiceReceiveMode:     util.String(d.Get("voice_receive_mode").(string)),
+		EmergencyStatus:      util.String(d.Get("emergency_status").(string)),
+		EmergencyAddressSID:  util.String(d.Get("emergency_address_sid").(string)),
+		BundleSID:            util.String(d.Get("bundle_sid").(string)),
+		IdentitySID:          util.String(d.Get("identity_sid").(string)),
+		TrunkSID:             util.String(d.Get("trunk_sid").(string)),
 	}
 }
 
 func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
-	iPNParams := &types.IncomingPhoneNumberParams{PhoneNumber: d.Get("phone_number").(string)}
+	iPNParams := &types.IncomingPhoneNumberParams{PhoneNumber: util.String(d.Get("phone_number").(string))}
 
 	iPN, err := m.(*Config).Client.IncomingPhoneNumbers.Create(iPNParams)
 	if err != nil {
@@ -186,7 +187,7 @@ func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) er
 
 	}
 
-	d.SetId(iPN.Sid)
+	d.SetId(*iPN.Sid)
 	d.SetPartial("friendly_name")
 	d.Partial(false)
 	return resourceIncomingPhoneNumberRead(d, m)
@@ -236,6 +237,7 @@ func resourceIncomingPhoneNumberRead(d *schema.ResourceData, m interface{}) erro
 }
 
 func resourceIncomingPhoneNumberUpdate(d *schema.ResourceData, m interface{}) error {
+
 	if _, err := m.(*Config).Client.IncomingPhoneNumbers.Update(d.Id(), resourceIncomingPhoneNumberParams(d)); err != nil {
 		return fmt.Errorf("error updating Incoming Phone Number: %s", err)
 	}

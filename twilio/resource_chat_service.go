@@ -1,8 +1,10 @@
 package twilio
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -48,14 +50,16 @@ func resourceChatService() *schema.Resource { //nolint:golint,funlen
 				Computed: true,
 			},
 			"typing_indicator_timeout": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validation.IntAtLeast(1),
 			},
 			"consumption_report_interval": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validation.IntAtLeast(1),
 			},
 			"pre_webhook_url": {
 				Type:     schema.TypeString,
@@ -255,17 +259,18 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
 
 	chatService, err := m.(*Config).Client.Chat.Service.Create(&types.ChatServiceParams{
-		FriendlyName: d.Get("friendly_name").(string),
+		FriendlyName: util.String(d.Get("friendly_name").(string)),
 	})
 
 	if err != nil {
 		return fmt.Errorf("error creating Chat Service: %s", err)
 	}
 
-	d.SetId(chatService.Sid)
+	d.SetId(*chatService.Sid)
 	d.SetPartial("friendly_name")
-
-	if _, err := m.(*Config).Client.Chat.Service.Update(chatService.Sid, resourceChatServiceParams(d)); err != nil {
+	peek, _ := json.MarshalIndent(resourceChatServiceParams(d), "", "\t")
+	log.Printf("Chat Service Params: %+v", string(peek))
+	if _, err := m.(*Config).Client.Chat.Service.Update(*chatService.Sid, resourceChatServiceParams(d)); err != nil {
 		return fmt.Errorf("error creating Chat Service with optional parameters: %s", err)
 	}
 
@@ -347,23 +352,31 @@ func resourceChatServiceDelete(d *schema.ResourceData, m interface{}) error {
 func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams {
 	notifications, _ := expandNotifications(d)
 
-	return &types.ChatServiceParams{
-		FriendlyName:                 d.Get("friendly_name").(string),
-		DefaultServiceRoleSid:        d.Get("default_service_role_sid").(string),
-		DefaultChannelRoleSid:        d.Get("default_channel_role_sid").(string),
-		DefaultChannelCreatorRoleSid: d.Get("default_channel_creator_role_sid").(string),
-		ReadStatusEnabled:            d.Get("read_status_enabled").(bool),
-		ReachabilityEnabled:          d.Get("reachability_enabled").(bool),
-		TypingIndicatorTimeout:       d.Get("typing_indicator_timeout").(int),
-		ConsumptionReportInterval:    d.Get("consumption_report_interval").(int),
-		PreWebhookURL:                d.Get("pre_webhook_url").(string),
-		PostWebhookURL:               d.Get("post_webhook_url").(string),
-		WebhookMethod:                d.Get("webhook_method").(string),
+	c := &types.ChatServiceParams{
+		FriendlyName:                 util.String(d.Get("friendly_name").(string)),
+		DefaultServiceRoleSID:        util.String(d.Get("default_service_role_sid").(string)),
+		DefaultChannelRoleSID:        util.String(d.Get("default_channel_role_sid").(string)),
+		DefaultChannelCreatorRoleSID: util.String(d.Get("default_channel_creator_role_sid").(string)),
+		ReadStatusEnabled:            util.Bool(d.Get("read_status_enabled").(bool)),
+		ReachabilityEnabled:          util.Bool(d.Get("reachability_enabled").(bool)),
+		PreWebhookURL:                util.String(d.Get("pre_webhook_url").(string)),
+		PostWebhookURL:               util.String(d.Get("post_webhook_url").(string)),
+		WebhookMethod:                util.String(d.Get("webhook_method").(string)),
 		WebhookFilters:               util.ExpandStringList(d.Get("webhook_filters").(*schema.Set).List()),
-		PreWebhookRetryCount:         d.Get("pre_webhook_retry_count").(int),
-		PostWebhookRetryCount:        d.Get("post_webhook_retry_count").(int),
+		PreWebhookRetryCount:         util.Int(d.Get("pre_webhook_retry_count").(int)),
+		PostWebhookRetryCount:        util.Int(d.Get("post_webhook_retry_count").(int)),
 		Notifications:                notifications,
 	}
+
+	if v, ok := d.GetOk("typing_indicator_timeout"); ok {
+
+		c.TypingIndicatorTimeout = util.Int(v.(int))
+	}
+	if v, ok := d.GetOk("consumption_report_interval"); ok {
+		c.ConsumptionReportInterval = util.Int(v.(int))
+	}
+
+	return c
 }
 
 func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
@@ -404,7 +417,7 @@ func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {
 			notifications.NewMessage = newMessage
 
 			if m["log_enabled"] != nil {
-				notifications.LogEnabled = m["log_enabled"].(bool)
+				notifications.LogEnabled = util.Bool(m["log_enabled"].(bool))
 			}
 		}
 
@@ -429,7 +442,7 @@ func expandBaseNotification(base interface{}) (*types.BaseNotification, error) {
 
 	for _, n := range baseL {
 		setting := n.(map[string]interface{})
-		notification.Enabled = setting["enabled"].(bool)
+		notification.Enabled = util.Bool(setting["enabled"].(bool))
 		notification.Sound = util.String(setting["sound"].(string))
 		notification.Template = util.String(setting["template"].(string))
 	}
@@ -452,7 +465,7 @@ func expandNewMessage(base interface{}) (*types.NewMessage, error) {
 
 	for _, n := range messageL {
 		message := n.(map[string]interface{})
-		notification.Enabled = message["enabled"].(bool)
+		notification.Enabled = util.Bool(message["enabled"].(bool))
 		notification.Sound = util.String(message["sound"].(string))
 		notification.Template = util.String(message["template"].(string))
 

@@ -2,6 +2,7 @@ package twilio
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go"
 )
 
@@ -202,7 +203,7 @@ func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interfac
 	if err != nil {
 		return err
 	}
-	d.SetId(availablePhoneNumbersLocal.URI)
+	d.SetId(*availablePhoneNumbersLocal.URI)
 	d.Set("num_pages", availablePhoneNumbersLocal.NumPages)
 	d.Set("page", availablePhoneNumbersLocal.Page)
 	d.Set("page_size", availablePhoneNumbersLocal.PageSize)
@@ -226,24 +227,24 @@ func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interfac
 
 func dataSourceAvailablePhoneNumberLocalParams(d *schema.ResourceData) *types.AvailablePhoneNumberLocalReadParams {
 	return &types.AvailablePhoneNumberLocalReadParams{
-		FaxEnabled:                    d.Get("fax_enabled").(bool),
-		SMSEnabled:                    d.Get("sms_enabled").(bool),
-		MMSEnabled:                    d.Get("mms_enabled").(bool),
-		VoiceEnabled:                  d.Get("voice_enabled").(bool),
-		ExcludeAllAddressRequired:     d.Get("exclude_all_address_required").(bool),
-		ExcludeLocalAddressRequired:   d.Get("exclude_local_address_required").(bool),
-		ExcludeForeignAddressRequired: d.Get("exclude_foreign_address_required").(bool),
-		Beta:                          d.Get("beta").(bool),
-		Distance:                      d.Get("distance").(int),
-		AreaCode:                      d.Get("area_code").(int),
-		InPostalCode:                  d.Get("in_postal_code").(string),
-		NearNumber:                    d.Get("near_number").(string),
-		NearLatLong:                   d.Get("near_lat_long").(string),
-		Contains:                      d.Get("contains").(string),
-		InRegion:                      d.Get("in_region").(string),
-		InRateCenter:                  d.Get("in_rate_center").(string),
-		InLATA:                        d.Get("in_lata").(string),
-		InLocality:                    d.Get("in_locality").(string),
+		FaxEnabled:                    util.Bool(d.Get("fax_enabled").(bool)),
+		SMSEnabled:                    util.Bool(d.Get("sms_enabled").(bool)),
+		MMSEnabled:                    util.Bool(d.Get("mms_enabled").(bool)),
+		VoiceEnabled:                  util.Bool(d.Get("voice_enabled").(bool)),
+		ExcludeAllAddressRequired:     util.Bool(d.Get("exclude_all_address_required").(bool)),
+		ExcludeLocalAddressRequired:   util.Bool(d.Get("exclude_local_address_required").(bool)),
+		ExcludeForeignAddressRequired: util.Bool(d.Get("exclude_foreign_address_required").(bool)),
+		Beta:                          util.Bool(d.Get("beta").(bool)),
+		Distance:                      util.Int(d.Get("distance").(int)),
+		AreaCode:                      util.Int(d.Get("area_code").(int)),
+		InPostalCode:                  util.String(d.Get("in_postal_code").(string)),
+		NearNumber:                    util.String(d.Get("near_number").(string)),
+		NearLatLong:                   util.String(d.Get("near_lat_long").(string)),
+		Contains:                      util.String(d.Get("contains").(string)),
+		InRegion:                      util.String(d.Get("in_region").(string)),
+		InRateCenter:                  util.String(d.Get("in_rate_center").(string)),
+		InLATA:                        util.String(d.Get("in_lata").(string)),
+		InLocality:                    util.String(d.Get("in_locality").(string)),
 	}
 }
 

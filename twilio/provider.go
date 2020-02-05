@@ -28,6 +28,7 @@ func Provider() *schema.Provider {
 			"twilio_incoming_phone_number": resourceIncomingPhoneNumber(),
 			"twilio_proxy_service":         resourceProxyService(),
 			"twilio_proxy_phone_number":    resourceProxyPhoneNumber(),
+			"twilio_studio_flow":           resourceStudioFlow(),
 		},
 	}
 

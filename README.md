@@ -32,6 +32,35 @@ resource "twilio_proxy_service" "proxy-service" {
   unique_name     = "Terraform'd Proxy Service"
   default_ttl     = 0
 }
+
+resource "twilio_workspace" "my-workspace" {
+friendly_name = "Flex Task Assignment"
+}
+resource "twilio_taskqueue" "my-taskqueue" {
+friendly_name = "Everyone"
+workspace_sid = twilio_workspace.my-workspace.id
+}
+resource "twilio_workflow" "my-workflow" {
+friendly_name = "Assign to Anyone"
+configuration = jsonencode(
+            {
+               task_routing = {
+                   default_filter = {
+                       task_queue_sid = twilio_taskqueue.my-taskqueue.id
+                    }
+                }
+            }
+        )
+workspace_sid = twilio_workspace.my-workspace.id
+depends_on = [
+        twilio_taskqueue.my-taskqueue,
+   ]
+}
+resource "twilio_activity" "my-activity" {
+friendly_name = "Break"
+workspace_sid = twilio_workspace.my-workspace.id
+}
+
 ```
 then:
 ```bash

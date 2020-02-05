@@ -138,6 +138,7 @@ func resourceIncomingPhoneNumber() *schema.Resource { // nolint:golint,funlen
 			"emergency_address_sid": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"bundle_sid": {
 				Type:     schema.TypeString,
@@ -148,33 +149,109 @@ func resourceIncomingPhoneNumber() *schema.Resource { // nolint:golint,funlen
 }
 
 func resourceIncomingPhoneNumberParams(d *schema.ResourceData) *types.IncomingPhoneNumberParams {
-	return &types.IncomingPhoneNumberParams{
-		AccountSID:           util.String(d.Get("accound_sid").(string)),
-		APIVersion:           util.String(d.Get("api_version").(string)),
-		FriendlyName:         util.String(d.Get("friendly_name").(string)),
-		SMSApplicationSid:    util.String(d.Get("sms_application_sid").(string)),
-		SMSFallbackMethod:    util.String(d.Get("sms_fallback_method").(string)),
-		PhoneNumber:          util.String(d.Get("phone_number").(string)),
-		AreaCode:             util.String(d.Get("area_code").(string)),
-		SMSFallbackURL:       util.String(d.Get("sms_fallback_url").(string)),
-		SMSMethod:            util.String(d.Get("sms_method").(string)),
-		SMSURL:               util.String(d.Get("sms_url").(string)),
-		StatusCallback:       util.String(d.Get("status_callback").(string)),
-		AddressSID:           util.String(d.Get("address_sid").(string)),
-		StatusCallbackMethod: util.String(d.Get("status_callback_method").(string)),
-		VoiceApplicationSID:  util.String(d.Get("voice_application_sid").(string)),
-		VoiceCallerIDLookup:  util.Bool(d.Get("voice_called_id_lookup").(bool)),
-		VoiceFallbackMethod:  util.String(d.Get("voice_fallback_method").(string)),
-		VoiceFallbackURL:     util.String(d.Get("voice_fallback_url").(string)),
-		VoiceMethod:          util.String(d.Get("voice_method").(string)),
-		VoiceURL:             util.String(d.Get("voice_url").(string)),
-		VoiceReceiveMode:     util.String(d.Get("voice_receive_mode").(string)),
-		EmergencyStatus:      util.String(d.Get("emergency_status").(string)),
-		EmergencyAddressSID:  util.String(d.Get("emergency_address_sid").(string)),
-		BundleSID:            util.String(d.Get("bundle_sid").(string)),
-		IdentitySID:          util.String(d.Get("identity_sid").(string)),
-		TrunkSID:             util.String(d.Get("trunk_sid").(string)),
+	p := &types.IncomingPhoneNumberParams{}
+
+	if v, ok := d.GetOk("accound_sid"); ok {
+		p.AccountSID = util.String(v.(string))
 	}
+
+	if v, ok := d.GetOk("api_version"); ok {
+		p.APIVersion = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("friendly_name"); ok {
+		p.FriendlyName = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_application_sid"); ok {
+		p.SMSApplicationSid = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_fallback_method"); ok {
+		p.SMSFallbackMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("phone_number"); ok {
+		p.PhoneNumber = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("area_code"); ok {
+		p.AreaCode = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_fallback_url"); ok {
+		p.SMSFallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_method"); ok {
+		p.SMSMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_url"); ok {
+		p.SMSURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("status_callback"); ok {
+		p.StatusCallback = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("address_sid"); ok {
+		p.AddressSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("status_callback_method"); ok {
+		p.StatusCallbackMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_application_sid"); ok {
+		p.VoiceApplicationSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_fallback_method"); ok {
+		p.VoiceFallbackMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_fallback_url"); ok {
+		p.VoiceFallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_method"); ok {
+		p.VoiceMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_url"); ok {
+		p.VoiceURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_receive_mode"); ok {
+		p.VoiceReceiveMode = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("emergency_status"); ok {
+		p.EmergencyStatus = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("emergency_address_sid"); ok {
+		p.EmergencyAddressSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("bundle_sid"); ok {
+		p.BundleSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("identity_sid"); ok {
+		p.IdentitySID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("trunk_sid"); ok {
+		p.TrunkSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_called_id_lookup"); ok {
+		p.VoiceCallerIDLookup = util.Bool(v.(bool))
+	}
+
+	return p
 }
 
 func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) error {

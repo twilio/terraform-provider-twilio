@@ -347,33 +347,65 @@ func resourceChatServiceDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams {
-	notifications, _ := expandNotifications(d)
+	n, _ := expandNotifications(d)
+	p := new(types.ChatServiceParams)
 
-	c := &types.ChatServiceParams{
-		FriendlyName:                 util.String(d.Get("friendly_name").(string)),
-		DefaultServiceRoleSID:        util.String(d.Get("default_service_role_sid").(string)),
-		DefaultChannelRoleSID:        util.String(d.Get("default_channel_role_sid").(string)),
-		DefaultChannelCreatorRoleSID: util.String(d.Get("default_channel_creator_role_sid").(string)),
-		ReadStatusEnabled:            util.Bool(d.Get("read_status_enabled").(bool)),
-		ReachabilityEnabled:          util.Bool(d.Get("reachability_enabled").(bool)),
-		PreWebhookURL:                util.String(d.Get("pre_webhook_url").(string)),
-		PostWebhookURL:               util.String(d.Get("post_webhook_url").(string)),
-		WebhookMethod:                util.String(d.Get("webhook_method").(string)),
-		WebhookFilters:               util.ExpandStringList(d.Get("webhook_filters").(*schema.Set).List()),
-		PreWebhookRetryCount:         util.Int(d.Get("pre_webhook_retry_count").(int)),
-		PostWebhookRetryCount:        util.Int(d.Get("post_webhook_retry_count").(int)),
-		Notifications:                notifications,
+	if v, ok := d.GetOk("friendly_name"); ok {
+		p.FriendlyName = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("default_service_role_sid"); ok {
+		p.DefaultServiceRoleSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("default_channel_role_sid"); ok {
+		p.DefaultChannelRoleSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("default_channel_creator_role_sid"); ok {
+		p.DefaultChannelCreatorRoleSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("pre_webhook_url"); ok {
+		p.PreWebhookURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("post_webhook_url"); ok {
+		p.PostWebhookURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("webhook_method"); ok {
+		p.WebhookMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("read_status_enabled"); ok {
+		p.ReadStatusEnabled = util.Bool(v.(bool))
+	}
+
+	if v, ok := d.GetOk("reachability_enabled"); ok {
+		p.ReachabilityEnabled = util.Bool(v.(bool))
+	}
+
+	if v, ok := d.GetOk("pre_webhook_retry_count"); ok {
+		p.PreWebhookRetryCount = util.Int(v.(int))
+	}
+
+	if v, ok := d.GetOk("post_webhook_retry_count"); ok {
+		p.PostWebhookRetryCount = util.Int(v.(int))
 	}
 
 	if v, ok := d.GetOk("typing_indicator_timeout"); ok {
-		c.TypingIndicatorTimeout = util.Int(v.(int))
+		p.TypingIndicatorTimeout = util.Int(v.(int))
 	}
 
 	if v, ok := d.GetOk("consumption_report_interval"); ok {
-		c.ConsumptionReportInterval = util.Int(v.(int))
+		p.ConsumptionReportInterval = util.Int(v.(int))
 	}
 
-	return c
+	p.Notifications = n
+	p.WebhookFilters = util.ExpandStringList(d.Get("webhook_filters").(*schema.Set).List())
+
+	return p
 }
 
 func expandNotifications(d *schema.ResourceData) (*types.Notifications, error) {

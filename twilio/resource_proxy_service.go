@@ -104,21 +104,38 @@ func resourceProxyServiceDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceProxyServiceParams(d *schema.ResourceData) *types.ProxyServiceParams {
-	p := &types.ProxyServiceParams{
-		ChatInstanceSID:         util.String(d.Get("chat_instance_sid").(string)),
-		UniqueName:              util.String(d.Get("unique_name").(string)),
-		DefaultTTL:              util.Int(d.Get("default_ttl").(int)),
-		CallbackURL:             util.String(d.Get("callback_url").(string)),
-		InterceptCallbackURL:    util.String(d.Get("intercept_callback_url").(string)),
-		OutOfSessionCallbackURL: util.String(d.Get("out_of_session_callback_url").(string)),
+	p := &types.ProxyServiceParams{}
+
+	if v, ok := d.GetOk("chat_instance_sid"); ok {
+		p.ChatInstanceSID = util.String(v.(string))
 	}
 
-	if g := d.Get("geo_match_level").(string); g != "" {
-		p.GeoMatchLevel = util.String(g)
+	if v, ok := d.GetOk("unique_name"); ok {
+		p.UniqueName = util.String(v.(string))
 	}
 
-	if n := d.Get("number_selection_behavior").(string); n != "" {
-		p.NumberSelectionBehavior = util.String(n)
+	if v, ok := d.GetOk("callback_url"); ok {
+		p.CallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("intercept_callback_url"); ok {
+		p.InterceptCallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("out_of_session_callback_url"); ok {
+		p.OutOfSessionCallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("default_ttl"); ok {
+		p.DefaultTTL = util.Int(v.(int))
+	}
+
+	if v, ok := d.GetOk("geo_match_level"); ok {
+		p.GeoMatchLevel = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("number_selection_behavior"); ok {
+		p.NumberSelectionBehavior = util.String(v.(string))
 	}
 
 	return p

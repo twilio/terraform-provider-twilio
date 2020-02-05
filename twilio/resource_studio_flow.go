@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go"
 )
 
@@ -81,10 +82,15 @@ func resourceStudioFlowDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceStudioFlowParams(d *schema.ResourceData) *types.StudioFlowParams {
-	return &types.StudioFlowParams{
-		FriendlyName:  types.String(d.Get("friendly_name").(string)),
-		Status:        types.String(d.Get("status").(string)),
-		Definition:    types.String(d.Get("definition").(string)),
-		CommitMessage: types.String(d.Get("commit_message").(string)),
+	p := &types.StudioFlowParams{
+		FriendlyName: types.String(d.Get("friendly_name").(string)),
+		Status:       types.String(d.Get("status").(string)),
+		Definition:   types.String(d.Get("definition").(string)),
 	}
+
+	if v, ok := d.GetOk("commit_message"); ok {
+		p.CommitMessage = util.String(v.(string))
+	}
+
+	return p
 }

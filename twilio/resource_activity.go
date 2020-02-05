@@ -51,8 +51,8 @@ func resourceActivityCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Create(
-		getActivityParams(d, m),
 		*workspaceSID,
+		getActivityParams(d),
 	)
 
 	if err != nil {
@@ -90,9 +90,9 @@ func resourceActivityUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Update(
-		getActivityParams(d, m),
 		*workspaceSID,
 		activitySID,
+		getActivityParams(d),
 	)
 
 	if err != nil {
@@ -115,7 +115,7 @@ func resourceActivityDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func getActivityParams(d *schema.ResourceData, m interface{}) *types.ActivityParams {
+func getActivityParams(d *schema.ResourceData) *types.ActivityParams {
 	var available *string
 
 	if v, exists := d.GetOk("available"); exists {

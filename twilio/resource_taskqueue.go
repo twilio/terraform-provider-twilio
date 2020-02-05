@@ -83,7 +83,7 @@ func resourceTaskQueue() *schema.Resource { //nolint:golint,funlen
 func resourceTaskQueueCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Create(*workspaceSID, getTaskQueueParams(d, m))
+	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Create(*workspaceSID, getTaskQueueParams(d))
 
 	if err != nil {
 		return fmt.Errorf("error creating taskqueue: %s", err)
@@ -127,9 +127,9 @@ func resourceTaskQueueUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Update(
-		getTaskQueueParams(d, m),
 		*workspaceSID,
 		taskQueueSID,
+		getTaskQueueParams(d),
 	)
 
 	if err != nil {
@@ -152,25 +152,33 @@ func resourceTaskQueueDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func getTaskQueueParams(d *schema.ResourceData, m interface{}) *types.TaskQueueParams {
+func getTaskQueueParams(d *schema.ResourceData) *types.TaskQueueParams {
 	var assignmentActivitySid *string
+
 	var maxReservedWorkers *int
+
 	var targetWorkers *string
+
 	var taskOrder *string
+
 	var reservationActivitySid *string
 
 	if v, exists := d.GetOk("assignment_activity_sid"); exists {
 		assignmentActivitySid = types.String((v).(string))
 	}
+
 	if v, exists := d.GetOk("max_reserved_workers"); exists {
 		maxReservedWorkers = types.Int((v).(int))
 	}
+
 	if v, exists := d.GetOk("target_workers"); exists {
 		targetWorkers = types.String((v).(string))
 	}
+
 	if v, exists := d.GetOk("task_order"); exists {
 		taskOrder = types.String((v).(string))
 	}
+
 	if v, exists := d.GetOk("reservation_activity_sid"); exists {
 		reservationActivitySid = types.String((v).(string))
 	}

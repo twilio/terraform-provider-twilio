@@ -75,7 +75,7 @@ func resourceWorkflowCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
 	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Create(*workspaceSID,
-		getWorkflowParams(d, m),
+		getWorkflowParams(d),
 	)
 
 	if err != nil {
@@ -117,8 +117,8 @@ func resourceWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
 	workflowSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Update(*workspaceSID,
-		getWorkflowParams(d, m), workflowSID,
+	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Update(*workspaceSID, workflowSID,
+		getWorkflowParams(d),
 	)
 
 	if err != nil {
@@ -141,17 +141,21 @@ func resourceWorkflowDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func getWorkflowParams(d *schema.ResourceData, m interface{}) *types.WorkflowParams {
+func getWorkflowParams(d *schema.ResourceData) *types.WorkflowParams {
 	var assignmentCallbackURL *string
+
 	var taskReservationTimeout *int
+
 	var fallbackAssignmentCallbackURL *string
 
 	if v, exists := d.GetOk("assignment_callback_url"); exists {
 		assignmentCallbackURL = types.String((v).(string))
 	}
+
 	if v, exists := d.GetOk("task_reservation_timeout"); exists {
 		taskReservationTimeout = types.Int((v).(int))
 	}
+
 	if v, exists := d.GetOk("fallback_assignment_callback_url"); exists {
 		fallbackAssignmentCallbackURL = types.String((v).(string))
 	}

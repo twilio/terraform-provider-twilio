@@ -84,9 +84,8 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 }
 
 func resourceWorkspaceCreate(d *schema.ResourceData, m interface{}) error {
-
 	r, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Create(
-		*getWorkspaceParams(d, m),
+		getWorkspaceParams(d),
 	)
 
 	if err != nil {
@@ -126,7 +125,7 @@ func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 func resourceWorkspaceUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := d.Id()
 
-	if _, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Update(*getWorkspaceParams(d, m), workspaceSID); err != nil {
+	if _, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Update(workspaceSID, getWorkspaceParams(d)); err != nil {
 		return fmt.Errorf("error updating workspace: %s", err)
 	}
 
@@ -143,21 +142,27 @@ func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func getWorkspaceParams(d *schema.ResourceData, m interface{}) *types.WorkspaceParams {
+func getWorkspaceParams(d *schema.ResourceData) *types.WorkspaceParams {
 	var eventCallBackURL *string
+
 	var eventsFilter *string
+
 	var multitaskEnabled *bool
+
 	var prioritizeQueueOrder *string
 
 	if v, exists := d.GetOk("event_callback_url"); exists {
 		eventCallBackURL = types.String((v).(string))
 	}
+
 	if v, exists := d.GetOk("events_filter"); exists {
 		eventsFilter = types.String((v).(string))
 	}
+
 	if v, exists := d.GetOk("multi_task_enabled"); exists {
 		multitaskEnabled = types.Bool((v).(bool))
 	}
+
 	if v, exists := d.GetOk("prioritize_queue_order"); exists {
 		prioritizeQueueOrder = types.String((v).(string))
 	}

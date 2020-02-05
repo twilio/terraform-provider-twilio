@@ -116,15 +116,13 @@ func resourceActivityDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getActivityParams(d *schema.ResourceData) *types.ActivityParams {
-	var available *string
-
-	if v, exists := d.GetOk("available"); exists {
-		available = types.String((v).(string))
-	}
 
 	params := &types.ActivityParams{
 		FriendlyName: *types.String(d.Get("friendly_name").(string)),
-		Available:    available,
+	}
+
+	if v, exists := d.GetOk("available"); exists {
+		params.Available = types.String((v).(string))
 	}
 
 	return params

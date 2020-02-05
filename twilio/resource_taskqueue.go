@@ -153,43 +153,29 @@ func resourceTaskQueueDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getTaskQueueParams(d *schema.ResourceData) *types.TaskQueueParams {
-	var assignmentActivitySid *string
 
-	var maxReservedWorkers *int
-
-	var targetWorkers *string
-
-	var taskOrder *string
-
-	var reservationActivitySid *string
+	params := &types.TaskQueueParams{
+		FriendlyName: *types.String(d.Get("friendly_name").(string)),
+	}
 
 	if v, exists := d.GetOk("assignment_activity_sid"); exists {
-		assignmentActivitySid = types.String((v).(string))
+		params.AssignmentActivitySid = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("max_reserved_workers"); exists {
-		maxReservedWorkers = types.Int((v).(int))
+		params.MaxReservedWorkers = types.Int((v).(int))
 	}
 
 	if v, exists := d.GetOk("target_workers"); exists {
-		targetWorkers = types.String((v).(string))
+		params.TargetWorkers = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("task_order"); exists {
-		taskOrder = types.String((v).(string))
+		params.TaskOrder = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("reservation_activity_sid"); exists {
-		reservationActivitySid = types.String((v).(string))
-	}
-
-	params := &types.TaskQueueParams{
-		FriendlyName:           *types.String(d.Get("friendly_name").(string)),
-		AssignmentActivitySid:  assignmentActivitySid,
-		MaxReservedWorkers:     maxReservedWorkers,
-		TargetWorkers:          targetWorkers,
-		TaskOrder:              taskOrder,
-		ReservationActivitySid: reservationActivitySid,
+		params.ReservationActivitySid = types.String((v).(string))
 	}
 
 	return params

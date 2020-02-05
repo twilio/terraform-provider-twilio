@@ -142,30 +142,22 @@ func resourceWorkflowDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getWorkflowParams(d *schema.ResourceData) *types.WorkflowParams {
-	var assignmentCallbackURL *string
 
-	var taskReservationTimeout *int
-
-	var fallbackAssignmentCallbackURL *string
+	params := &types.WorkflowParams{
+		FriendlyName:  *types.String(d.Get("friendly_name").(string)),
+		Configuration: *types.String(d.Get("configuration").(string)),
+	}
 
 	if v, exists := d.GetOk("assignment_callback_url"); exists {
-		assignmentCallbackURL = types.String((v).(string))
+		params.AssignmentCallbackURL = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("task_reservation_timeout"); exists {
-		taskReservationTimeout = types.Int((v).(int))
+		params.TaskReservationTimeout = types.Int((v).(int))
 	}
 
 	if v, exists := d.GetOk("fallback_assignment_callback_url"); exists {
-		fallbackAssignmentCallbackURL = types.String((v).(string))
-	}
-
-	params := &types.WorkflowParams{
-		FriendlyName:                  *types.String(d.Get("friendly_name").(string)),
-		Configuration:                 *types.String(d.Get("configuration").(string)),
-		AssignmentCallbackURL:         assignmentCallbackURL,
-		TaskReservationTimeout:        taskReservationTimeout,
-		FallbackAssignmentCallbackURL: fallbackAssignmentCallbackURL,
+		params.AssignmentCallbackURL = types.String((v).(string))
 	}
 
 	return params

@@ -143,36 +143,25 @@ func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getWorkspaceParams(d *schema.ResourceData) *types.WorkspaceParams {
-	var eventCallBackURL *string
 
-	var eventsFilter *string
-
-	var multitaskEnabled *bool
-
-	var prioritizeQueueOrder *string
+	params := &types.WorkspaceParams{
+		FriendlyName: *types.String(d.Get("friendly_name").(string)),
+	}
 
 	if v, exists := d.GetOk("event_callback_url"); exists {
-		eventCallBackURL = types.String((v).(string))
+		params.EventCallbackURL = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("events_filter"); exists {
-		eventsFilter = types.String((v).(string))
+		params.EventsFilter = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("multi_task_enabled"); exists {
-		multitaskEnabled = types.Bool((v).(bool))
+		params.MultitaskEnabled = types.Bool((v).(bool))
 	}
 
 	if v, exists := d.GetOk("prioritize_queue_order"); exists {
-		prioritizeQueueOrder = types.String((v).(string))
-	}
-
-	params := &types.WorkspaceParams{
-		FriendlyName:         *types.String(d.Get("friendly_name").(string)),
-		EventCallbackURL:     eventCallBackURL,
-		EventsFilter:         eventsFilter,
-		MultitaskEnabled:     multitaskEnabled,
-		PrioritizeQueueOrder: prioritizeQueueOrder,
+		params.PrioritizeQueueOrder = types.String((v).(string))
 	}
 
 	return params

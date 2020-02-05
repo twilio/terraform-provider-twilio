@@ -167,14 +167,13 @@ func getWorkspaceParams(d *schema.ResourceData) *types.WorkspaceParams {
 		prioritizeQueueOrder = types.String((v).(string))
 	}
 
-	params :=
-		&types.WorkspaceParams{
-			FriendlyName:         *types.String(d.Get("friendly_name").(string)),
-			EventCallbackURL:     eventCallBackURL,
-			EventsFilter:         eventsFilter,
-			MultitaskEnabled:     multitaskEnabled,
-			PrioritizeQueueOrder: prioritizeQueueOrder,
-		}
+	params := &types.WorkspaceParams{
+		FriendlyName:         *types.String(d.Get("friendly_name").(string)),
+		EventCallbackURL:     eventCallBackURL,
+		EventsFilter:         eventsFilter,
+		MultitaskEnabled:     multitaskEnabled,
+		PrioritizeQueueOrder: prioritizeQueueOrder,
+	}
 
 	return params
 }

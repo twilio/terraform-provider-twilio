@@ -183,15 +183,14 @@ func getTaskQueueParams(d *schema.ResourceData) *types.TaskQueueParams {
 		reservationActivitySid = types.String((v).(string))
 	}
 
-	params :=
-		&types.TaskQueueParams{
-			FriendlyName:           *types.String(d.Get("friendly_name").(string)),
-			AssignmentActivitySid:  assignmentActivitySid,
-			MaxReservedWorkers:     maxReservedWorkers,
-			TargetWorkers:          targetWorkers,
-			TaskOrder:              taskOrder,
-			ReservationActivitySid: reservationActivitySid,
-		}
+	params := &types.TaskQueueParams{
+		FriendlyName:           *types.String(d.Get("friendly_name").(string)),
+		AssignmentActivitySid:  assignmentActivitySid,
+		MaxReservedWorkers:     maxReservedWorkers,
+		TargetWorkers:          targetWorkers,
+		TaskOrder:              taskOrder,
+		ReservationActivitySid: reservationActivitySid,
+	}
 
 	return params
 }

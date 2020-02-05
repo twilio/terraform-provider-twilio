@@ -122,11 +122,10 @@ func getActivityParams(d *schema.ResourceData) *types.ActivityParams {
 		available = types.String((v).(string))
 	}
 
-	params :=
-		&types.ActivityParams{
-			FriendlyName: *types.String(d.Get("friendly_name").(string)),
-			Available:    available,
-		}
+	params := &types.ActivityParams{
+		FriendlyName: *types.String(d.Get("friendly_name").(string)),
+		Available:    available,
+	}
 
 	return params
 }

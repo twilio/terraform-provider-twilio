@@ -160,14 +160,13 @@ func getWorkflowParams(d *schema.ResourceData) *types.WorkflowParams {
 		fallbackAssignmentCallbackURL = types.String((v).(string))
 	}
 
-	params :=
-		&types.WorkflowParams{
-			FriendlyName:                  *types.String(d.Get("friendly_name").(string)),
-			Configuration:                 *types.String(d.Get("configuration").(string)),
-			AssignmentCallbackURL:         assignmentCallbackURL,
-			TaskReservationTimeout:        taskReservationTimeout,
-			FallbackAssignmentCallbackURL: fallbackAssignmentCallbackURL,
-		}
+	params := &types.WorkflowParams{
+		FriendlyName:                  *types.String(d.Get("friendly_name").(string)),
+		Configuration:                 *types.String(d.Get("configuration").(string)),
+		AssignmentCallbackURL:         assignmentCallbackURL,
+		TaskReservationTimeout:        taskReservationTimeout,
+		FallbackAssignmentCallbackURL: fallbackAssignmentCallbackURL,
+	}
 
 	return params
 }

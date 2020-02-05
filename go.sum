@@ -183,7 +183,10 @@ github.com/twilio/twilio-go v0.0.0-20200131150659-07b3140c00c5 h1:0aM+BNOmGSI+Kt
 github.com/twilio/twilio-go v0.0.0-20200131150659-07b3140c00c5/go.mod h1:aZNPnPi7tQPrvFopHJF0VIHm4V3r5sE6hVu+bCGpWPY=
 github.com/twilio/twilio-go v0.0.0-20200131175610-d1c3388675dc h1:bNt1tcSoschFpV10w/CRm6jxdgqfaKf3IzniUAT5Tgw=
 github.com/twilio/twilio-go v0.0.0-20200131175610-d1c3388675dc/go.mod h1:aZNPnPi7tQPrvFopHJF0VIHm4V3r5sE6hVu+bCGpWPY=
+<<<<<<< HEAD
 >>>>>>> feat: Task-Router sub-resources terraform providers
+=======
+>>>>>>> 2f505475a9b62fbbe7e6c1ce9723332083a33860
 github.com/twilio/twilio-go v0.0.0-20200131224344-977bd5d26222 h1:vFLup27yVtS47fiZ93acL6Zn6BA0OYbGSBKjnhBnuh0=
 github.com/twilio/twilio-go v0.0.0-20200131224344-977bd5d26222/go.mod h1:aZNPnPi7tQPrvFopHJF0VIHm4V3r5sE6hVu+bCGpWPY=
 github.com/ulikunitz/xz v0.5.5 h1:pFrO0lVpTBXLpYw+pnLj6TbvHuyjXMfjGeCwSqCVwok=

@@ -143,7 +143,6 @@ func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getWorkspaceParams(d *schema.ResourceData) *types.WorkspaceParams {
-
 	params := &types.WorkspaceParams{
 		FriendlyName: *types.String(d.Get("friendly_name").(string)),
 	}

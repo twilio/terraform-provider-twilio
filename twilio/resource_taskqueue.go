@@ -153,7 +153,6 @@ func resourceTaskQueueDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getTaskQueueParams(d *schema.ResourceData) *types.TaskQueueParams {
-
 	params := &types.TaskQueueParams{
 		FriendlyName: *types.String(d.Get("friendly_name").(string)),
 	}

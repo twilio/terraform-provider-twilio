@@ -116,7 +116,6 @@ func resourceActivityDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getActivityParams(d *schema.ResourceData) *types.ActivityParams {
-
 	params := &types.ActivityParams{
 		FriendlyName: *types.String(d.Get("friendly_name").(string)),
 	}

@@ -142,7 +142,6 @@ func resourceWorkflowDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func getWorkflowParams(d *schema.ResourceData) *types.WorkflowParams {
-
 	params := &types.WorkflowParams{
 		FriendlyName:  *types.String(d.Get("friendly_name").(string)),
 		Configuration: *types.String(d.Get("configuration").(string)),

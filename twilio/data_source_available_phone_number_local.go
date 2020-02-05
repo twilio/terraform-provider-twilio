@@ -68,7 +68,7 @@ func dataSourceAvailablePhoneNumberLocal() *schema.Resource { //nolint:golint,fu
 	}
 }
 
-func dataSourceAvailablePhoneNumbersLocal() *schema.Resource {
+func dataSourceAvailablePhoneNumbersLocal() *schema.Resource { // nolint:golint,funlen
 	return &schema.Resource{
 		Read: dataSourceAvailablePhoneNumbersLocalRead,
 		Schema: map[string]*schema.Schema{
@@ -200,9 +200,11 @@ func dataSourceAvailablePhoneNumbersLocal() *schema.Resource {
 func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interface{}) error {
 	params := dataSourceAvailablePhoneNumberLocalParams(d)
 	availablePhoneNumbersLocal, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
+
 	if err != nil {
 		return err
 	}
+
 	d.SetId(*availablePhoneNumbersLocal.URI)
 	d.Set("num_pages", availablePhoneNumbersLocal.NumPages)
 	d.Set("page", availablePhoneNumbersLocal.Page)
@@ -216,12 +218,13 @@ func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interfac
 	d.Set("next_page_uri", availablePhoneNumbersLocal.NextPageURI)
 	d.Set("previous_page_uri", availablePhoneNumbersLocal.PreviousPageURI)
 
-	var availablePhoneNumbers []interface{}
+	availablePhoneNumbers := []interface{}{}
 	for _, v := range availablePhoneNumbersLocal.AvailablePhoneNumbers {
 		availablePhoneNumbers = append(availablePhoneNumbers, flattenPhoneNumber(v))
 	}
 
 	d.Set("available_phone_numbers", availablePhoneNumbers)
+
 	return nil
 }
 
@@ -262,5 +265,6 @@ func flattenPhoneNumber(p *types.AvailablePhoneNumberLocal) interface{} {
 	values["postal_code"] = p.PostalCode
 	values["rate_center"] = p.RateCenter
 	values["region"] = p.Region
+
 	return values
 }

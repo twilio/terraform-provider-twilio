@@ -1,10 +1,8 @@
 package twilio
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -268,8 +266,7 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 
 	d.SetId(*chatService.Sid)
 	d.SetPartial("friendly_name")
-	peek, _ := json.MarshalIndent(resourceChatServiceParams(d), "", "\t")
-	log.Printf("Chat Service Params: %+v", string(peek))
+
 	if _, err := m.(*Config).Client.Chat.Service.Update(*chatService.Sid, resourceChatServiceParams(d)); err != nil {
 		return fmt.Errorf("error creating Chat Service with optional parameters: %s", err)
 	}
@@ -369,9 +366,9 @@ func resourceChatServiceParams(d *schema.ResourceData) *types.ChatServiceParams 
 	}
 
 	if v, ok := d.GetOk("typing_indicator_timeout"); ok {
-
 		c.TypingIndicatorTimeout = util.Int(v.(int))
 	}
+
 	if v, ok := d.GetOk("consumption_report_interval"); ok {
 		c.ConsumptionReportInterval = util.Int(v.(int))
 	}

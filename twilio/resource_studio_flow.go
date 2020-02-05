@@ -81,11 +81,10 @@ func resourceStudioFlowDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceStudioFlowParams(d *schema.ResourceData) *types.StudioFlowParams {
-	log.Printf("JSON: %s", d.Get("definition").(string))
 	return &types.StudioFlowParams{
-		FriendlyName: types.String(d.Get("friendly_name").(string)),
-		Status:       types.String(d.Get("status").(string)),
-		Definition:   types.String(d.Get("definition").(string)),
-		// CommitMessage: types.String(d.Get("commit_message").(string)),
+		FriendlyName:  types.String(d.Get("friendly_name").(string)),
+		Status:        types.String(d.Get("status").(string)),
+		Definition:    types.String(d.Get("definition").(string)),
+		CommitMessage: types.String(d.Get("commit_message").(string)),
 	}
 }

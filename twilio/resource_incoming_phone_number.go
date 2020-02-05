@@ -8,7 +8,7 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceIncomingPhoneNumber() *schema.Resource {
+func resourceIncomingPhoneNumber() *schema.Resource { // nolint:golint,funlen
 	return &schema.Resource{
 		Create: resourceIncomingPhoneNumberCreate,
 		Read:   resourceIncomingPhoneNumberRead,
@@ -179,17 +179,18 @@ func resourceIncomingPhoneNumberParams(d *schema.ResourceData) *types.IncomingPh
 
 func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
-	iPNParams := &types.IncomingPhoneNumberParams{PhoneNumber: util.String(d.Get("phone_number").(string))}
 
+	iPNParams := &types.IncomingPhoneNumberParams{PhoneNumber: util.String(d.Get("phone_number").(string))}
 	iPN, err := m.(*Config).Client.IncomingPhoneNumbers.Create(iPNParams)
+
 	if err != nil {
 		return fmt.Errorf("error creating Phone Number %s", err)
-
 	}
 
 	d.SetId(*iPN.Sid)
 	d.SetPartial("friendly_name")
 	d.Partial(false)
+
 	return resourceIncomingPhoneNumberRead(d, m)
 }
 
@@ -237,7 +238,6 @@ func resourceIncomingPhoneNumberRead(d *schema.ResourceData, m interface{}) erro
 }
 
 func resourceIncomingPhoneNumberUpdate(d *schema.ResourceData, m interface{}) error {
-
 	if _, err := m.(*Config).Client.IncomingPhoneNumbers.Update(d.Id(), resourceIncomingPhoneNumberParams(d)); err != nil {
 		return fmt.Errorf("error updating Incoming Phone Number: %s", err)
 	}

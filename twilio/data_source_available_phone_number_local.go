@@ -199,27 +199,28 @@ func dataSourceAvailablePhoneNumbersLocal() *schema.Resource { // nolint:golint,
 
 func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interface{}) error {
 	params := dataSourceAvailablePhoneNumberLocalParams(d)
-	availablePhoneNumbersLocal, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
+	a, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
 
 	if err != nil {
 		return err
 	}
 
-	d.SetId(*availablePhoneNumbersLocal.URI)
-	d.Set("num_pages", availablePhoneNumbersLocal.NumPages)
-	d.Set("page", availablePhoneNumbersLocal.Page)
-	d.Set("page_size", availablePhoneNumbersLocal.PageSize)
-	d.Set("start", availablePhoneNumbersLocal.Start)
-	d.Set("total", availablePhoneNumbersLocal.Total)
-	d.Set("end", availablePhoneNumbersLocal.End)
-	d.Set("uri", availablePhoneNumbersLocal.URI)
-	d.Set("first_page_uri", availablePhoneNumbersLocal.FirstPageURI)
-	d.Set("last_page_uri", availablePhoneNumbersLocal.LastPageURI)
-	d.Set("next_page_uri", availablePhoneNumbersLocal.NextPageURI)
-	d.Set("previous_page_uri", availablePhoneNumbersLocal.PreviousPageURI)
+	d.SetId(*a.URI)
+	d.Set("num_pages", a.NumPages)
+	d.Set("page", a.Page)
+	d.Set("page_size", a.PageSize)
+	d.Set("start", a.Start)
+	d.Set("total", a.Total)
+	d.Set("end", a.End)
+	d.Set("uri", a.URI)
+	d.Set("first_page_uri", a.FirstPageURI)
+	d.Set("last_page_uri", a.LastPageURI)
+	d.Set("next_page_uri", a.NextPageURI)
+	d.Set("previous_page_uri", a.PreviousPageURI)
 
-	availablePhoneNumbers := []interface{}{}
-	for _, v := range availablePhoneNumbersLocal.AvailablePhoneNumbers {
+	availablePhoneNumbers := make([]interface{}, 0, len(a.AvailablePhoneNumbers))
+
+	for _, v := range a.AvailablePhoneNumbers {
 		availablePhoneNumbers = append(availablePhoneNumbers, flattenPhoneNumber(v))
 	}
 
@@ -229,26 +230,64 @@ func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interfac
 }
 
 func dataSourceAvailablePhoneNumberLocalParams(d *schema.ResourceData) *types.AvailablePhoneNumberLocalReadParams {
-	return &types.AvailablePhoneNumberLocalReadParams{
-		FaxEnabled:                    util.Bool(d.Get("fax_enabled").(bool)),
-		SMSEnabled:                    util.Bool(d.Get("sms_enabled").(bool)),
-		MMSEnabled:                    util.Bool(d.Get("mms_enabled").(bool)),
-		VoiceEnabled:                  util.Bool(d.Get("voice_enabled").(bool)),
-		ExcludeAllAddressRequired:     util.Bool(d.Get("exclude_all_address_required").(bool)),
-		ExcludeLocalAddressRequired:   util.Bool(d.Get("exclude_local_address_required").(bool)),
-		ExcludeForeignAddressRequired: util.Bool(d.Get("exclude_foreign_address_required").(bool)),
-		Beta:                          util.Bool(d.Get("beta").(bool)),
-		Distance:                      util.Int(d.Get("distance").(int)),
-		AreaCode:                      util.Int(d.Get("area_code").(int)),
-		InPostalCode:                  util.String(d.Get("in_postal_code").(string)),
-		NearNumber:                    util.String(d.Get("near_number").(string)),
-		NearLatLong:                   util.String(d.Get("near_lat_long").(string)),
-		Contains:                      util.String(d.Get("contains").(string)),
-		InRegion:                      util.String(d.Get("in_region").(string)),
-		InRateCenter:                  util.String(d.Get("in_rate_center").(string)),
-		InLATA:                        util.String(d.Get("in_lata").(string)),
-		InLocality:                    util.String(d.Get("in_locality").(string)),
+	p := new(types.AvailablePhoneNumberLocalReadParams)
+
+	if v, ok := d.GetOk("fax_enabled"); ok {
+		p.FaxEnabled = util.Bool(v.(bool))
 	}
+	if v, ok := d.GetOk("sms_enabled"); ok {
+		p.SMSEnabled = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("mms_enabled"); ok {
+		p.MMSEnabled = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("voice_enabled"); ok {
+		p.VoiceEnabled = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("exclude_all_address_required"); ok {
+		p.ExcludeAllAddressRequired = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("exclude_local_address_required"); ok {
+		p.ExcludeLocalAddressRequired = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("exclude_foreign_address_required"); ok {
+		p.ExcludeForeignAddressRequired = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("beta"); ok {
+		p.Beta = util.Bool(v.(bool))
+	}
+	if v, ok := d.GetOk("distance"); ok {
+		p.Distance = util.Int(v.(int))
+	}
+	if v, ok := d.GetOk("area_code"); ok {
+		p.AreaCode = util.Int(v.(int))
+	}
+	if v, ok := d.GetOk("in_postal_code"); ok {
+		p.InPostalCode = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("near_number"); ok {
+		p.NearNumber = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("near_lat_long"); ok {
+		p.NearLatLong = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("contains"); ok {
+		p.Contains = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("in_region"); ok {
+		p.InRegion = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("in_rate_center"); ok {
+		p.InRateCenter = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("in_lata"); ok {
+		p.InLATA = util.String(v.(string))
+	}
+	if v, ok := d.GetOk("in_locality"); ok {
+		p.InLocality = util.String(v.(string))
+	}
+
+	return p
 }
 
 func flattenPhoneNumber(p *types.AvailablePhoneNumberLocal) interface{} {

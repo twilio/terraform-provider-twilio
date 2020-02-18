@@ -7,19 +7,19 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceActivity() *schema.Resource { //nolint:golint,funlen
+func resourceTaskRouterActivity() *schema.Resource { //nolint:golint,funlen
 	return &schema.Resource{
-		Create: resourceActivityCreate,
-		Read:   resourceActivityRead,
-		Update: resourceActivityUpdate,
-		Delete: resourceActivityDelete,
+		Create: resourceTaskRouterActivityCreate,
+		Read:   resourceTaskRouterActivityRead,
+		Update: resourceTaskRouterActivityUpdate,
+		Delete: resourceTaskRouterActivityDelete,
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"available": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"date_created": {
@@ -47,10 +47,10 @@ func resourceActivity() *schema.Resource { //nolint:golint,funlen
 	}
 }
 
-func resourceActivityCreate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterActivityCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Create(
+	r, err := m.(*Config).Client.TaskRouter.Activities.Create(
 		*workspaceSID,
 		getActivityParams(d),
 	)
@@ -59,37 +59,37 @@ func resourceActivityCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating activity: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceActivityRead(d, m)
+	return resourceTaskRouterActivityRead(d, m)
 }
 
-func resourceActivityRead(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterActivityRead(d *schema.ResourceData, m interface{}) error {
 	activitySID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Fetch(*workspaceSID, activitySID)
+	r, err := m.(*Config).Client.TaskRouter.Activities.Fetch(*workspaceSID, activitySID)
 
 	if err != nil {
 		return err
 	}
 
-	d.Set("account_sid", r.AccountSid)
+	d.Set("account_sid", r.AccountSID)
 	d.Set("available", r.Available)
 	d.Set("date_created", r.DateCreated)
 	d.Set("date_updated", r.DateUpdated)
 	d.Set("friendly_name", r.FriendlyName)
-	d.Set("workspace_sid", r.WorkspaceSid)
-	d.Set("url", r.URI)
+	d.Set("workspace_sid", r.WorkspaceSID)
+	d.Set("url", r.URL)
 
 	return nil
 }
 
-func resourceActivityUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterActivityUpdate(d *schema.ResourceData, m interface{}) error {
 	activitySID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.ActivityClient.Update(
+	r, err := m.(*Config).Client.TaskRouter.Activities.Update(
 		*workspaceSID,
 		activitySID,
 		getActivityParams(d),
@@ -99,29 +99,26 @@ func resourceActivityUpdate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error updating activity: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceActivityRead(d, m)
+	return resourceTaskRouterActivityRead(d, m)
 }
 
-func resourceActivityDelete(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterActivityDelete(d *schema.ResourceData, m interface{}) error {
 	activitySID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	if err := m.(*Config).Client.TaskRouter.ActivityClient.Delete(*workspaceSID, activitySID); err != nil {
+	if err := m.(*Config).Client.TaskRouter.Activities.Delete(*workspaceSID, activitySID); err != nil {
 		return fmt.Errorf("error deleting activity: %s", err)
 	}
 
 	return nil
 }
 
-func getActivityParams(d *schema.ResourceData) *types.ActivityParams {
-	params := &types.ActivityParams{
-		FriendlyName: *types.String(d.Get("friendly_name").(string)),
-	}
-
-	if v, exists := d.GetOk("available"); exists {
-		params.Available = types.String((v).(string))
+func getActivityParams(d *schema.ResourceData) *types.TaskRouterActivityParams {
+	params := &types.TaskRouterActivityParams{
+		FriendlyName: types.String(d.Get("friendly_name").(string)),
+		Available:    types.Bool(d.Get("available").(bool)),
 	}
 
 	return params

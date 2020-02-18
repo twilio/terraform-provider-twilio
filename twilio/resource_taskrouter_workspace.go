@@ -7,12 +7,12 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
+func resourceTaskRouterWorkspace() *schema.Resource { //nolint:golint,funlen
 	return &schema.Resource{
-		Create: resourceWorkspaceCreate,
-		Read:   resourceWorkspaceRead,
-		Update: resourceWorkspaceUpdate,
-		Delete: resourceWorkspaceDelete,
+		Create: resourceTaskRouterWorkspaceCreate,
+		Read:   resourceTaskRouterWorkspaceRead,
+		Update: resourceTaskRouterWorkspaceUpdate,
+		Delete: resourceTaskRouterWorkspaceDelete,
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:     schema.TypeString,
@@ -83,8 +83,8 @@ func resourceWorkspace() *schema.Resource { //nolint:golint,funlen
 	}
 }
 
-func resourceWorkspaceCreate(d *schema.ResourceData, m interface{}) error {
-	r, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Create(
+func resourceTaskRouterWorkspaceCreate(d *schema.ResourceData, m interface{}) error {
+	r, err := m.(*Config).Client.TaskRouter.Workspaces.Create(
 		getWorkspaceParams(d),
 	)
 
@@ -92,24 +92,24 @@ func resourceWorkspaceCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating workspace: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceWorkspaceRead(d, m)
+	return resourceTaskRouterWorkspaceRead(d, m)
 }
 
-func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := d.Id()
-	r, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Fetch(workspaceSID)
+	r, err := m.(*Config).Client.TaskRouter.Workspaces.Fetch(workspaceSID)
 
 	if err != nil {
 		return err
 	}
 
-	d.Set("account_sid", r.AccountSid)
+	d.Set("account_sid", r.AccountSID)
 	d.Set("date_created", r.DateCreated.String)
 	d.Set("date_updated", r.DateUpdated.String)
 	d.Set("default_activity_name", r.DefaultActivityName)
-	d.Set("default_activity_sid", r.DefaultActivitySid)
+	d.Set("default_activity_sid", r.DefaultActivitySID)
 	d.Set("url", r.URL)
 	d.Set("links", r.Links)
 	d.Set("friendly_name", r.FriendlyName)
@@ -122,29 +122,29 @@ func resourceWorkspaceRead(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceWorkspaceUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkspaceUpdate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := d.Id()
 
-	if _, err := m.(*Config).Client.TaskRouter.WorkspaceClient.Update(workspaceSID, getWorkspaceParams(d)); err != nil {
+	if _, err := m.(*Config).Client.TaskRouter.Workspaces.Update(workspaceSID, getWorkspaceParams(d)); err != nil {
 		return fmt.Errorf("error updating workspace: %s", err)
 	}
 
-	return resourceWorkspaceRead(d, m)
+	return resourceTaskRouterWorkspaceRead(d, m)
 }
 
-func resourceWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkspaceDelete(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := d.Id()
 
-	if err := m.(*Config).Client.TaskRouter.WorkspaceClient.Delete(workspaceSID); err != nil {
+	if err := m.(*Config).Client.TaskRouter.Workspaces.Delete(workspaceSID); err != nil {
 		return fmt.Errorf("error deleting workspace: %s", err)
 	}
 
 	return nil
 }
 
-func getWorkspaceParams(d *schema.ResourceData) *types.WorkspaceParams {
-	params := &types.WorkspaceParams{
-		FriendlyName: *types.String(d.Get("friendly_name").(string)),
+func getWorkspaceParams(d *schema.ResourceData) *types.TaskRouterWorkspaceParams {
+	params := &types.TaskRouterWorkspaceParams{
+		FriendlyName: types.String(d.Get("friendly_name").(string)),
 	}
 
 	if v, exists := d.GetOk("event_callback_url"); exists {

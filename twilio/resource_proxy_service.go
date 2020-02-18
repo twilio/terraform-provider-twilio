@@ -61,7 +61,7 @@ func resourceProxyServiceCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating Proxy Service: %s", err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.SID)
 
 	return resourceProxyServiceRead(d, m)
 }
@@ -69,7 +69,7 @@ func resourceProxyServiceCreate(d *schema.ResourceData, m interface{}) error {
 func resourceProxyServiceRead(d *schema.ResourceData, m interface{}) error {
 	id := d.Id()
 
-	r, err := m.(*Config).Client.Proxy.Service.Read(id, nil)
+	r, err := m.(*Config).Client.Proxy.Service.Fetch(id)
 
 	d.Set("chat_instance_sid", r.ChatInstanceSID)
 	d.Set("unique_name", r.UniqueName)
@@ -96,7 +96,7 @@ func resourceProxyServiceUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceProxyServiceDelete(d *schema.ResourceData, m interface{}) error {
-	if err := m.(*Config).Client.Proxy.Service.Delete(d.Id(), nil); err != nil {
+	if err := m.(*Config).Client.Proxy.Service.Delete(d.Id()); err != nil {
 		return fmt.Errorf("error deleting Proxy Service: %s", err)
 	}
 

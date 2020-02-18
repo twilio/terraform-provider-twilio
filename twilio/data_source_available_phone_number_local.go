@@ -199,7 +199,7 @@ func dataSourceAvailablePhoneNumbersLocal() *schema.Resource { // nolint:golint,
 
 func dataSourceAvailablePhoneNumbersLocalRead(d *schema.ResourceData, m interface{}) error {
 	params := dataSourceAvailablePhoneNumberLocalParams(d)
-	a, err := m.(*Config).Client.AvailablePhoneNumbers.ReadMultiple(params)
+	a, err := m.(*Config).Client.AvailablePhoneNumbers.Read(params)
 
 	if err != nil {
 		return err

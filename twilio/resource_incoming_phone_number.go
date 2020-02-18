@@ -151,10 +151,6 @@ func resourceIncomingPhoneNumber() *schema.Resource { // nolint:golint,funlen
 func resourceIncomingPhoneNumberParams(d *schema.ResourceData) *types.IncomingPhoneNumberParams {
 	p := &types.IncomingPhoneNumberParams{}
 
-	if v, ok := d.GetOk("accound_sid"); ok {
-		p.AccountSID = util.String(v.(string))
-	}
-
 	if v, ok := d.GetOk("api_version"); ok {
 		p.APIVersion = util.String(v.(string))
 	}
@@ -164,7 +160,7 @@ func resourceIncomingPhoneNumberParams(d *schema.ResourceData) *types.IncomingPh
 	}
 
 	if v, ok := d.GetOk("sms_application_sid"); ok {
-		p.SMSApplicationSid = util.String(v.(string))
+		p.SMSApplicationSID = util.String(v.(string))
 	}
 
 	if v, ok := d.GetOk("sms_fallback_method"); ok {
@@ -264,7 +260,7 @@ func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) er
 		return fmt.Errorf("error creating Phone Number %s", err)
 	}
 
-	d.SetId(*iPN.Sid)
+	d.SetId(*iPN.SID)
 	d.SetPartial("friendly_name")
 	d.Partial(false)
 
@@ -281,35 +277,35 @@ func resourceIncomingPhoneNumberRead(d *schema.ResourceData, m interface{}) erro
 
 	d.Set("beta", iPN.Beta)
 	d.Set("voice_caller_id_lookup", iPN.VoiceCallerIDLookup)
-	d.Set("account_sid", iPN.AccountSid)
-	d.Set("address_sid", iPN.AddressSid)
+	d.Set("account_sid", iPN.AccountSID)
+	d.Set("address_sid", iPN.AddressSID)
 	d.Set("address_requirements", iPN.AddressRequirements)
 	d.Set("api_version", iPN.APIVersion)
 	d.Set("capabilities", iPN.Capabilities)
 	d.Set("date_created", iPN.DateCreated)
 	d.Set("date_updated", iPN.DateUpdated)
 	d.Set("friendly_name", iPN.FriendlyName)
-	d.Set("identity_sid", iPN.IdentitySid)
+	d.Set("identity_sid", iPN.IdentitySID)
 	d.Set("phone_number", iPN.PhoneNumber)
 	d.Set("origin", iPN.Origin)
-	d.Set("sid", iPN.Sid)
-	d.Set("sms_application_sid", iPN.SMSApplicationSid)
+	d.Set("sid", iPN.SID)
+	d.Set("sms_application_sid", iPN.SMSApplicationSID)
 	d.Set("sms_fallback_method", iPN.SMSFallbackMethod)
 	d.Set("sms_fallback_url", iPN.SMSFallbackURL)
 	d.Set("sms_method", iPN.SMSMethod)
 	d.Set("sms_url", iPN.SMSURL)
 	d.Set("status_callback", iPN.StatusCallback)
 	d.Set("status_callback_method", iPN.StatusCallbackMethod)
-	d.Set("trunk_sid", iPN.TrunkSid)
+	d.Set("trunk_sid", iPN.TrunkSID)
 	d.Set("uri", iPN.URI)
-	d.Set("voice_application_sid", iPN.VoiceApplicationSid)
+	d.Set("voice_application_sid", iPN.VoiceApplicationSID)
 	d.Set("voice_fallback_method", iPN.VoiceFallbackMethod)
 	d.Set("voice_fallback_url", iPN.VoiceFallbackURL)
 	d.Set("voice_method", iPN.VoiceMethod)
 	d.Set("voice_url", iPN.VoiceURL)
 	d.Set("emergency_status", iPN.EmergencyStatus)
-	d.Set("emergency_address_sid", iPN.EmergencyAddressSid)
-	d.Set("bundle_sid", iPN.BundleSid)
+	d.Set("emergency_address_sid", iPN.EmergencyAddressSID)
+	d.Set("bundle_sid", iPN.BundleSID)
 
 	return nil
 }

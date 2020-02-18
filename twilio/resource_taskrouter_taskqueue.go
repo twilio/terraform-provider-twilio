@@ -7,12 +7,12 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceTaskQueue() *schema.Resource { //nolint:golint,funlen
+func resourceTaskRouterTaskQueue() *schema.Resource { //nolint:golint,funlen
 	return &schema.Resource{
-		Create: resourceTaskQueueCreate,
-		Read:   resourceTaskQueueRead,
-		Update: resourceTaskQueueUpdate,
-		Delete: resourceTaskQueueDelete,
+		Create: resourceTaskRouterTaskQueueCreate,
+		Read:   resourceTaskRouterTaskQueueRead,
+		Update: resourceTaskRouterTaskQueueUpdate,
+		Delete: resourceTaskRouterTaskQueueDelete,
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:     schema.TypeString,
@@ -80,53 +80,53 @@ func resourceTaskQueue() *schema.Resource { //nolint:golint,funlen
 	}
 }
 
-func resourceTaskQueueCreate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterTaskQueueCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Create(*workspaceSID, getTaskQueueParams(d))
+	r, err := m.(*Config).Client.TaskRouter.TaskQueues.Create(*workspaceSID, getTaskQueueParams(d))
 
 	if err != nil {
 		return fmt.Errorf("error creating taskqueue: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceTaskQueueRead(d, m)
+	return resourceTaskRouterTaskQueueRead(d, m)
 }
 
-func resourceTaskQueueRead(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterTaskQueueRead(d *schema.ResourceData, m interface{}) error {
 	taskQueueSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Fetch(*workspaceSID, taskQueueSID)
+	r, err := m.(*Config).Client.TaskRouter.TaskQueues.Fetch(*workspaceSID, taskQueueSID)
 
 	if err != nil {
 		return err
 	}
 
-	d.Set("account_sid", r.AccountSid)
-	d.Set("assignment_activity_sid", r.AssignmentActivitySid)
+	d.Set("account_sid", r.AccountSID)
+	d.Set("assignment_activity_sid", r.AssignmentActivitySID)
 	d.Set("assignment_activity_name", r.AssignmentActivityName)
 	d.Set("date_created", r.DateCreated.String)
 	d.Set("date_updated", r.DateUpdated.String)
 	d.Set("friendly_name", r.FriendlyName)
 	d.Set("max_reserved_workers", r.MaxReservedWorkers)
-	d.Set("reservation_activity_sid", r.ReservationActivitySid)
+	d.Set("reservation_activity_sid", r.ReservationActivitySID)
 	d.Set("reservation_activity_name", r.ReservationActivityName)
 	d.Set("target_workers", r.TargetWorkers)
 	d.Set("task_order", r.TaskOrder)
-	d.Set("url", r.URI)
-	d.Set("workspace_sid", r.WorkspaceSid)
+	d.Set("url", r.URL)
+	d.Set("workspace_sid", r.WorkspaceSID)
 	d.Set("links", r.Links)
 
 	return nil
 }
 
-func resourceTaskQueueUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterTaskQueueUpdate(d *schema.ResourceData, m interface{}) error {
 	taskQueueSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.TaskQueueClient.Update(
+	r, err := m.(*Config).Client.TaskRouter.TaskQueues.Update(
 		*workspaceSID,
 		taskQueueSID,
 		getTaskQueueParams(d),
@@ -136,29 +136,29 @@ func resourceTaskQueueUpdate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error updating taskqueue: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceTaskQueueRead(d, m)
+	return resourceTaskRouterTaskQueueRead(d, m)
 }
 
-func resourceTaskQueueDelete(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterTaskQueueDelete(d *schema.ResourceData, m interface{}) error {
 	taskQueueSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	if err := m.(*Config).Client.TaskRouter.TaskQueueClient.Delete(*workspaceSID, taskQueueSID); err != nil {
+	if err := m.(*Config).Client.TaskRouter.TaskQueues.Delete(*workspaceSID, taskQueueSID); err != nil {
 		return fmt.Errorf("error deleting taskqueue: %s", err)
 	}
 
 	return nil
 }
 
-func getTaskQueueParams(d *schema.ResourceData) *types.TaskQueueParams {
-	params := &types.TaskQueueParams{
-		FriendlyName: *types.String(d.Get("friendly_name").(string)),
+func getTaskQueueParams(d *schema.ResourceData) *types.TaskRouterTaskQueueParams {
+	params := &types.TaskRouterTaskQueueParams{
+		FriendlyName: types.String(d.Get("friendly_name").(string)),
 	}
 
 	if v, exists := d.GetOk("assignment_activity_sid"); exists {
-		params.AssignmentActivitySid = types.String((v).(string))
+		params.AssignmentActivitySID = types.String((v).(string))
 	}
 
 	if v, exists := d.GetOk("max_reserved_workers"); exists {
@@ -174,7 +174,7 @@ func getTaskQueueParams(d *schema.ResourceData) *types.TaskQueueParams {
 	}
 
 	if v, exists := d.GetOk("reservation_activity_sid"); exists {
-		params.ReservationActivitySid = types.String((v).(string))
+		params.ReservationActivitySID = types.String((v).(string))
 	}
 
 	return params

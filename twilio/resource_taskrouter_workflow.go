@@ -7,12 +7,12 @@ import (
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceWorkflow() *schema.Resource { //nolint:golint,funlen
+func resourceTaskRouterWorkflow() *schema.Resource { //nolint:golint,funlen
 	return &schema.Resource{
-		Create: resourceWorkflowCreate,
-		Read:   resourceWorkflowRead,
-		Update: resourceWorkflowUpdate,
-		Delete: resourceWorkflowDelete,
+		Create: resourceTaskRouterWorkflowCreate,
+		Read:   resourceTaskRouterWorkflowRead,
+		Update: resourceTaskRouterWorkflowUpdate,
+		Delete: resourceTaskRouterWorkflowDelete,
 		Schema: map[string]*schema.Schema{
 			"assignment_callback_url": {
 				Type:     schema.TypeString,
@@ -71,10 +71,10 @@ func resourceWorkflow() *schema.Resource { //nolint:golint,funlen
 	}
 }
 
-func resourceWorkflowCreate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkflowCreate(d *schema.ResourceData, m interface{}) error {
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Create(*workspaceSID,
+	r, err := m.(*Config).Client.TaskRouter.Workflows.Create(*workspaceSID,
 		getWorkflowParams(d),
 	)
 
@@ -82,23 +82,23 @@ func resourceWorkflowCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating workflow: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceWorkflowRead(d, m)
+	return resourceTaskRouterWorkflowRead(d, m)
 }
 
-func resourceWorkflowRead(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkflowRead(d *schema.ResourceData, m interface{}) error {
 	workflowSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Fetch(*workspaceSID, workflowSID)
+	r, err := m.(*Config).Client.TaskRouter.Workflows.Fetch(*workspaceSID, workflowSID)
 
 	if err != nil {
 		return err
 	}
 
 	d.Set("assignment_callback_url", r.AssignmentCallbackURL)
-	d.Set("AccountSid", r.AccountSid)
+	d.Set("AccountSid", r.AccountSID)
 	d.Set("configuration", r.Configuration)
 	d.Set("date_created", r.DateCreated)
 	d.Set("date_updated", r.DateUpdated)
@@ -106,18 +106,18 @@ func resourceWorkflowRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("fallback_assignment_callback_url", r.FallbackAssignmentCallbackURL)
 	d.Set("friendly_name", r.FriendlyName)
 	d.Set("task_reservation_timeout", r.TaskReservationTimeout)
-	d.Set("WorkspaceSid", r.WorkspaceSid)
+	d.Set("WorkspaceSid", r.WorkspaceSID)
 	d.Set("url", r.URL)
 	d.Set("links", r.Links)
 
 	return nil
 }
 
-func resourceWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
 	workflowSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	r, err := m.(*Config).Client.TaskRouter.WorkflowClient.Update(*workspaceSID, workflowSID,
+	r, err := m.(*Config).Client.TaskRouter.Workflows.Update(*workspaceSID, workflowSID,
 		getWorkflowParams(d),
 	)
 
@@ -125,26 +125,26 @@ func resourceWorkflowUpdate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error updating workflow: %s", err)
 	}
 
-	d.SetId(r.Sid)
+	d.SetId(*r.SID)
 
-	return resourceWorkflowRead(d, m)
+	return resourceTaskRouterWorkflowRead(d, m)
 }
 
-func resourceWorkflowDelete(d *schema.ResourceData, m interface{}) error {
+func resourceTaskRouterWorkflowDelete(d *schema.ResourceData, m interface{}) error {
 	workflowSID := d.Id()
 	workspaceSID := types.String(d.Get("workspace_sid").(string))
 
-	if err := m.(*Config).Client.TaskRouter.WorkflowClient.Delete(*workspaceSID, workflowSID); err != nil {
+	if err := m.(*Config).Client.TaskRouter.Workflows.Delete(*workspaceSID, workflowSID); err != nil {
 		return fmt.Errorf("error deleting workflow: %s", err)
 	}
 
 	return nil
 }
 
-func getWorkflowParams(d *schema.ResourceData) *types.WorkflowParams {
-	params := &types.WorkflowParams{
-		FriendlyName:  *types.String(d.Get("friendly_name").(string)),
-		Configuration: *types.String(d.Get("configuration").(string)),
+func getWorkflowParams(d *schema.ResourceData) *types.TaskRouterWorkflowParams {
+	params := &types.TaskRouterWorkflowParams{
+		FriendlyName:  types.String(d.Get("friendly_name").(string)),
+		Configuration: types.String(d.Get("configuration").(string)),
 	}
 
 	if v, exists := d.GetOk("assignment_callback_url"); exists {

@@ -264,10 +264,10 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating Chat Service: %s", err)
 	}
 
-	d.SetId(*chatService.Sid)
+	d.SetId(*chatService.SID)
 	d.SetPartial("friendly_name")
 
-	if _, err := m.(*Config).Client.Chat.Service.Update(*chatService.Sid, resourceChatServiceParams(d)); err != nil {
+	if _, err := m.(*Config).Client.Chat.Service.Update(*chatService.SID, resourceChatServiceParams(d)); err != nil {
 		return fmt.Errorf("error creating Chat Service with optional parameters: %s", err)
 	}
 
@@ -291,20 +291,20 @@ func resourceChatServiceCreate(d *schema.ResourceData, m interface{}) error {
 func resourceChatServiceRead(d *schema.ResourceData, m interface{}) error {
 	id := d.Id()
 
-	chatService, err := m.(*Config).Client.Chat.Service.Read(id)
+	chatService, err := m.(*Config).Client.Chat.Service.Fetch(id)
 
 	if err != nil {
 		return err
 	}
 
-	d.Set("sid", chatService.Sid)
-	d.Set("account_sid", chatService.AccountSid)
+	d.Set("sid", chatService.SID)
+	d.Set("account_sid", chatService.AccountSID)
 	d.Set("friendly_name", chatService.FriendlyName)
 	d.Set("date_created", chatService.DateCreated)
 	d.Set("date_updated", chatService.DateUpdated)
-	d.Set("default_service_role_sid", chatService.DefaultServiceRoleSid)
-	d.Set("default_channel_role_sid", chatService.DefaultChannelRoleSid)
-	d.Set("default_channel_creator_role_sid", chatService.DefaultChannelCreatorRoleSid)
+	d.Set("default_service_role_sid", chatService.DefaultServiceRoleSID)
+	d.Set("default_channel_role_sid", chatService.DefaultChannelRoleSID)
+	d.Set("default_channel_creator_role_sid", chatService.DefaultChannelCreatorRoleSID)
 	d.Set("read_status_enabled", chatService.ReadStatusEnabled)
 	d.Set("reachability_enabled", chatService.ReachabilityEnabled)
 	d.Set("typing_indicator_timeout", chatService.TypingIndicatorTimeout)

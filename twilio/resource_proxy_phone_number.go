@@ -75,7 +75,7 @@ func resourceProxyPhoneNumberCreate(d *schema.ResourceData, m interface{}) error
 func resourceProxyPhoneNumberRead(d *schema.ResourceData, m interface{}) error {
 	SID := d.Id()
 	serviceSID := d.Get("service_sid").(string)
-	r, err := m.(*Config).Client.Proxy.PhoneNumber.Read(serviceSID, SID)
+	r, err := m.(*Config).Client.Proxy.PhoneNumber.Fetch(serviceSID, SID)
 
 	d.Set("sid", SID)
 	d.Set("service_sid", serviceSID)

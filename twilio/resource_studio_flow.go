@@ -44,13 +44,13 @@ func resourceStudioFlowCreate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error creating Proxy Phone Number: %s", err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.SID)
 
 	return resourceStudioFlowRead(d, m)
 }
 
 func resourceStudioFlowRead(d *schema.ResourceData, m interface{}) error {
-	r, err := m.(*Config).Client.Studio.Flow.Read(d.Id(), nil)
+	r, err := m.(*Config).Client.Studio.Flow.Read(d.Id())
 
 	d.Set("account_sid", r.AccountSID)
 	d.Set("friendly_name", r.FriendlyName)
@@ -74,7 +74,7 @@ func resourceStudioFlowUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceStudioFlowDelete(d *schema.ResourceData, m interface{}) error {
-	if err := m.(*Config).Client.Studio.Flow.Delete(d.Id(), nil); err != nil {
+	if err := m.(*Config).Client.Studio.Flow.Delete(d.Id()); err != nil {
 		return fmt.Errorf("error deleting Proxy Phone Number: %s", err)
 	}
 

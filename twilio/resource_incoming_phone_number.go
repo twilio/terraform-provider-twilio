@@ -4,10 +4,11 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go"
 )
 
-func resourceIncomingPhoneNumber() *schema.Resource {
+func resourceIncomingPhoneNumber() *schema.Resource { // nolint:golint,funlen
 	return &schema.Resource{
 		Create: resourceIncomingPhoneNumberCreate,
 		Read:   resourceIncomingPhoneNumberRead,
@@ -137,6 +138,7 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 			"emergency_address_sid": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"bundle_sid": {
 				Type:     schema.TypeString,
@@ -147,48 +149,121 @@ func resourceIncomingPhoneNumber() *schema.Resource {
 }
 
 func resourceIncomingPhoneNumberParams(d *schema.ResourceData) *types.IncomingPhoneNumberParams {
-	return &types.IncomingPhoneNumberParams{
-		AccountSid:           d.Get("accound_sid").(string),
-		APIVersion:           d.Get("api_version").(string),
-		FriendlyName:         d.Get("friendly_name").(string),
-		SMSApplicationSid:    d.Get("sms_application_sid").(string),
-		SMSFallbackMethod:    d.Get("sms_fallback_method").(string),
-		PhoneNumber:          d.Get("phone_number").(string),
-		AreaCode:             d.Get("area_code").(string),
-		SMSFallbackURL:       d.Get("sms_fallback_url").(string),
-		SMSMethod:            d.Get("sms_method").(string),
-		SMSURL:               d.Get("sms_url").(string),
-		StatusCallback:       d.Get("status_callback").(string),
-		AddressSid:           d.Get("address_sid").(string),
-		StatusCallbackMethod: d.Get("status_callback_method").(string),
-		VoiceApplicationSid:  d.Get("voice_application_sid").(string),
-		VoiceCallerIDLookup:  d.Get("voice_called_id_lookup").(bool),
-		VoiceFallbackMethod:  d.Get("voice_fallback_method").(string),
-		VoiceFallbackURL:     d.Get("voice_fallback_url").(string),
-		VoiceMethod:          d.Get("voice_method").(string),
-		VoiceURL:             d.Get("voice_url").(string),
-		VoiceReceiveMode:     d.Get("voice_receive_mode").(string),
-		EmergencyStatus:      d.Get("emergency_status").(string),
-		EmergencyAddressSid:  d.Get("emergency_address_sid").(string),
-		BundleSid:            d.Get("bundle_sid").(string),
-		IdentitySid:          d.Get("identity_sid").(string),
-		TrunkSid:             d.Get("trunk_sid").(string),
+	p := &types.IncomingPhoneNumberParams{}
+
+	if v, ok := d.GetOk("api_version"); ok {
+		p.APIVersion = util.String(v.(string))
 	}
+
+	if v, ok := d.GetOk("friendly_name"); ok {
+		p.FriendlyName = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_application_sid"); ok {
+		p.SMSApplicationSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_fallback_method"); ok {
+		p.SMSFallbackMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("phone_number"); ok {
+		p.PhoneNumber = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("area_code"); ok {
+		p.AreaCode = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_fallback_url"); ok {
+		p.SMSFallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_method"); ok {
+		p.SMSMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("sms_url"); ok {
+		p.SMSURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("status_callback"); ok {
+		p.StatusCallback = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("address_sid"); ok {
+		p.AddressSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("status_callback_method"); ok {
+		p.StatusCallbackMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_application_sid"); ok {
+		p.VoiceApplicationSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_fallback_method"); ok {
+		p.VoiceFallbackMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_fallback_url"); ok {
+		p.VoiceFallbackURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_method"); ok {
+		p.VoiceMethod = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_url"); ok {
+		p.VoiceURL = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_receive_mode"); ok {
+		p.VoiceReceiveMode = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("emergency_status"); ok {
+		p.EmergencyStatus = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("emergency_address_sid"); ok {
+		p.EmergencyAddressSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("bundle_sid"); ok {
+		p.BundleSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("identity_sid"); ok {
+		p.IdentitySID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("trunk_sid"); ok {
+		p.TrunkSID = util.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("voice_called_id_lookup"); ok {
+		p.VoiceCallerIDLookup = util.Bool(v.(bool))
+	}
+
+	return p
 }
 
 func resourceIncomingPhoneNumberCreate(d *schema.ResourceData, m interface{}) error {
 	d.Partial(true)
-	iPNParams := &types.IncomingPhoneNumberParams{PhoneNumber: d.Get("phone_number").(string)}
 
+	iPNParams := &types.IncomingPhoneNumberParams{PhoneNumber: util.String(d.Get("phone_number").(string))}
 	iPN, err := m.(*Config).Client.IncomingPhoneNumbers.Create(iPNParams)
+
 	if err != nil {
 		return fmt.Errorf("error creating Phone Number %s", err)
-
 	}
 
-	d.SetId(iPN.Sid)
+	d.SetId(*iPN.SID)
 	d.SetPartial("friendly_name")
 	d.Partial(false)
+
 	return resourceIncomingPhoneNumberRead(d, m)
 }
 
@@ -202,35 +277,35 @@ func resourceIncomingPhoneNumberRead(d *schema.ResourceData, m interface{}) erro
 
 	d.Set("beta", iPN.Beta)
 	d.Set("voice_caller_id_lookup", iPN.VoiceCallerIDLookup)
-	d.Set("account_sid", iPN.AccountSid)
-	d.Set("address_sid", iPN.AddressSid)
+	d.Set("account_sid", iPN.AccountSID)
+	d.Set("address_sid", iPN.AddressSID)
 	d.Set("address_requirements", iPN.AddressRequirements)
 	d.Set("api_version", iPN.APIVersion)
 	d.Set("capabilities", iPN.Capabilities)
 	d.Set("date_created", iPN.DateCreated)
 	d.Set("date_updated", iPN.DateUpdated)
 	d.Set("friendly_name", iPN.FriendlyName)
-	d.Set("identity_sid", iPN.IdentitySid)
+	d.Set("identity_sid", iPN.IdentitySID)
 	d.Set("phone_number", iPN.PhoneNumber)
 	d.Set("origin", iPN.Origin)
-	d.Set("sid", iPN.Sid)
-	d.Set("sms_application_sid", iPN.SMSApplicationSid)
+	d.Set("sid", iPN.SID)
+	d.Set("sms_application_sid", iPN.SMSApplicationSID)
 	d.Set("sms_fallback_method", iPN.SMSFallbackMethod)
 	d.Set("sms_fallback_url", iPN.SMSFallbackURL)
 	d.Set("sms_method", iPN.SMSMethod)
 	d.Set("sms_url", iPN.SMSURL)
 	d.Set("status_callback", iPN.StatusCallback)
 	d.Set("status_callback_method", iPN.StatusCallbackMethod)
-	d.Set("trunk_sid", iPN.TrunkSid)
+	d.Set("trunk_sid", iPN.TrunkSID)
 	d.Set("uri", iPN.URI)
-	d.Set("voice_application_sid", iPN.VoiceApplicationSid)
+	d.Set("voice_application_sid", iPN.VoiceApplicationSID)
 	d.Set("voice_fallback_method", iPN.VoiceFallbackMethod)
 	d.Set("voice_fallback_url", iPN.VoiceFallbackURL)
 	d.Set("voice_method", iPN.VoiceMethod)
 	d.Set("voice_url", iPN.VoiceURL)
 	d.Set("emergency_status", iPN.EmergencyStatus)
-	d.Set("emergency_address_sid", iPN.EmergencyAddressSid)
-	d.Set("bundle_sid", iPN.BundleSid)
+	d.Set("emergency_address_sid", iPN.EmergencyAddressSID)
+	d.Set("bundle_sid", iPN.BundleSID)
 
 	return nil
 }

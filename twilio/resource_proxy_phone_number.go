@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go"
 )
 
@@ -52,19 +53,21 @@ func resourceProxyPhoneNumber() *schema.Resource { //nolint:golint,funlen
 }
 
 func resourceProxyPhoneNumberCreate(d *schema.ResourceData, m interface{}) error {
-	r, err := m.(*Config).Client.Proxy.PhoneNumber.Create(
-		d.Get("service_sid").(string),
-		&types.ProxyPhoneNumberCreateParams{
-			PhoneNumberSID: types.String(d.Get("phone_number_sid").(string)),
-			IsReserved:     types.Bool(d.Get("is_reserved").(bool)),
-		},
-	)
+	p := &types.ProxyPhoneNumberCreateParams{
+		PhoneNumberSID: types.String(d.Get("phone_number_sid").(string)),
+	}
+
+	if v, ok := d.GetOk("is_reserved"); ok {
+		p.IsReserved = util.Bool(v.(bool))
+	}
+
+	r, err := m.(*Config).Client.Proxy.PhoneNumber.Create(d.Get("service_sid").(string), p)
 
 	if err != nil {
 		return fmt.Errorf("error creating Proxy Phone Number: %s", err)
 	}
 
-	d.SetId(r.SID)
+	d.SetId(*r.SID)
 
 	return resourceProxyPhoneNumberRead(d, m)
 }
@@ -72,7 +75,7 @@ func resourceProxyPhoneNumberCreate(d *schema.ResourceData, m interface{}) error
 func resourceProxyPhoneNumberRead(d *schema.ResourceData, m interface{}) error {
 	SID := d.Id()
 	serviceSID := d.Get("service_sid").(string)
-	r, err := m.(*Config).Client.Proxy.PhoneNumber.Read(serviceSID, SID)
+	r, err := m.(*Config).Client.Proxy.PhoneNumber.Fetch(serviceSID, SID)
 
 	d.Set("sid", SID)
 	d.Set("service_sid", serviceSID)

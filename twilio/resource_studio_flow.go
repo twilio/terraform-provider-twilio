@@ -2,7 +2,6 @@ package twilio
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/util"
@@ -37,7 +36,6 @@ func resourceStudioFlow() *schema.Resource { //nolint:golint,funlen
 }
 
 func resourceStudioFlowCreate(d *schema.ResourceData, m interface{}) error {
-	log.Printf("STRUCT: %+v", resourceStudioFlowParams(d))
 	r, err := m.(*Config).Client.Studio.Flow.Create(resourceStudioFlowParams(d))
 
 	if err != nil {

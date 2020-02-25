@@ -44,9 +44,10 @@ func resourceSyncService() *schema.Resource { //nolint:golint,funlen
 			"reachability_debouncing_window": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"webhooks_from_rest_enabled": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 			},
@@ -56,10 +57,10 @@ func resourceSyncService() *schema.Resource { //nolint:golint,funlen
 
 func resourceSyncServiceCreate(d *schema.ResourceData, m interface{}) error {
 
-	r, err := m.(*Config).Client.Serverless.Service.Create(resourceSyncServiceParams(d))
+	r, err := m.(*Config).Client.Sync.Service.Create(resourceSyncServiceParams(d))
 
 	if err != nil {
-		return fmt.Errorf("error creating Runtime Service: %s", err)
+		return fmt.Errorf("error creating Sync Service: %s", err)
 	}
 
 	d.SetId(*r.SID)
@@ -70,12 +71,17 @@ func resourceSyncServiceCreate(d *schema.ResourceData, m interface{}) error {
 func resourceSyncServiceRead(d *schema.ResourceData, m interface{}) error {
 	id := d.Id()
 
-	r, err := m.(*Config).Client.Serverless.Service.Fetch(id)
+	r, err := m.(*Config).Client.Sync.Service.Fetch(id)
 
 	d.Set("account_sid", r.AccountSID)
 	d.Set("friendly_name", r.FriendlyName)
 	d.Set("unique_name", r.UniqueName)
-	d.Set("include_credentials", r.IncludeCredentials)
+	d.Set("webhook_url", r.WebhookURL)
+	d.Set("reachability_webhooks_enabled", r.ReachabilityWebhooksEnabled)
+	d.Set("acl_enabled", r.ACLEnabled)
+	d.Set("reachability_debouncing_enabled", r.ReachabilityDebouncingEnabled)
+	d.Set("reachability_debouncing_window", r.ReachabilityDebouncingWindow)
+	d.Set("webhooks_from_rest_enabled", r.WebhooksFromRestEnabled)
 
 	if err != nil {
 		return err
@@ -85,34 +91,54 @@ func resourceSyncServiceRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceSyncServiceUpdate(d *schema.ResourceData, m interface{}) error {
-	if _, err := m.(*Config).Client.Serverless.Service.Update(d.Id(), resourceSyncServiceParams(d)); err != nil {
-		return fmt.Errorf("error updating Runtime Service: %s", err)
+	if _, err := m.(*Config).Client.Sync.Service.Update(d.Id(), resourceSyncServiceParams(d)); err != nil {
+		return fmt.Errorf("error updating Sync Service: %s", err)
 	}
 
 	return resourceSyncServiceRead(d, m)
 }
 
 func resourceSyncServiceDelete(d *schema.ResourceData, m interface{}) error {
-	if err := m.(*Config).Client.Serverless.Service.Delete(d.Id()); err != nil {
-		return fmt.Errorf("error deleting Runtime Service: %s", err)
+	if err := m.(*Config).Client.Sync.Service.Delete(d.Id()); err != nil {
+		return fmt.Errorf("error deleting Sync Service: %s", err)
 	}
 
 	return nil
 }
 
-func resourceSyncServiceParams(d *schema.ResourceData) *types.RuntimeServiceParams {
-	p := &types.RuntimeServiceParams{}
+func resourceSyncServiceParams(d *schema.ResourceData) *types.SyncServiceParams {
+	p := &types.SyncServiceParams{}
 
 	if v, ok := d.GetOk("friendly_name"); ok {
 		p.FriendlyName = util.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("unique_name"); ok {
-		p.UniqueName = util.String(v.(string))
+	if v, ok := d.GetOk("webhook_url"); ok {
+		p.WebhookURL = util.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("included_credentials"); ok {
-		p.IncludeCredentials = util.Bool(v.(bool))
+	if v, ok := d.GetOk("reachability_webhooks_enabled"); ok {
+		p.ReachabilityWebhooksEnabled = util.Bool(v.(bool))
+	}
+
+	if v, ok := d.GetOk("acl_enabled"); ok {
+		p.ACLEnabled = util.Bool(v.(bool))
+	}
+
+	if v, ok := d.GetOk("reachability_webhooks_enabled"); ok {
+		p.ReachabilityDebouncingEnabled = util.Bool(v.(bool))
+	}
+
+	if v, ok := d.GetOk("reachability_webhooks_window"); ok {
+		p.ReachabilityDebouncingWindow = util.Int(v.(int))
+	}
+
+	if v, ok := d.GetOk("reachability_debouncing_window"); ok {
+		p.ReachabilityDebouncingWindow = util.Int(v.(int))
+	}
+
+	if v, ok := d.GetOk("webhooks_from_rest_enabled"); ok {
+		p.WebhooksFromRestEnabled = util.Bool(v.(bool))
 	}
 
 	return p

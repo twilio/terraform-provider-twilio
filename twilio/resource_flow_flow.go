@@ -3,7 +3,6 @@ package twilio
 import (
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/twilio/terraform-provider-twilio/util"
 
@@ -171,10 +170,8 @@ func expandIntegration(base interface{}) (*types.Integration, error) {
 	if base == nil {
 		return nil, nil
 	}
-	log.Println(base)
 	integrationL := base.([]interface{})
 
-	log.Println(integrationL)
 	if len(integrationL) > 1 {
 		return nil, errors.New("cannot specify more than new message integration")
 	}
@@ -182,7 +179,6 @@ func expandIntegration(base interface{}) (*types.Integration, error) {
 	integration := new(types.Integration)
 
 	for _, n := range integrationL {
-		log.Println(n)
 		i := n.(map[string]interface{})
 		integration.WorkspaceSID = util.String(i["workspace_sid"].(string))
 		integration.FlowSID = util.String(i["flow_sid"].(string))
@@ -225,6 +221,7 @@ func flattenIntegration(i *types.Integration) []interface{} {
 
 	if i.RetryCount != nil {
 		values["retry_count"] = *i.RetryCount
+
 	}
 
 	return []interface{}{values}

@@ -71,7 +71,7 @@ func resourceTaskRouterWorkspace() *schema.Resource { //nolint:golint,funlen
 				Computed: true,
 			},
 			"template": {
-				Type:     schema.TypeBool,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"prioritize_queue_order": {

@@ -179,6 +179,10 @@ github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJy
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/twilio/twilio-go v0.0.0-20200224234706-d9943a3998bd h1:ZrVHp02j3xZnF/iJ3pgkHSwQzyORVPVRKdCr8+xwC2w=
 github.com/twilio/twilio-go v0.0.0-20200224234706-d9943a3998bd/go.mod h1:k6nhxb4UCZQfV9wY5JgSuq2hHjzGMPRi6l6uUez7bis=
+github.com/twilio/twilio-go v0.0.0-20200226194305-e1a1ed80ac5e h1:9FFCxngXGGPgNva0m263tM5u2yHW9I6CUtjYgdW6Y2M=
+github.com/twilio/twilio-go v0.0.0-20200226194305-e1a1ed80ac5e/go.mod h1:QOdyo/tABTqXZEE1bY5k191YIFmbeRM/wVVmdmC6zrQ=
+github.com/twilio/twilio-go v0.0.0-20200226195654-c9220226fef0 h1:mcyNUrbOZkJlQ7+UZf5KqMMlTOFI4JVMCmDf/aa7heA=
+github.com/twilio/twilio-go v0.0.0-20200226195654-c9220226fef0/go.mod h1:QOdyo/tABTqXZEE1bY5k191YIFmbeRM/wVVmdmC6zrQ=
 github.com/ulikunitz/xz v0.5.5 h1:pFrO0lVpTBXLpYw+pnLj6TbvHuyjXMfjGeCwSqCVwok=
 github.com/ulikunitz/xz v0.5.5/go.mod h1:2bypXElzHzzJZwzH67Y6wb67pO62Rzfn7BSiF4ABRW8=
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=

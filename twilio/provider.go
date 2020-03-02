@@ -36,6 +36,7 @@ func Provider() *schema.Provider {
 			"twilio_taskrouter_activity":   resourceTaskRouterActivity(),
 			"twilio_runtime_service":       resourceRuntimeService(),
 			"twilio_runtime_environment":   resourceRuntimeEnvironment(),
+			"twilio_flex_flow":             resourceFlexFlow(),
 		},
 	}
 

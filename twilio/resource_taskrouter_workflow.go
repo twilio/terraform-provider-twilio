@@ -98,7 +98,7 @@ func resourceTaskRouterWorkflowRead(d *schema.ResourceData, m interface{}) error
 	}
 
 	d.Set("assignment_callback_url", r.AssignmentCallbackURL)
-	d.Set("AccountSid", r.AccountSID)
+	d.Set("account_sid", r.AccountSID)
 	d.Set("configuration", r.Configuration)
 	d.Set("date_created", r.DateCreated)
 	d.Set("date_updated", r.DateUpdated)
@@ -106,7 +106,7 @@ func resourceTaskRouterWorkflowRead(d *schema.ResourceData, m interface{}) error
 	d.Set("fallback_assignment_callback_url", r.FallbackAssignmentCallbackURL)
 	d.Set("friendly_name", r.FriendlyName)
 	d.Set("task_reservation_timeout", r.TaskReservationTimeout)
-	d.Set("WorkspaceSid", r.WorkspaceSID)
+	d.Set("workspace_sid", r.WorkspaceSID)
 	d.Set("url", r.URL)
 	d.Set("links", r.Links)
 

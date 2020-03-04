@@ -13,68 +13,73 @@ func resourceTaskRouterTaskQueue() *schema.Resource { //nolint:golint,funlen
 		Read:   resourceTaskRouterTaskQueueRead,
 		Update: resourceTaskRouterTaskQueueUpdate,
 		Delete: resourceTaskRouterTaskQueueDelete,
-		Schema: map[string]*schema.Schema{
-			"account_sid": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"assignment_activity_sid": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"assignment_activity_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"date_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"date_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"friendly_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"max_reserved_workers": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"reservation_activity_sid": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"reservation_activity_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"target_workers": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"task_order": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"workspace_sid": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"links": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
+		Schema: TaskRouterTaskQueueSchema(),
+	}
+}
+
+// TaskRouterTaskQueueSchema returns the Terraform TaskQueue Schema.
+func TaskRouterTaskQueueSchema() map[string]*schema.Schema {
+	return map[string]*schema.Schema{
+		"account_sid": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"assignment_activity_sid": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"assignment_activity_name": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"date_created": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"date_updated": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"friendly_name": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+		"max_reserved_workers": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Computed: true,
+		},
+		"reservation_activity_sid": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"reservation_activity_name": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"target_workers": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"task_order": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Computed: true,
+		},
+		"url": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"workspace_sid": {
+			Type:     schema.TypeString,
+			Required: true,
+			ForceNew: true,
+		},
+		"links": {
+			Type:     schema.TypeMap,
+			Computed: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
 			},
 		},
 	}

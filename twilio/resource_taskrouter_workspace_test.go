@@ -42,28 +42,32 @@ func TestAccTwilioTaskRouterWorkspace_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckTwilioTaskRouterWorkspaceExists(n string, hook *client.TaskRouterWorkspace) resource.TestCheckFunc {
+func testAccCheckTwilioTaskRouterWorkspaceExists(n string, workspace *client.TaskRouterWorkspace) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
+
 		if !ok {
-			return fmt.Errorf("Not Found: %s", n)
+			return fmt.Errorf("workspace not found in state")
 		}
 
-		hookID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
-		if err != nil {
-			// return unconvertibleIdErr(rs.Primary.ID, err)
-		}
-		if hookID == 0 {
-			return fmt.Errorf("No repository name is set")
+		if rs.Primary.ID == "" {
+			return fmt.Errorf("workspace id has not been set")
 		}
 
-		// org := testAccProvider.Meta().(*Organization)
-		// conn := org.client
-		// getHook, _, err := conn.Organizations.GetHook(context.TODO(), org.name, hookID)
+		client := testAccProvider.Meta().(*Config)
+
+		ws, err := client.Client.TaskRouter.Workspaces.Fetch(rs.Primary.ID)
+
 		if err != nil {
 			return err
 		}
-		// *hook = *getHook
+
+		if *ws.SID != rs.Primary.ID {
+			return fmt.Errorf("workspace not found on fetch")
+		}
+
+		*workspace = *ws
+
 		return nil
 	}
 }
@@ -72,20 +76,20 @@ type testAccTwilioTaskRouterWorkspaceExpectedAttributes struct {
 	FriendlyName string
 }
 
-func testAccCheckTwilioTaskRouterWorkspaceAttributes(hook *client.TaskRouterWorkspace, want *testAccTwilioTaskRouterWorkspaceExpectedAttributes) resource.TestCheckFunc {
+func testAccCheckTwilioTaskRouterWorkspaceAttributes(workspace *client.TaskRouterWorkspace, want *testAccTwilioTaskRouterWorkspaceExpectedAttributes) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 
-		// if *hook.Active != want.Active {
-		// 	return fmt.Errorf("got hook %t; want %t", *hook.Active, want.Active)
+		if *workspace.FriendlyName != want.FriendlyName {
+			return fmt.Errorf("got workspace friendly name %s; want %s", *workspace.FriendlyName, want.FriendlyName)
+		}
+		// if !strings.HasPrefix(*workspace.URL, "https://") {
+		// 	return fmt.Errorf("got http URL %q; want to start with 'https://'", *workspace.URL)
 		// }
-		// if !strings.HasPrefix(*hook.URL, "https://") {
-		// 	return fmt.Errorf("got http URL %q; want to start with 'https://'", *hook.URL)
+		// if !reflect.DeepEqual(workspace.Events, want.Events) {
+		// 	return fmt.Errorf("got workspace events %q; want %q", workspace.Events, want.Events)
 		// }
-		// if !reflect.DeepEqual(hook.Events, want.Events) {
-		// 	return fmt.Errorf("got hook events %q; want %q", hook.Events, want.Events)
-		// }
-		// if !reflect.DeepEqual(hook.Config, want.Configuration) {
-		// 	return fmt.Errorf("got hook configuration %q; want %q", hook.Config, want.Configuration)
+		// if !reflect.DeepEqual(workspace.Config, want.Configuration) {
+		// 	return fmt.Errorf("got workspace configuration %q; want %q", workspace.Config, want.Configuration)
 		// }
 
 		return nil
@@ -106,10 +110,10 @@ func testAccCheckTwilioTaskRouterWorkspaceDestroy(s *terraform.State) error {
 			// return unconvertibleIdErr(rs.Primary.ID, err)
 		}
 
-		// gotHook, resp, err := conn.Organizations.GetHook(context.TODO(), orgName, id)
+		// gotworkspace, resp, err := conn.Organizations.Getworkspace(context.TODO(), orgName, id)
 		if err == nil {
-			// if gotHook != nil && *gotHook.ID == id {
-			return fmt.Errorf("Webhook still exists")
+			// if gotworkspace != nil && *gotworkspace.ID == id {
+			return fmt.Errorf("Webworkspace still exists")
 			// }
 		}
 		// if resp.StatusCode != 404 {

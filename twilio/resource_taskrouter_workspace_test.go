@@ -2,7 +2,6 @@ package twilio
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -119,30 +118,21 @@ func testAccCheckTwilioTaskRouterWorkspaceAttributes(workspace *client.TaskRoute
 }
 
 func testAccCheckTwilioTaskRouterWorkspaceDestroy(s *terraform.State) error {
-	// conn := testAccProvider.Meta().(*Organization).client
-	// orgName := testAccProvider.Meta().(*Organization).name
+
+	client := testAccProvider.Meta().(*Config)
 
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type != "twilio_taskrouter_workspace" {
 			continue
 		}
 
-		_, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
-		if err != nil {
-			// return unconvertibleIdErr(rs.Primary.ID, err)
-		}
+		_, err := client.Client.TaskRouter.Workspaces.Fetch(rs.Primary.ID)
 
-		// gotworkspace, resp, err := conn.Organizations.Getworkspace(context.TODO(), orgName, id)
 		if err == nil {
-			// if gotworkspace != nil && *gotworkspace.ID == id {
-			return fmt.Errorf("Webworkspace still exists")
-			// }
+			return fmt.Errorf("taskrouter workspace still exists")
 		}
-		// if resp.StatusCode != 404 {
-		// 	return err
-		// }
-		return nil
 	}
+
 	return nil
 }
 

@@ -71,8 +71,9 @@ func resourceTaskRouterWorkspace() *schema.Resource { //nolint:golint,funlen
 				Computed: true,
 			},
 			"template": {
-				Type:     schema.TypeBool,
+				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"prioritize_queue_order": {
 				Type:     schema.TypeString,
@@ -116,7 +117,7 @@ func resourceTaskRouterWorkspaceRead(d *schema.ResourceData, m interface{}) erro
 	d.Set("event_callback_url", r.EventCallbackURL)
 	d.Set("events_filter", r.EventsFilter)
 	d.Set("multi_task_enabled", r.MultitaskEnabled)
-	d.Set("template", r.Template)
+	d.Set("template", d.Get("template"))
 	d.Set("prioritize_queue_order", r.PrioritizeQueueOrder)
 
 	return nil

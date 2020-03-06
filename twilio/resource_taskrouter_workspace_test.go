@@ -25,7 +25,12 @@ func TestAccTwilioTaskRouterWorkspace_basic(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTwilioTaskRouterWorkspaceExists(rn, &workspace),
 					testAccCheckTwilioTaskRouterWorkspaceAttributes(&workspace, &testAccTwilioTaskRouterWorkspaceExpectedAttributes{
-						FriendlyName: "alex",
+						FriendlyName:         "alex",
+						EventCallbackURL:     "https://workspace-example.free.beeceptor.com",
+						EventsFilter:         "task.created",
+						MultitaskEnabled:     true,
+						PrioritizeQueueOrder: "LIFO",
+						Template:             "FIFO",
 					}),
 				),
 			},
@@ -34,7 +39,12 @@ func TestAccTwilioTaskRouterWorkspace_basic(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTwilioTaskRouterWorkspaceExists(rn, &workspace),
 					testAccCheckTwilioTaskRouterWorkspaceAttributes(&workspace, &testAccTwilioTaskRouterWorkspaceExpectedAttributes{
-						FriendlyName: "will",
+						FriendlyName:         "will",
+						EventCallbackURL:     "https://workspace-example.free.beeceptor.com",
+						EventsFilter:         "task.created",
+						MultitaskEnabled:     true,
+						PrioritizeQueueOrder: "LIFO",
+						Template:             "FIFO",
 					}),
 				),
 			},
@@ -73,24 +83,36 @@ func testAccCheckTwilioTaskRouterWorkspaceExists(n string, workspace *client.Tas
 }
 
 type testAccTwilioTaskRouterWorkspaceExpectedAttributes struct {
-	FriendlyName string
+	FriendlyName         string
+	EventCallbackURL     string
+	EventsFilter         string
+	MultitaskEnabled     bool
+	PrioritizeQueueOrder string
+	Template             string
 }
 
 func testAccCheckTwilioTaskRouterWorkspaceAttributes(workspace *client.TaskRouterWorkspace, want *testAccTwilioTaskRouterWorkspaceExpectedAttributes) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 
 		if *workspace.FriendlyName != want.FriendlyName {
-			return fmt.Errorf("got workspace friendly name %s; want %s", *workspace.FriendlyName, want.FriendlyName)
+			return fmt.Errorf("got workspace friendly_name %s; want %s", *workspace.FriendlyName, want.FriendlyName)
 		}
-		// if !strings.HasPrefix(*workspace.URL, "https://") {
-		// 	return fmt.Errorf("got http URL %q; want to start with 'https://'", *workspace.URL)
-		// }
-		// if !reflect.DeepEqual(workspace.Events, want.Events) {
-		// 	return fmt.Errorf("got workspace events %q; want %q", workspace.Events, want.Events)
-		// }
-		// if !reflect.DeepEqual(workspace.Config, want.Configuration) {
-		// 	return fmt.Errorf("got workspace configuration %q; want %q", workspace.Config, want.Configuration)
-		// }
+
+		if *workspace.EventCallbackURL != want.EventCallbackURL {
+			return fmt.Errorf("got workspace event_callback_url %s; want %s", *workspace.FriendlyName, want.FriendlyName)
+		}
+
+		if *workspace.EventsFilter != want.EventsFilter {
+			return fmt.Errorf("got workspace events_filter %s; want %s", *workspace.FriendlyName, want.FriendlyName)
+		}
+
+		if *workspace.MultitaskEnabled != want.MultitaskEnabled {
+			return fmt.Errorf("got workspace multi_task_enabled %s; want %s", *workspace.FriendlyName, want.FriendlyName)
+		}
+
+		if *workspace.PrioritizeQueueOrder != want.PrioritizeQueueOrder {
+			return fmt.Errorf("got workspace prioritize_queue_order %s; want %s", *workspace.FriendlyName, want.FriendlyName)
+		}
 
 		return nil
 	}
@@ -126,12 +148,22 @@ func testAccCheckTwilioTaskRouterWorkspaceDestroy(s *terraform.State) error {
 
 const testAccTwilioTaskRouterWorkspaceConfig = `
 resource "twilio_taskrouter_workspace" "foo" {
-  friendly_name = "alex"
+	friendly_name = "alex"
+	event_callback_url = "https://workspace-example.free.beeceptor.com"
+	events_filter = "task.created"
+	multi_task_enabled = true
+	prioritize_queue_order = "LIFO"
+	template = "FIFO"
 }
 `
 
 const testAccTwilioTaskRouterWorkspaceUpdateConfig = `
 resource "twilio_taskrouter_workspace" "foo" {
-  friendly_name = "will"
+	friendly_name = "will"
+	event_callback_url = "https://workspace-example.free.beeceptor.com"
+	events_filter = "task.created"
+	multi_task_enabled = true
+	prioritize_queue_order = "LIFO"
+	template = "FIFO"
 }
 `

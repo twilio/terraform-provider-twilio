@@ -3,8 +3,6 @@ GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 PKG_NAME=github
 
-default: build
-
 test: 
 	go test -i $(TEST) || exit 1
 	echo $(TEST) | \

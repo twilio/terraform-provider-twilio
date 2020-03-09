@@ -7,6 +7,13 @@ Terraform Twilio provider
  go build -o terraform-provider-twilio
 ```
 
+## Testing
+
+```bash
+ make testacc ACCOUNT_SID=YOUR_ACCOUNT_SID
+```
+
+The account sid that you provide will provision real resources which may incur costs. 
 ## Running
 
 In `main.tf`:

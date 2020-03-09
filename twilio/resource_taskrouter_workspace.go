@@ -71,7 +71,7 @@ func resourceTaskRouterWorkspace() *schema.Resource { //nolint:golint,funlen
 				Computed: true,
 			},
 			"template": {
-				Type:     schema.TypeBool,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"prioritize_queue_order": {
@@ -161,6 +161,10 @@ func getWorkspaceParams(d *schema.ResourceData) *types.TaskRouterWorkspaceParams
 
 	if v, exists := d.GetOk("prioritize_queue_order"); exists {
 		params.PrioritizeQueueOrder = types.String((v).(string))
+	}
+
+	if v, exists := d.GetOk("template"); exists {
+		params.Template = types.String((v).(string))
 	}
 
 	return params

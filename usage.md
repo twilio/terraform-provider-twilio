@@ -27,18 +27,17 @@ resource "twilio_flex_flow" "default" {
 }
 ```
 
-```
 then:
 ```bash
- terraform init
- terraform apply
- terraform destroy
+$ terraform init
+$ terraform apply
+$ terraform destroy
 ```
 
 ### Argument Reference
 The following arguments are supported:
-- `account_sid` - (Required) Twilio Account SID.
-- `auth_token` - (Required) Auth token for the account.
+- `account_sid` - (Required) Twilio Account SID. This can also be set via the `ACCOUNT_SID` environment variable. 
+- `auth_token` - (Required) Auth token for the account. This can also be set via the `AUTH_TOKEN` environment variable.  
 
 ## Example: Available Phone Number Local Data Source
 Use this data source to retrieve information about [Available Local Phone Numbers](https://www.twilio.com/docs/phone-numbers/api/availablephonenumberlocal-resource). 

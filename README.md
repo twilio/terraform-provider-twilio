@@ -63,7 +63,7 @@ $ make testacc
 
 ### Debugging
 First:
-```bash
-export TF_LOG=TRACE
+```sh
+$ export TF_LOG=TRACE
 ```
 then refer to the [Terraform Debugging Documentation](https://www.terraform.io/docs/internals/debugging.html).

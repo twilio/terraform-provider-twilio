@@ -1,7 +1,10 @@
 TEST?=$$(go list ./... |grep -v 'vendor')
-GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
-WEBSITE_REPO=github.com/hashicorp/terraform-website
-PKG_NAME=github
+PKG_NAME=twilio
+
+default: build
+
+build: 
+	go build -o terraform-provider-twilio
 
 test: 
 	go test -i $(TEST) || exit 1

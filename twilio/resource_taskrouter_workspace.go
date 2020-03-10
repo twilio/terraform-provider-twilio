@@ -164,5 +164,9 @@ func getWorkspaceParams(d *schema.ResourceData) *types.TaskRouterWorkspaceParams
 		params.PrioritizeQueueOrder = types.String((v).(string))
 	}
 
+	if v, exists := d.GetOk("template"); exists {
+		params.Template = types.String((v).(string))
+	}
+
 	return params
 }

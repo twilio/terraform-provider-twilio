@@ -25,6 +25,8 @@ func Provider() terraform.ResourceProvider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"twilio_available_phone_numbers_local": dataSourceAvailablePhoneNumbersLocal(),
+			"twilio_taskrouter_taskqueues":         dataSourceTaskRouterTaskQueues(),
+			"twilio_taskrouter_workflows":          dataSourceTaskRouterTaskQueues(),
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"twilio_chat_service":          resourceChatService(),

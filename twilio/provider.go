@@ -2,20 +2,23 @@ package twilio
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	client "github.com/twilio/twilio-go"
 )
 
 // Provider initializes terraform-provider-twilio.
-func Provider() *schema.Provider {
+func Provider() terraform.ResourceProvider {
 	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:        schema.TypeString,
+				DefaultFunc: schema.EnvDefaultFunc("ACCOUNT_SID", nil),
 				Description: "Your Account SID can be found on the Twilio dashboard.",
 				Required:    true,
 			},
 			"auth_token": {
 				Type:        schema.TypeString,
+				DefaultFunc: schema.EnvDefaultFunc("AUTH_TOKEN", nil),
 				Description: "Your Auth Token can be found on the Twilio dashboard.",
 				Required:    true,
 			},

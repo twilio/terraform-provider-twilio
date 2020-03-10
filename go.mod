@@ -3,14 +3,11 @@ module github.com/twilio/terraform-provider-twilio
 go 1.13
 
 require (
-	github.com/ajg/form v1.5.1 // indirect
-	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/hashicorp/go-getter v1.4.2-0.20200106182914-9813cbd4eb02 // indirect
 	github.com/hashicorp/hcl/v2 v2.3.0 // indirect
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20191212124732-c6ae6269b9d7 // indirect
-	github.com/hashicorp/terraform-plugin-sdk v1.5.0
+	github.com/hashicorp/terraform-plugin-sdk v1.7.0
 	github.com/stretchr/testify v1.4.0 // indirect
-	github.com/twilio/twilio-go v0.0.0-20200226195654-c9220226fef0
-	github.com/zclconf/go-cty v1.2.1 // indirect
-	golang.org/x/tools v0.0.0-20200130193611-71629799394e // indirect
+	github.com/twilio/twilio-go v0.0.0-20200305172400-4b2281f1c3e6
+	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
 )

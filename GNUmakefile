@@ -1,9 +1,8 @@
 TEST?=$$(go list ./... |grep -v 'vendor')
-PKG_NAME=twilio
 
 default: build
 
-build: 
+build:
 	go build -o terraform-provider-twilio
 
 test: 

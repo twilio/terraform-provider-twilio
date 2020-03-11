@@ -55,6 +55,14 @@ In order to run the full suite of Acceptance tests, run `make testacc`. Provide 
 $  make testacc ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
 ```
 
+An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/master/twilio/resource_taskrouter_workspace_test.go).
+
+### Inspirations and References ###
+We found these resources to be helpful in guiding Twilio's Terraform Provider implementation and in illustrating Terraform's [documentation](https://www.terraform.io/docs/extend/writing-custom-providers.html): 
+- [Github](https://github.com/terraform-providers/terraform-provider-github)
+- [DigitalOcean](https://github.com/terraform-providers/terraform-provider-digitalocean)
+
+
 ### Debugging
 First:
 ```sh

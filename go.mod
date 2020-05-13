@@ -8,6 +8,6 @@ require (
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20191212124732-c6ae6269b9d7 // indirect
 	github.com/hashicorp/terraform-plugin-sdk v1.7.0
 	github.com/stretchr/testify v1.4.0 // indirect
-	github.com/twilio/twilio-go v0.0.0-20200305172400-4b2281f1c3e6
+	github.com/twilio/twilio-go v0.0.1
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
 )

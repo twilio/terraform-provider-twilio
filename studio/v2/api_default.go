@@ -14,12 +14,11 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/util"
+	"github.com/twilio/terraform-provider-twilio/twilio"
 	types "github.com/twilio/twilio-go/studio/v2"
-	"strings"
 )
 
-func resourceFlows() *schema.Resource { //nolint:golint,funlen
+func resourceFlows() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceFlowsCreate,
 		Read:   resourceFlowsRead,
@@ -56,12 +55,11 @@ func resourceFlowsCreate(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(*r.Sid)
-	return resourceStudioFlowRead(d, m)
 
+	return resourceFlowsRead(d, m)
 }
 
 func resourceFlowsDelete(d *schema.ResourceData, m interface{}) error {
-
 	r, err := m.(*Config).Client.StudioV2.FlowsDelete(d.Id())
 
 	if err != nil {
@@ -72,7 +70,6 @@ func resourceFlowsDelete(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceFlowsRead(d *schema.ResourceData, m interface{}) error {
-
 	r, err := m.(*Config).Client.StudioV2.FlowsRead(d.Id())
 
 	if err != nil {
@@ -85,7 +82,6 @@ func resourceFlowsRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("commit_message", r.CommitMessage)
 
 	return nil
-
 }
 
 func resourceFlowsUpdate(d *schema.ResourceData, m interface{}) error {
@@ -97,22 +93,18 @@ func resourceFlowsUpdate(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error with FlowsUpdate: %s", err)
 	}
 
-	return resourceStudioFlowRead(d, m)
-
+	return resourceFlowsRead(d, m)
 }
 
-func resourceFlowsParams(d *schema.ResourceData) *types.StudioFlowParams {
-	params := &types.StudioFlowParams{
-
-		Definition: types.String(d.Get("definition").(string)),
-
-		FriendlyName: types.String(d.Get("friendly_name").(string)),
-
-		Status: types.String(d.Get("status").(string)),
+func resourceFlowsParams(d *schema.ResourceData) *types.FlowsCreateParams {
+	params := &types.FlowsCreateParams{
+		Definition:   d.Get("definition").(*map[string]interface{}),
+		FriendlyName: d.Get("friendly_name").(*string),
+		Status:       d.Get("status").(*string),
 	}
 
 	if v, ok := d.GetOk("commit_message"); ok {
-		params.CommitMessage = util.String(v.(string))
+		params.CommitMessage = v.(*string)
 	}
 
 	return params

@@ -1,13 +1,14 @@
 package twilio
 
 import (
+	"context"
+	"github.com/hashicorp/terraform-plugin-sdk/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	client "github.com/twilio/twilio-go"
+	client "github.com/twilio/twilio-go/twilio"
 )
 
 // Provider initializes terraform-provider-twilio.
-func Provider() terraform.ResourceProvider {
+func Provider() *schema.Provider {
 	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
@@ -45,7 +46,7 @@ func Provider() terraform.ResourceProvider {
 		},
 	}
 
-	p.ConfigureFunc = providerClient(p)
+	p.ConfigureContextFunc = providerClient(p)
 
 	return p
 }
@@ -55,8 +56,8 @@ type Config struct {
 	Client *client.Twilio
 }
 
-func providerClient(p *schema.Provider) schema.ConfigureFunc {
-	return func(d *schema.ResourceData) (interface{}, error) {
+func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
+	return func(c context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 		config := &Config{
 			Client: client.NewClient(d.Get("account_sid").(string), d.Get("auth_token").(string)),
 		}

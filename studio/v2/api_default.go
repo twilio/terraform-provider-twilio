@@ -11,8 +11,8 @@
 package openapi
 
 import (
-	"fmt"
-
+	"context"
+	"github.com/hashicorp/terraform-plugin-sdk/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/twilio"
 	types "github.com/twilio/twilio-go/studio/v2"
@@ -20,10 +20,10 @@ import (
 
 func resourceFlows() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceFlowsCreate,
-		Read:   resourceFlowsRead,
-		Update: resourceFlowsUpdate,
-		Delete: resourceFlowsDelete,
+		CreateContext: resourceFlowsCreate,
+		ReadContext:   resourceFlowsRead,
+		UpdateContext: resourceFlowsUpdate,
+		DeleteContext: resourceFlowsDelete,
 		Schema: map[string]*schema.Schema{
 			"definition": {
 				Type:     schema.TypeString,
@@ -45,35 +45,35 @@ func resourceFlows() *schema.Resource {
 	}
 }
 
-func resourceFlowsCreate(d *schema.ResourceData, m interface{}) error {
+func resourceFlowsCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := resourceFlowsParams(d)
 
-	r, err := m.(*Config).Client.StudioV2.FlowsCreate(params)
+	r, err := m.(*twilio.Config).Client.StudioV2.FlowsCreate(params)
 
 	if err != nil {
-		return fmt.Errorf("error with FlowsCreate: %s", err)
+		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(r.Sid)
 
-	return resourceFlowsRead(d, m)
+	return resourceFlowsRead(ctx, d, m)
 }
 
-func resourceFlowsDelete(d *schema.ResourceData, m interface{}) error {
-	r, err := m.(*Config).Client.StudioV2.FlowsDelete(d.Id())
+func resourceFlowsDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	err := m.(*twilio.Config).Client.StudioV2.FlowsDelete(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error with FlowsDelete: %s", err)
+		return diag.FromErr(err)
 	}
 
 	return nil
 }
 
-func resourceFlowsRead(d *schema.ResourceData, m interface{}) error {
-	r, err := m.(*Config).Client.StudioV2.FlowsRead(d.Id())
+func resourceFlowsRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	r, err := m.(*twilio.Config).Client.StudioV2.FlowsRead(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error with FlowsRead: %s", err)
+		return diag.FromErr(err)
 	}
 
 	d.Set("definition", r.Definition)
@@ -84,16 +84,16 @@ func resourceFlowsRead(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceFlowsUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceFlowsUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := resourceFlowsParams(d)
 
-	r, err := m.(*Config).Client.StudioV2.FlowsUpdate(d.Id(), params)
+	_, err := m.(*twilio.Config).Client.StudioV2.FlowsUpdate(d.Id(), params)
 
 	if err != nil {
-		return fmt.Errorf("error with FlowsUpdate: %s", err)
+		return diag.FromErr(err)
 	}
 
-	return resourceFlowsRead(d, m)
+	return resourceFlowsRead(ctx, d, m)
 }
 
 func resourceFlowsParams(d *schema.ResourceData) *types.FlowsCreateParams {

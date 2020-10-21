@@ -46,7 +46,13 @@ func resourceFlows() *schema.Resource {
 }
 
 func resourceFlowsCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := resourceFlowsParams(d)
+	params := &types.FlowsCreateParams{
+		Definition: d.Get("definition").(*map[string]interface{}), FriendlyName: d.Get("friendly_name").(*string), Status: d.Get("status").(*string),
+	}
+
+	if v, ok := d.GetOk("commit_message"); ok {
+		params.CommitMessage = v.(*string)
+	}
 
 	r, err := m.(*twilio.Config).Client.StudioV2.FlowsCreate(params)
 
@@ -85,7 +91,21 @@ func resourceFlowsRead(ctx context.Context, d *schema.ResourceData, m interface{
 }
 
 func resourceFlowsUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := resourceFlowsParams(d)
+	params := &types.FlowsUpdateParams{
+		Status: d.Get("status").(*string),
+	}
+
+	if v, ok := d.GetOk("commit_message"); ok {
+		params.CommitMessage = v.(*string)
+	}
+
+	if v, ok := d.GetOk("definition"); ok {
+		params.Definition = v.(*map[string]interface{})
+	}
+
+	if v, ok := d.GetOk("friendly_name"); ok {
+		params.FriendlyName = v.(*string)
+	}
 
 	_, err := m.(*twilio.Config).Client.StudioV2.FlowsUpdate(d.Id(), params)
 
@@ -94,18 +114,4 @@ func resourceFlowsUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	return resourceFlowsRead(ctx, d, m)
-}
-
-func resourceFlowsParams(d *schema.ResourceData) *types.FlowsCreateParams {
-	params := &types.FlowsCreateParams{
-		Definition:   d.Get("definition").(*map[string]interface{}),
-		FriendlyName: d.Get("friendly_name").(*string),
-		Status:       d.Get("status").(*string),
-	}
-
-	if v, ok := d.GetOk("commit_message"); ok {
-		params.CommitMessage = v.(*string)
-	}
-
-	return params
 }

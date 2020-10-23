@@ -48,7 +48,7 @@ func ResourceFlows() *schema.Resource {
 
 func resourceFlowsCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := &types.FlowsCreateParams{
-		Definition:   util.String(d.Get("definition").(string)),
+		Definition:   util.Object(d.Get("definition").(string)),
 		FriendlyName: util.String(d.Get("friendly_name").(string)),
 		Status:       util.String(d.Get("status").(string)),
 	}
@@ -104,7 +104,7 @@ func resourceFlowsUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	if v, ok := d.GetOk("definition"); ok {
-		params.Definition = util.String(v.(string))
+		params.Definition = util.Object(v.(string))
 	}
 
 	if v, ok := d.GetOk("friendly_name"); ok {

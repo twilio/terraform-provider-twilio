@@ -15,13 +15,13 @@ func Provider() *schema.Provider {
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("ACCOUNT_SID", nil),
+				DefaultFunc: schema.EnvDefaultFunc("TWILIO_ACCOUNT_SID", nil),
 				Description: "Your Account SID can be found on the Twilio dashboard.",
 				Required:    true,
 			},
 			"auth_token": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("AUTH_TOKEN", nil),
+				DefaultFunc: schema.EnvDefaultFunc("TWILIO_AUTH_TOKEN", nil),
 				Description: "Your Auth Token can be found on the Twilio dashboard.",
 				Required:    true,
 			},

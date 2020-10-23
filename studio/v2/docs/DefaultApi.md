@@ -25,7 +25,7 @@ Create a Flow.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**definition** | [**map[string]interface{}**](map[string]interface{}.md)| JSON representation of flow definition. | 
+**definition** | [**string**](string.md)| JSON representation of flow definition. | 
 **friendlyName** | **string**| The string that you assigned to describe the Flow. | 
 **status** | **string**| The status of the Flow. Can be: &#x60;draft&#x60; or &#x60;published&#x60;. | 
  **optional** | ***FlowsCreateOpts** | optional parameters | nil if no parameters
@@ -156,7 +156,7 @@ Name | Type | Description  | Notes
 
 
  **commitMessage** | **optional.**| Description on change made in the revision. | 
- **definition** | [**optional.Interface of map[string]interface{}**](map[string]interface{}.md)| JSON representation of flow definition. | 
+ **definition** | [**optional.Interface of string**](string.md)| JSON representation of flow definition. | 
  **friendlyName** | **optional.**| The string that you assigned to describe the Flow. | 
 
 ### Return type

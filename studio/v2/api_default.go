@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
+	"github.com/twilio/terraform-provider-twilio/util"
 	types "github.com/twilio/twilio-go/studio/v2"
 )
 
@@ -47,13 +48,13 @@ func ResourceFlows() *schema.Resource {
 
 func resourceFlowsCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := &types.FlowsCreateParams{
-		Definition:   d.Get("definition").(*map[string]interface{}),
-		FriendlyName: d.Get("friendly_name").(*string),
-		Status:       d.Get("status").(*string),
+		Definition:   util.String(d.Get("definition").(string)),
+		FriendlyName: util.String(d.Get("friendly_name").(string)),
+		Status:       util.String(d.Get("status").(string)),
 	}
 
 	if v, ok := d.GetOk("commit_message"); ok {
-		params.CommitMessage = v.(*string)
+		params.CommitMessage = util.String(v.(string))
 	}
 
 	r, err := m.(*client.Config).Client.StudioV2.FlowsCreate(params)
@@ -95,19 +96,19 @@ func resourceFlowsRead(ctx context.Context, d *schema.ResourceData, m interface{
 func resourceFlowsUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := &types.FlowsUpdateParams{
 
-		Status: d.Get("status").(*string),
+		Status: util.String(d.Get("status").(string)),
 	}
 
 	if v, ok := d.GetOk("commit_message"); ok {
-		params.CommitMessage = v.(*string)
+		params.CommitMessage = util.String(v.(string))
 	}
 
 	if v, ok := d.GetOk("definition"); ok {
-		params.Definition = v.(*map[string]interface{})
+		params.Definition = util.String(v.(string))
 	}
 
 	if v, ok := d.GetOk("friendly_name"); ok {
-		params.FriendlyName = v.(*string)
+		params.FriendlyName = util.String(v.(string))
 	}
 
 	_, err := m.(*client.Config).Client.StudioV2.FlowsUpdate(d.Id(), params)

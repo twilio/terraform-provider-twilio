@@ -18,6 +18,10 @@
 # Terraform files for testing
 terraform-provider-twilio
 .terraform
-*.tf
 terraform.tfstate
 terraform.tfstate.backup
+
+model_*.go
+docs/
+**/.openapi-generator
+.openapi-generator-ignore

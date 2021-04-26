@@ -2,10 +2,13 @@ package twilio
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	twilio "github.com/twilio/terraform-provider-twilio/client"
-	studioV2 "github.com/twilio/terraform-provider-twilio/studio/v2"
+	apiV2010 "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
+	serverlessV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/serverless/v1"
+	studioV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/studio/v2"
 	client "github.com/twilio/twilio-go/twilio"
 )
 
@@ -26,10 +29,12 @@ func Provider() *schema.Provider {
 				Required:    true,
 			},
 		},
-		DataSourcesMap: map[string]*schema.Resource{
-		},
+		DataSourcesMap: map[string]*schema.Resource{},
 		ResourcesMap: map[string]*schema.Resource{
-			"twilio_studio_flow_v2": studioV2.ResourceFlows(),
+			"twilio_studio_flow_v2":    studioV2.ResourceFlows(),
+			"twilio_api_message_v2010": apiV2010.ResourceAccountsMessages(),
+			"twilio_api_call_v2010":    apiV2010.ResourceAccountsCalls(),
+			"twilio_serverless_v1":     serverlessV1.ResourceServicesFunctions(),
 		},
 	}
 

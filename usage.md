@@ -5,7 +5,7 @@ The provider needs to be configured with the proper credentials before it can be
 - [Twilio Provider](#twilio-provider)
   * [Example Usage](#example-usage)
     + [Argument Reference](#argument-reference)
-  * [Example: Available Phone Number Local Data Source](#example-available-phone-number-local-data-source)
+  * [Example: Create an API key](#example-create-an-api-key)
   * [Example: Proxy Service](#example-proxy-service)
 
 ## Example Usage
@@ -36,38 +36,28 @@ $ terraform destroy
 
 ### Argument Reference
 The following arguments are supported:
-- `account_sid` - (Required) Twilio Account SID. This can also be set via the `ACCOUNT_SID` environment variable. 
-- `auth_token` - (Required) Auth token for the account. This can also be set via the `AUTH_TOKEN` environment variable.  
+- `account_sid` - (Required) Twilio Account SID. This can also be set via the `ACCOUNT_SID` environment variable.
+- `auth_token` - (Required) Auth token for the account. This can also be set via the `AUTH_TOKEN` environment variable.
 
-## Example: Available Phone Number Local Data Source
-Use this data source to retrieve information about [Available Local Phone Numbers](https://www.twilio.com/docs/phone-numbers/api/availablephonenumberlocal-resource). 
+## Example: Create an API Key
+`twilio_api_incoming_phone_numbers_v2010` provides a Twilio Phone Number resource.
 
 ### Usage
 ```hcl-terraform
-data "twilio_available_phone_numbers_local" "default" {}
+resource "twilio_api_keys_v2010" "default" {
+    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    friendly_name = "terraform key"
+}
+output "messages" {
+    value = twilio_api_keys_v2010.default
+}
 ```
 
 ### Attributes Reference
-- `area_code` - The area code of the phone numbers to read. Applies to only phone numbers in the US and Canada.
-- `contains` - The pattern on which to match phone numbers. Valid characters are *, 0-9, a-z, and A-Z. The * character matches any single digit. If specified, this value must have at least two characters.
-- `sms_enabled` - Whether the phone numbers can receive text messages. Can be: true or false.
-- `mms_enabled` - Whether the phone numbers can receive MMS messages. Can be: true or false.
-- `voice_enabled` - Whether the phone numbers can receive calls. Can be: true or false.
-- `exclude_all_address_required` - Whether to exclude phone numbers that require an [Address](https://www.twilio.com/docs/usage/api/address). Can be: true or false and the default is false.
-- `exclude_local_address_required` - Whether to exclude phone numbers that require a local [Address](https://www.twilio.com/docs/usage/api/address). Can be: true or false and the default is false.
-- `exclude_foreign_address_required` - Whether to exclude phone numbers that require a foreign [Address](https://www.twilio.com/docs/usage/api/address). Can be: true or false and the default is false.
-- `beta` - Whether to read phone numbers that are new to the Twilio platform. Can be: true or false and the default is true.
-- `near_number` - Given a phone number, find a geographically close number within distance miles. Distance defaults to 25 miles. Applies to only phone numbers in the US and Canada.
-- `near_lat_long` - Given a latitude/longitude pair lat,long find geographically close numbers within distance miles. Applies to only phone numbers in the US and Canada.
-- `distance` - The search radius, in miles, for a near_ query. Can be up to 500 and the default is 25. Applies to only phone numbers in the US and Canada.
-- `in_postal_code` - Limit results to a particular postal code. Given a phone number, search within the same postal code as that number. Applies to only phone numbers in the US and Canada.
-- `in_region` - Limit results to a particular region, state, or province. Given a phone number, search within the same region as that number. Applies to only phone numbers in the US and Canada.
-- `in_rate_center` - Limit results to a specific rate center, or given a phone number search within the same rate center as that number. Requires in_lata to be set as well. Applies to only phone numbers in the US and Canada.
-- `in_lata` - Limit results to a specific local access and transport area (LATA). Given a phone number, search within the same LATA as that number. Applies to only phone numbers in the US and Canada.
-- `in_locality` - Limit results to a particular locality or city. Given a phone number, search within the same Locality as that number.
-- `fax_enabled` - Whether the phone numbers can receive faxes. Can be: true or false.
+- `sid` - The unique string that that we created to identify the Key resource.
+- `friendly_name` - The string that you assigned to describe the resource.
 
-For more information see [the Available Phone Number Local documentation](https://www.twilio.com/docs/phone-numbers/api/availablephonenumberlocal-resource).
+For more information see [the API Key documentation](https://www.twilio.com/docs/iam/keys/api-key).
 
 ## Example: Proxy Service
 `twilio_proxy_service` provides a Twilio Proxy Service resource.
@@ -76,6 +66,7 @@ Twilio Proxy Service is the top-level scope of all other resources in the Proxy 
 ### Usage:
 ```hcl-terraform
 resource "twilio_proxy_service" "default" {
+  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   unique_name = "Unique Proxy Service"
   chat_instance_sid = "ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   callback_url = "https://example.com/proxy/callback/url"

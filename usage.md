@@ -66,7 +66,6 @@ Twilio Proxy Service is the top-level scope of all other resources in the Proxy 
 ### Usage:
 ```hcl-terraform
 resource "twilio_proxy_service" "default" {
-  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   unique_name = "Unique Proxy Service"
   chat_instance_sid = "ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   callback_url = "https://example.com/proxy/callback/url"

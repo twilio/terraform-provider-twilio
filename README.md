@@ -32,7 +32,7 @@ ResourcesMap: map[string]*schema.Resource{
 "twilio_api_keys_v2010": apiV2010.ResourceAccountsSigningKeys(),
 },
 ```
-2. Run `make install` and `make build` to install and build the twilio-terraform-provider.
+2. Run `make install` to install and build the twilio-terraform-provider.
 3. Configure the Twilio provider with your twilio credentials in your terraform file.
 4. Add your resource configurations to your terraform file.
 ```terraform

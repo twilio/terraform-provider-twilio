@@ -1,6 +1,6 @@
 # Twilio Terraform Provider
 
-**:warning: Note: Issues are currently closed on this repo as we are not quite ready for feedback. Thanks!**
+**:warning:  Note: Issues are currently closed on this repo as we are not quite ready for feedback. Thanks!**
 
 ## Requirements
 
@@ -15,28 +15,29 @@ Clone repository:
 $ git clone git@github.com:twilio/terraform-provider-twilio
 ```
 
-Enter the provider directory and build the provider
+Enter the provider directory and build the provider:
 
 ```sh
 $ make build
 ```
 
-## Using the Provider
-1. Import the resource you want to use into [twilio/provider.go](twilio/provider.go) and add the resource to the `ResourcesMap`.
-```go
-//import the v2010 resource to the provider into twilio/provider.go
-import apiV2010 "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
+To start using the Twilio Terraform Provider follow the documentation under [installing and using the provider](#installing-and-using-the-provider).
 
-//add the resource to the ResourceMap
-ResourcesMap: map[string]*schema.Resource{
-"twilio_api_keys_v2010": apiV2010.ResourceAccountsSigningKeys(),
-},
-```
-2. Run `make install` to install and build the twilio-terraform-provider.
-3. Configure the Twilio provider with your twilio credentials in your terraform file.
-4. Add your resource configurations to your terraform file.
+## Installing and Using the Provider
+1. Run `make install` to install and build the twilio-terraform-provider.
+2. Configure the Twilio provider with your twilio credentials in your Terraform configuration file (e.g. main.tf). These can also be set via `ACCOUNT_SID` and `AUTH_TOKEN` environment variables.
+3. Add your resource configurations to your Terraform configuration file (e.g. main.tf).
 ```terraform
-# Credentials can be found in the twilio console.
+terraform {
+    required_providers {
+        twilio = {
+            source  = "twilio.com/twilio/twilio"
+            version = "0.1.X"
+        }
+    }
+}
+
+# Credentials can be found at www.twilio.com/console.
 provider "twilio" {
   account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -51,7 +52,7 @@ output "messages" {
     value = twilio_api_keys_v2010.key_name
 }
 ```
-5. Run `terraform init` and `terraform apply`to initialize and apply changes to your twilio infrastructure.
+4. Run `terraform init` and `terraform apply`to initialize and apply changes to your twilio infrastructure.
 
 ### Create and Delete API Keys
 ```terraform
@@ -64,7 +65,7 @@ output "messages" {
     value = twilio_api_keys_v2010.key_name
 }
 ```
-To delete a specific key in your terraform configuration you can use the command `terraform destroy -target twilio_api_keys_v2010.<resource name>`. To delete the terraform key created in this example use `terraform destroy -target twilio_api_keys_v2010.key_name`.
+To delete a specific key in your terraform infrastructure you can use the command `terraform destroy -target twilio_api_keys_v2010.<resource name>`. To delete the terraform key created in this example use `terraform destroy -target twilio_api_keys_v2010.key_name`.
 
 ### Buy and Configure a Phone Number
 ```terraform
@@ -92,6 +93,8 @@ resource "twilio_studio_flow_v2" "studio_flow" {
     definition = "{\"description\": \"A New Flow\", \"states\": [{\"name\": \"Trigger\", \"type\": \"trigger\", \"transitions\": [], \"properties\": {\"offset\": {\"x\": 0, \"y\": 0}}}], \"initial_state\": \"Trigger\", \"flags\": {\"allow_concurrent_calls\": true}}"
 }
 ```
+After creating a studio flow, you can make changes to your infrastructure by changing the values in your configuration file. Run `terraform apply` to apply these changes to your infrastructure.
+
 For more examples checkout the [documentation in the usage.md](usage.md) and the [examples folder](examples).
 
 ## Developing the Provider

@@ -28,6 +28,18 @@ func Provider() *schema.Provider {
 				Description: "Your Auth Token can be found on the Twilio dashboard.",
 				Required:    true,
 			},
+			"edge": {
+				Type:        schema.TypeString,
+				DefaultFunc: schema.EnvDefaultFunc("TWILIO_EDGE", nil),
+				Description: "https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations",
+				Required:    false,
+			},
+			"region": {
+				Type:        schema.TypeString,
+				DefaultFunc: schema.EnvDefaultFunc("TWILIO_REGION", nil),
+				Description: "https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions",
+				Required:    false,
+			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{},
 		ResourcesMap: map[string]*schema.Resource{
@@ -46,7 +58,8 @@ func Provider() *schema.Provider {
 func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 	return func(c context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 		config := &twilio.Config{
-			Client: client.NewClient(d.Get("account_sid").(string), d.Get("auth_token").(string)),
+			Client: client.NewClient(
+				d.Get("account_sid").(string), d.Get("auth_token").(string)).setEdge(d.Get("edge")).setRegion(d.Get("region")),
 		}
 
 		return config, nil

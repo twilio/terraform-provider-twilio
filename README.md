@@ -1,12 +1,6 @@
-# Terraform Provider
+# Twilio Terraform Provider
 
-**Note: Issues are currently closed on this repo as we are not quite ready for feedback. Thanks!**
-
-- Website: https://www.terraform.io
-- [![Gitter chat](https://badges.gitter.im/hashicorp-terraform/Lobby.png)](https://gitter.im/hashicorp-terraform/Lobby)
-- Mailing list: [Google Groups](http://groups.google.com/group/terraform-tool)
-
-<img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" width="600px">
+**:warning:  Note: Issues are currently closed on this repo as we are not quite ready for feedback. Thanks!**
 
 ## Requirements
 
@@ -21,25 +15,96 @@ Clone repository:
 $ git clone git@github.com:twilio/terraform-provider-twilio
 ```
 
-Enter the provider directory and build the provider
+Enter the provider directory and build the provider:
 
 ```sh
 $ make build
 ```
 
-## Using the provider
-If you're building the provider, follow the instructions to [install it as a plugin.](https://www.terraform.io/docs/plugins/basics.html#installing-a-plugin) After placing it into your plugins directory,  run `terraform init` to initialize it.
+To start using the Twilio Terraform Provider follow the documentation under [installing and using the provider](#installing-and-using-the-provider).
 
-Further [usage documentation is provided in usage.md](usage.md).
+## Installing and Using the Provider
+1. Run `make install` to install and build the twilio-terraform-provider.
+2. Configure the Twilio provider with your twilio credentials in your Terraform configuration file (e.g. main.tf). These can also be set via `ACCOUNT_SID` and `AUTH_TOKEN` environment variables.
+3. Add your resource configurations to your Terraform configuration file (e.g. main.tf).
+```terraform
+terraform {
+    required_providers {
+        twilio = {
+            source  = "twilio.com/twilio/twilio"
+            version = "0.1.X"
+        }
+    }
+}
+
+# Credentials can be found at www.twilio.com/console.
+provider "twilio" {
+  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+
+resource "twilio_api_keys_v2010" "key_name" {
+    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    friendly_name = "terraform key"
+}
+
+output "messages" {
+    value = twilio_api_keys_v2010.key_name
+}
+```
+4. Run `terraform init` and `terraform apply`to initialize and apply changes to your twilio infrastructure.
+
+### Create and Delete API Keys
+```terraform
+resource "twilio_api_keys_v2010" "key_name" {
+  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  friendly_name = "terraform key"
+}
+
+output "messages" {
+    value = twilio_api_keys_v2010.key_name
+}
+```
+To delete a specific key in your terraform infrastructure you can use the command `terraform destroy -target twilio_api_keys_v2010.<resource name>`. To delete the terraform key created in this example use `terraform destroy -target twilio_api_keys_v2010.key_name`.
+
+### Buy and Configure a Phone Number
+```terraform
+resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
+    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    area_code = "415"
+    friendly_name = "terraform phone number"
+    sms_url = "https://demo.twilio.com/welcome/sms/reply"
+    voice_url = "https://demo.twilio.com/docs/voice.xml"
+}
+```
+### Import a Twilio Phone Number
+```terraform
+resource "twilio_api_incoming_phone_numbers_v2010" "import_purchased_number" {
+    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    phone_number = "+14444444444"
+}
+```
+### Define a Studio Flow
+```terraform
+resource "twilio_studio_flow_v2" "studio_flow" {
+    commit_message = "first draft"
+    friendly_name = "terraform flow"
+    status = "draft"
+    definition = "{\"description\": \"A New Flow\", \"states\": [{\"name\": \"Trigger\", \"type\": \"trigger\", \"transitions\": [], \"properties\": {\"offset\": {\"x\": 0, \"y\": 0}}}], \"initial_state\": \"Trigger\", \"flags\": {\"allow_concurrent_calls\": true}}"
+}
+```
+After creating a studio flow, you can make changes to your infrastructure by changing the values in your configuration file. Run `terraform apply` to apply these changes to your infrastructure.
+
+For more examples checkout the [documentation in the usage.md](usage.md) and the [examples folder](examples).
 
 ## Developing the Provider
 
 The boilerplate includes the following:
-1. `Makefile` contains helper functions used to build, package and install the Twilio Terraform Provider. It's currently written for MacOS Terraform provider development, but you can change the variables at the top of the file to match your OS_ARCH.
+- `Makefile` contains helper functions used to build, package and install the Twilio Terraform Provider. It's currently written for MacOS Terraform provider development, but you can change the variables at the top of the file to match your OS_ARCH.
 
-   The `install` function is configured to install the provider into the ~/.terraform.d/plugins/ folder.
-2. `examples` contains sample Terraform configuration that can be usde to test the Twilio provider
-3. `twilio` contains the main provider code. This will be where the provider's resources and data source implementations will be defined.
+  The `install` function is configured to install the provider into the ~/.terraform.d/plugins/ folder.
+- `examples` contains sample Terraform configuration that can be used to test the Twilio provider
+- `twilio` contains the main provider code. This will be where the provider's resources and data source implementations will be defined.
 
 If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.15+ is *required*).
 
@@ -61,12 +126,6 @@ $  make testacc ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
 ```
 
 An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/master/twilio/resource_taskrouter_workspace_test.go).
-
-### Inspirations and References ###
-We found these resources to be helpful in guiding Twilio's Terraform Provider implementation and in illustrating Terraform's [documentation](https://www.terraform.io/docs/extend/writing-custom-providers.html):
-- [Github](https://github.com/terraform-providers/terraform-provider-github)
-- [DigitalOcean](https://github.com/terraform-providers/terraform-provider-digitalocean)
-
 
 ### Debugging
 First:

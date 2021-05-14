@@ -64,8 +64,8 @@ func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 	return func(c context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 		accountSid := d.Get("account_sid").(string)
 		authToken := d.Get("auth_token").(string)
-		edge := d.Get("edge").(string)
 		region := d.Get("region").(string)
+		edge := d.Get("edge").(string)
 		client := client.NewClient(accountSid, authToken)
 		client.SetRegion(region)
 		client.SetEdge(edge)

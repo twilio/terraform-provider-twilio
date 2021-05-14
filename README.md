@@ -25,7 +25,7 @@ To start using the Twilio Terraform Provider follow the documentation under [ins
 
 ## Installing and Using the Provider
 1. Run `make install` to install and build the twilio-terraform-provider.
-2. Configure the Twilio provider with your twilio credentials in your Terraform configuration file (e.g. main.tf). These can also be set via `ACCOUNT_SID` and `AUTH_TOKEN` environment variables.
+2. Configure the Twilio provider with your twilio credentials in your Terraform configuration file (e.g. main.tf). These can also be set via `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN` environment variables.
 3. Add your resource configurations to your Terraform configuration file (e.g. main.tf).
 ```terraform
 terraform {

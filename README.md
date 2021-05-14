@@ -97,6 +97,22 @@ After creating a studio flow, you can make changes to your infrastructure by cha
 
 For more examples checkout the [documentation in the usage.md](usage.md) and the [examples folder](examples).
 
+### Specify a Region and/or Edge
+
+You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) and/or [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) by setting the environment variables TWILIO_EDGE and/or TWILIO_REGION. However, the resource configuration in your Terraform configuration file take precedence.
+
+```terraform
+provider "twilio" {
+    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    region = "au1"
+    edge = "sydney"
+}
+```
+This will result in the hostname transforming from api.twilio.com to api.sydney.au1.twilio.com.
+
+A Twilio client constructed without these parameters will also look for TWILIO_REGION and TWILIO_EDGE variables inside the current environment.
+
 ## Developing the Provider
 
 The boilerplate includes the following:

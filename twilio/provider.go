@@ -43,10 +43,13 @@ func Provider() *schema.Provider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{},
 		ResourcesMap: map[string]*schema.Resource{
-			"twilio_studio_flow_v2":    studioV2.ResourceFlows(),
-			"twilio_api_message_v2010": apiV2010.ResourceAccountsMessages(),
-			"twilio_api_call_v2010":    apiV2010.ResourceAccountsCalls(),
-			"twilio_serverless_v1":     serverlessV1.ResourceServicesFunctions(),
+			"twilio_studio_flow_v2":                   studioV2.ResourceFlows(),
+			"twilio_api_message_v2010":                apiV2010.ResourceAccountsMessages(),
+			"twilio_api_call_v2010":                   apiV2010.ResourceAccountsCalls(),
+			"twilio_api_incoming_phone_numbers_v2010": apiV2010.ResourceAccountsIncomingPhoneNumbers(),
+			"twilio_api_keys_v2010":                   apiV2010.ResourceAccountsSigningKeys(),
+			"twilio_serverless_function_v1":           serverlessV1.ResourceServicesFunctions(),
+			"twilio_serverless_service_v1":            serverlessV1.ResourceServices(),
 		},
 	}
 

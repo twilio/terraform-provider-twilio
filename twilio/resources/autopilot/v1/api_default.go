@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/autopilot/v1"
+	. "github.com/twilio/twilio-go/rest/autopilot/v1"
 )
 
 func ResourceAssistantsFieldTypes() *schema.Resource {
@@ -28,8 +29,8 @@ func ResourceAssistantsFieldTypes() *schema.Resource {
 		DeleteContext: deleteAssistantsFieldTypes,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
-			"unique_name":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaOptional),
+			"unique_name":   AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -125,9 +126,9 @@ func ResourceAssistantsTasksSamples() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"assistant_sid":  AsString(SchemaRequired),
 			"task_sid":       AsString(SchemaRequired),
-			"language":       AsString(SchemaRequired),
-			"tagged_text":    AsString(SchemaRequired),
+			"language":       AsString(SchemaOptional),
 			"source_channel": AsString(SchemaOptional),
+			"tagged_text":    AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
@@ -225,10 +226,10 @@ func ResourceAssistantsWebhooks() *schema.Resource {
 		DeleteContext: deleteAssistantsWebhooks,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid":  AsString(SchemaRequired),
-			"events":         AsString(SchemaRequired),
-			"unique_name":    AsString(SchemaRequired),
-			"webhook_url":    AsString(SchemaRequired),
+			"events":         AsString(SchemaOptional),
+			"unique_name":    AsString(SchemaOptional),
 			"webhook_method": AsString(SchemaOptional),
+			"webhook_url":    AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
@@ -420,10 +421,10 @@ func ResourceAssistantsTasks() *schema.Resource {
 		DeleteContext: deleteAssistantsTasks,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
-			"unique_name":   AsString(SchemaRequired),
 			"actions":       AsString(SchemaOptional),
 			"actions_url":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
+			"unique_name":   AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -616,9 +617,9 @@ func ResourceAssistantsQueries() *schema.Resource {
 		DeleteContext: deleteAssistantsQueries,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid":   AsString(SchemaRequired),
-			"language":        AsString(SchemaRequired),
-			"query":           AsString(SchemaRequired),
+			"language":        AsString(SchemaOptional),
 			"model_build":     AsString(SchemaOptional),
+			"query":           AsString(SchemaOptional),
 			"tasks":           AsString(SchemaOptional),
 			"account_sid":     AsString(SchemaComputed),
 			"date_created":    AsString(SchemaComputed),

@@ -113,6 +113,26 @@ This will result in the hostname transforming from api.twilio.com to api.sydney.
 
 A Twilio client constructed without these parameters will also look for TWILIO_REGION and TWILIO_EDGE variables inside the current environment.
 
+### Specify subaccount for v2010 APIs
+
+You can specify a subaccount to use with the provider by either setting the `TWILIO_SUBACCOUNT_SID` environment variable or explicitly passing it to the provider like so:
+
+```terraform
+provider "twilio" {
+  //  username defaults to TWILIO_ACCOUNT_SID env var
+  //  password  defaults to TWILIO_AUTH_TOKEN env var
+  //  account_sid  defaults to TWILIO_SUBACCOUNT_SID env var
+}
+```
+
+```terraform
+provider "twilio" {
+  //  username    = "AC00112233445566778899aabbccddeefe"
+  //  password    = "12345678123456781234567812345678"
+  //  account_sid = "AC00112233445566778899aabbccddeeff"
+}
+```
+
 ## Developing the Provider
 
 The boilerplate includes the following:

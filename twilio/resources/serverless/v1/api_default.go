@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/serverless/v1"
+	. "github.com/twilio/twilio-go/rest/serverless/v1"
 )
 
 func ResourceServices() *schema.Resource {
@@ -27,10 +28,10 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":       AsString(SchemaRequired),
-			"unique_name":         AsString(SchemaRequired),
+			"friendly_name":       AsString(SchemaOptional),
 			"include_credentials": AsString(SchemaOptional),
 			"ui_editable":         AsString(SchemaOptional),
+			"unique_name":         AsString(SchemaOptional),
 			"account_sid":         AsString(SchemaComputed),
 			"date_created":        AsString(SchemaComputed),
 			"date_updated":        AsString(SchemaComputed),
@@ -121,8 +122,8 @@ func ResourceServicesEnvironmentsVariables() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":     AsString(SchemaRequired),
 			"environment_sid": AsString(SchemaRequired),
-			"key":             AsString(SchemaRequired),
-			"value":           AsString(SchemaRequired),
+			"key":             AsString(SchemaOptional),
+			"value":           AsString(SchemaOptional),
 			"account_sid":     AsString(SchemaComputed),
 			"date_created":    AsString(SchemaComputed),
 			"date_updated":    AsString(SchemaComputed),
@@ -220,7 +221,7 @@ func ResourceServicesFunctions() *schema.Resource {
 		DeleteContext: deleteServicesFunctions,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -315,7 +316,7 @@ func ResourceServicesAssets() *schema.Resource {
 		DeleteContext: deleteServicesAssets,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),

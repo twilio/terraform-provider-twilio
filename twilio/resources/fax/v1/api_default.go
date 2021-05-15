@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/fax/v1"
+	. "github.com/twilio/twilio-go/rest/fax/v1"
 )
 
 func ResourceFaxes() *schema.Resource {
@@ -27,14 +28,14 @@ func ResourceFaxes() *schema.Resource {
 		UpdateContext: updateFaxes,
 		DeleteContext: deleteFaxes,
 		Schema: map[string]*schema.Schema{
-			"media_url":         AsString(SchemaRequired),
-			"to":                AsString(SchemaRequired),
 			"from":              AsString(SchemaOptional),
+			"media_url":         AsString(SchemaOptional),
 			"quality":           AsString(SchemaOptional),
 			"sip_auth_password": AsString(SchemaOptional),
 			"sip_auth_username": AsString(SchemaOptional),
 			"status_callback":   AsString(SchemaOptional),
 			"store_media":       AsString(SchemaOptional),
+			"to":                AsString(SchemaOptional),
 			"ttl":               AsString(SchemaOptional),
 			"account_sid":       AsString(SchemaComputed),
 			"api_version":       AsString(SchemaComputed),

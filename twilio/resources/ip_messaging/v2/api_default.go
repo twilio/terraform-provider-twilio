@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/ip/messaging_v2"
+	. "github.com/twilio/twilio-go/rest/ip_messaging/v2"
 )
 
 func ResourceServices() *schema.Resource {
@@ -27,7 +28,7 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                    AsString(SchemaRequired),
+			"friendly_name":                    AsString(SchemaOptional),
 			"account_sid":                      AsString(SchemaComputed),
 			"consumption_report_interval":      AsString(SchemaComputed),
 			"date_created":                     AsString(SchemaComputed),
@@ -133,10 +134,10 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":              AsString(SchemaRequired),
-			"identity":                 AsString(SchemaRequired),
 			"x-twilio-webhook-enabled": AsString(SchemaOptional),
 			"attributes":               AsString(SchemaOptional),
 			"friendly_name":            AsString(SchemaOptional),
+			"identity":                 AsString(SchemaOptional),
 			"role_sid":                 AsString(SchemaOptional),
 			"account_sid":              AsString(SchemaComputed),
 			"date_created":             AsString(SchemaComputed),
@@ -276,11 +277,15 @@ func createServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 }
 
 func deleteServicesChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteChannelParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteChannel(serviceSid, sid)
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteChannel(serviceSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -338,11 +343,11 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
-			"identity":                    AsString(SchemaRequired),
 			"x-twilio-webhook-enabled":    AsString(SchemaOptional),
 			"attributes":                  AsString(SchemaOptional),
 			"date_created":                AsString(SchemaOptional),
 			"date_updated":                AsString(SchemaOptional),
+			"identity":                    AsString(SchemaOptional),
 			"last_consumed_message_index": AsString(SchemaOptional),
 			"last_consumption_timestamp":  AsString(SchemaOptional),
 			"role_sid":                    AsString(SchemaOptional),
@@ -377,12 +382,16 @@ func createServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 }
 
 func deleteServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteMemberParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	serviceSid := d.Get("service_sid").(string)
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteMember(serviceSid, channelSid, sid)
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteMember(serviceSid, channelSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -486,12 +495,16 @@ func createServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 }
 
 func deleteServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteMessageParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	serviceSid := d.Get("service_sid").(string)
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteMessage(serviceSid, channelSid, sid)
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteMessage(serviceSid, channelSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -550,9 +563,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
-			"permission":    AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaOptional),
+			"permission":    AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -648,13 +661,13 @@ func ResourceServicesChannelsWebhooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":               AsString(SchemaRequired),
 			"channel_sid":               AsString(SchemaRequired),
-			"type":                      AsString(SchemaRequired),
 			"configuration.filters":     AsString(SchemaOptional),
 			"configuration.flow_sid":    AsString(SchemaOptional),
 			"configuration.method":      AsString(SchemaOptional),
 			"configuration.retry_count": AsString(SchemaOptional),
 			"configuration.triggers":    AsString(SchemaOptional),
 			"configuration.url":         AsString(SchemaOptional),
+			"type":                      AsString(SchemaOptional),
 			"account_sid":               AsString(SchemaComputed),
 			"configuration":             AsString(SchemaComputed),
 			"date_created":              AsString(SchemaComputed),
@@ -752,13 +765,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaOptional),
 			"certificate":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"private_key":   AsString(SchemaOptional),
 			"sandbox":       AsString(SchemaOptional),
 			"secret":        AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),

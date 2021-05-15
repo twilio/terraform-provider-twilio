@@ -107,27 +107,41 @@ func unmarshallNode(fieldType reflect.Type, fieldValue reflect.Value, getter fun
 		fieldValue.Set(object)
 
 	case reflect.Struct:
-		if basic, ok := fieldValue.Addr().Interface().(DecoratedBasicTypeInterface); ok {
+		if _, ok := fieldValue.Interface().(time.Time); ok {
 			srcValue, exists := getter(tag, fieldName)
 			if !exists {
 				return nil
 			}
-			return basic.Set(srcValue)
-		}
-		for i := 0; i < fieldType.NumField(); i++ {
-			subType := fieldType.Field(i).Type
-			subValue := fieldValue.Field(i)
-			subTag := getNameFromTag(fieldType.Field(i))
-			structName := fieldName
-			if tag.flatten {
-				structName = fieldName[:strings.LastIndex(fieldName, ".")+1]
+
+			timeValue, err := time.Parse(time.RFC3339, srcValue.(string))
+			if err != nil {
+				return CreateErrorGeneric("Wrong type for time field " + fieldName)
 			}
-			if len(structName) > 0 && structName[len(structName)-1:] != "." {
-				structName += "."
+
+			fieldValue.Set(reflect.ValueOf(timeValue))
+		} else {
+			if basic, ok := fieldValue.Addr().Interface().(DecoratedBasicTypeInterface); ok {
+				srcValue, exists := getter(tag, fieldName)
+				if !exists {
+					return nil
+				}
+				return basic.Set(srcValue)
 			}
-			structName += subTag.name
-			if err := unmarshallNode(subType, subValue, getter, subTag, structName); err != nil {
-				return err
+			for i := 0; i < fieldType.NumField(); i++ {
+				subType := fieldType.Field(i).Type
+				subValue := fieldValue.Field(i)
+				subTag := getNameFromTag(fieldType.Field(i))
+				structName := fieldName
+				if tag.flatten {
+					structName = fieldName[:strings.LastIndex(fieldName, ".")+1]
+				}
+				if len(structName) > 0 && structName[len(structName)-1:] != "." {
+					structName += "."
+				}
+				structName += subTag.name
+				if err := unmarshallNode(subType, subValue, getter, subTag, structName); err != nil {
+					return err
+				}
 			}
 		}
 
@@ -222,7 +236,6 @@ func UnmarshalSchema(dest interface{}, resourceData *schema.ResourceData) error 
 				srcValue := resourceData.Id()
 				// empty id (resource not created)
 				if srcValue == "" {
-					//return CreateErrorGeneric(fmt.Sprint("Error 1: ", srcValue)), false
 					return nil, false
 				}
 				return srcValue, true
@@ -230,7 +243,6 @@ func UnmarshalSchema(dest interface{}, resourceData *schema.ResourceData) error 
 				srcValue, exists := resourceData.GetOk(name)
 				if !exists {
 					// empty/nil values will be defaults
-					//return CreateErrorGeneric(fmt.Sprint("Error 2: ", srcValue)), false
 					return nil, false
 				}
 				return srcValue, true
@@ -255,7 +267,6 @@ func UnmarshalSchema(dest interface{}, resourceData *schema.ResourceData) error 
 }
 
 func marshallNode(setter func(string, interface{}) error, fieldName string, fieldType reflect.Type, fieldValue reflect.Value, flatten bool) error {
-	var timeKind = reflect.TypeOf(time.Time{}).Kind()
 
 	switch fieldType.Kind() {
 	case reflect.Bool:
@@ -273,7 +284,7 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 			return err
 		}
 
-	case reflect.String, timeKind:
+	case reflect.String:
 		if err := setter(fieldName, fieldValue.String()); err != nil {
 			return err
 		}
@@ -295,57 +306,63 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 		}
 
 	case reflect.Struct:
-		if basic, ok := fieldValue.Addr().Interface().(DecoratedBasicTypeInterface); ok {
-			if value, ok := basic.Get(); ok {
-				return setter(fieldName, value)
-			} else {
-				// TF expects typed nil!
-				var value *interface{}
-				value = nil
-				return setter(fieldName, value)
-			}
-		}
-
-		mapTarget := make(map[string]interface{})
-		var subSetter func(string, interface{}) error
-		if flatten {
-			subSetter = setter
-		} else {
-			subSetter = func(name string, value interface{}) error {
-				mapTarget[name[strings.LastIndex(name, ".")+1:]] = value
-				return nil
-			}
-		}
-
-		for i := 0; i < fieldType.NumField(); i++ {
-			subType := fieldType.Field(i).Type
-			subValue := fieldValue.Field(i)
-			tag := getNameFromTag(fieldType.Field(i))
-			if tag.ignore {
-				continue
-			}
-			var combinedName string
-			if flatten {
-				dotIndex := strings.LastIndex(fieldName, ".")
-				if dotIndex == -1 {
-					dotIndex = 0
-				}
-				combinedName = fieldName[0:dotIndex]
-				if len(combinedName) != 0 {
-					combinedName += "."
-				}
-				combinedName += tag.name
-			} else {
-				combinedName = fieldName + "." + tag.name
-			}
-			if err := marshallNode(subSetter, combinedName, subType, subValue, tag.flatten); err != nil {
+		if _, ok := fieldValue.Interface().(time.Time); ok {
+			if err := setter(fieldName, fieldValue.Interface().(time.Time).Format(time.RFC3339)); err != nil {
 				return err
 			}
+		} else {
+			if basic, ok := fieldValue.Addr().Interface().(DecoratedBasicTypeInterface); ok {
+				if value, ok := basic.Get(); ok {
+					return setter(fieldName, value)
+				} else {
+					// TF expects typed nil!
+					var value *interface{}
+					value = nil
+					return setter(fieldName, value)
+				}
+			}
+
+			mapTarget := make(map[string]interface{})
+			var subSetter func(string, interface{}) error
+			if flatten {
+				subSetter = setter
+			} else {
+				subSetter = func(name string, value interface{}) error {
+					mapTarget[name[strings.LastIndex(name, ".")+1:]] = value
+					return nil
+				}
+			}
+
+			for i := 0; i < fieldType.NumField(); i++ {
+				subType := fieldType.Field(i).Type
+				subValue := fieldValue.Field(i)
+				tag := getNameFromTag(fieldType.Field(i))
+				if tag.ignore {
+					continue
+				}
+				var combinedName string
+				if flatten {
+					dotIndex := strings.LastIndex(fieldName, ".")
+					if dotIndex == -1 {
+						dotIndex = 0
+					}
+					combinedName = fieldName[0:dotIndex]
+					if len(combinedName) != 0 {
+						combinedName += "."
+					}
+					combinedName += tag.name
+				} else {
+					combinedName = fieldName + "." + tag.name
+				}
+				if err := marshallNode(subSetter, combinedName, subType, subValue, tag.flatten); err != nil {
+					return err
+				}
+			}
+			if flatten {
+				return nil
+			}
+			return setter(fieldName, mapTarget)
 		}
-		if flatten {
-			return nil
-		}
-		return setter(fieldName, mapTarget)
 
 	case reflect.Slice:
 		if fieldValue.IsNil() {
@@ -455,7 +472,6 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 	}
 	return nil
 }
-
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
 var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")

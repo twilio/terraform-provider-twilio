@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/voice/v1"
+	. "github.com/twilio/twilio-go/rest/voice/v1"
 )
 
 func ResourceSourceIpMappings() *schema.Resource {
@@ -27,8 +28,8 @@ func ResourceSourceIpMappings() *schema.Resource {
 		UpdateContext: updateSourceIpMappings,
 		DeleteContext: deleteSourceIpMappings,
 		Schema: map[string]*schema.Schema{
-			"ip_record_sid":  AsString(SchemaRequired),
-			"sip_domain_sid": AsString(SchemaRequired),
+			"ip_record_sid":  AsString(SchemaOptional),
+			"sip_domain_sid": AsString(SchemaOptional),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
 			"sid":            AsString(SchemaComputed),
@@ -116,10 +117,10 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 		DeleteContext: deleteConnectionPoliciesTargets,
 		Schema: map[string]*schema.Schema{
 			"connection_policy_sid": AsString(SchemaRequired),
-			"target":                AsString(SchemaRequired),
 			"enabled":               AsString(SchemaOptional),
 			"friendly_name":         AsString(SchemaOptional),
 			"priority":              AsString(SchemaOptional),
+			"target":                AsString(SchemaOptional),
 			"weight":                AsString(SchemaOptional),
 			"account_sid":           AsString(SchemaComputed),
 			"date_created":          AsString(SchemaComputed),
@@ -302,9 +303,9 @@ func ResourceIpRecords() *schema.Resource {
 		UpdateContext: updateIpRecords,
 		DeleteContext: deleteIpRecords,
 		Schema: map[string]*schema.Schema{
-			"ip_address":         AsString(SchemaRequired),
 			"cidr_prefix_length": AsString(SchemaOptional),
 			"friendly_name":      AsString(SchemaOptional),
+			"ip_address":         AsString(SchemaOptional),
 			"account_sid":        AsString(SchemaComputed),
 			"date_created":       AsString(SchemaComputed),
 			"date_updated":       AsString(SchemaComputed),

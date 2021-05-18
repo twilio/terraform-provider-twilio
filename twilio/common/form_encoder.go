@@ -86,7 +86,7 @@ func processParamValue(paramType string, form *url.Values, field reflect.StructF
 
 func FormEncoder(src interface{}) (url.Values, error) {
 	if src == nil {
-		return nil, CreateErrorGeneric(fmt.Sprintf("Nil form provided"))
+		return nil, CreateErrorGeneric("Nil form provided")
 	}
 
 	srcType := reflect.TypeOf(src)

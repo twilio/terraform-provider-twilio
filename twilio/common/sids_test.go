@@ -176,7 +176,7 @@ func TestGenericJsonMarshal(t *testing.T) {
 	}
 
 	m := MarshalTest{}
-	m.Sid.Set("XY00112233445566778899aabbccddeeff")
+	_ = m.Sid.Set("XY00112233445566778899aabbccddeeff")
 	resp, err := json.Marshal(m)
 	if err != nil {
 		t.Errorf("Marshal failed '%v'", err)
@@ -835,7 +835,7 @@ func TestWorkflowSidJsonUnmarshal(t *testing.T) {
 func TestCanCreateRandomSid(t *testing.T) {
 	rq := RequestSid{}
 	assert.False(t, rq.Valid, "It's just a reference")
-	rq.Randomize(&rq)
+	_ = rq.Randomize(&rq)
 	assert.True(t, rq.Valid, "It's just a reference")
 }
 
@@ -845,6 +845,6 @@ func TestCanNotCreateRandomSidOnValue(t *testing.T) {
 		// This panics because it expects pointer  rq.Randomize(&rq);
 		// and Randomize method cannot declare Randomize(t *interface{})
 		// because Cannot use 'rq' (type RequestSid) as type *interface{}
-		rq.Randomize(rq)
+		_ = rq.Randomize(rq)
 	})
 }

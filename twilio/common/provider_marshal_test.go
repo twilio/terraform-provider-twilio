@@ -584,7 +584,7 @@ func TestComplexMarshal(t *testing.T) {
 
 	testString := "t0"
 	testSid := AccountSid{}
-	testSid.Set("AC00112233445566778899aabbccddeeff")
+	_ = testSid.Set("AC00112233445566778899aabbccddeeff")
 	testString2 := "2010-04-01"
 	testInt := 1
 

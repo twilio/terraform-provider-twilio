@@ -8,65 +8,65 @@ import (
 )
 
 func TestRequiredSchema(t *testing.T) {
-	schema := AsInt(SchemaRequired)
-	assert.Equal(t, false, schema.Optional, "Invalid options")
-	assert.Equal(t, true, schema.Required, "Invalid options")
-	assert.Equal(t, false, schema.Computed, "Invalid options")
-	assert.Equal(t, false, schema.ForceNew, "Invalid options")
+	testSchema := AsInt(SchemaRequired)
+	assert.Equal(t, false, testSchema.Optional, "Invalid options")
+	assert.Equal(t, true, testSchema.Required, "Invalid options")
+	assert.Equal(t, false, testSchema.Computed, "Invalid options")
+	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
 }
 
 func TestOptionalSchema(t *testing.T) {
-	schema := AsInt(SchemaOptional)
-	assert.Equal(t, true, schema.Optional, "Invalid options")
-	assert.Equal(t, false, schema.Required, "Invalid options")
-	assert.Equal(t, false, schema.Computed, "Invalid options")
-	assert.Equal(t, false, schema.ForceNew, "Invalid options")
+	testSchema := AsInt(SchemaOptional)
+	assert.Equal(t, true, testSchema.Optional, "Invalid options")
+	assert.Equal(t, false, testSchema.Required, "Invalid options")
+	assert.Equal(t, false, testSchema.Computed, "Invalid options")
+	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
 }
 
 func TestComputedSchema(t *testing.T) {
-	schema := AsInt(SchemaComputed)
-	assert.Equal(t, false, schema.Optional, "Invalid options")
-	assert.Equal(t, false, schema.Required, "Invalid options")
-	assert.Equal(t, true, schema.Computed, "Invalid options")
-	assert.Equal(t, false, schema.ForceNew, "Invalid options")
+	testSchema := AsInt(SchemaComputed)
+	assert.Equal(t, false, testSchema.Optional, "Invalid options")
+	assert.Equal(t, false, testSchema.Required, "Invalid options")
+	assert.Equal(t, true, testSchema.Computed, "Invalid options")
+	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
 }
 
 func TestForceNewRequiredSchemaSchema(t *testing.T) {
-	schema := AsInt(SchemaForceNewRequired)
-	assert.Equal(t, false, schema.Optional, "Invalid options")
-	assert.Equal(t, true, schema.Required, "Invalid options")
-	assert.Equal(t, false, schema.Computed, "Invalid options")
-	assert.Equal(t, true, schema.ForceNew, "Invalid options")
+	testSchema := AsInt(SchemaForceNewRequired)
+	assert.Equal(t, false, testSchema.Optional, "Invalid options")
+	assert.Equal(t, true, testSchema.Required, "Invalid options")
+	assert.Equal(t, false, testSchema.Computed, "Invalid options")
+	assert.Equal(t, true, testSchema.ForceNew, "Invalid options")
 }
 
 func TestForceNewRequiredOptionalSchema(t *testing.T) {
-	schema := AsInt(SchemaForceNewOptional)
-	assert.Equal(t, true, schema.Optional, "Invalid options")
-	assert.Equal(t, false, schema.Required, "Invalid options")
-	assert.Equal(t, false, schema.Computed, "Invalid options")
-	assert.Equal(t, true, schema.ForceNew, "Invalid options")
+	testSchema := AsInt(SchemaForceNewOptional)
+	assert.Equal(t, true, testSchema.Optional, "Invalid options")
+	assert.Equal(t, false, testSchema.Required, "Invalid options")
+	assert.Equal(t, false, testSchema.Computed, "Invalid options")
+	assert.Equal(t, true, testSchema.ForceNew, "Invalid options")
 }
 
 func TestInvalidEmptySchema(t *testing.T) {
-	defer func() { recover() }()
+	defer func() { _ = recover() }()
 	AsInt(&options{})
 	t.Errorf("Invalid schema allowed")
 }
 
 func TestInvalidComputedRequiredSchema(t *testing.T) {
-	defer func() { recover() }()
+	defer func() { _ = recover() }()
 	AsInt(&options{Required: true, Computed: true})
 	t.Errorf("Invalid schema allowed")
 }
 
 func TestInvalidComputedOptionalSchema(t *testing.T) {
-	defer func() { recover() }()
+	defer func() { _ = recover() }()
 	AsInt(&options{Optional: true, Computed: true})
 	t.Errorf("Invalid schema allowed")
 }
 
 func TestInvalidComputedForcenewSchema(t *testing.T) {
-	defer func() { recover() }()
+	defer func() { _ = recover() }()
 	AsInt(&options{ForceNew: true, Computed: true})
 	t.Errorf("Invalid schema allowed")
 }
@@ -95,11 +95,11 @@ func TestSidSchema(t *testing.T) {
 	s := AsSid(&Sid{}, SchemaRequired)
 	assert.Equal(t, schema.TypeString, s.Type, "Invalid type")
 
-	_, errs := s.ValidateFunc("XX00112233445566778899aabbccddeeff", "test")
-	assert.Empty(t, errs, "Sid validate errored")
+	err := s.ValidateDiagFunc("XX00112233445566778899aabbccddeeff", nil)
+	assert.Empty(t, err, "Sid errored")
 
-	_, errs = s.ValidateFunc("abc", "test")
-	assert.NotEmpty(t, errs, "Sid validate did not error")
+	err = s.ValidateDiagFunc("abc", nil)
+	assert.NotEmpty(t, err, "Sid validate did not error")
 }
 
 func TestListSchemaScalar(t *testing.T) {

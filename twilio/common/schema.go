@@ -3,6 +3,8 @@ package common
 import (
 	"fmt"
 
+	"github.com/hashicorp/go-cty/cty"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -105,11 +107,11 @@ func AsSid(sid SidInterface, conf *options) *schema.Schema {
 		Type: schema.TypeString,
 	}
 	if !conf.Computed {
-		ret.ValidateFunc = func(val interface{}, key string) (warns []string, errs []error) {
+		ret.ValidateDiagFunc = func(val interface{}, path cty.Path) diag.Diagnostics {
 			if err := sid.Set(val); err != nil {
-				return []string{}, []error{err}
+				return diag.FromErr(err)
 			}
-			return []string{}, []error{}
+			return nil
 		}
 	}
 	return addSchemaOptions(ret, conf)

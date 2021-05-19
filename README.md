@@ -119,17 +119,17 @@ You can specify a subaccount to use with the provider by either setting the `TWI
 
 ```terraform
 provider "twilio" {
-  //  username defaults to TWILIO_ACCOUNT_SID env var
-  //  password  defaults to TWILIO_AUTH_TOKEN env var
-  //  account_sid  defaults to TWILIO_SUBACCOUNT_SID env var
+  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  //  subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
 }
 ```
 
 ```terraform
 provider "twilio" {
-  //  username    = "AC00112233445566778899aabbccddeefe"
-  //  password    = "12345678123456781234567812345678"
-  //  account_sid = "AC00112233445566778899aabbccddeeff"
+  //  account_sid    = "AC00112233445566778899aabbccddeefe"
+  //  auth_token    = "12345678123456781234567812345678"
+  //  subaccount_sid = "AC00112233445566778899aabbccddeeff"
 }
 ```
 

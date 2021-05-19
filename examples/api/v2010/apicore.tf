@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "twilio" {
-  //  username defaults to TWILIO_ACCOUNT_SID env var
-  //  password  defaults to TWILIO_AUTH_TOKEN env var
-  //  account_sid  defaults to TWILIO_SUBACCOUNT_SID env var
+  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  //  subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
 }
 
 

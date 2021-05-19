@@ -16,19 +16,19 @@ import (
 func Provider() *schema.Provider {
 	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"username": {
+			"account_sid": {
 				Type:        schema.TypeString,
 				DefaultFunc: schema.EnvDefaultFunc("TWILIO_ACCOUNT_SID", nil),
 				Description: "Your Account SID can be found on the Twilio dashboard at www.twilio.com/console.",
 				Required:    true,
 			},
-			"password": {
+			"auth_token": {
 				Type:        schema.TypeString,
 				DefaultFunc: schema.EnvDefaultFunc("TWILIO_AUTH_TOKEN", nil),
 				Description: "Your Auth Token can be found on the Twilio dashboard at www.twilio.com/console.",
 				Required:    true,
 			},
-			"account_sid": {
+			"subaccount_sid": {
 				Type:        schema.TypeString,
 				DefaultFunc: schema.EnvDefaultFunc("TWILIO_SUBACCOUNT_SID", nil),
 				Description: "Your SubAccount SID can be found on the Twilio dashboard at www.twilio.com/console.",
@@ -68,13 +68,13 @@ func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 	return func(c context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 		var TwilioClient *client.RestClient
 
-		username := d.Get("username").(string)
-		password := d.Get("password").(string)
+		username := d.Get("account_sid").(string)
+		password := d.Get("auth_token").(string)
 		region := d.Get("region").(string)
 		edge := d.Get("edge").(string)
 
-		if d.Get("account_sid") != nil {
-			params := client.RestClientParams{AccountSid: d.Get("account_sid").(string)}
+		if d.Get("subaccount_sid") != nil {
+			params := client.RestClientParams{AccountSid: d.Get("subaccount_sid").(string)}
 			TwilioClient = client.NewRestClientWithParams(username, password, params)
 		} else {
 			TwilioClient = client.NewRestClient(username, password)

@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/numbers/v2"
+	. "github.com/twilio/twilio-go/rest/numbers/v2"
 )
 
 func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
@@ -27,9 +28,9 @@ func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
 		UpdateContext: updateRegulatoryComplianceSupportingDocuments,
 		DeleteContext: deleteRegulatoryComplianceSupportingDocuments,
 		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -119,9 +120,9 @@ func ResourceRegulatoryComplianceEndUsers() *schema.Resource {
 		UpdateContext: updateRegulatoryComplianceEndUsers,
 		DeleteContext: deleteRegulatoryComplianceEndUsers,
 		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -209,9 +210,9 @@ func ResourceRegulatoryComplianceBundles() *schema.Resource {
 		UpdateContext: updateRegulatoryComplianceBundles,
 		DeleteContext: deleteRegulatoryComplianceBundles,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaRequired),
-			"friendly_name":   AsString(SchemaRequired),
+			"email":           AsString(SchemaOptional),
 			"end_user_type":   AsString(SchemaOptional),
+			"friendly_name":   AsString(SchemaOptional),
 			"iso_country":     AsString(SchemaOptional),
 			"number_type":     AsString(SchemaOptional),
 			"regulation_sid":  AsString(SchemaOptional),

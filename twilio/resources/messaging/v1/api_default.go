@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/messaging/v1"
+	. "github.com/twilio/twilio-go/rest/messaging/v1"
 )
 
 func ResourceServices() *schema.Resource {
@@ -27,11 +28,11 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                 AsString(SchemaRequired),
 			"area_code_geomatch":            AsString(SchemaOptional),
 			"fallback_method":               AsString(SchemaOptional),
 			"fallback_to_long_code":         AsString(SchemaOptional),
 			"fallback_url":                  AsString(SchemaOptional),
+			"friendly_name":                 AsString(SchemaOptional),
 			"inbound_method":                AsString(SchemaOptional),
 			"inbound_request_url":           AsString(SchemaOptional),
 			"mms_converter":                 AsString(SchemaOptional),

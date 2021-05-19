@@ -13,7 +13,7 @@ func main() {
 	if fileExists("./conf/.env") {
 		err := godotenv.Load(`./conf/.env`)
 		if err != nil {
-			fmt.Errorf("error on loading env %s", err)
+			_ = fmt.Errorf("error on loading env %s", err)
 			os.Exit(-1)
 		}
 	}

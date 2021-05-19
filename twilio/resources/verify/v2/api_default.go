@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/verify/v2"
+	. "github.com/twilio/twilio-go/rest/verify/v2"
 )
 
 func ResourceServicesRateLimits() *schema.Resource {
@@ -28,8 +29,8 @@ func ResourceServicesRateLimits() *schema.Resource {
 		DeleteContext: deleteServicesRateLimits,
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
-			"unique_name":  AsString(SchemaRequired),
 			"description":  AsString(SchemaOptional),
+			"unique_name":  AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
 			"date_created": AsString(SchemaComputed),
 			"date_updated": AsString(SchemaComputed),
@@ -124,8 +125,8 @@ func ResourceServicesMessagingConfigurations() *schema.Resource {
 		DeleteContext: deleteServicesMessagingConfigurations,
 		Schema: map[string]*schema.Schema{
 			"service_sid":           AsString(SchemaRequired),
-			"country":               AsString(SchemaRequired),
-			"messaging_service_sid": AsString(SchemaRequired),
+			"country":               AsString(SchemaOptional),
+			"messaging_service_sid": AsString(SchemaOptional),
 			"account_sid":           AsString(SchemaComputed),
 			"date_created":          AsString(SchemaComputed),
 			"date_updated":          AsString(SchemaComputed),
@@ -147,7 +148,7 @@ func createServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ServiceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -217,11 +218,11 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                AsString(SchemaRequired),
 			"code_length":                  AsString(SchemaOptional),
 			"custom_code_enabled":          AsString(SchemaOptional),
 			"do_not_share_warning_enabled": AsString(SchemaOptional),
 			"dtmf_input_required":          AsString(SchemaOptional),
+			"friendly_name":                AsString(SchemaOptional),
 			"lookup_enabled":               AsString(SchemaOptional),
 			"psd2_enabled":                 AsString(SchemaOptional),
 			"push.apn_credential_sid":      AsString(SchemaOptional),
@@ -325,8 +326,8 @@ func ResourceServicesRateLimitsBuckets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"rate_limit_sid": AsString(SchemaRequired),
-			"interval":       AsString(SchemaRequired),
-			"max":            AsString(SchemaRequired),
+			"interval":       AsString(SchemaOptional),
+			"max":            AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
@@ -424,10 +425,10 @@ func ResourceServicesWebhooks() *schema.Resource {
 		DeleteContext: deleteServicesWebhooks,
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
-			"event_types":    AsString(SchemaRequired),
-			"friendly_name":  AsString(SchemaRequired),
-			"webhook_url":    AsString(SchemaRequired),
+			"event_types":    AsString(SchemaOptional),
+			"friendly_name":  AsString(SchemaOptional),
 			"status":         AsString(SchemaOptional),
+			"webhook_url":    AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
@@ -523,8 +524,6 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
 			"identity":                     AsString(SchemaRequired),
-			"factor_type":                  AsString(SchemaRequired),
-			"friendly_name":                AsString(SchemaRequired),
 			"binding.alg":                  AsString(SchemaOptional),
 			"binding.public_key":           AsString(SchemaOptional),
 			"binding.secret":               AsString(SchemaOptional),
@@ -536,6 +535,8 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 			"config.sdk_version":           AsString(SchemaOptional),
 			"config.skew":                  AsString(SchemaOptional),
 			"config.time_step":             AsString(SchemaOptional),
+			"factor_type":                  AsString(SchemaOptional),
+			"friendly_name":                AsString(SchemaOptional),
 			"account_sid":                  AsString(SchemaComputed),
 			"binding":                      AsString(SchemaComputed),
 			"config":                       AsString(SchemaComputed),

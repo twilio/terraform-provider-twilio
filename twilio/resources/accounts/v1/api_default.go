@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/accounts/v1"
+	. "github.com/twilio/twilio-go/rest/accounts/v1"
 )
 
 func ResourceCredentialsPublicKeys() *schema.Resource {
@@ -27,9 +28,9 @@ func ResourceCredentialsPublicKeys() *schema.Resource {
 		UpdateContext: updateCredentialsPublicKeys,
 		DeleteContext: deleteCredentialsPublicKeys,
 		Schema: map[string]*schema.Schema{
-			"public_key":    AsString(SchemaRequired),
 			"account_sid":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
+			"public_key":    AsString(SchemaOptional),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
@@ -116,8 +117,8 @@ func ResourceCredentialsAWS() *schema.Resource {
 		UpdateContext: updateCredentialsAWS,
 		DeleteContext: deleteCredentialsAWS,
 		Schema: map[string]*schema.Schema{
-			"credentials":   AsString(SchemaRequired),
 			"account_sid":   AsString(SchemaOptional),
+			"credentials":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),

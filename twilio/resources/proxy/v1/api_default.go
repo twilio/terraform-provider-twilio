@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/proxy/v1"
+	. "github.com/twilio/twilio-go/rest/proxy/v1"
 )
 
 func ResourceServices() *schema.Resource {
@@ -27,7 +28,6 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"unique_name":                 AsString(SchemaRequired),
 			"callback_url":                AsString(SchemaOptional),
 			"chat_instance_sid":           AsString(SchemaOptional),
 			"default_ttl":                 AsString(SchemaOptional),
@@ -35,6 +35,7 @@ func ResourceServices() *schema.Resource {
 			"intercept_callback_url":      AsString(SchemaOptional),
 			"number_selection_behavior":   AsString(SchemaOptional),
 			"out_of_session_callback_url": AsString(SchemaOptional),
+			"unique_name":                 AsString(SchemaOptional),
 			"account_sid":                 AsString(SchemaComputed),
 			"date_created":                AsString(SchemaComputed),
 			"date_updated":                AsString(SchemaComputed),
@@ -124,7 +125,7 @@ func ResourceServicesShortCodes() *schema.Resource {
 		DeleteContext: deleteServicesShortCodes,
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
-			"sid":          AsString(SchemaRequired),
+			"sid":          AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
 			"capabilities": AsString(SchemaComputed),
 			"date_created": AsString(SchemaComputed),

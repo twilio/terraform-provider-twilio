@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/video/v1"
+	. "github.com/twilio/twilio-go/rest/video/v1"
 )
 
 func ResourceCompositionHooks() *schema.Resource {
@@ -27,11 +28,11 @@ func ResourceCompositionHooks() *schema.Resource {
 		UpdateContext: updateCompositionHooks,
 		DeleteContext: deleteCompositionHooks,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":          AsString(SchemaRequired),
 			"audio_sources":          AsString(SchemaOptional),
 			"audio_sources_excluded": AsString(SchemaOptional),
 			"enabled":                AsString(SchemaOptional),
 			"format":                 AsString(SchemaOptional),
+			"friendly_name":          AsString(SchemaOptional),
 			"resolution":             AsString(SchemaOptional),
 			"status_callback":        AsString(SchemaOptional),
 			"status_callback_method": AsString(SchemaOptional),

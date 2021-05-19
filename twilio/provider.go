@@ -9,7 +9,7 @@ import (
 	apiV2010 "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
 	serverlessV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/serverless/v1"
 	studioV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/studio/v2"
-	client "github.com/twilio/twilio-go/twilio"
+	client "github.com/twilio/twilio-go"
 )
 
 // Provider initializes terraform-provider-twilio.
@@ -28,19 +28,23 @@ func Provider() *schema.Provider {
 				Description: "Your Auth Token can be found on the Twilio dashboard at www.twilio.com/console.",
 				Required:    true,
 			},
+			"subaccount_sid": {
+				Type:        schema.TypeString,
+				DefaultFunc: schema.EnvDefaultFunc("TWILIO_SUBACCOUNT_SID", nil),
+				Description: "Your SubAccount SID can be found on the Twilio dashboard at www.twilio.com/console.",
+				Optional:    true,
+			},
 			"edge": {
 				Type:        schema.TypeString,
 				DefaultFunc: schema.EnvDefaultFunc("TWILIO_EDGE", nil),
 				Description: "https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations",
 				Optional:    true,
-				Required:    false,
 			},
 			"region": {
 				Type:        schema.TypeString,
 				DefaultFunc: schema.EnvDefaultFunc("TWILIO_REGION", nil),
 				Description: "https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions",
 				Optional:    true,
-				Required:    false,
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{},
@@ -62,15 +66,25 @@ func Provider() *schema.Provider {
 
 func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 	return func(c context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
-		accountSid := d.Get("account_sid").(string)
-		authToken := d.Get("auth_token").(string)
+		var TwilioClient *client.RestClient
+
+		username := d.Get("account_sid").(string)
+		password := d.Get("auth_token").(string)
 		region := d.Get("region").(string)
 		edge := d.Get("edge").(string)
-		client := client.NewClient(accountSid, authToken)
-		client.SetRegion(region)
-		client.SetEdge(edge)
+
+		if d.Get("subaccount_sid") != nil {
+			params := client.RestClientParams{AccountSid: d.Get("subaccount_sid").(string)}
+			TwilioClient = client.NewRestClientWithParams(username, password, params)
+		} else {
+			TwilioClient = client.NewRestClient(username, password)
+		}
+
+		TwilioClient.SetRegion(region)
+		TwilioClient.SetEdge(edge)
+
 		config := &twilio.Config{
-			Client: client,
+			Client: TwilioClient,
 		}
 
 		return config, nil

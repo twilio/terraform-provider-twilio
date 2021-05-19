@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/flex/v1"
+	. "github.com/twilio/twilio-go/rest/flex/v1"
 )
 
 func ResourceFlexFlows() *schema.Resource {
@@ -27,11 +28,11 @@ func ResourceFlexFlows() *schema.Resource {
 		UpdateContext: updateFlexFlows,
 		DeleteContext: deleteFlexFlows,
 		Schema: map[string]*schema.Schema{
-			"channel_type":                    AsString(SchemaRequired),
-			"chat_service_sid":                AsString(SchemaRequired),
-			"friendly_name":                   AsString(SchemaRequired),
+			"channel_type":                    AsString(SchemaOptional),
+			"chat_service_sid":                AsString(SchemaOptional),
 			"contact_identity":                AsString(SchemaOptional),
 			"enabled":                         AsString(SchemaOptional),
+			"friendly_name":                   AsString(SchemaOptional),
 			"integration.channel":             AsString(SchemaOptional),
 			"integration.creation_on_message": AsString(SchemaOptional),
 			"integration.flow_sid":            AsString(SchemaOptional),
@@ -132,11 +133,11 @@ func ResourceWebChannels() *schema.Resource {
 		UpdateContext: updateWebChannels,
 		DeleteContext: deleteWebChannels,
 		Schema: map[string]*schema.Schema{
-			"chat_friendly_name":     AsString(SchemaRequired),
-			"customer_friendly_name": AsString(SchemaRequired),
-			"flex_flow_sid":          AsString(SchemaRequired),
-			"identity":               AsString(SchemaRequired),
+			"chat_friendly_name":     AsString(SchemaOptional),
 			"chat_unique_name":       AsString(SchemaOptional),
+			"customer_friendly_name": AsString(SchemaOptional),
+			"flex_flow_sid":          AsString(SchemaOptional),
+			"identity":               AsString(SchemaOptional),
 			"pre_engagement_data":    AsString(SchemaOptional),
 			"account_sid":            AsString(SchemaComputed),
 			"date_created":           AsString(SchemaComputed),

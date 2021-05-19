@@ -127,9 +127,9 @@ provider "twilio" {
 
 ```terraform
 provider "twilio" {
-  //  account_sid    = "AC00112233445566778899aabbccddeefe"
-  //  auth_token    = "12345678123456781234567812345678"
-  //  subaccount_sid = "AC00112233445566778899aabbccddeeff"
+    account_sid    = "AC00112233445566778899aabbccddeefe"
+    auth_token    = "12345678123456781234567812345678"
+    subaccount_sid = "AC00112233445566778899aabbccddeeff"
 }
 ```
 

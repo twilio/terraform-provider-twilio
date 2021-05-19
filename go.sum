@@ -595,6 +595,8 @@ github.com/twilio/twilio-go v0.7.1-0.20210511195028-5b98eca17aee h1:nJD1jUU6nPlm
 github.com/twilio/twilio-go v0.7.1-0.20210511195028-5b98eca17aee/go.mod h1:7KyNHcmMcBifTtf1YPaVBnXP7aE6I2RE45Alo0gjWBs=
 github.com/twilio/twilio-go v0.7.1-0.20210517164903-3f2595863a35 h1:BYmz+fQqmLg2JvyIa8jIpleFbSiFOQT+ROkWi8Zjkto=
 github.com/twilio/twilio-go v0.7.1-0.20210517164903-3f2595863a35/go.mod h1:7KyNHcmMcBifTtf1YPaVBnXP7aE6I2RE45Alo0gjWBs=
+github.com/twilio/twilio-go v0.8.0 h1:XnPJ87qUSbUIhm3BMjqGgh5aiNgobXK2CrqGcNm/omw=
+github.com/twilio/twilio-go v0.8.0/go.mod h1:7KyNHcmMcBifTtf1YPaVBnXP7aE6I2RE45Alo0gjWBs=
 github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8/go.mod h1:VFNgLljTbGfSG7qAOspJ7OScBnGdDN/yBr0sguwnwf0=
 github.com/ulikunitz/xz v0.5.5/go.mod h1:2bypXElzHzzJZwzH67Y6wb67pO62Rzfn7BSiF4ABRW8=
 github.com/ulikunitz/xz v0.5.8/go.mod h1:nbz6k7qbPmH4IRqmfOplQw/tblSgqTqBwxkY0oWt/14=

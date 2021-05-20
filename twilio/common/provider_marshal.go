@@ -316,8 +316,7 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 					return setter(fieldName, value)
 				} else {
 					// TF expects typed nil!
-					var value *interface{}
-					value = nil
+					var value *interface{} = nil
 					return setter(fieldName, value)
 				}
 			}
@@ -368,7 +367,7 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 		if fieldValue.IsNil() {
 			return setter(fieldName, nil)
 		}
-		sliceTarget := make([]interface{}, fieldValue.Len(), fieldValue.Len())
+		sliceTarget := make([]interface{}, fieldValue.Len(), fieldValue.Len()) //nolint
 		sliceSetter := func(name string, value interface{}) error {
 			index, err := strconv.ParseInt(name[strings.LastIndex(name, ".")+1:], 10, 32)
 			if err != nil {

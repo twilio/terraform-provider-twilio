@@ -8,7 +8,7 @@ import (
 
 func QueryEncoder(src interface{}) (string, error) {
 	if src == nil {
-		return "", CreateErrorGeneric(fmt.Sprintf("Nil query provided"))
+		return "", CreateErrorGeneric("Nil query provided")
 	}
 
 	srcType := reflect.TypeOf(src)

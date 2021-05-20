@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/studio/v1"
+	. "github.com/twilio/twilio-go/rest/studio/v1"
 )
 
 func ResourceFlowsExecutions() *schema.Resource {
@@ -28,9 +29,9 @@ func ResourceFlowsExecutions() *schema.Resource {
 		DeleteContext: deleteFlowsExecutions,
 		Schema: map[string]*schema.Schema{
 			"flow_sid":                AsString(SchemaRequired),
-			"from":                    AsString(SchemaRequired),
-			"to":                      AsString(SchemaRequired),
+			"from":                    AsString(SchemaOptional),
 			"parameters":              AsString(SchemaOptional),
+			"to":                      AsString(SchemaOptional),
 			"account_sid":             AsString(SchemaComputed),
 			"contact_channel_address": AsString(SchemaComputed),
 			"contact_sid":             AsString(SchemaComputed),

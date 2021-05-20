@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/sync/v1"
+	. "github.com/twilio/twilio-go/rest/sync/v1"
 )
 
 func ResourceServices() *schema.Resource {
@@ -323,8 +324,8 @@ func ResourceServicesListsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"list_sid":       AsString(SchemaRequired),
-			"data":           AsString(SchemaRequired),
 			"collection_ttl": AsString(SchemaOptional),
+			"data":           AsString(SchemaOptional),
 			"item_ttl":       AsString(SchemaOptional),
 			"ttl":            AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
@@ -353,7 +354,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ServiceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -363,12 +364,16 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 }
 
 func deleteServicesListsItems(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSyncListItemParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
 	index := d.Get("index").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index)
+	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -428,10 +433,10 @@ func ResourceServicesMapsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"map_sid":        AsString(SchemaRequired),
-			"data":           AsString(SchemaRequired),
-			"key":            AsString(SchemaRequired),
 			"collection_ttl": AsString(SchemaOptional),
+			"data":           AsString(SchemaOptional),
 			"item_ttl":       AsString(SchemaOptional),
+			"key":            AsString(SchemaOptional),
 			"ttl":            AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"created_by":     AsString(SchemaComputed),
@@ -458,7 +463,7 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ServiceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -468,12 +473,16 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 }
 
 func deleteServicesMapsItems(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSyncMapItemParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	serviceSid := d.Get("service_sid").(string)
 	mapSid := d.Get("map_sid").(string)
 	key := d.Get("key").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncMapItem(serviceSid, mapSid, key)
+	err := m.(*client.Config).Client.SyncV1.DeleteSyncMapItem(serviceSid, mapSid, key, &params)
 	d.SetId("")
 
 	if err != nil {

@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,12 +13,104 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/events/v1"
+	. "github.com/twilio/twilio-go/rest/events/v1"
 )
+
+func ResourceSinks() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createSinks,
+		ReadContext:   readSinks,
+		UpdateContext: updateSinks,
+		DeleteContext: deleteSinks,
+		Schema: map[string]*schema.Schema{
+			"description":        AsString(SchemaOptional),
+			"sink_configuration": AsString(SchemaOptional),
+			"sink_type":          AsString(SchemaOptional),
+			"date_created":       AsString(SchemaComputed),
+			"date_updated":       AsString(SchemaComputed),
+			"links":              AsString(SchemaComputed),
+			"sid":                AsString(SchemaComputed),
+			"status":             AsString(SchemaComputed),
+			"url":                AsString(SchemaComputed),
+		},
+	}
+}
+
+func createSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSinkParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.EventsV1.CreateSink(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.EventsV1.DeleteSink(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.EventsV1.FetchSink(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSinkParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.EventsV1.UpdateSink(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
 
 func ResourceSubscriptions() *schema.Resource {
 	return &schema.Resource{
@@ -27,9 +119,9 @@ func ResourceSubscriptions() *schema.Resource {
 		UpdateContext: updateSubscriptions,
 		DeleteContext: deleteSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"description":  AsString(SchemaRequired),
-			"sink_sid":     AsString(SchemaRequired),
-			"types":        AsString(SchemaRequired),
+			"description":  AsString(SchemaOptional),
+			"sink_sid":     AsString(SchemaOptional),
+			"types":        AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
 			"date_created": AsString(SchemaComputed),
 			"date_updated": AsString(SchemaComputed),
@@ -119,8 +211,8 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 		DeleteContext: deleteSubscriptionsSubscribedEvents,
 		Schema: map[string]*schema.Schema{
 			"subscription_sid": AsString(SchemaRequired),
-			"type":             AsString(SchemaRequired),
 			"schema_version":   AsString(SchemaOptional),
+			"type":             AsString(SchemaOptional),
 			"account_sid":      AsString(SchemaComputed),
 			"url":              AsString(SchemaComputed),
 		},
@@ -140,7 +232,7 @@ func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.SubscriptionSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

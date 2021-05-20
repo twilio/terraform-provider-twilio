@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/taskrouter/v1"
+	. "github.com/twilio/twilio-go/rest/taskrouter/v1"
 )
 
 func ResourceWorkspacesTaskQueues() *schema.Resource {
@@ -28,8 +29,8 @@ func ResourceWorkspacesTaskQueues() *schema.Resource {
 		DeleteContext: deleteWorkspacesTaskQueues,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":             AsString(SchemaRequired),
-			"friendly_name":             AsString(SchemaRequired),
 			"assignment_activity_sid":   AsString(SchemaOptional),
+			"friendly_name":             AsString(SchemaOptional),
 			"max_reserved_workers":      AsString(SchemaOptional),
 			"reservation_activity_sid":  AsString(SchemaOptional),
 			"target_workers":            AsString(SchemaOptional),
@@ -178,11 +179,15 @@ func createWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 }
 
 func deleteWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteTaskParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.TaskrouterV1.DeleteTask(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteTask(workspaceSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -238,9 +243,9 @@ func ResourceWorkspaces() *schema.Resource {
 		UpdateContext: updateWorkspaces,
 		DeleteContext: deleteWorkspaces,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":          AsString(SchemaRequired),
 			"event_callback_url":     AsString(SchemaOptional),
 			"events_filter":          AsString(SchemaOptional),
+			"friendly_name":          AsString(SchemaOptional),
 			"multi_task_enabled":     AsString(SchemaOptional),
 			"prioritize_queue_order": AsString(SchemaOptional),
 			"template":               AsString(SchemaOptional),
@@ -337,10 +342,10 @@ func ResourceWorkspacesWorkflows() *schema.Resource {
 		DeleteContext: deleteWorkspacesWorkflows,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":                    AsString(SchemaRequired),
-			"configuration":                    AsString(SchemaRequired),
-			"friendly_name":                    AsString(SchemaRequired),
 			"assignment_callback_url":          AsString(SchemaOptional),
+			"configuration":                    AsString(SchemaOptional),
 			"fallback_assignment_callback_url": AsString(SchemaOptional),
+			"friendly_name":                    AsString(SchemaOptional),
 			"task_reservation_timeout":         AsString(SchemaOptional),
 			"account_sid":                      AsString(SchemaComputed),
 			"date_created":                     AsString(SchemaComputed),
@@ -437,9 +442,9 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 		DeleteContext: deleteWorkspacesTaskChannels,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":             AsString(SchemaRequired),
-			"friendly_name":             AsString(SchemaRequired),
-			"unique_name":               AsString(SchemaRequired),
 			"channel_optimized_routing": AsString(SchemaOptional),
+			"friendly_name":             AsString(SchemaOptional),
+			"unique_name":               AsString(SchemaOptional),
 			"account_sid":               AsString(SchemaComputed),
 			"date_created":              AsString(SchemaComputed),
 			"date_updated":              AsString(SchemaComputed),
@@ -534,9 +539,9 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 		DeleteContext: deleteWorkspacesWorkers,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":       AsString(SchemaRequired),
-			"friendly_name":       AsString(SchemaRequired),
 			"activity_sid":        AsString(SchemaOptional),
 			"attributes":          AsString(SchemaOptional),
+			"friendly_name":       AsString(SchemaOptional),
 			"account_sid":         AsString(SchemaComputed),
 			"activity_name":       AsString(SchemaComputed),
 			"available":           AsString(SchemaComputed),
@@ -634,8 +639,8 @@ func ResourceWorkspacesActivities() *schema.Resource {
 		DeleteContext: deleteWorkspacesActivities,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid": AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
 			"available":     AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),

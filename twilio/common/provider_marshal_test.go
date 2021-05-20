@@ -3,6 +3,7 @@ package common
 import (
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/stretchr/testify/assert"
@@ -184,6 +185,32 @@ func TestComplexUnmarshal(t *testing.T) {
 	assert.Equal(t, *testStruct.T5, 1.0, "T5 did not unmarshal")
 	assert.Equal(t, testStruct.T6.String(), "AC00112233445566778899aabbccddeeff", "T6 did not unmarshal")
 	assert.Nil(t, testStruct.T7, "T7 did not unmarshal")
+}
+
+func TestTimeUnMarshal(t *testing.T) {
+	s := map[string]*schema.Schema{
+		"T0": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+	}
+	v := map[string]interface{}{
+		"T0": "2021-05-17T01:35:33Z",
+	}
+	resourceData := schema.TestResourceDataRaw(t, s, v)
+	err := resourceData.Set("T0", "2021-05-17T01:35:33Z")
+
+	type test1 struct {
+		T0 *time.Time
+	}
+
+	testStruct := test1{}
+	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
+		t.Errorf("Unmarshall failed: result '%v'", err)
+	}
+
+	assert.Nil(t, err, "Date T0 did not unmarshal")
+	assert.Equal(t, resourceData.Get("T0"), "2021-05-17T01:35:33Z", "Date T0 did not unmarshal")
 }
 
 func TestUnmarshalNilValueToPointer(t *testing.T) {
@@ -599,6 +626,29 @@ func TestComplexMarshal(t *testing.T) {
 	assert.Equal(t, resourceData.Get("T2.1"), "t2b", "T2 did not unmarshal")
 	assert.Equal(t, resourceData.Get("T3"), "2010-04-01", "T3 did not marshal")
 	assert.Equal(t, resourceData.Get("T4"), 1, "T4 did not marshal")
+}
+
+func TestTimeMarshal(t *testing.T) {
+	s := map[string]*schema.Schema{
+		"T0": {
+			Type:     schema.TypeString,
+			Required: true,
+		},
+	}
+	v := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, s, v)
+
+	type test1 struct {
+		T0 *time.Time
+	}
+
+	testDate, _ := time.Parse(time.RFC3339, "2021-05-17T01:35:33Z")
+
+	testStruct := test1{T0: &testDate}
+	if err := MarshalSchema(resourceData, &testStruct); err != nil {
+		t.Errorf("Marshall failed: result '%v'", err)
+	}
+	assert.Equal(t, resourceData.Get("T0"), "2021-05-17T01:35:33Z", "Date T0 did not marshal")
 }
 
 func TestFlattenMarshal(t *testing.T) {

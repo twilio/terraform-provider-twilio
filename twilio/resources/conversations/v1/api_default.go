@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/conversations/v1"
+	. "github.com/twilio/twilio-go/rest/conversations/v1"
 )
 
 func ResourceServicesConversations() *schema.Resource {
@@ -70,11 +71,15 @@ func createServicesConversations(ctx context.Context, d *schema.ResourceData, m 
 }
 
 func deleteServicesConversations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteServiceConversationParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversation(chatServiceSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversation(chatServiceSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -173,11 +178,15 @@ func createConversationsMessages(ctx context.Context, d *schema.ResourceData, m 
 }
 
 func deleteConversationsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteConversationMessageParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationMessage(conversationSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationMessage(conversationSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -278,12 +287,16 @@ func createServicesConversationsParticipants(ctx context.Context, d *schema.Reso
 }
 
 func deleteServicesConversationsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteServiceConversationParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationParticipant(chatServiceSid, conversationSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationParticipant(chatServiceSid, conversationSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -343,13 +356,13 @@ func ResourceServicesConversationsWebhooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"chat_service_sid":           AsString(SchemaRequired),
 			"conversation_sid":           AsString(SchemaRequired),
-			"target":                     AsString(SchemaRequired),
 			"configuration.filters":      AsString(SchemaOptional),
 			"configuration.flow_sid":     AsString(SchemaOptional),
 			"configuration.method":       AsString(SchemaOptional),
 			"configuration.replay_after": AsString(SchemaOptional),
 			"configuration.triggers":     AsString(SchemaOptional),
 			"configuration.url":          AsString(SchemaOptional),
+			"target":                     AsString(SchemaOptional),
 			"account_sid":                AsString(SchemaComputed),
 			"configuration":              AsString(SchemaComputed),
 			"date_created":               AsString(SchemaComputed),
@@ -447,9 +460,9 @@ func ResourceRoles() *schema.Resource {
 		UpdateContext: updateRoles,
 		DeleteContext: deleteRoles,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":    AsString(SchemaRequired),
-			"permission":       AsString(SchemaRequired),
-			"type":             AsString(SchemaRequired),
+			"friendly_name":    AsString(SchemaOptional),
+			"permission":       AsString(SchemaOptional),
+			"type":             AsString(SchemaOptional),
 			"account_sid":      AsString(SchemaComputed),
 			"chat_service_sid": AsString(SchemaComputed),
 			"date_created":     AsString(SchemaComputed),
@@ -539,10 +552,10 @@ func ResourceUsers() *schema.Resource {
 		UpdateContext: updateUsers,
 		DeleteContext: deleteUsers,
 		Schema: map[string]*schema.Schema{
-			"identity":                 AsString(SchemaRequired),
 			"x-twilio-webhook-enabled": AsString(SchemaOptional),
 			"attributes":               AsString(SchemaOptional),
 			"friendly_name":            AsString(SchemaOptional),
+			"identity":                 AsString(SchemaOptional),
 			"role_sid":                 AsString(SchemaOptional),
 			"account_sid":              AsString(SchemaComputed),
 			"chat_service_sid":         AsString(SchemaComputed),
@@ -577,10 +590,14 @@ func createUsers(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 }
 
 func deleteUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteUserParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteUser(sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteUser(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -635,9 +652,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"chat_service_sid": AsString(SchemaRequired),
-			"friendly_name":    AsString(SchemaRequired),
-			"permission":       AsString(SchemaRequired),
-			"type":             AsString(SchemaRequired),
+			"friendly_name":    AsString(SchemaOptional),
+			"permission":       AsString(SchemaOptional),
+			"type":             AsString(SchemaOptional),
 			"account_sid":      AsString(SchemaComputed),
 			"date_created":     AsString(SchemaComputed),
 			"date_updated":     AsString(SchemaComputed),
@@ -772,10 +789,14 @@ func createConversations(ctx context.Context, d *schema.ResourceData, m interfac
 }
 
 func deleteConversations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteConversationParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteConversation(sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversation(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -874,12 +895,16 @@ func createServicesConversationsMessages(ctx context.Context, d *schema.Resource
 }
 
 func deleteServicesConversationsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteServiceConversationMessageParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationMessage(chatServiceSid, conversationSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationMessage(chatServiceSid, conversationSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -980,11 +1005,15 @@ func createConversationsParticipants(ctx context.Context, d *schema.ResourceData
 }
 
 func deleteConversationsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteConversationParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationParticipant(conversationSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationParticipant(conversationSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -1041,10 +1070,10 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"chat_service_sid":         AsString(SchemaRequired),
-			"identity":                 AsString(SchemaRequired),
 			"x-twilio-webhook-enabled": AsString(SchemaOptional),
 			"attributes":               AsString(SchemaOptional),
 			"friendly_name":            AsString(SchemaOptional),
+			"identity":                 AsString(SchemaOptional),
 			"role_sid":                 AsString(SchemaOptional),
 			"account_sid":              AsString(SchemaComputed),
 			"date_created":             AsString(SchemaComputed),
@@ -1080,11 +1109,15 @@ func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 }
 
 func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteServiceUserParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceUser(chatServiceSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceUser(chatServiceSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -1141,13 +1174,13 @@ func ResourceConversationsWebhooks() *schema.Resource {
 		DeleteContext: deleteConversationsWebhooks,
 		Schema: map[string]*schema.Schema{
 			"conversation_sid":           AsString(SchemaRequired),
-			"target":                     AsString(SchemaRequired),
 			"configuration.filters":      AsString(SchemaOptional),
 			"configuration.flow_sid":     AsString(SchemaOptional),
 			"configuration.method":       AsString(SchemaOptional),
 			"configuration.replay_after": AsString(SchemaOptional),
 			"configuration.triggers":     AsString(SchemaOptional),
 			"configuration.url":          AsString(SchemaOptional),
+			"target":                     AsString(SchemaOptional),
 			"account_sid":                AsString(SchemaComputed),
 			"configuration":              AsString(SchemaComputed),
 			"date_created":               AsString(SchemaComputed),
@@ -1241,13 +1274,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaOptional),
 			"certificate":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"private_key":   AsString(SchemaOptional),
 			"sandbox":       AsString(SchemaOptional),
 			"secret":        AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),

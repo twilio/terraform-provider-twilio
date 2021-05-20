@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/trusthub/v1"
+	. "github.com/twilio/twilio-go/rest/trusthub/v1"
 )
 
 func ResourceCustomerProfiles() *schema.Resource {
@@ -27,9 +28,9 @@ func ResourceCustomerProfiles() *schema.Resource {
 		UpdateContext: updateCustomerProfiles,
 		DeleteContext: deleteCustomerProfiles,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaRequired),
-			"friendly_name":   AsString(SchemaRequired),
-			"policy_sid":      AsString(SchemaRequired),
+			"email":           AsString(SchemaOptional),
+			"friendly_name":   AsString(SchemaOptional),
+			"policy_sid":      AsString(SchemaOptional),
 			"status_callback": AsString(SchemaOptional),
 			"account_sid":     AsString(SchemaComputed),
 			"date_created":    AsString(SchemaComputed),
@@ -121,9 +122,9 @@ func ResourceSupportingDocuments() *schema.Resource {
 		UpdateContext: updateSupportingDocuments,
 		DeleteContext: deleteSupportingDocuments,
 		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -213,9 +214,9 @@ func ResourceEndUsers() *schema.Resource {
 		UpdateContext: updateEndUsers,
 		DeleteContext: deleteEndUsers,
 		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -303,9 +304,9 @@ func ResourceTrustProducts() *schema.Resource {
 		UpdateContext: updateTrustProducts,
 		DeleteContext: deleteTrustProducts,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaRequired),
-			"friendly_name":   AsString(SchemaRequired),
-			"policy_sid":      AsString(SchemaRequired),
+			"email":           AsString(SchemaOptional),
+			"friendly_name":   AsString(SchemaOptional),
+			"policy_sid":      AsString(SchemaOptional),
 			"status_callback": AsString(SchemaOptional),
 			"account_sid":     AsString(SchemaComputed),
 			"date_created":    AsString(SchemaComputed),

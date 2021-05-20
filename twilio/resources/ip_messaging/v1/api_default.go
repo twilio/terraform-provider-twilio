@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.14.0
+ * API version: 1.15.0
  * Contact: support@twilio.com
  */
 
@@ -13,11 +13,12 @@ package openapi
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/twilio/common"
-	. "github.com/twilio/twilio-go/twilio/rest/ip/messaging_v1"
+	. "github.com/twilio/twilio-go/rest/ip_messaging/v1"
 )
 
 func ResourceServices() *schema.Resource {
@@ -27,7 +28,7 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                    AsString(SchemaRequired),
+			"friendly_name":                    AsString(SchemaOptional),
 			"account_sid":                      AsString(SchemaComputed),
 			"consumption_report_interval":      AsString(SchemaComputed),
 			"date_created":                     AsString(SchemaComputed),
@@ -131,9 +132,9 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":           AsString(SchemaRequired),
-			"identity":              AsString(SchemaRequired),
 			"attributes":            AsString(SchemaOptional),
 			"friendly_name":         AsString(SchemaOptional),
+			"identity":              AsString(SchemaOptional),
 			"role_sid":              AsString(SchemaOptional),
 			"account_sid":           AsString(SchemaComputed),
 			"date_created":          AsString(SchemaComputed),
@@ -334,7 +335,7 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
-			"identity":                    AsString(SchemaRequired),
+			"identity":                    AsString(SchemaOptional),
 			"role_sid":                    AsString(SchemaOptional),
 			"account_sid":                 AsString(SchemaComputed),
 			"date_created":                AsString(SchemaComputed),
@@ -436,8 +437,8 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
 			"channel_sid":  AsString(SchemaRequired),
-			"body":         AsString(SchemaRequired),
 			"attributes":   AsString(SchemaOptional),
+			"body":         AsString(SchemaOptional),
 			"from":         AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
 			"date_created": AsString(SchemaComputed),
@@ -539,9 +540,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
-			"permission":    AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaOptional),
+			"permission":    AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
@@ -635,13 +636,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaOptional),
 			"certificate":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"private_key":   AsString(SchemaOptional),
 			"sandbox":       AsString(SchemaOptional),
 			"secret":        AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),

@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -148,7 +148,7 @@ func createServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.ServiceSid)
+	d.SetId(*r.Sid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

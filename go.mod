@@ -7,6 +7,6 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.0.4
 	github.com/joho/godotenv v1.3.0
 	github.com/stretchr/testify v1.7.0
-	github.com/twilio/twilio-go v0.8.0
-	golang.org/x/tools v0.1.1 // indirect
+	github.com/twilio/twilio-go v0.9.0
+	golang.org/x/tools v0.1.2 // indirect
 )

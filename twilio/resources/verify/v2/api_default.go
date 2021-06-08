@@ -148,7 +148,7 @@ func createServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ServiceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

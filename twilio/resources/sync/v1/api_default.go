@@ -354,7 +354,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ServiceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -463,7 +463,7 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ServiceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

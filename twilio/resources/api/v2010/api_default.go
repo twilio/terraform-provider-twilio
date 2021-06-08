@@ -1295,7 +1295,7 @@ func createAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.ConferenceSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -1548,7 +1548,7 @@ func createAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.CallSid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

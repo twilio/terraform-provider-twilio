@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -218,21 +218,21 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"code_length":                  AsString(SchemaOptional),
-			"custom_code_enabled":          AsString(SchemaOptional),
-			"do_not_share_warning_enabled": AsString(SchemaOptional),
-			"dtmf_input_required":          AsString(SchemaOptional),
+			"code_length":                  AsInt(SchemaOptional),
+			"custom_code_enabled":          AsBool(SchemaOptional),
+			"do_not_share_warning_enabled": AsBool(SchemaOptional),
+			"dtmf_input_required":          AsBool(SchemaOptional),
 			"friendly_name":                AsString(SchemaOptional),
-			"lookup_enabled":               AsString(SchemaOptional),
-			"psd2_enabled":                 AsString(SchemaOptional),
+			"lookup_enabled":               AsBool(SchemaOptional),
+			"psd2_enabled":                 AsBool(SchemaOptional),
 			"push.apn_credential_sid":      AsString(SchemaOptional),
 			"push.fcm_credential_sid":      AsString(SchemaOptional),
-			"push.include_date":            AsString(SchemaOptional),
-			"skip_sms_to_landlines":        AsString(SchemaOptional),
-			"totp.code_length":             AsString(SchemaOptional),
+			"push.include_date":            AsBool(SchemaOptional),
+			"skip_sms_to_landlines":        AsBool(SchemaOptional),
+			"totp.code_length":             AsInt(SchemaOptional),
 			"totp.issuer":                  AsString(SchemaOptional),
-			"totp.skew":                    AsString(SchemaOptional),
-			"totp.time_step":               AsString(SchemaOptional),
+			"totp.skew":                    AsInt(SchemaOptional),
+			"totp.time_step":               AsInt(SchemaOptional),
 			"tts_name":                     AsString(SchemaOptional),
 			"account_sid":                  AsString(SchemaComputed),
 			"date_created":                 AsString(SchemaComputed),
@@ -326,8 +326,8 @@ func ResourceServicesRateLimitsBuckets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"rate_limit_sid": AsString(SchemaRequired),
-			"interval":       AsString(SchemaOptional),
-			"max":            AsString(SchemaOptional),
+			"interval":       AsInt(SchemaOptional),
+			"max":            AsInt(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
@@ -529,12 +529,12 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 			"binding.secret":               AsString(SchemaOptional),
 			"config.alg":                   AsString(SchemaOptional),
 			"config.app_id":                AsString(SchemaOptional),
-			"config.code_length":           AsString(SchemaOptional),
+			"config.code_length":           AsInt(SchemaOptional),
 			"config.notification_platform": AsString(SchemaOptional),
 			"config.notification_token":    AsString(SchemaOptional),
 			"config.sdk_version":           AsString(SchemaOptional),
-			"config.skew":                  AsString(SchemaOptional),
-			"config.time_step":             AsString(SchemaOptional),
+			"config.skew":                  AsInt(SchemaOptional),
+			"config.time_step":             AsInt(SchemaOptional),
 			"factor_type":                  AsString(SchemaOptional),
 			"friendly_name":                AsString(SchemaOptional),
 			"account_sid":                  AsString(SchemaComputed),

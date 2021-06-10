@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -35,13 +35,13 @@ func ResourceFlows() *schema.Resource {
 			"account_sid":    AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
-			"errors":         AsString(SchemaComputed),
+			"errors":         AsList(AsString(SchemaComputed), SchemaComputed),
 			"links":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
+			"revision":       AsInt(SchemaComputed),
 			"sid":            AsString(SchemaComputed),
 			"url":            AsString(SchemaComputed),
-			"valid":          AsString(SchemaComputed),
-			"warnings":       AsString(SchemaComputed),
+			"valid":          AsBool(SchemaComputed),
+			"warnings":       AsList(AsString(SchemaComputed), SchemaComputed),
 			"webhook_url":    AsString(SchemaComputed),
 		},
 	}

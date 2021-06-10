@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -31,7 +31,7 @@ func ResourceWorkspacesTaskQueues() *schema.Resource {
 			"workspace_sid":             AsString(SchemaRequired),
 			"assignment_activity_sid":   AsString(SchemaOptional),
 			"friendly_name":             AsString(SchemaOptional),
-			"max_reserved_workers":      AsString(SchemaOptional),
+			"max_reserved_workers":      AsInt(SchemaOptional),
 			"reservation_activity_sid":  AsString(SchemaOptional),
 			"target_workers":            AsString(SchemaOptional),
 			"task_order":                AsString(SchemaOptional),
@@ -132,13 +132,13 @@ func ResourceWorkspacesTasks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":            AsString(SchemaRequired),
 			"attributes":               AsString(SchemaOptional),
-			"priority":                 AsString(SchemaOptional),
+			"priority":                 AsInt(SchemaOptional),
 			"task_channel":             AsString(SchemaOptional),
-			"timeout":                  AsString(SchemaOptional),
+			"timeout":                  AsInt(SchemaOptional),
 			"workflow_sid":             AsString(SchemaOptional),
 			"account_sid":              AsString(SchemaComputed),
 			"addons":                   AsString(SchemaComputed),
-			"age":                      AsString(SchemaComputed),
+			"age":                      AsInt(SchemaComputed),
 			"assignment_status":        AsString(SchemaComputed),
 			"date_created":             AsString(SchemaComputed),
 			"date_updated":             AsString(SchemaComputed),
@@ -246,7 +246,7 @@ func ResourceWorkspaces() *schema.Resource {
 			"event_callback_url":     AsString(SchemaOptional),
 			"events_filter":          AsString(SchemaOptional),
 			"friendly_name":          AsString(SchemaOptional),
-			"multi_task_enabled":     AsString(SchemaOptional),
+			"multi_task_enabled":     AsBool(SchemaOptional),
 			"prioritize_queue_order": AsString(SchemaOptional),
 			"template":               AsString(SchemaOptional),
 			"account_sid":            AsString(SchemaComputed),
@@ -346,7 +346,7 @@ func ResourceWorkspacesWorkflows() *schema.Resource {
 			"configuration":                    AsString(SchemaOptional),
 			"fallback_assignment_callback_url": AsString(SchemaOptional),
 			"friendly_name":                    AsString(SchemaOptional),
-			"task_reservation_timeout":         AsString(SchemaOptional),
+			"task_reservation_timeout":         AsInt(SchemaOptional),
 			"account_sid":                      AsString(SchemaComputed),
 			"date_created":                     AsString(SchemaComputed),
 			"date_updated":                     AsString(SchemaComputed),
@@ -442,7 +442,7 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 		DeleteContext: deleteWorkspacesTaskChannels,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":             AsString(SchemaRequired),
-			"channel_optimized_routing": AsString(SchemaOptional),
+			"channel_optimized_routing": AsBool(SchemaOptional),
 			"friendly_name":             AsString(SchemaOptional),
 			"unique_name":               AsString(SchemaOptional),
 			"account_sid":               AsString(SchemaComputed),
@@ -544,7 +544,7 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 			"friendly_name":       AsString(SchemaOptional),
 			"account_sid":         AsString(SchemaComputed),
 			"activity_name":       AsString(SchemaComputed),
-			"available":           AsString(SchemaComputed),
+			"available":           AsBool(SchemaComputed),
 			"date_created":        AsString(SchemaComputed),
 			"date_status_changed": AsString(SchemaComputed),
 			"date_updated":        AsString(SchemaComputed),
@@ -639,7 +639,7 @@ func ResourceWorkspacesActivities() *schema.Resource {
 		DeleteContext: deleteWorkspacesActivities,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid": AsString(SchemaRequired),
-			"available":     AsString(SchemaOptional),
+			"available":     AsBool(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),

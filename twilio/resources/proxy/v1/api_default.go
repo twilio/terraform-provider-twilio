@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -30,7 +30,7 @@ func ResourceServices() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"callback_url":                AsString(SchemaOptional),
 			"chat_instance_sid":           AsString(SchemaOptional),
-			"default_ttl":                 AsString(SchemaOptional),
+			"default_ttl":                 AsInt(SchemaOptional),
 			"geo_match_level":             AsString(SchemaOptional),
 			"intercept_callback_url":      AsString(SchemaOptional),
 			"number_selection_behavior":   AsString(SchemaOptional),
@@ -127,10 +127,10 @@ func ResourceServicesShortCodes() *schema.Resource {
 			"service_sid":  AsString(SchemaRequired),
 			"sid":          AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
-			"capabilities": AsString(SchemaComputed),
+			"capabilities": AsList(map[string]*schema.Schema{"fax": AsBool(SchemaComputed), "mms": AsBool(SchemaComputed), "sms": AsBool(SchemaComputed), "voice": AsBool(SchemaComputed)}, SchemaComputed),
 			"date_created": AsString(SchemaComputed),
 			"date_updated": AsString(SchemaComputed),
-			"is_reserved":  AsString(SchemaComputed),
+			"is_reserved":  AsBool(SchemaComputed),
 			"iso_country":  AsString(SchemaComputed),
 			"short_code":   AsString(SchemaComputed),
 			"url":          AsString(SchemaComputed),
@@ -222,15 +222,15 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 		DeleteContext: deleteServicesPhoneNumbers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"is_reserved":   AsString(SchemaOptional),
+			"is_reserved":   AsBool(SchemaOptional),
 			"phone_number":  AsString(SchemaOptional),
 			"sid":           AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
-			"capabilities":  AsString(SchemaComputed),
+			"capabilities":  AsList(map[string]*schema.Schema{"fax": AsBool(SchemaComputed), "mms": AsBool(SchemaComputed), "sms": AsBool(SchemaComputed), "voice": AsBool(SchemaComputed)}, SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
 			"friendly_name": AsString(SchemaComputed),
-			"in_use":        AsString(SchemaComputed),
+			"in_use":        AsInt(SchemaComputed),
 			"iso_country":   AsString(SchemaComputed),
 			"url":           AsString(SchemaComputed),
 		},
@@ -322,11 +322,11 @@ func ResourceServicesSessions() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
 			"date_expiry":                  AsString(SchemaOptional),
-			"fail_on_participant_conflict": AsString(SchemaOptional),
+			"fail_on_participant_conflict": AsBool(SchemaOptional),
 			"mode":                         AsString(SchemaOptional),
 			"participants":                 AsString(SchemaOptional),
 			"status":                       AsString(SchemaOptional),
-			"ttl":                          AsString(SchemaOptional),
+			"ttl":                          AsInt(SchemaOptional),
 			"unique_name":                  AsString(SchemaOptional),
 			"account_sid":                  AsString(SchemaComputed),
 			"closed_reason":                AsString(SchemaComputed),

@@ -489,7 +489,7 @@ func TestJsonEncodedNilUnMarshal(t *testing.T) {
 	assert.Nil(t, testStruct.T1, "T2 did not unmarshal")
 }
 
-func TestOptionalFlattenUnmarhal(t *testing.T) {
+func TestOptionalFlattenUnmarshal(t *testing.T) {
 	s := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
@@ -626,6 +626,66 @@ func TestComplexMarshal(t *testing.T) {
 	assert.Equal(t, resourceData.Get("T2.1"), "t2b", "T2 did not unmarshal")
 	assert.Equal(t, resourceData.Get("T3"), "2010-04-01", "T3 did not marshal")
 	assert.Equal(t, resourceData.Get("T4"), 1, "T4 did not marshal")
+}
+
+func TestMixedTypeList(t *testing.T) {
+	s := map[string]*schema.Schema{
+		"T1": {
+			Type: schema.TypeList,
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"T1a": {
+						Type: schema.TypeString,
+					},
+					"T1b": {
+						Type: schema.TypeBool,
+					},
+				},
+			},
+		},
+
+		"T2": {
+			Type:     schema.TypeList,
+			Computed: true,
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"sms": {
+						Type:     schema.TypeBool,
+						Computed: true,
+					},
+					"voice": {
+						Type:     schema.TypeBool,
+						Computed: true,
+					},
+				},
+			},
+		},
+	}
+	v := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, s, v)
+
+	type inner struct {
+		T1a string
+		T1b bool
+	}
+
+	type outer struct {
+		sms   bool
+		voice bool
+	}
+
+	type test1 struct {
+		T1 *inner
+		T2 *outer
+	}
+
+	testStruct := test1{T1: &inner{T1a: "r1", T1b: true}, T2: &outer{sms: false, voice: true}}
+	if err := MarshalSchema(resourceData, &testStruct); err != nil {
+		t.Errorf("Marshall failed: result '%v'", err)
+	}
+
+	assert.Equal(t, resourceData.Get("T1.0.T1a"), "r1", "T1 did not unmarshal")
+	assert.Equal(t, resourceData.Get("T1.0.T1b"), true, "T1 did not unmarshal")
 }
 
 func TestTimeMarshal(t *testing.T) {

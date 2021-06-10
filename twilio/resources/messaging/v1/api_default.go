@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -28,21 +28,21 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"area_code_geomatch":            AsString(SchemaOptional),
+			"area_code_geomatch":            AsBool(SchemaOptional),
 			"fallback_method":               AsString(SchemaOptional),
-			"fallback_to_long_code":         AsString(SchemaOptional),
+			"fallback_to_long_code":         AsBool(SchemaOptional),
 			"fallback_url":                  AsString(SchemaOptional),
 			"friendly_name":                 AsString(SchemaOptional),
 			"inbound_method":                AsString(SchemaOptional),
 			"inbound_request_url":           AsString(SchemaOptional),
-			"mms_converter":                 AsString(SchemaOptional),
+			"mms_converter":                 AsBool(SchemaOptional),
 			"scan_message_content":          AsString(SchemaOptional),
-			"smart_encoding":                AsString(SchemaOptional),
+			"smart_encoding":                AsBool(SchemaOptional),
 			"status_callback":               AsString(SchemaOptional),
-			"sticky_sender":                 AsString(SchemaOptional),
-			"synchronous_validation":        AsString(SchemaOptional),
-			"use_inbound_webhook_on_number": AsString(SchemaOptional),
-			"validity_period":               AsString(SchemaOptional),
+			"sticky_sender":                 AsBool(SchemaOptional),
+			"synchronous_validation":        AsBool(SchemaOptional),
+			"use_inbound_webhook_on_number": AsBool(SchemaOptional),
+			"validity_period":               AsInt(SchemaOptional),
 			"account_sid":                   AsString(SchemaComputed),
 			"date_created":                  AsString(SchemaComputed),
 			"date_updated":                  AsString(SchemaComputed),

@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -30,13 +30,13 @@ func ResourceCompositionHooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"audio_sources":          AsString(SchemaOptional),
 			"audio_sources_excluded": AsString(SchemaOptional),
-			"enabled":                AsString(SchemaOptional),
+			"enabled":                AsBool(SchemaOptional),
 			"format":                 AsString(SchemaOptional),
 			"friendly_name":          AsString(SchemaOptional),
 			"resolution":             AsString(SchemaOptional),
 			"status_callback":        AsString(SchemaOptional),
 			"status_callback_method": AsString(SchemaOptional),
-			"trim":                   AsString(SchemaOptional),
+			"trim":                   AsBool(SchemaOptional),
 			"video_layout":           AsString(SchemaOptional),
 			"account_sid":            AsString(SchemaComputed),
 			"date_created":           AsString(SchemaComputed),

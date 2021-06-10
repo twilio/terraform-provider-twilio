@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -30,7 +30,7 @@ func ResourceServices() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"friendly_name":                    AsString(SchemaOptional),
 			"account_sid":                      AsString(SchemaComputed),
-			"consumption_report_interval":      AsString(SchemaComputed),
+			"consumption_report_interval":      AsInt(SchemaComputed),
 			"date_created":                     AsString(SchemaComputed),
 			"date_updated":                     AsString(SchemaComputed),
 			"default_channel_creator_role_sid": AsString(SchemaComputed),
@@ -41,12 +41,12 @@ func ResourceServices() *schema.Resource {
 			"notifications":                    AsString(SchemaComputed),
 			"post_webhook_url":                 AsString(SchemaComputed),
 			"pre_webhook_url":                  AsString(SchemaComputed),
-			"reachability_enabled":             AsString(SchemaComputed),
-			"read_status_enabled":              AsString(SchemaComputed),
+			"reachability_enabled":             AsBool(SchemaComputed),
+			"read_status_enabled":              AsBool(SchemaComputed),
 			"sid":                              AsString(SchemaComputed),
-			"typing_indicator_timeout":         AsString(SchemaComputed),
+			"typing_indicator_timeout":         AsInt(SchemaComputed),
 			"url":                              AsString(SchemaComputed),
-			"webhook_filters":                  AsString(SchemaComputed),
+			"webhook_filters":                  AsList(AsString(SchemaComputed), SchemaComputed),
 			"webhook_method":                   AsString(SchemaComputed),
 			"webhooks":                         AsString(SchemaComputed),
 		},
@@ -139,9 +139,9 @@ func ResourceServicesUsers() *schema.Resource {
 			"account_sid":           AsString(SchemaComputed),
 			"date_created":          AsString(SchemaComputed),
 			"date_updated":          AsString(SchemaComputed),
-			"is_notifiable":         AsString(SchemaComputed),
-			"is_online":             AsString(SchemaComputed),
-			"joined_channels_count": AsString(SchemaComputed),
+			"is_notifiable":         AsBool(SchemaComputed),
+			"is_online":             AsBool(SchemaComputed),
+			"joined_channels_count": AsInt(SchemaComputed),
 			"links":                 AsString(SchemaComputed),
 			"sid":                   AsString(SchemaComputed),
 			"url":                   AsString(SchemaComputed),
@@ -242,8 +242,8 @@ func ResourceServicesChannels() *schema.Resource {
 			"date_created":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
 			"links":          AsString(SchemaComputed),
-			"members_count":  AsString(SchemaComputed),
-			"messages_count": AsString(SchemaComputed),
+			"members_count":  AsInt(SchemaComputed),
+			"messages_count": AsInt(SchemaComputed),
 			"sid":            AsString(SchemaComputed),
 			"url":            AsString(SchemaComputed),
 		},
@@ -340,7 +340,7 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 			"account_sid":                 AsString(SchemaComputed),
 			"date_created":                AsString(SchemaComputed),
 			"date_updated":                AsString(SchemaComputed),
-			"last_consumed_message_index": AsString(SchemaComputed),
+			"last_consumed_message_index": AsInt(SchemaComputed),
 			"last_consumption_timestamp":  AsString(SchemaComputed),
 			"sid":                         AsString(SchemaComputed),
 			"url":                         AsString(SchemaComputed),
@@ -443,11 +443,11 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 			"account_sid":  AsString(SchemaComputed),
 			"date_created": AsString(SchemaComputed),
 			"date_updated": AsString(SchemaComputed),
-			"index":        AsString(SchemaComputed),
+			"index":        AsInt(SchemaComputed),
 			"sid":          AsString(SchemaComputed),
 			"to":           AsString(SchemaComputed),
 			"url":          AsString(SchemaComputed),
-			"was_edited":   AsString(SchemaComputed),
+			"was_edited":   AsBool(SchemaComputed),
 		},
 	}
 }
@@ -546,7 +546,7 @@ func ResourceServicesRoles() *schema.Resource {
 			"account_sid":   AsString(SchemaComputed),
 			"date_created":  AsString(SchemaComputed),
 			"date_updated":  AsString(SchemaComputed),
-			"permissions":   AsString(SchemaComputed),
+			"permissions":   AsList(AsString(SchemaComputed), SchemaComputed),
 			"sid":           AsString(SchemaComputed),
 			"url":           AsString(SchemaComputed),
 		},
@@ -640,7 +640,7 @@ func ResourceCredentials() *schema.Resource {
 			"certificate":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"private_key":   AsString(SchemaOptional),
-			"sandbox":       AsString(SchemaOptional),
+			"sandbox":       AsBool(SchemaOptional),
 			"secret":        AsString(SchemaOptional),
 			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),

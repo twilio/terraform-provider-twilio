@@ -461,6 +461,13 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 				}
 				return CreateErrorGeneric("Wrong type of id field")
 			} else {
+				val := resourceData.Get(name)
+
+				// maps to openapi type object
+				if reflect.TypeOf(val).Kind() == reflect.Slice && reflect.TypeOf(value).Kind() == reflect.Ptr {
+					return resourceData.Set(name, []interface{}{&value})
+				}
+
 				return resourceData.Set(name, value)
 			}
 		}

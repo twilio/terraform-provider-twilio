@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -31,20 +31,20 @@ func ResourceFlexFlows() *schema.Resource {
 			"channel_type":                    AsString(SchemaOptional),
 			"chat_service_sid":                AsString(SchemaOptional),
 			"contact_identity":                AsString(SchemaOptional),
-			"enabled":                         AsString(SchemaOptional),
+			"enabled":                         AsBool(SchemaOptional),
 			"friendly_name":                   AsString(SchemaOptional),
 			"integration.channel":             AsString(SchemaOptional),
-			"integration.creation_on_message": AsString(SchemaOptional),
+			"integration.creation_on_message": AsBool(SchemaOptional),
 			"integration.flow_sid":            AsString(SchemaOptional),
-			"integration.priority":            AsString(SchemaOptional),
-			"integration.retry_count":         AsString(SchemaOptional),
-			"integration.timeout":             AsString(SchemaOptional),
+			"integration.priority":            AsInt(SchemaOptional),
+			"integration.retry_count":         AsInt(SchemaOptional),
+			"integration.timeout":             AsInt(SchemaOptional),
 			"integration.url":                 AsString(SchemaOptional),
 			"integration.workflow_sid":        AsString(SchemaOptional),
 			"integration.workspace_sid":       AsString(SchemaOptional),
 			"integration_type":                AsString(SchemaOptional),
-			"janitor_enabled":                 AsString(SchemaOptional),
-			"long_lived":                      AsString(SchemaOptional),
+			"janitor_enabled":                 AsBool(SchemaOptional),
+			"long_lived":                      AsBool(SchemaOptional),
 			"account_sid":                     AsString(SchemaComputed),
 			"date_created":                    AsString(SchemaComputed),
 			"date_updated":                    AsString(SchemaComputed),

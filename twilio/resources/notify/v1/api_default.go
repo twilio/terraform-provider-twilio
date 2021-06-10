@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -34,13 +34,13 @@ func ResourceServices() *schema.Resource {
 			"default_apn_notification_protocol_version":   AsString(SchemaOptional),
 			"default_fcm_notification_protocol_version":   AsString(SchemaOptional),
 			"default_gcm_notification_protocol_version":   AsString(SchemaOptional),
-			"delivery_callback_enabled":                   AsString(SchemaOptional),
+			"delivery_callback_enabled":                   AsBool(SchemaOptional),
 			"delivery_callback_url":                       AsString(SchemaOptional),
 			"facebook_messenger_page_id":                  AsString(SchemaOptional),
 			"fcm_credential_sid":                          AsString(SchemaOptional),
 			"friendly_name":                               AsString(SchemaOptional),
 			"gcm_credential_sid":                          AsString(SchemaOptional),
-			"log_enabled":                                 AsString(SchemaOptional),
+			"log_enabled":                                 AsBool(SchemaOptional),
 			"messaging_service_sid":                       AsString(SchemaOptional),
 			"account_sid":                                 AsString(SchemaComputed),
 			"date_created":                                AsString(SchemaComputed),
@@ -134,7 +134,7 @@ func ResourceCredentials() *schema.Resource {
 			"certificate":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"private_key":   AsString(SchemaOptional),
-			"sandbox":       AsString(SchemaOptional),
+			"sandbox":       AsBool(SchemaOptional),
 			"secret":        AsString(SchemaOptional),
 			"type":          AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),

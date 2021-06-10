@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -326,7 +326,7 @@ func ResourceAssistants() *schema.Resource {
 			"callback_url":           AsString(SchemaOptional),
 			"defaults":               AsString(SchemaOptional),
 			"friendly_name":          AsString(SchemaOptional),
-			"log_queries":            AsString(SchemaOptional),
+			"log_queries":            AsBool(SchemaOptional),
 			"style_sheet":            AsString(SchemaOptional),
 			"unique_name":            AsString(SchemaOptional),
 			"account_sid":            AsString(SchemaComputed),
@@ -335,7 +335,7 @@ func ResourceAssistants() *schema.Resource {
 			"development_stage":      AsString(SchemaComputed),
 			"latest_model_build_sid": AsString(SchemaComputed),
 			"links":                  AsString(SchemaComputed),
-			"needs_model_build":      AsString(SchemaComputed),
+			"needs_model_build":      AsBool(SchemaComputed),
 			"sid":                    AsString(SchemaComputed),
 			"url":                    AsString(SchemaComputed),
 		},
@@ -522,10 +522,10 @@ func ResourceAssistantsModelBuilds() *schema.Resource {
 			"status_callback": AsString(SchemaOptional),
 			"unique_name":     AsString(SchemaOptional),
 			"account_sid":     AsString(SchemaComputed),
-			"build_duration":  AsString(SchemaComputed),
+			"build_duration":  AsInt(SchemaComputed),
 			"date_created":    AsString(SchemaComputed),
 			"date_updated":    AsString(SchemaComputed),
-			"error_code":      AsString(SchemaComputed),
+			"error_code":      AsInt(SchemaComputed),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputed),
 			"url":             AsString(SchemaComputed),

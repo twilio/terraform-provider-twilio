@@ -475,7 +475,7 @@ func ResourceAccountsIncomingPhoneNumbers() *schema.Resource {
 			"account_sid":            AsString(SchemaComputed),
 			"address_requirements":   AsString(SchemaComputed),
 			"beta":                   AsBool(SchemaComputed),
-			"capabilities":           AsList(map[string]*schema.Schema{"fax": AsBool(SchemaComputed), "mms": AsBool(SchemaComputed), "sms": AsBool(SchemaComputed), "voice": AsBool(SchemaComputed)}, SchemaComputed),
+			"capabilities":           AsString(SchemaComputed),
 			"date_created":           AsString(SchemaComputed),
 			"date_updated":           AsString(SchemaComputed),
 			"origin":                 AsString(SchemaComputed),

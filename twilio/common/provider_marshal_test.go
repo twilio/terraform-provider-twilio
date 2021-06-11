@@ -628,64 +628,51 @@ func TestComplexMarshal(t *testing.T) {
 	assert.Equal(t, resourceData.Get("T4"), 1, "T4 did not marshal")
 }
 
-func TestMixedTypeList(t *testing.T) {
+func TestObjectMarshal(t *testing.T) {
 	s := map[string]*schema.Schema{
-		"T1": {
-			Type: schema.TypeList,
-			Elem: &schema.Resource{
-				Schema: map[string]*schema.Schema{
-					"T1a": {
-						Type: schema.TypeString,
-					},
-					"T1b": {
-						Type: schema.TypeBool,
-					},
-				},
-			},
+		"Errors": {
+			Type: schema.TypeString,
 		},
-
-		"T2": {
-			Type:     schema.TypeList,
-			Computed: true,
-			Elem: &schema.Resource{
-				Schema: map[string]*schema.Schema{
-					"sms": {
-						Type:     schema.TypeBool,
-						Computed: true,
-					},
-					"voice": {
-						Type:     schema.TypeBool,
-						Computed: true,
-					},
-				},
-			},
+		"Links": {
+			Type: schema.TypeString,
 		},
 	}
 	v := map[string]interface{}{}
 	resourceData := schema.TestResourceDataRaw(t, s, v)
 
-	type inner struct {
-		T1a string
-		T1b bool
-	}
-
-	type outer struct {
-		sms   bool
-		voice bool
-	}
-
 	type test1 struct {
-		T1 *inner
-		T2 *outer
+		Links  map[string]interface{}
+		Errors []map[string]interface{}
 	}
 
-	testStruct := test1{T1: &inner{T1a: "r1", T1b: true}, T2: &outer{sms: false, voice: true}}
+	testStruct := test1{
+		Links: map[string]interface{}{
+			"test_users": "https://studio.twilio.com/v2/Flows/FWXX/TestUsers",
+			"revisions":  "https://studio.twilio.com/v2/Flows/FWXX/Revisions",
+			"executions": "https://studio.twilio.com/v2/Flows/FWXX/Executions",
+		},
+		Errors: []map[string]interface{}{
+			{
+				"message":       "some message",
+				"property_path": "some property path",
+			},
+			{
+				"message":       "some message 2",
+				"property_path": "some property path 2",
+			},
+		},
+	}
+
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
 
-	assert.Equal(t, resourceData.Get("T1.0.T1a"), "r1", "T1 did not unmarshal")
-	assert.Equal(t, resourceData.Get("T1.0.T1b"), true, "T1 did not unmarshal")
+	//  "{\"message\":\"is missing but it is required\",\"property_path\":\"#/description\"}"
+
+	testMe := resourceData.Get("Links")
+	testMe2 := resourceData.Get("Errors")
+	assert.Equal(t, testMe, "{\"executions\":\"https://studio.twilio.com/v2/Flows/FWXX/Executions\",\"revisions\":\"https://studio.twilio.com/v2/Flows/FWXX/Revisions\",\"test_users\":\"https://studio.twilio.com/v2/Flows/FWXX/TestUsers\"}")
+	assert.Equal(t, testMe2, "[{\\message\\:\\some message\\,\\property_path\\:\\some property path\\},{\\message\\:\\some message 2\\,\\property_path\\:\\some property path 2\\}]")
 }
 
 func TestTimeMarshal(t *testing.T) {

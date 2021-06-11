@@ -13,6 +13,7 @@ package openapi
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -354,7 +355,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Index)
+	d.SetId(fmt.Sprint(*r.Index))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -371,7 +372,7 @@ func deleteServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(string)
+	index := d.Get("index").(int32)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
 	d.SetId("")
@@ -386,7 +387,7 @@ func readServicesListsItems(ctx context.Context, d *schema.ResourceData, m inter
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(string)
+	index := d.Get("index").(int32)
 
 	r, err := m.(*client.Config).Client.SyncV1.FetchSyncListItem(serviceSid, listSid, index)
 	if err != nil {
@@ -409,7 +410,7 @@ func updateServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(string)
+	index := d.Get("index").(int32)
 
 	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncListItem(serviceSid, listSid, index, &params)
 	if err != nil {

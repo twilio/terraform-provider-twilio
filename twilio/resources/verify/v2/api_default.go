@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -224,17 +224,17 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
 			"identity":                     AsString(SchemaRequired),
-			"binding.alg":                  AsString(SchemaOptional),
-			"binding.public_key":           AsString(SchemaOptional),
-			"binding.secret":               AsString(SchemaOptional),
-			"config.alg":                   AsString(SchemaOptional),
-			"config.app_id":                AsString(SchemaOptional),
-			"config.code_length":           AsString(SchemaOptional),
-			"config.notification_platform": AsString(SchemaOptional),
-			"config.notification_token":    AsString(SchemaOptional),
-			"config.sdk_version":           AsString(SchemaOptional),
-			"config.skew":                  AsString(SchemaOptional),
-			"config.time_step":             AsString(SchemaOptional),
+			"binding_alg":                  AsString(SchemaOptional),
+			"binding_public_key":           AsString(SchemaOptional),
+			"binding_secret":               AsString(SchemaOptional),
+			"config_alg":                   AsString(SchemaOptional),
+			"config_app_id":                AsString(SchemaOptional),
+			"config_code_length":           AsString(SchemaOptional),
+			"config_notification_platform": AsString(SchemaOptional),
+			"config_notification_token":    AsString(SchemaOptional),
+			"config_sdk_version":           AsString(SchemaOptional),
+			"config_skew":                  AsString(SchemaOptional),
+			"config_time_step":             AsString(SchemaOptional),
 			"factor_type":                  AsString(SchemaOptional),
 			"friendly_name":                AsString(SchemaOptional),
 			"account_sid":                  AsString(SchemaComputed),
@@ -440,14 +440,14 @@ func ResourceServices() *schema.Resource {
 			"friendly_name":                AsString(SchemaOptional),
 			"lookup_enabled":               AsString(SchemaOptional),
 			"psd2_enabled":                 AsString(SchemaOptional),
-			"push.apn_credential_sid":      AsString(SchemaOptional),
-			"push.fcm_credential_sid":      AsString(SchemaOptional),
-			"push.include_date":            AsString(SchemaOptional),
+			"push_apn_credential_sid":      AsString(SchemaOptional),
+			"push_fcm_credential_sid":      AsString(SchemaOptional),
+			"push_include_date":            AsString(SchemaOptional),
 			"skip_sms_to_landlines":        AsString(SchemaOptional),
-			"totp.code_length":             AsString(SchemaOptional),
-			"totp.issuer":                  AsString(SchemaOptional),
-			"totp.skew":                    AsString(SchemaOptional),
-			"totp.time_step":               AsString(SchemaOptional),
+			"totp_code_length":             AsString(SchemaOptional),
+			"totp_issuer":                  AsString(SchemaOptional),
+			"totp_skew":                    AsString(SchemaOptional),
+			"totp_time_step":               AsString(SchemaOptional),
 			"tts_name":                     AsString(SchemaOptional),
 			"account_sid":                  AsString(SchemaComputed),
 			"date_created":                 AsString(SchemaComputed),

@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -33,15 +33,15 @@ func ResourceFlexFlows() *schema.Resource {
 			"contact_identity":                AsString(SchemaOptional),
 			"enabled":                         AsString(SchemaOptional),
 			"friendly_name":                   AsString(SchemaOptional),
-			"integration.channel":             AsString(SchemaOptional),
-			"integration.creation_on_message": AsString(SchemaOptional),
-			"integration.flow_sid":            AsString(SchemaOptional),
-			"integration.priority":            AsString(SchemaOptional),
-			"integration.retry_count":         AsString(SchemaOptional),
-			"integration.timeout":             AsString(SchemaOptional),
-			"integration.url":                 AsString(SchemaOptional),
-			"integration.workflow_sid":        AsString(SchemaOptional),
-			"integration.workspace_sid":       AsString(SchemaOptional),
+			"integration_channel":             AsString(SchemaOptional),
+			"integration_creation_on_message": AsString(SchemaOptional),
+			"integration_flow_sid":            AsString(SchemaOptional),
+			"integration_priority":            AsString(SchemaOptional),
+			"integration_retry_count":         AsString(SchemaOptional),
+			"integration_timeout":             AsString(SchemaOptional),
+			"integration_url":                 AsString(SchemaOptional),
+			"integration_workflow_sid":        AsString(SchemaOptional),
+			"integration_workspace_sid":       AsString(SchemaOptional),
 			"integration_type":                AsString(SchemaOptional),
 			"janitor_enabled":                 AsString(SchemaOptional),
 			"long_lived":                      AsString(SchemaOptional),

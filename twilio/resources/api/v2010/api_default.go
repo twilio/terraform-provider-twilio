@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.15.0
+ * API version: 1.16.1
  * Contact: support@twilio.com
  */
 
@@ -1020,7 +1020,7 @@ func createAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.CallSid)
+	d.SetId(*r.Sid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -1847,7 +1847,7 @@ func createAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.CallSid)
+	d.SetId(*r.Sid)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

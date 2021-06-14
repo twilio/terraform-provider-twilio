@@ -21,104 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/trunking/v1"
 )
 
-func ResourceTrunks() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createTrunks,
-		ReadContext:   readTrunks,
-		UpdateContext: updateTrunks,
-		DeleteContext: deleteTrunks,
-		Schema: map[string]*schema.Schema{
-			"cnam_lookup_enabled":      AsString(SchemaOptional),
-			"disaster_recovery_method": AsString(SchemaOptional),
-			"disaster_recovery_url":    AsString(SchemaOptional),
-			"domain_name":              AsString(SchemaOptional),
-			"friendly_name":            AsString(SchemaOptional),
-			"secure":                   AsString(SchemaOptional),
-			"transfer_mode":            AsString(SchemaOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"auth_type":                AsString(SchemaComputed),
-			"auth_type_set":            AsString(SchemaComputed),
-			"date_created":             AsString(SchemaComputed),
-			"date_updated":             AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"recording":                AsString(SchemaComputed),
-			"sid":                      AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
-		},
-	}
-}
-
-func createTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateTrunkParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.TrunkingV1.CreateTrunk(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.TrunkingV1.DeleteTrunk(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TrunkingV1.FetchTrunk(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateTrunkParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TrunkingV1.UpdateTrunk(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceTrunksOriginationUrls() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createTrunksOriginationUrls,
@@ -205,6 +107,104 @@ func updateTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.TrunkingV1.UpdateOriginationUrl(trunkSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceTrunks() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createTrunks,
+		ReadContext:   readTrunks,
+		UpdateContext: updateTrunks,
+		DeleteContext: deleteTrunks,
+		Schema: map[string]*schema.Schema{
+			"cnam_lookup_enabled":      AsString(SchemaOptional),
+			"disaster_recovery_method": AsString(SchemaOptional),
+			"disaster_recovery_url":    AsString(SchemaOptional),
+			"domain_name":              AsString(SchemaOptional),
+			"friendly_name":            AsString(SchemaOptional),
+			"secure":                   AsString(SchemaOptional),
+			"transfer_mode":            AsString(SchemaOptional),
+			"account_sid":              AsString(SchemaComputed),
+			"auth_type":                AsString(SchemaComputed),
+			"auth_type_set":            AsString(SchemaComputed),
+			"date_created":             AsString(SchemaComputed),
+			"date_updated":             AsString(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"recording":                AsString(SchemaComputed),
+			"sid":                      AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
+		},
+	}
+}
+
+func createTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateTrunkParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.TrunkingV1.CreateTrunk(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TrunkingV1.DeleteTrunk(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.FetchTrunk(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateTrunkParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.UpdateTrunk(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

@@ -21,32 +21,41 @@ import (
 	. "github.com/twilio/twilio-go/rest/api/v2010"
 )
 
-func ResourceAccountsSIPIpAccessControlLists() *schema.Resource {
+func ResourceAccountsAddresses() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsSIPIpAccessControlLists,
-		ReadContext:   readAccountsSIPIpAccessControlLists,
-		UpdateContext: updateAccountsSIPIpAccessControlLists,
-		DeleteContext: deleteAccountsSIPIpAccessControlLists,
+		CreateContext: createAccountsAddresses,
+		ReadContext:   readAccountsAddresses,
+		UpdateContext: updateAccountsAddresses,
+		DeleteContext: deleteAccountsAddresses,
 		Schema: map[string]*schema.Schema{
-			"path_account_sid": AsString(SchemaOptional),
-			"friendly_name":    AsString(SchemaOptional),
-			"account_sid":      AsString(SchemaComputed),
-			"date_created":     AsString(SchemaComputed),
-			"date_updated":     AsString(SchemaComputed),
-			"sid":              AsString(SchemaComputed),
-			"subresource_uris": AsString(SchemaComputed),
-			"uri":              AsString(SchemaComputed),
+			"path_account_sid":     AsString(SchemaOptional),
+			"auto_correct_address": AsString(SchemaOptional),
+			"city":                 AsString(SchemaOptional),
+			"customer_name":        AsString(SchemaOptional),
+			"emergency_enabled":    AsString(SchemaOptional),
+			"friendly_name":        AsString(SchemaOptional),
+			"iso_country":          AsString(SchemaOptional),
+			"postal_code":          AsString(SchemaOptional),
+			"region":               AsString(SchemaOptional),
+			"street":               AsString(SchemaOptional),
+			"account_sid":          AsString(SchemaComputed),
+			"date_created":         AsString(SchemaComputed),
+			"date_updated":         AsString(SchemaComputed),
+			"sid":                  AsString(SchemaComputed),
+			"uri":                  AsString(SchemaComputed),
+			"validated":            AsString(SchemaComputed),
+			"verified":             AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSipIpAccessControlListParams{}
+func createAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateAddressParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAccessControlList(&params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateAddress(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -60,15 +69,15 @@ func createAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func deleteAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteSipIpAccessControlListParams{}
+func deleteAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteAddressParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAccessControlList(sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteAddress(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -77,15 +86,15 @@ func deleteAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchSipIpAccessControlListParams{}
+func readAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchAddressParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAccessControlList(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchAddress(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -98,15 +107,15 @@ func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSipIpAccessControlListParams{}
+func updateAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateAddressParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipIpAccessControlList(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateAddress(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -119,46 +128,45 @@ func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func ResourceAccountsSIPDomains() *schema.Resource {
+func ResourceAccountsApplications() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsSIPDomains,
-		ReadContext:   readAccountsSIPDomains,
-		UpdateContext: updateAccountsSIPDomains,
-		DeleteContext: deleteAccountsSIPDomains,
+		CreateContext: createAccountsApplications,
+		ReadContext:   readAccountsApplications,
+		UpdateContext: updateAccountsApplications,
+		DeleteContext: deleteAccountsApplications,
 		Schema: map[string]*schema.Schema{
-			"path_account_sid":             AsString(SchemaOptional),
-			"byoc_trunk_sid":               AsString(SchemaOptional),
-			"domain_name":                  AsString(SchemaOptional),
-			"emergency_caller_sid":         AsString(SchemaOptional),
-			"emergency_calling_enabled":    AsString(SchemaOptional),
-			"friendly_name":                AsString(SchemaOptional),
-			"secure":                       AsString(SchemaOptional),
-			"sip_registration":             AsString(SchemaOptional),
-			"voice_fallback_method":        AsString(SchemaOptional),
-			"voice_fallback_url":           AsString(SchemaOptional),
-			"voice_method":                 AsString(SchemaOptional),
-			"voice_status_callback_method": AsString(SchemaOptional),
-			"voice_status_callback_url":    AsString(SchemaOptional),
-			"voice_url":                    AsString(SchemaOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"api_version":                  AsString(SchemaComputed),
-			"auth_type":                    AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"sid":                          AsString(SchemaComputed),
-			"subresource_uris":             AsString(SchemaComputed),
-			"uri":                          AsString(SchemaComputed),
+			"path_account_sid":        AsString(SchemaOptional),
+			"api_version":             AsString(SchemaOptional),
+			"friendly_name":           AsString(SchemaOptional),
+			"message_status_callback": AsString(SchemaOptional),
+			"sms_fallback_method":     AsString(SchemaOptional),
+			"sms_fallback_url":        AsString(SchemaOptional),
+			"sms_method":              AsString(SchemaOptional),
+			"sms_status_callback":     AsString(SchemaOptional),
+			"sms_url":                 AsString(SchemaOptional),
+			"status_callback":         AsString(SchemaOptional),
+			"status_callback_method":  AsString(SchemaOptional),
+			"voice_caller_id_lookup":  AsString(SchemaOptional),
+			"voice_fallback_method":   AsString(SchemaOptional),
+			"voice_fallback_url":      AsString(SchemaOptional),
+			"voice_method":            AsString(SchemaOptional),
+			"voice_url":               AsString(SchemaOptional),
+			"account_sid":             AsString(SchemaComputed),
+			"date_created":            AsString(SchemaComputed),
+			"date_updated":            AsString(SchemaComputed),
+			"sid":                     AsString(SchemaComputed),
+			"uri":                     AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSipDomainParams{}
+func createAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateApplicationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipDomain(&params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateApplication(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -172,15 +180,15 @@ func createAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func deleteAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteSipDomainParams{}
+func deleteAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteApplicationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipDomain(sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteApplication(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -189,15 +197,15 @@ func deleteAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchSipDomainParams{}
+func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchApplicationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipDomain(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchApplication(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -210,15 +218,15 @@ func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func updateAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSipDomainParams{}
+func updateAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateApplicationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipDomain(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateApplication(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -231,35 +239,84 @@ func updateAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func ResourceAccountsSIPCredentialListsCredentials() *schema.Resource {
+func ResourceAccountsCalls() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsSIPCredentialListsCredentials,
-		ReadContext:   readAccountsSIPCredentialListsCredentials,
-		UpdateContext: updateAccountsSIPCredentialListsCredentials,
-		DeleteContext: deleteAccountsSIPCredentialListsCredentials,
+		CreateContext: createAccountsCalls,
+		ReadContext:   readAccountsCalls,
+		UpdateContext: updateAccountsCalls,
+		DeleteContext: deleteAccountsCalls,
 		Schema: map[string]*schema.Schema{
-			"credential_list_sid": AsString(SchemaRequired),
-			"path_account_sid":    AsString(SchemaOptional),
-			"password":            AsString(SchemaOptional),
-			"username":            AsString(SchemaOptional),
-			"account_sid":         AsString(SchemaComputed),
-			"date_created":        AsString(SchemaComputed),
-			"date_updated":        AsString(SchemaComputed),
-			"sid":                 AsString(SchemaComputed),
-			"uri":                 AsString(SchemaComputed),
+			"path_account_sid":                       AsString(SchemaOptional),
+			"application_sid":                        AsString(SchemaOptional),
+			"async_amd":                              AsString(SchemaOptional),
+			"async_amd_status_callback":              AsString(SchemaOptional),
+			"async_amd_status_callback_method":       AsString(SchemaOptional),
+			"byoc":                                   AsString(SchemaOptional),
+			"call_reason":                            AsString(SchemaOptional),
+			"call_token":                             AsString(SchemaOptional),
+			"caller_id":                              AsString(SchemaOptional),
+			"fallback_method":                        AsString(SchemaOptional),
+			"fallback_url":                           AsString(SchemaOptional),
+			"from":                                   AsString(SchemaOptional),
+			"machine_detection":                      AsString(SchemaOptional),
+			"machine_detection_silence_timeout":      AsString(SchemaOptional),
+			"machine_detection_speech_end_threshold": AsString(SchemaOptional),
+			"machine_detection_speech_threshold":     AsString(SchemaOptional),
+			"machine_detection_timeout":              AsString(SchemaOptional),
+			"method":                                 AsString(SchemaOptional),
+			"record":                                 AsString(SchemaOptional),
+			"recording_channels":                     AsString(SchemaOptional),
+			"recording_status_callback":              AsString(SchemaOptional),
+			"recording_status_callback_event":        AsString(SchemaOptional),
+			"recording_status_callback_method":       AsString(SchemaOptional),
+			"recording_track":                        AsString(SchemaOptional),
+			"send_digits":                            AsString(SchemaOptional),
+			"sip_auth_password":                      AsString(SchemaOptional),
+			"sip_auth_username":                      AsString(SchemaOptional),
+			"status_callback":                        AsString(SchemaOptional),
+			"status_callback_event":                  AsString(SchemaOptional),
+			"status_callback_method":                 AsString(SchemaOptional),
+			"timeout":                                AsString(SchemaOptional),
+			"to":                                     AsString(SchemaOptional),
+			"trim":                                   AsString(SchemaOptional),
+			"twiml":                                  AsString(SchemaOptional),
+			"url":                                    AsString(SchemaOptional),
+			"account_sid":                            AsString(SchemaComputed),
+			"annotation":                             AsString(SchemaComputed),
+			"answered_by":                            AsString(SchemaComputed),
+			"api_version":                            AsString(SchemaComputed),
+			"caller_name":                            AsString(SchemaComputed),
+			"date_created":                           AsString(SchemaComputed),
+			"date_updated":                           AsString(SchemaComputed),
+			"direction":                              AsString(SchemaComputed),
+			"duration":                               AsString(SchemaComputed),
+			"end_time":                               AsString(SchemaComputed),
+			"forwarded_from":                         AsString(SchemaComputed),
+			"from_formatted":                         AsString(SchemaComputed),
+			"group_sid":                              AsString(SchemaComputed),
+			"parent_call_sid":                        AsString(SchemaComputed),
+			"phone_number_sid":                       AsString(SchemaComputed),
+			"price":                                  AsString(SchemaComputed),
+			"price_unit":                             AsString(SchemaComputed),
+			"queue_time":                             AsString(SchemaComputed),
+			"sid":                                    AsString(SchemaComputed),
+			"start_time":                             AsString(SchemaComputed),
+			"status":                                 AsString(SchemaComputed),
+			"subresource_uris":                       AsString(SchemaComputed),
+			"to_formatted":                           AsString(SchemaComputed),
+			"trunk_sid":                              AsString(SchemaComputed),
+			"uri":                                    AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSipCredentialParams{}
+func createAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCallParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	credentialListSid := d.Get("credential_list_sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipCredential(credentialListSid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateCall(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -273,16 +330,15 @@ func createAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	return nil
 }
 
-func deleteAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteSipCredentialParams{}
+func deleteAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteCallParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	credentialListSid := d.Get("credential_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredential(credentialListSid, sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteCall(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -291,16 +347,15 @@ func deleteAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	return nil
 }
 
-func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchSipCredentialParams{}
+func readAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchCallParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	credentialListSid := d.Get("credential_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipCredential(credentialListSid, sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchCall(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -313,16 +368,15 @@ func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func updateAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSipCredentialParams{}
+func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateCallParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	credentialListSid := d.Get("credential_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipCredential(credentialListSid, sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateCall(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -335,36 +389,51 @@ func updateAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	return nil
 }
 
-func ResourceAccountsSIPIpAccessControlListsIpAddresses() *schema.Resource {
+func ResourceAccountsCallsRecordings() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsSIPIpAccessControlListsIpAddresses,
-		ReadContext:   readAccountsSIPIpAccessControlListsIpAddresses,
-		UpdateContext: updateAccountsSIPIpAccessControlListsIpAddresses,
-		DeleteContext: deleteAccountsSIPIpAccessControlListsIpAddresses,
+		CreateContext: createAccountsCallsRecordings,
+		ReadContext:   readAccountsCallsRecordings,
+		UpdateContext: updateAccountsCallsRecordings,
+		DeleteContext: deleteAccountsCallsRecordings,
 		Schema: map[string]*schema.Schema{
-			"ip_access_control_list_sid": AsString(SchemaRequired),
-			"path_account_sid":           AsString(SchemaOptional),
-			"cidr_prefix_length":         AsString(SchemaOptional),
-			"friendly_name":              AsString(SchemaOptional),
-			"ip_address":                 AsString(SchemaOptional),
-			"account_sid":                AsString(SchemaComputed),
-			"date_created":               AsString(SchemaComputed),
-			"date_updated":               AsString(SchemaComputed),
-			"sid":                        AsString(SchemaComputed),
-			"uri":                        AsString(SchemaComputed),
+			"call_sid":                         AsString(SchemaRequired),
+			"path_account_sid":                 AsString(SchemaOptional),
+			"recording_channels":               AsString(SchemaOptional),
+			"recording_status_callback":        AsString(SchemaOptional),
+			"recording_status_callback_event":  AsString(SchemaOptional),
+			"recording_status_callback_method": AsString(SchemaOptional),
+			"recording_track":                  AsString(SchemaOptional),
+			"trim":                             AsString(SchemaOptional),
+			"account_sid":                      AsString(SchemaComputed),
+			"api_version":                      AsString(SchemaComputed),
+			"channels":                         AsString(SchemaComputed),
+			"conference_sid":                   AsString(SchemaComputed),
+			"date_created":                     AsString(SchemaComputed),
+			"date_updated":                     AsString(SchemaComputed),
+			"duration":                         AsString(SchemaComputed),
+			"encryption_details":               AsString(SchemaComputed),
+			"error_code":                       AsString(SchemaComputed),
+			"price":                            AsString(SchemaComputed),
+			"price_unit":                       AsString(SchemaComputed),
+			"sid":                              AsString(SchemaComputed),
+			"source":                           AsString(SchemaComputed),
+			"start_time":                       AsString(SchemaComputed),
+			"status":                           AsString(SchemaComputed),
+			"track":                            AsString(SchemaComputed),
+			"uri":                              AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSipIpAddressParams{}
+func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCallRecordingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	callSid := d.Get("call_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAddress(ipAccessControlListSid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateCallRecording(callSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -378,16 +447,16 @@ func createAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	return nil
 }
 
-func deleteAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteSipIpAddressParams{}
+func deleteAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteCallRecordingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAddress(ipAccessControlListSid, sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteCallRecording(callSid, sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -396,16 +465,16 @@ func deleteAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	return nil
 }
 
-func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchSipIpAddressParams{}
+func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchCallRecordingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAddress(ipAccessControlListSid, sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchCallRecording(callSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -418,16 +487,16 @@ func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sche
 	return nil
 }
 
-func updateAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSipIpAddressParams{}
+func updateAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateCallRecordingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipIpAddress(ipAccessControlListSid, sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateCallRecording(callSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -688,51 +757,30 @@ func updateAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func ResourceAccountsCallsRecordings() *schema.Resource {
+func ResourceAccountsKeys() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsCallsRecordings,
-		ReadContext:   readAccountsCallsRecordings,
-		UpdateContext: updateAccountsCallsRecordings,
-		DeleteContext: deleteAccountsCallsRecordings,
+		CreateContext: createAccountsKeys,
+		ReadContext:   readAccountsKeys,
+		UpdateContext: updateAccountsKeys,
+		DeleteContext: deleteAccountsKeys,
 		Schema: map[string]*schema.Schema{
-			"call_sid":                         AsString(SchemaRequired),
-			"path_account_sid":                 AsString(SchemaOptional),
-			"recording_channels":               AsString(SchemaOptional),
-			"recording_status_callback":        AsString(SchemaOptional),
-			"recording_status_callback_event":  AsString(SchemaOptional),
-			"recording_status_callback_method": AsString(SchemaOptional),
-			"recording_track":                  AsString(SchemaOptional),
-			"trim":                             AsString(SchemaOptional),
-			"account_sid":                      AsString(SchemaComputed),
-			"api_version":                      AsString(SchemaComputed),
-			"channels":                         AsString(SchemaComputed),
-			"conference_sid":                   AsString(SchemaComputed),
-			"date_created":                     AsString(SchemaComputed),
-			"date_updated":                     AsString(SchemaComputed),
-			"duration":                         AsString(SchemaComputed),
-			"encryption_details":               AsString(SchemaComputed),
-			"error_code":                       AsString(SchemaComputed),
-			"price":                            AsString(SchemaComputed),
-			"price_unit":                       AsString(SchemaComputed),
-			"sid":                              AsString(SchemaComputed),
-			"source":                           AsString(SchemaComputed),
-			"start_time":                       AsString(SchemaComputed),
-			"status":                           AsString(SchemaComputed),
-			"track":                            AsString(SchemaComputed),
-			"uri":                              AsString(SchemaComputed),
+			"path_account_sid": AsString(SchemaOptional),
+			"friendly_name":    AsString(SchemaOptional),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"secret":           AsString(SchemaComputed),
+			"sid":              AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCallRecordingParams{}
+func createAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateNewKeyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	callSid := d.Get("call_sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.CreateCallRecording(callSid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateNewKey(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -746,16 +794,15 @@ func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func deleteAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteCallRecordingParams{}
+func deleteAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteKeyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteCallRecording(callSid, sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteKey(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -764,16 +811,15 @@ func deleteAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchCallRecordingParams{}
+func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchKeyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchCallRecording(callSid, sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -786,16 +832,253 @@ func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m 
 	return nil
 }
 
-func updateAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateCallRecordingParams{}
+func updateAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateKeyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateCallRecording(callSid, sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateKey(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceAccountsSigningKeys() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSigningKeys,
+		ReadContext:   readAccountsSigningKeys,
+		UpdateContext: updateAccountsSigningKeys,
+		DeleteContext: deleteAccountsSigningKeys,
+		Schema: map[string]*schema.Schema{
+			"path_account_sid": AsString(SchemaOptional),
+			"friendly_name":    AsString(SchemaOptional),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"secret":           AsString(SchemaComputed),
+			"sid":              AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateNewSigningKeyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateNewSigningKey(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSigningKeyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSigningKey(sid, &params)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSigningKeyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSigningKey(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSigningKeyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateSigningKey(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceAccountsConferencesParticipants() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsConferencesParticipants,
+		ReadContext:   readAccountsConferencesParticipants,
+		UpdateContext: updateAccountsConferencesParticipants,
+		DeleteContext: deleteAccountsConferencesParticipants,
+		Schema: map[string]*schema.Schema{
+			"conference_sid":                       AsString(SchemaRequired),
+			"path_account_sid":                     AsString(SchemaOptional),
+			"beep":                                 AsString(SchemaOptional),
+			"byoc":                                 AsString(SchemaOptional),
+			"call_reason":                          AsString(SchemaOptional),
+			"call_sid_to_coach":                    AsString(SchemaOptional),
+			"caller_id":                            AsString(SchemaOptional),
+			"coaching":                             AsString(SchemaOptional),
+			"conference_record":                    AsString(SchemaOptional),
+			"conference_recording_status_callback": AsString(SchemaOptional),
+			"conference_recording_status_callback_event":  AsString(SchemaOptional),
+			"conference_recording_status_callback_method": AsString(SchemaOptional),
+			"conference_status_callback":                  AsString(SchemaOptional),
+			"conference_status_callback_event":            AsString(SchemaOptional),
+			"conference_status_callback_method":           AsString(SchemaOptional),
+			"conference_trim":                             AsString(SchemaOptional),
+			"early_media":                                 AsString(SchemaOptional),
+			"end_conference_on_exit":                      AsString(SchemaOptional),
+			"from":                                        AsString(SchemaOptional),
+			"jitter_buffer_size":                          AsString(SchemaOptional),
+			"label":                                       AsString(SchemaOptional),
+			"max_participants":                            AsString(SchemaOptional),
+			"muted":                                       AsString(SchemaOptional),
+			"record":                                      AsString(SchemaOptional),
+			"recording_channels":                          AsString(SchemaOptional),
+			"recording_status_callback":                   AsString(SchemaOptional),
+			"recording_status_callback_event":             AsString(SchemaOptional),
+			"recording_status_callback_method":            AsString(SchemaOptional),
+			"recording_track":                             AsString(SchemaOptional),
+			"region":                                      AsString(SchemaOptional),
+			"sip_auth_password":                           AsString(SchemaOptional),
+			"sip_auth_username":                           AsString(SchemaOptional),
+			"start_conference_on_enter":                   AsString(SchemaOptional),
+			"status_callback":                             AsString(SchemaOptional),
+			"status_callback_event":                       AsString(SchemaOptional),
+			"status_callback_method":                      AsString(SchemaOptional),
+			"timeout":                                     AsString(SchemaOptional),
+			"to":                                          AsString(SchemaOptional),
+			"wait_method":                                 AsString(SchemaOptional),
+			"wait_url":                                    AsString(SchemaOptional),
+			"account_sid":                                 AsString(SchemaComputed),
+			"call_sid":                                    AsString(SchemaComputed),
+			"date_created":                                AsString(SchemaComputed),
+			"date_updated":                                AsString(SchemaComputed),
+			"hold":                                        AsString(SchemaComputed),
+			"status":                                      AsString(SchemaComputed),
+			"uri":                                         AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	conferenceSid := d.Get("conference_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateParticipant(conferenceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	conferenceSid := d.Get("conference_sid").(string)
+	callSid := d.Get("call_sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteParticipant(conferenceSid, callSid, &params)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	conferenceSid := d.Get("conference_sid").(string)
+	callSid := d.Get("call_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchParticipant(conferenceSid, callSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	conferenceSid := d.Get("conference_sid").(string)
+	callSid := d.Get("call_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateParticipant(conferenceSid, callSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -908,6 +1191,110 @@ func updateAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
+func ResourceAccountsSIPCredentialListsCredentials() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPCredentialListsCredentials,
+		ReadContext:   readAccountsSIPCredentialListsCredentials,
+		UpdateContext: updateAccountsSIPCredentialListsCredentials,
+		DeleteContext: deleteAccountsSIPCredentialListsCredentials,
+		Schema: map[string]*schema.Schema{
+			"credential_list_sid": AsString(SchemaRequired),
+			"path_account_sid":    AsString(SchemaOptional),
+			"password":            AsString(SchemaOptional),
+			"username":            AsString(SchemaOptional),
+			"account_sid":         AsString(SchemaComputed),
+			"date_created":        AsString(SchemaComputed),
+			"date_updated":        AsString(SchemaComputed),
+			"sid":                 AsString(SchemaComputed),
+			"uri":                 AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	credentialListSid := d.Get("credential_list_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipCredential(credentialListSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	credentialListSid := d.Get("credential_list_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredential(credentialListSid, sid, &params)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	credentialListSid := d.Get("credential_list_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipCredential(credentialListSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSipCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	credentialListSid := d.Get("credential_list_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipCredential(credentialListSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceAccountsSIPCredentialLists() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsSIPCredentialLists,
@@ -1006,45 +1393,46 @@ func updateAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func ResourceAccountsApplications() *schema.Resource {
+func ResourceAccountsSIPDomains() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsApplications,
-		ReadContext:   readAccountsApplications,
-		UpdateContext: updateAccountsApplications,
-		DeleteContext: deleteAccountsApplications,
+		CreateContext: createAccountsSIPDomains,
+		ReadContext:   readAccountsSIPDomains,
+		UpdateContext: updateAccountsSIPDomains,
+		DeleteContext: deleteAccountsSIPDomains,
 		Schema: map[string]*schema.Schema{
-			"path_account_sid":        AsString(SchemaOptional),
-			"api_version":             AsString(SchemaOptional),
-			"friendly_name":           AsString(SchemaOptional),
-			"message_status_callback": AsString(SchemaOptional),
-			"sms_fallback_method":     AsString(SchemaOptional),
-			"sms_fallback_url":        AsString(SchemaOptional),
-			"sms_method":              AsString(SchemaOptional),
-			"sms_status_callback":     AsString(SchemaOptional),
-			"sms_url":                 AsString(SchemaOptional),
-			"status_callback":         AsString(SchemaOptional),
-			"status_callback_method":  AsString(SchemaOptional),
-			"voice_caller_id_lookup":  AsString(SchemaOptional),
-			"voice_fallback_method":   AsString(SchemaOptional),
-			"voice_fallback_url":      AsString(SchemaOptional),
-			"voice_method":            AsString(SchemaOptional),
-			"voice_url":               AsString(SchemaOptional),
-			"account_sid":             AsString(SchemaComputed),
-			"date_created":            AsString(SchemaComputed),
-			"date_updated":            AsString(SchemaComputed),
-			"sid":                     AsString(SchemaComputed),
-			"uri":                     AsString(SchemaComputed),
+			"path_account_sid":             AsString(SchemaOptional),
+			"byoc_trunk_sid":               AsString(SchemaOptional),
+			"domain_name":                  AsString(SchemaOptional),
+			"emergency_caller_sid":         AsString(SchemaOptional),
+			"emergency_calling_enabled":    AsString(SchemaOptional),
+			"friendly_name":                AsString(SchemaOptional),
+			"secure":                       AsString(SchemaOptional),
+			"sip_registration":             AsString(SchemaOptional),
+			"voice_fallback_method":        AsString(SchemaOptional),
+			"voice_fallback_url":           AsString(SchemaOptional),
+			"voice_method":                 AsString(SchemaOptional),
+			"voice_status_callback_method": AsString(SchemaOptional),
+			"voice_status_callback_url":    AsString(SchemaOptional),
+			"voice_url":                    AsString(SchemaOptional),
+			"account_sid":                  AsString(SchemaComputed),
+			"api_version":                  AsString(SchemaComputed),
+			"auth_type":                    AsString(SchemaComputed),
+			"date_created":                 AsString(SchemaComputed),
+			"date_updated":                 AsString(SchemaComputed),
+			"sid":                          AsString(SchemaComputed),
+			"subresource_uris":             AsString(SchemaComputed),
+			"uri":                          AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateApplicationParams{}
+func createAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipDomainParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateApplication(&params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipDomain(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1058,15 +1446,15 @@ func createAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func deleteAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteApplicationParams{}
+func deleteAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipDomainParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteApplication(sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipDomain(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -1075,15 +1463,15 @@ func deleteAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchApplicationParams{}
+func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipDomainParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchApplication(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipDomain(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1096,15 +1484,15 @@ func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func updateAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateApplicationParams{}
+func updateAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSipDomainParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateApplication(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipDomain(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1117,529 +1505,32 @@ func updateAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func ResourceAccountsAddresses() *schema.Resource {
+func ResourceAccountsSIPIpAccessControlLists() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsAddresses,
-		ReadContext:   readAccountsAddresses,
-		UpdateContext: updateAccountsAddresses,
-		DeleteContext: deleteAccountsAddresses,
-		Schema: map[string]*schema.Schema{
-			"path_account_sid":     AsString(SchemaOptional),
-			"auto_correct_address": AsString(SchemaOptional),
-			"city":                 AsString(SchemaOptional),
-			"customer_name":        AsString(SchemaOptional),
-			"emergency_enabled":    AsString(SchemaOptional),
-			"friendly_name":        AsString(SchemaOptional),
-			"iso_country":          AsString(SchemaOptional),
-			"postal_code":          AsString(SchemaOptional),
-			"region":               AsString(SchemaOptional),
-			"street":               AsString(SchemaOptional),
-			"account_sid":          AsString(SchemaComputed),
-			"date_created":         AsString(SchemaComputed),
-			"date_updated":         AsString(SchemaComputed),
-			"sid":                  AsString(SchemaComputed),
-			"uri":                  AsString(SchemaComputed),
-			"validated":            AsString(SchemaComputed),
-			"verified":             AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateAddressParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.ApiV2010.CreateAddress(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteAddressParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.ApiV2010.DeleteAddress(sid, &params)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchAddressParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.FetchAddress(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateAddressParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateAddress(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceAccountsConferencesParticipants() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAccountsConferencesParticipants,
-		ReadContext:   readAccountsConferencesParticipants,
-		UpdateContext: updateAccountsConferencesParticipants,
-		DeleteContext: deleteAccountsConferencesParticipants,
-		Schema: map[string]*schema.Schema{
-			"conference_sid":                       AsString(SchemaRequired),
-			"path_account_sid":                     AsString(SchemaOptional),
-			"beep":                                 AsString(SchemaOptional),
-			"byoc":                                 AsString(SchemaOptional),
-			"call_reason":                          AsString(SchemaOptional),
-			"call_sid_to_coach":                    AsString(SchemaOptional),
-			"caller_id":                            AsString(SchemaOptional),
-			"coaching":                             AsString(SchemaOptional),
-			"conference_record":                    AsString(SchemaOptional),
-			"conference_recording_status_callback": AsString(SchemaOptional),
-			"conference_recording_status_callback_event":  AsString(SchemaOptional),
-			"conference_recording_status_callback_method": AsString(SchemaOptional),
-			"conference_status_callback":                  AsString(SchemaOptional),
-			"conference_status_callback_event":            AsString(SchemaOptional),
-			"conference_status_callback_method":           AsString(SchemaOptional),
-			"conference_trim":                             AsString(SchemaOptional),
-			"early_media":                                 AsString(SchemaOptional),
-			"end_conference_on_exit":                      AsString(SchemaOptional),
-			"from":                                        AsString(SchemaOptional),
-			"jitter_buffer_size":                          AsString(SchemaOptional),
-			"label":                                       AsString(SchemaOptional),
-			"max_participants":                            AsString(SchemaOptional),
-			"muted":                                       AsString(SchemaOptional),
-			"record":                                      AsString(SchemaOptional),
-			"recording_channels":                          AsString(SchemaOptional),
-			"recording_status_callback":                   AsString(SchemaOptional),
-			"recording_status_callback_event":             AsString(SchemaOptional),
-			"recording_status_callback_method":            AsString(SchemaOptional),
-			"recording_track":                             AsString(SchemaOptional),
-			"region":                                      AsString(SchemaOptional),
-			"sip_auth_password":                           AsString(SchemaOptional),
-			"sip_auth_username":                           AsString(SchemaOptional),
-			"start_conference_on_enter":                   AsString(SchemaOptional),
-			"status_callback":                             AsString(SchemaOptional),
-			"status_callback_event":                       AsString(SchemaOptional),
-			"status_callback_method":                      AsString(SchemaOptional),
-			"timeout":                                     AsString(SchemaOptional),
-			"to":                                          AsString(SchemaOptional),
-			"wait_method":                                 AsString(SchemaOptional),
-			"wait_url":                                    AsString(SchemaOptional),
-			"account_sid":                                 AsString(SchemaComputed),
-			"call_sid":                                    AsString(SchemaComputed),
-			"date_created":                                AsString(SchemaComputed),
-			"date_updated":                                AsString(SchemaComputed),
-			"hold":                                        AsString(SchemaComputed),
-			"status":                                      AsString(SchemaComputed),
-			"uri":                                         AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateParticipantParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	conferenceSid := d.Get("conference_sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.CreateParticipant(conferenceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.CallSid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteParticipantParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	conferenceSid := d.Get("conference_sid").(string)
-	callSid := d.Get("call_sid").(string)
-
-	err := m.(*client.Config).Client.ApiV2010.DeleteParticipant(conferenceSid, callSid, &params)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchParticipantParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	conferenceSid := d.Get("conference_sid").(string)
-	callSid := d.Get("call_sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.FetchParticipant(conferenceSid, callSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateParticipantParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	conferenceSid := d.Get("conference_sid").(string)
-	callSid := d.Get("call_sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateParticipant(conferenceSid, callSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceAccountsCalls() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAccountsCalls,
-		ReadContext:   readAccountsCalls,
-		UpdateContext: updateAccountsCalls,
-		DeleteContext: deleteAccountsCalls,
-		Schema: map[string]*schema.Schema{
-			"path_account_sid":                       AsString(SchemaOptional),
-			"application_sid":                        AsString(SchemaOptional),
-			"async_amd":                              AsString(SchemaOptional),
-			"async_amd_status_callback":              AsString(SchemaOptional),
-			"async_amd_status_callback_method":       AsString(SchemaOptional),
-			"byoc":                                   AsString(SchemaOptional),
-			"call_reason":                            AsString(SchemaOptional),
-			"call_token":                             AsString(SchemaOptional),
-			"caller_id":                              AsString(SchemaOptional),
-			"fallback_method":                        AsString(SchemaOptional),
-			"fallback_url":                           AsString(SchemaOptional),
-			"from":                                   AsString(SchemaOptional),
-			"machine_detection":                      AsString(SchemaOptional),
-			"machine_detection_silence_timeout":      AsString(SchemaOptional),
-			"machine_detection_speech_end_threshold": AsString(SchemaOptional),
-			"machine_detection_speech_threshold":     AsString(SchemaOptional),
-			"machine_detection_timeout":              AsString(SchemaOptional),
-			"method":                                 AsString(SchemaOptional),
-			"record":                                 AsString(SchemaOptional),
-			"recording_channels":                     AsString(SchemaOptional),
-			"recording_status_callback":              AsString(SchemaOptional),
-			"recording_status_callback_event":        AsString(SchemaOptional),
-			"recording_status_callback_method":       AsString(SchemaOptional),
-			"recording_track":                        AsString(SchemaOptional),
-			"send_digits":                            AsString(SchemaOptional),
-			"sip_auth_password":                      AsString(SchemaOptional),
-			"sip_auth_username":                      AsString(SchemaOptional),
-			"status_callback":                        AsString(SchemaOptional),
-			"status_callback_event":                  AsString(SchemaOptional),
-			"status_callback_method":                 AsString(SchemaOptional),
-			"timeout":                                AsString(SchemaOptional),
-			"to":                                     AsString(SchemaOptional),
-			"trim":                                   AsString(SchemaOptional),
-			"twiml":                                  AsString(SchemaOptional),
-			"url":                                    AsString(SchemaOptional),
-			"account_sid":                            AsString(SchemaComputed),
-			"annotation":                             AsString(SchemaComputed),
-			"answered_by":                            AsString(SchemaComputed),
-			"api_version":                            AsString(SchemaComputed),
-			"caller_name":                            AsString(SchemaComputed),
-			"date_created":                           AsString(SchemaComputed),
-			"date_updated":                           AsString(SchemaComputed),
-			"direction":                              AsString(SchemaComputed),
-			"duration":                               AsString(SchemaComputed),
-			"end_time":                               AsString(SchemaComputed),
-			"forwarded_from":                         AsString(SchemaComputed),
-			"from_formatted":                         AsString(SchemaComputed),
-			"group_sid":                              AsString(SchemaComputed),
-			"parent_call_sid":                        AsString(SchemaComputed),
-			"phone_number_sid":                       AsString(SchemaComputed),
-			"price":                                  AsString(SchemaComputed),
-			"price_unit":                             AsString(SchemaComputed),
-			"queue_time":                             AsString(SchemaComputed),
-			"sid":                                    AsString(SchemaComputed),
-			"start_time":                             AsString(SchemaComputed),
-			"status":                                 AsString(SchemaComputed),
-			"subresource_uris":                       AsString(SchemaComputed),
-			"to_formatted":                           AsString(SchemaComputed),
-			"trunk_sid":                              AsString(SchemaComputed),
-			"uri":                                    AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCallParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.ApiV2010.CreateCall(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteCallParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.ApiV2010.DeleteCall(sid, &params)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchCallParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.FetchCall(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateCallParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateCall(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceAccountsOutgoingCallerIds() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAccountsOutgoingCallerIds,
-		ReadContext:   readAccountsOutgoingCallerIds,
-		UpdateContext: updateAccountsOutgoingCallerIds,
-		DeleteContext: deleteAccountsOutgoingCallerIds,
-		Schema: map[string]*schema.Schema{
-			"path_account_sid":       AsString(SchemaOptional),
-			"call_delay":             AsString(SchemaOptional),
-			"extension":              AsString(SchemaOptional),
-			"friendly_name":          AsString(SchemaOptional),
-			"phone_number":           AsString(SchemaOptional),
-			"status_callback":        AsString(SchemaOptional),
-			"status_callback_method": AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"call_sid":               AsString(SchemaComputed),
-			"validation_code":        AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateValidationRequestParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.ApiV2010.CreateValidationRequest(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.CallSid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteOutgoingCallerIdParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.ApiV2010.DeleteOutgoingCallerId(sid, &params)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchOutgoingCallerIdParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.FetchOutgoingCallerId(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateOutgoingCallerIdParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateOutgoingCallerId(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceAccountsSigningKeys() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAccountsSigningKeys,
-		ReadContext:   readAccountsSigningKeys,
-		UpdateContext: updateAccountsSigningKeys,
-		DeleteContext: deleteAccountsSigningKeys,
+		CreateContext: createAccountsSIPIpAccessControlLists,
+		ReadContext:   readAccountsSIPIpAccessControlLists,
+		UpdateContext: updateAccountsSIPIpAccessControlLists,
+		DeleteContext: deleteAccountsSIPIpAccessControlLists,
 		Schema: map[string]*schema.Schema{
 			"path_account_sid": AsString(SchemaOptional),
 			"friendly_name":    AsString(SchemaOptional),
+			"account_sid":      AsString(SchemaComputed),
 			"date_created":     AsString(SchemaComputed),
 			"date_updated":     AsString(SchemaComputed),
-			"secret":           AsString(SchemaComputed),
 			"sid":              AsString(SchemaComputed),
+			"subresource_uris": AsString(SchemaComputed),
+			"uri":              AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateNewSigningKeyParams{}
+func createAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipIpAccessControlListParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateNewSigningKey(&params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAccessControlList(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1653,15 +1544,15 @@ func createAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 	return nil
 }
 
-func deleteAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteSigningKeyParams{}
+func deleteAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipIpAccessControlListParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSigningKey(sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAccessControlList(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -1670,15 +1561,15 @@ func deleteAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 	return nil
 }
 
-func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchSigningKeyParams{}
+func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipIpAccessControlListParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSigningKey(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAccessControlList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1691,15 +1582,120 @@ func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m inte
 	return nil
 }
 
-func updateAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSigningKeyParams{}
+func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSipIpAccessControlListParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSigningKey(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipIpAccessControlList(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceAccountsSIPIpAccessControlListsIpAddresses() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPIpAccessControlListsIpAddresses,
+		ReadContext:   readAccountsSIPIpAccessControlListsIpAddresses,
+		UpdateContext: updateAccountsSIPIpAccessControlListsIpAddresses,
+		DeleteContext: deleteAccountsSIPIpAccessControlListsIpAddresses,
+		Schema: map[string]*schema.Schema{
+			"ip_access_control_list_sid": AsString(SchemaRequired),
+			"path_account_sid":           AsString(SchemaOptional),
+			"cidr_prefix_length":         AsString(SchemaOptional),
+			"friendly_name":              AsString(SchemaOptional),
+			"ip_address":                 AsString(SchemaOptional),
+			"account_sid":                AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"sid":                        AsString(SchemaComputed),
+			"uri":                        AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipIpAddressParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAddress(ipAccessControlListSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipIpAddressParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAddress(ipAccessControlListSid, sid, &params)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipIpAddressParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAddress(ipAccessControlListSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSipIpAddressParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipIpAddress(ipAccessControlListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1819,30 +1815,34 @@ func updateAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 	return nil
 }
 
-func ResourceAccountsKeys() *schema.Resource {
+func ResourceAccountsOutgoingCallerIds() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAccountsKeys,
-		ReadContext:   readAccountsKeys,
-		UpdateContext: updateAccountsKeys,
-		DeleteContext: deleteAccountsKeys,
+		CreateContext: createAccountsOutgoingCallerIds,
+		ReadContext:   readAccountsOutgoingCallerIds,
+		UpdateContext: updateAccountsOutgoingCallerIds,
+		DeleteContext: deleteAccountsOutgoingCallerIds,
 		Schema: map[string]*schema.Schema{
-			"path_account_sid": AsString(SchemaOptional),
-			"friendly_name":    AsString(SchemaOptional),
-			"date_created":     AsString(SchemaComputed),
-			"date_updated":     AsString(SchemaComputed),
-			"secret":           AsString(SchemaComputed),
-			"sid":              AsString(SchemaComputed),
+			"path_account_sid":       AsString(SchemaOptional),
+			"call_delay":             AsString(SchemaOptional),
+			"extension":              AsString(SchemaOptional),
+			"friendly_name":          AsString(SchemaOptional),
+			"phone_number":           AsString(SchemaOptional),
+			"status_callback":        AsString(SchemaOptional),
+			"status_callback_method": AsString(SchemaOptional),
+			"account_sid":            AsString(SchemaComputed),
+			"call_sid":               AsString(SchemaComputed),
+			"validation_code":        AsString(SchemaComputed),
 		},
 	}
 }
 
-func createAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateNewKeyParams{}
+func createAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateValidationRequestParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateNewKey(&params)
+	r, err := m.(*client.Config).Client.ApiV2010.CreateValidationRequest(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1856,15 +1856,15 @@ func createAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 	return nil
 }
 
-func deleteAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteKeyParams{}
+func deleteAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteOutgoingCallerIdParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteKey(sid, &params)
+	err := m.(*client.Config).Client.ApiV2010.DeleteOutgoingCallerId(sid, &params)
 	d.SetId("")
 
 	if err != nil {
@@ -1873,15 +1873,15 @@ func deleteAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 	return nil
 }
 
-func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchKeyParams{}
+func readAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchOutgoingCallerIdParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchKey(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.FetchOutgoingCallerId(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1894,15 +1894,15 @@ func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}
 	return nil
 }
 
-func updateAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateKeyParams{}
+func updateAccountsOutgoingCallerIds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateOutgoingCallerIdParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateKey(sid, &params)
+	r, err := m.(*client.Config).Client.ApiV2010.UpdateOutgoingCallerId(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

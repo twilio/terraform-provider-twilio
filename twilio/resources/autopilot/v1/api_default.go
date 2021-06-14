@@ -21,300 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/autopilot/v1"
 )
 
-func ResourceAssistantsFieldTypes() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAssistantsFieldTypes,
-		ReadContext:   readAssistantsFieldTypes,
-		UpdateContext: updateAssistantsFieldTypes,
-		DeleteContext: deleteAssistantsFieldTypes,
-		Schema: map[string]*schema.Schema{
-			"assistant_sid": AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaOptional),
-			"unique_name":   AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateFieldTypeParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	assistantSid := d.Get("assistant_sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.CreateFieldType(assistantSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	assistantSid := d.Get("assistant_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.AutopilotV1.DeleteFieldType(assistantSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	assistantSid := d.Get("assistant_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.FetchFieldType(assistantSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateFieldTypeParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	assistantSid := d.Get("assistant_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.UpdateFieldType(assistantSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceAssistantsTasksSamples() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAssistantsTasksSamples,
-		ReadContext:   readAssistantsTasksSamples,
-		UpdateContext: updateAssistantsTasksSamples,
-		DeleteContext: deleteAssistantsTasksSamples,
-		Schema: map[string]*schema.Schema{
-			"assistant_sid":  AsString(SchemaRequired),
-			"task_sid":       AsString(SchemaRequired),
-			"language":       AsString(SchemaOptional),
-			"source_channel": AsString(SchemaOptional),
-			"tagged_text":    AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSampleParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	assistantSid := d.Get("assistant_sid").(string)
-	taskSid := d.Get("task_sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.CreateSample(assistantSid, taskSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	assistantSid := d.Get("assistant_sid").(string)
-	taskSid := d.Get("task_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.AutopilotV1.DeleteSample(assistantSid, taskSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	assistantSid := d.Get("assistant_sid").(string)
-	taskSid := d.Get("task_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.FetchSample(assistantSid, taskSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSampleParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	assistantSid := d.Get("assistant_sid").(string)
-	taskSid := d.Get("task_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.UpdateSample(assistantSid, taskSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceAssistantsWebhooks() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAssistantsWebhooks,
-		ReadContext:   readAssistantsWebhooks,
-		UpdateContext: updateAssistantsWebhooks,
-		DeleteContext: deleteAssistantsWebhooks,
-		Schema: map[string]*schema.Schema{
-			"assistant_sid":  AsString(SchemaRequired),
-			"events":         AsString(SchemaOptional),
-			"unique_name":    AsString(SchemaOptional),
-			"webhook_method": AsString(SchemaOptional),
-			"webhook_url":    AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-		},
-	}
-}
-
-func createAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateWebhookParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	assistantSid := d.Get("assistant_sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.CreateWebhook(assistantSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	assistantSid := d.Get("assistant_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.AutopilotV1.DeleteWebhook(assistantSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	assistantSid := d.Get("assistant_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.FetchWebhook(assistantSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateWebhookParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	assistantSid := d.Get("assistant_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AutopilotV1.UpdateWebhook(assistantSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceAssistants() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAssistants,
@@ -413,16 +119,14 @@ func updateAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 	return nil
 }
 
-func ResourceAssistantsTasks() *schema.Resource {
+func ResourceAssistantsFieldTypes() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createAssistantsTasks,
-		ReadContext:   readAssistantsTasks,
-		UpdateContext: updateAssistantsTasks,
-		DeleteContext: deleteAssistantsTasks,
+		CreateContext: createAssistantsFieldTypes,
+		ReadContext:   readAssistantsFieldTypes,
+		UpdateContext: updateAssistantsFieldTypes,
+		DeleteContext: deleteAssistantsFieldTypes,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
-			"actions":       AsString(SchemaOptional),
-			"actions_url":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"unique_name":   AsString(SchemaOptional),
 			"account_sid":   AsString(SchemaComputed),
@@ -435,15 +139,15 @@ func ResourceAssistantsTasks() *schema.Resource {
 	}
 }
 
-func createAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateTaskParams{}
+func createAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateFieldTypeParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	assistantSid := d.Get("assistant_sid").(string)
 
-	r, err := m.(*client.Config).Client.AutopilotV1.CreateTask(assistantSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateFieldType(assistantSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -457,12 +161,12 @@ func createAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	return nil
 }
 
-func deleteAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.AutopilotV1.DeleteTask(assistantSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteFieldType(assistantSid, sid)
 	d.SetId("")
 
 	if err != nil {
@@ -471,12 +175,12 @@ func deleteAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	return nil
 }
 
-func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.AutopilotV1.FetchTask(assistantSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchFieldType(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -489,8 +193,8 @@ func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
-func updateAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateTaskParams{}
+func updateAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateFieldTypeParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
@@ -498,7 +202,7 @@ func updateAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.AutopilotV1.UpdateTask(assistantSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateFieldType(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -700,6 +404,302 @@ func updateAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.AutopilotV1.UpdateQuery(assistantSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceAssistantsTasksSamples() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAssistantsTasksSamples,
+		ReadContext:   readAssistantsTasksSamples,
+		UpdateContext: updateAssistantsTasksSamples,
+		DeleteContext: deleteAssistantsTasksSamples,
+		Schema: map[string]*schema.Schema{
+			"assistant_sid":  AsString(SchemaRequired),
+			"task_sid":       AsString(SchemaRequired),
+			"language":       AsString(SchemaOptional),
+			"source_channel": AsString(SchemaOptional),
+			"tagged_text":    AsString(SchemaOptional),
+			"account_sid":    AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"sid":            AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSampleParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateSample(assistantSid, taskSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.AutopilotV1.DeleteSample(assistantSid, taskSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchSample(assistantSid, taskSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSampleParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateSample(assistantSid, taskSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceAssistantsTasks() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAssistantsTasks,
+		ReadContext:   readAssistantsTasks,
+		UpdateContext: updateAssistantsTasks,
+		DeleteContext: deleteAssistantsTasks,
+		Schema: map[string]*schema.Schema{
+			"assistant_sid": AsString(SchemaRequired),
+			"actions":       AsString(SchemaOptional),
+			"actions_url":   AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"unique_name":   AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"links":         AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateTaskParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateTask(assistantSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.AutopilotV1.DeleteTask(assistantSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchTask(assistantSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateTaskParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateTask(assistantSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceAssistantsWebhooks() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAssistantsWebhooks,
+		ReadContext:   readAssistantsWebhooks,
+		UpdateContext: updateAssistantsWebhooks,
+		DeleteContext: deleteAssistantsWebhooks,
+		Schema: map[string]*schema.Schema{
+			"assistant_sid":  AsString(SchemaRequired),
+			"events":         AsString(SchemaOptional),
+			"unique_name":    AsString(SchemaOptional),
+			"webhook_method": AsString(SchemaOptional),
+			"webhook_url":    AsString(SchemaOptional),
+			"account_sid":    AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"sid":            AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
+		},
+	}
+}
+
+func createAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateWebhookParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateWebhook(assistantSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.AutopilotV1.DeleteWebhook(assistantSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchWebhook(assistantSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateWebhookParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateWebhook(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

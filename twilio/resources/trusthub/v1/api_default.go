@@ -115,6 +115,96 @@ func updateCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
+func ResourceEndUsers() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createEndUsers,
+		ReadContext:   readEndUsers,
+		UpdateContext: updateEndUsers,
+		DeleteContext: deleteEndUsers,
+		Schema: map[string]*schema.Schema{
+			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
+		},
+	}
+}
+
+func createEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateEndUserParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.TrusthubV1.CreateEndUser(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TrusthubV1.DeleteEndUser(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrusthubV1.FetchEndUser(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateEndUserParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrusthubV1.UpdateEndUser(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceSupportingDocuments() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createSupportingDocuments,
@@ -195,96 +285,6 @@ func updateSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.TrusthubV1.UpdateSupportingDocument(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceEndUsers() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createEndUsers,
-		ReadContext:   readEndUsers,
-		UpdateContext: updateEndUsers,
-		DeleteContext: deleteEndUsers,
-		Schema: map[string]*schema.Schema{
-			"attributes":    AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
-		},
-	}
-}
-
-func createEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateEndUserParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.TrusthubV1.CreateEndUser(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.TrusthubV1.DeleteEndUser(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TrusthubV1.FetchEndUser(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateEndUserParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TrusthubV1.UpdateEndUser(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

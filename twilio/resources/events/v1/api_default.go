@@ -112,6 +112,98 @@ func updateSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	return nil
 }
 
+func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createSubscriptionsSubscribedEvents,
+		ReadContext:   readSubscriptionsSubscribedEvents,
+		UpdateContext: updateSubscriptionsSubscribedEvents,
+		DeleteContext: deleteSubscriptionsSubscribedEvents,
+		Schema: map[string]*schema.Schema{
+			"subscription_sid": AsString(SchemaRequired),
+			"schema_version":   AsString(SchemaOptional),
+			"type":             AsString(SchemaOptional),
+			"account_sid":      AsString(SchemaComputed),
+			"url":              AsString(SchemaComputed),
+		},
+	}
+}
+
+func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSubscribedEventParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	subscriptionSid := d.Get("subscription_sid").(string)
+
+	r, err := m.(*client.Config).Client.EventsV1.CreateSubscribedEvent(subscriptionSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	subscriptionSid := d.Get("subscription_sid").(string)
+	type_ := d.Get("type").(string)
+
+	err := m.(*client.Config).Client.EventsV1.DeleteSubscribedEvent(subscriptionSid, type_)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	subscriptionSid := d.Get("subscription_sid").(string)
+	type_ := d.Get("type").(string)
+
+	r, err := m.(*client.Config).Client.EventsV1.FetchSubscribedEvent(subscriptionSid, type_)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSubscribedEventParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	subscriptionSid := d.Get("subscription_sid").(string)
+	type_ := d.Get("type").(string)
+
+	r, err := m.(*client.Config).Client.EventsV1.UpdateSubscribedEvent(subscriptionSid, type_, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceSubscriptions() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createSubscriptions,
@@ -191,98 +283,6 @@ func updateSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.EventsV1.UpdateSubscription(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createSubscriptionsSubscribedEvents,
-		ReadContext:   readSubscriptionsSubscribedEvents,
-		UpdateContext: updateSubscriptionsSubscribedEvents,
-		DeleteContext: deleteSubscriptionsSubscribedEvents,
-		Schema: map[string]*schema.Schema{
-			"subscription_sid": AsString(SchemaRequired),
-			"schema_version":   AsString(SchemaOptional),
-			"type":             AsString(SchemaOptional),
-			"account_sid":      AsString(SchemaComputed),
-			"url":              AsString(SchemaComputed),
-		},
-	}
-}
-
-func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSubscribedEventParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	subscriptionSid := d.Get("subscription_sid").(string)
-
-	r, err := m.(*client.Config).Client.EventsV1.CreateSubscribedEvent(subscriptionSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.SubscriptionSid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	subscriptionSid := d.Get("subscription_sid").(string)
-	type_ := d.Get("type").(string)
-
-	err := m.(*client.Config).Client.EventsV1.DeleteSubscribedEvent(subscriptionSid, type_)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	subscriptionSid := d.Get("subscription_sid").(string)
-	type_ := d.Get("type").(string)
-
-	r, err := m.(*client.Config).Client.EventsV1.FetchSubscribedEvent(subscriptionSid, type_)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSubscribedEventParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	subscriptionSid := d.Get("subscription_sid").(string)
-	type_ := d.Get("type").(string)
-
-	r, err := m.(*client.Config).Client.EventsV1.UpdateSubscribedEvent(subscriptionSid, type_, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

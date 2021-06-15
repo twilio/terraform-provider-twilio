@@ -896,7 +896,16 @@ func TestSnakeCaseConversion(t *testing.T) {
 	testStr = "Integration.Flow.Sid"
 	result = ToSnakeCase(testStr)
 	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "integration.flow.sid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "integration_flow_sid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
 	testStr = "IntegrationChannel123"
 	result = ToSnakeCase(testStr)
 	assert.Equal(t, result, "integration_channel123")
+	testStr = "IntegrationChannelSid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_channel_sid")
 }

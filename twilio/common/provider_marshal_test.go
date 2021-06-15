@@ -888,3 +888,15 @@ func TestJsonEncodedListOfObjectsMarshal(t *testing.T) {
 	assert.EqualValues(t, "{\"foo\":\"bar1\"}", resourceData.Get("T1.0"), "T1 did not unmarshal")
 	assert.EqualValues(t, "{\"foo\":\"bar2\"}", resourceData.Get("T1.1"), "T1 did not unmarshal")
 }
+
+func TestSnakeCaseConversion(t *testing.T) {
+	testStr := "Integration.FlowSid"
+	result := ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "Integration.Flow.Sid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "IntegrationChannel123"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_channel123")
+}

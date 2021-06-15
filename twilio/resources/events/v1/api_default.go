@@ -31,12 +31,12 @@ func ResourceSinks() *schema.Resource {
 			"description":        AsString(SchemaOptional),
 			"sink_configuration": AsString(SchemaOptional),
 			"sink_type":          AsString(SchemaOptional),
-			"date_created":       AsString(SchemaComputed),
-			"date_updated":       AsString(SchemaComputed),
-			"links":              AsString(SchemaComputed),
-			"sid":                AsString(SchemaComputed),
-			"status":             AsString(SchemaComputed),
-			"url":                AsString(SchemaComputed),
+			"date_created":       AsString(SchemaOptional),
+			"date_updated":       AsString(SchemaOptional),
+			"links":              AsString(SchemaOptional),
+			"sid":                AsString(SchemaOptional),
+			"status":             AsString(SchemaOptional),
+			"url":                AsString(SchemaOptional),
 		},
 	}
 }
@@ -122,8 +122,8 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 			"subscription_sid": AsString(SchemaRequired),
 			"schema_version":   AsInt(SchemaOptional),
 			"type":             AsString(SchemaOptional),
-			"account_sid":      AsString(SchemaComputed),
-			"url":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaOptional),
+			"url":              AsString(SchemaOptional),
 		},
 	}
 }
@@ -214,12 +214,12 @@ func ResourceSubscriptions() *schema.Resource {
 			"description":  AsString(SchemaOptional),
 			"sink_sid":     AsString(SchemaOptional),
 			"types":        AsString(SchemaOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"account_sid":  AsString(SchemaOptional),
+			"date_created": AsString(SchemaOptional),
+			"date_updated": AsString(SchemaOptional),
+			"links":        AsString(SchemaOptional),
+			"sid":          AsString(SchemaOptional),
+			"url":          AsString(SchemaOptional),
 		},
 	}
 }

@@ -30,12 +30,12 @@ func ResourceServicesAssets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"links":         AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -125,12 +125,12 @@ func ResourceServicesFunctions() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"links":         AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -222,12 +222,12 @@ func ResourceServices() *schema.Resource {
 			"include_credentials": AsBool(SchemaOptional),
 			"ui_editable":         AsBool(SchemaOptional),
 			"unique_name":         AsString(SchemaOptional),
-			"account_sid":         AsString(SchemaComputed),
-			"date_created":        AsString(SchemaComputed),
-			"date_updated":        AsString(SchemaComputed),
-			"links":               AsString(SchemaComputed),
-			"sid":                 AsString(SchemaComputed),
-			"url":                 AsString(SchemaComputed),
+			"account_sid":         AsString(SchemaOptional),
+			"date_created":        AsString(SchemaOptional),
+			"date_updated":        AsString(SchemaOptional),
+			"links":               AsString(SchemaOptional),
+			"sid":                 AsString(SchemaOptional),
+			"url":                 AsString(SchemaOptional),
 		},
 	}
 }
@@ -314,11 +314,11 @@ func ResourceServicesEnvironmentsVariables() *schema.Resource {
 			"environment_sid": AsString(SchemaRequired),
 			"key":             AsString(SchemaOptional),
 			"value":           AsString(SchemaOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"sid":             AsString(SchemaComputed),
-			"url":             AsString(SchemaComputed),
+			"account_sid":     AsString(SchemaOptional),
+			"date_created":    AsString(SchemaOptional),
+			"date_updated":    AsString(SchemaOptional),
+			"sid":             AsString(SchemaOptional),
+			"url":             AsString(SchemaOptional),
 		},
 	}
 }

@@ -39,11 +39,11 @@ func ResourceRatePlans() *schema.Resource {
 			"national_roaming_enabled":         AsBool(SchemaOptional),
 			"unique_name":                      AsString(SchemaOptional),
 			"voice_enabled":                    AsBool(SchemaOptional),
-			"account_sid":                      AsString(SchemaComputed),
-			"date_created":                     AsString(SchemaComputed),
-			"date_updated":                     AsString(SchemaComputed),
-			"sid":                              AsString(SchemaComputed),
-			"url":                              AsString(SchemaComputed),
+			"account_sid":                      AsString(SchemaOptional),
+			"date_created":                     AsString(SchemaOptional),
+			"date_updated":                     AsString(SchemaOptional),
+			"sid":                              AsString(SchemaOptional),
+			"url":                              AsString(SchemaOptional),
 		},
 	}
 }

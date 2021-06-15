@@ -21,302 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/verify/v2"
 )
 
-func ResourceServicesRateLimits() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesRateLimits,
-		ReadContext:   readServicesRateLimits,
-		UpdateContext: updateServicesRateLimits,
-		DeleteContext: deleteServicesRateLimits,
-		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"description":  AsString(SchemaOptional),
-			"unique_name":  AsString(SchemaOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateRateLimitParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.CreateRateLimit(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.VerifyV2.DeleteRateLimit(serviceSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.FetchRateLimit(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateRateLimitParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.UpdateRateLimit(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceServicesMessagingConfigurations() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesMessagingConfigurations,
-		ReadContext:   readServicesMessagingConfigurations,
-		UpdateContext: updateServicesMessagingConfigurations,
-		DeleteContext: deleteServicesMessagingConfigurations,
-		Schema: map[string]*schema.Schema{
-			"service_sid":           AsString(SchemaRequired),
-			"country":               AsString(SchemaOptional),
-			"messaging_service_sid": AsString(SchemaOptional),
-			"account_sid":           AsString(SchemaComputed),
-			"date_created":          AsString(SchemaComputed),
-			"date_updated":          AsString(SchemaComputed),
-			"url":                   AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateMessagingConfigurationParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.CreateMessagingConfiguration(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Country)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	country := d.Get("country").(string)
-
-	err := m.(*client.Config).Client.VerifyV2.DeleteMessagingConfiguration(serviceSid, country)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	country := d.Get("country").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.FetchMessagingConfiguration(serviceSid, country)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateMessagingConfigurationParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-	country := d.Get("country").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.UpdateMessagingConfiguration(serviceSid, country, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceServices() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServices,
-		ReadContext:   readServices,
-		UpdateContext: updateServices,
-		DeleteContext: deleteServices,
-		Schema: map[string]*schema.Schema{
-			"code_length":                  AsString(SchemaOptional),
-			"custom_code_enabled":          AsString(SchemaOptional),
-			"do_not_share_warning_enabled": AsString(SchemaOptional),
-			"dtmf_input_required":          AsString(SchemaOptional),
-			"friendly_name":                AsString(SchemaOptional),
-			"lookup_enabled":               AsString(SchemaOptional),
-			"psd2_enabled":                 AsString(SchemaOptional),
-			"push.apn_credential_sid":      AsString(SchemaOptional),
-			"push.fcm_credential_sid":      AsString(SchemaOptional),
-			"push.include_date":            AsString(SchemaOptional),
-			"skip_sms_to_landlines":        AsString(SchemaOptional),
-			"totp.code_length":             AsString(SchemaOptional),
-			"totp.issuer":                  AsString(SchemaOptional),
-			"totp.skew":                    AsString(SchemaOptional),
-			"totp.time_step":               AsString(SchemaOptional),
-			"tts_name":                     AsString(SchemaOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"links":                        AsString(SchemaComputed),
-			"push":                         AsString(SchemaComputed),
-			"sid":                          AsString(SchemaComputed),
-			"totp":                         AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.VerifyV2.CreateService(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.VerifyV2.DeleteService(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.FetchService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.VerifyV2.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceServicesRateLimitsBuckets() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesRateLimitsBuckets,
@@ -326,13 +30,13 @@ func ResourceServicesRateLimitsBuckets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"rate_limit_sid": AsString(SchemaRequired),
-			"interval":       AsString(SchemaOptional),
-			"max":            AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
+			"interval":       AsInt(SchemaOptional),
+			"max":            AsInt(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"sid":            AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
 		},
 	}
 }
@@ -351,7 +55,7 @@ func createServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -417,42 +121,38 @@ func updateServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func ResourceServicesWebhooks() *schema.Resource {
+func ResourceServicesMessagingConfigurations() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createServicesWebhooks,
-		ReadContext:   readServicesWebhooks,
-		UpdateContext: updateServicesWebhooks,
-		DeleteContext: deleteServicesWebhooks,
+		CreateContext: createServicesMessagingConfigurations,
+		ReadContext:   readServicesMessagingConfigurations,
+		UpdateContext: updateServicesMessagingConfigurations,
+		DeleteContext: deleteServicesMessagingConfigurations,
 		Schema: map[string]*schema.Schema{
-			"service_sid":    AsString(SchemaRequired),
-			"event_types":    AsString(SchemaOptional),
-			"friendly_name":  AsString(SchemaOptional),
-			"status":         AsString(SchemaOptional),
-			"webhook_url":    AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-			"webhook_method": AsString(SchemaComputed),
+			"service_sid":           AsString(SchemaRequired),
+			"country":               AsString(SchemaOptional),
+			"messaging_service_sid": AsString(SchemaOptional),
+			"account_sid":           AsString(SchemaOptional),
+			"date_created":          AsString(SchemaOptional),
+			"date_updated":          AsString(SchemaOptional),
+			"url":                   AsString(SchemaOptional),
 		},
 	}
 }
 
-func createServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateWebhookParams{}
+func createServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateMessagingConfigurationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.VerifyV2.CreateWebhook(serviceSid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateMessagingConfiguration(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Country))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -461,12 +161,12 @@ func createServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func deleteServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+	country := d.Get("country").(string)
 
-	err := m.(*client.Config).Client.VerifyV2.DeleteWebhook(serviceSid, sid)
+	err := m.(*client.Config).Client.VerifyV2.DeleteMessagingConfiguration(serviceSid, country)
 	d.SetId("")
 
 	if err != nil {
@@ -475,12 +175,12 @@ func deleteServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func readServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+	country := d.Get("country").(string)
 
-	r, err := m.(*client.Config).Client.VerifyV2.FetchWebhook(serviceSid, sid)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchMessagingConfiguration(serviceSid, country)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -493,16 +193,16 @@ func readServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
-func updateServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateWebhookParams{}
+func updateServicesMessagingConfigurations(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateMessagingConfigurationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+	country := d.Get("country").(string)
 
-	r, err := m.(*client.Config).Client.VerifyV2.UpdateWebhook(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateMessagingConfiguration(serviceSid, country, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -524,28 +224,28 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
 			"identity":                     AsString(SchemaRequired),
-			"binding.alg":                  AsString(SchemaOptional),
-			"binding.public_key":           AsString(SchemaOptional),
-			"binding.secret":               AsString(SchemaOptional),
-			"config.alg":                   AsString(SchemaOptional),
-			"config.app_id":                AsString(SchemaOptional),
-			"config.code_length":           AsString(SchemaOptional),
-			"config.notification_platform": AsString(SchemaOptional),
-			"config.notification_token":    AsString(SchemaOptional),
-			"config.sdk_version":           AsString(SchemaOptional),
-			"config.skew":                  AsString(SchemaOptional),
-			"config.time_step":             AsString(SchemaOptional),
+			"binding_alg":                  AsString(SchemaOptional),
+			"binding_public_key":           AsString(SchemaOptional),
+			"binding_secret":               AsString(SchemaOptional),
+			"config_alg":                   AsString(SchemaOptional),
+			"config_app_id":                AsString(SchemaOptional),
+			"config_code_length":           AsInt(SchemaOptional),
+			"config_notification_platform": AsString(SchemaOptional),
+			"config_notification_token":    AsString(SchemaOptional),
+			"config_sdk_version":           AsString(SchemaOptional),
+			"config_skew":                  AsInt(SchemaOptional),
+			"config_time_step":             AsInt(SchemaOptional),
 			"factor_type":                  AsString(SchemaOptional),
 			"friendly_name":                AsString(SchemaOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"binding":                      AsString(SchemaComputed),
-			"config":                       AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"entity_sid":                   AsString(SchemaComputed),
-			"sid":                          AsString(SchemaComputed),
-			"status":                       AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
+			"account_sid":                  AsString(SchemaOptional),
+			"binding":                      AsString(SchemaOptional),
+			"config":                       AsString(SchemaOptional),
+			"date_created":                 AsString(SchemaOptional),
+			"date_updated":                 AsString(SchemaOptional),
+			"entity_sid":                   AsString(SchemaOptional),
+			"sid":                          AsString(SchemaOptional),
+			"status":                       AsString(SchemaOptional),
+			"url":                          AsString(SchemaOptional),
 		},
 	}
 }
@@ -564,7 +264,7 @@ func createServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -618,6 +318,306 @@ func updateServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.VerifyV2.UpdateFactor(serviceSid, identity, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceServicesRateLimits() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesRateLimits,
+		ReadContext:   readServicesRateLimits,
+		UpdateContext: updateServicesRateLimits,
+		DeleteContext: deleteServicesRateLimits,
+		Schema: map[string]*schema.Schema{
+			"service_sid":  AsString(SchemaRequired),
+			"description":  AsString(SchemaOptional),
+			"unique_name":  AsString(SchemaOptional),
+			"account_sid":  AsString(SchemaOptional),
+			"date_created": AsString(SchemaOptional),
+			"date_updated": AsString(SchemaOptional),
+			"links":        AsString(SchemaOptional),
+			"sid":          AsString(SchemaOptional),
+			"url":          AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateRateLimitParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.CreateRateLimit(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.VerifyV2.DeleteRateLimit(serviceSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.FetchRateLimit(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServicesRateLimits(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateRateLimitParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateRateLimit(serviceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceServices() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServices,
+		ReadContext:   readServices,
+		UpdateContext: updateServices,
+		DeleteContext: deleteServices,
+		Schema: map[string]*schema.Schema{
+			"code_length":                  AsInt(SchemaOptional),
+			"custom_code_enabled":          AsBool(SchemaOptional),
+			"do_not_share_warning_enabled": AsBool(SchemaOptional),
+			"dtmf_input_required":          AsBool(SchemaOptional),
+			"friendly_name":                AsString(SchemaOptional),
+			"lookup_enabled":               AsBool(SchemaOptional),
+			"psd2_enabled":                 AsBool(SchemaOptional),
+			"push_apn_credential_sid":      AsString(SchemaOptional),
+			"push_fcm_credential_sid":      AsString(SchemaOptional),
+			"push_include_date":            AsBool(SchemaOptional),
+			"skip_sms_to_landlines":        AsBool(SchemaOptional),
+			"totp_code_length":             AsInt(SchemaOptional),
+			"totp_issuer":                  AsString(SchemaOptional),
+			"totp_skew":                    AsInt(SchemaOptional),
+			"totp_time_step":               AsInt(SchemaOptional),
+			"tts_name":                     AsString(SchemaOptional),
+			"account_sid":                  AsString(SchemaOptional),
+			"date_created":                 AsString(SchemaOptional),
+			"date_updated":                 AsString(SchemaOptional),
+			"links":                        AsString(SchemaOptional),
+			"push":                         AsString(SchemaOptional),
+			"sid":                          AsString(SchemaOptional),
+			"totp":                         AsString(SchemaOptional),
+			"url":                          AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.VerifyV2.CreateService(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.VerifyV2.DeleteService(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.FetchService(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateService(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceServicesWebhooks() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesWebhooks,
+		ReadContext:   readServicesWebhooks,
+		UpdateContext: updateServicesWebhooks,
+		DeleteContext: deleteServicesWebhooks,
+		Schema: map[string]*schema.Schema{
+			"service_sid":    AsString(SchemaRequired),
+			"event_types":    AsString(SchemaOptional),
+			"friendly_name":  AsString(SchemaOptional),
+			"status":         AsString(SchemaOptional),
+			"webhook_url":    AsString(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"sid":            AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
+			"webhook_method": AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateWebhookParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.CreateWebhook(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.VerifyV2.DeleteWebhook(serviceSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.FetchWebhook(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateWebhookParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateWebhook(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

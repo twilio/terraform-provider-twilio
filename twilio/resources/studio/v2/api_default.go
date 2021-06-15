@@ -21,103 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/studio/v2"
 )
 
-func ResourceFlows() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createFlows,
-		ReadContext:   readFlows,
-		UpdateContext: updateFlows,
-		DeleteContext: deleteFlows,
-		Schema: map[string]*schema.Schema{
-			"commit_message": AsString(SchemaOptional),
-			"definition":     AsString(SchemaOptional),
-			"friendly_name":  AsString(SchemaOptional),
-			"status":         AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"errors":         AsString(SchemaComputed),
-			"links":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-			"valid":          AsString(SchemaComputed),
-			"warnings":       AsString(SchemaComputed),
-			"webhook_url":    AsString(SchemaComputed),
-		},
-	}
-}
-
-func createFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateFlowParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.StudioV2.CreateFlow(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.StudioV2.DeleteFlow(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.StudioV2.FetchFlow(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateFlowParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.StudioV2.UpdateFlow(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceFlowsExecutions() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createFlowsExecutions,
@@ -129,15 +32,15 @@ func ResourceFlowsExecutions() *schema.Resource {
 			"from":                    AsString(SchemaOptional),
 			"parameters":              AsString(SchemaOptional),
 			"to":                      AsString(SchemaOptional),
-			"account_sid":             AsString(SchemaComputed),
-			"contact_channel_address": AsString(SchemaComputed),
-			"context":                 AsString(SchemaComputed),
-			"date_created":            AsString(SchemaComputed),
-			"date_updated":            AsString(SchemaComputed),
-			"links":                   AsString(SchemaComputed),
-			"sid":                     AsString(SchemaComputed),
-			"status":                  AsString(SchemaComputed),
-			"url":                     AsString(SchemaComputed),
+			"account_sid":             AsString(SchemaOptional),
+			"contact_channel_address": AsString(SchemaOptional),
+			"context":                 AsString(SchemaOptional),
+			"date_created":            AsString(SchemaOptional),
+			"date_updated":            AsString(SchemaOptional),
+			"links":                   AsString(SchemaOptional),
+			"sid":                     AsString(SchemaOptional),
+			"status":                  AsString(SchemaOptional),
+			"url":                     AsString(SchemaOptional),
 		},
 	}
 }
@@ -155,7 +58,7 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -206,6 +109,103 @@ func updateFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.StudioV2.UpdateExecution(flowSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceFlows() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createFlows,
+		ReadContext:   readFlows,
+		UpdateContext: updateFlows,
+		DeleteContext: deleteFlows,
+		Schema: map[string]*schema.Schema{
+			"commit_message": AsString(SchemaOptional),
+			"definition":     AsString(SchemaOptional),
+			"friendly_name":  AsString(SchemaOptional),
+			"status":         AsString(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"errors":         AsList(AsString(SchemaOptional), SchemaOptional),
+			"links":          AsString(SchemaOptional),
+			"revision":       AsInt(SchemaOptional),
+			"sid":            AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
+			"valid":          AsBool(SchemaOptional),
+			"warnings":       AsList(AsString(SchemaOptional), SchemaOptional),
+			"webhook_url":    AsString(SchemaOptional),
+		},
+	}
+}
+
+func createFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateFlowParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.StudioV2.CreateFlow(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.StudioV2.DeleteFlow(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.StudioV2.FetchFlow(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateFlowParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.StudioV2.UpdateFlow(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

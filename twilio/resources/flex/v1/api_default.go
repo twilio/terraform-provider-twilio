@@ -31,26 +31,26 @@ func ResourceFlexFlows() *schema.Resource {
 			"channel_type":                    AsString(SchemaOptional),
 			"chat_service_sid":                AsString(SchemaOptional),
 			"contact_identity":                AsString(SchemaOptional),
-			"enabled":                         AsString(SchemaOptional),
+			"enabled":                         AsBool(SchemaOptional),
 			"friendly_name":                   AsString(SchemaOptional),
-			"integration.channel":             AsString(SchemaOptional),
-			"integration.creation_on_message": AsString(SchemaOptional),
-			"integration.flow_sid":            AsString(SchemaOptional),
-			"integration.priority":            AsString(SchemaOptional),
-			"integration.retry_count":         AsString(SchemaOptional),
-			"integration.timeout":             AsString(SchemaOptional),
-			"integration.url":                 AsString(SchemaOptional),
-			"integration.workflow_sid":        AsString(SchemaOptional),
-			"integration.workspace_sid":       AsString(SchemaOptional),
+			"integration_channel":             AsString(SchemaOptional),
+			"integration_creation_on_message": AsBool(SchemaOptional),
+			"integration_flow_sid":            AsString(SchemaOptional),
+			"integration_priority":            AsInt(SchemaOptional),
+			"integration_retry_count":         AsInt(SchemaOptional),
+			"integration_timeout":             AsInt(SchemaOptional),
+			"integration_url":                 AsString(SchemaOptional),
+			"integration_workflow_sid":        AsString(SchemaOptional),
+			"integration_workspace_sid":       AsString(SchemaOptional),
 			"integration_type":                AsString(SchemaOptional),
-			"janitor_enabled":                 AsString(SchemaOptional),
-			"long_lived":                      AsString(SchemaOptional),
-			"account_sid":                     AsString(SchemaComputed),
-			"date_created":                    AsString(SchemaComputed),
-			"date_updated":                    AsString(SchemaComputed),
-			"integration":                     AsString(SchemaComputed),
-			"sid":                             AsString(SchemaComputed),
-			"url":                             AsString(SchemaComputed),
+			"janitor_enabled":                 AsBool(SchemaOptional),
+			"long_lived":                      AsBool(SchemaOptional),
+			"account_sid":                     AsString(SchemaOptional),
+			"date_created":                    AsString(SchemaOptional),
+			"date_updated":                    AsString(SchemaOptional),
+			"integration":                     AsString(SchemaOptional),
+			"sid":                             AsString(SchemaOptional),
+			"url":                             AsString(SchemaOptional),
 		},
 	}
 }
@@ -66,7 +66,7 @@ func createFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -139,11 +139,11 @@ func ResourceWebChannels() *schema.Resource {
 			"flex_flow_sid":          AsString(SchemaOptional),
 			"identity":               AsString(SchemaOptional),
 			"pre_engagement_data":    AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
+			"account_sid":            AsString(SchemaOptional),
+			"date_created":           AsString(SchemaOptional),
+			"date_updated":           AsString(SchemaOptional),
+			"sid":                    AsString(SchemaOptional),
+			"url":                    AsString(SchemaOptional),
 		},
 	}
 }
@@ -159,7 +159,7 @@ func createWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

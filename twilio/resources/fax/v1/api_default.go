@@ -34,23 +34,23 @@ func ResourceFaxes() *schema.Resource {
 			"sip_auth_password": AsString(SchemaOptional),
 			"sip_auth_username": AsString(SchemaOptional),
 			"status_callback":   AsString(SchemaOptional),
-			"store_media":       AsString(SchemaOptional),
+			"store_media":       AsBool(SchemaOptional),
 			"to":                AsString(SchemaOptional),
-			"ttl":               AsString(SchemaOptional),
-			"account_sid":       AsString(SchemaComputed),
-			"api_version":       AsString(SchemaComputed),
-			"date_created":      AsString(SchemaComputed),
-			"date_updated":      AsString(SchemaComputed),
-			"direction":         AsString(SchemaComputed),
-			"duration":          AsString(SchemaComputed),
-			"links":             AsString(SchemaComputed),
-			"media_sid":         AsString(SchemaComputed),
-			"num_pages":         AsString(SchemaComputed),
-			"price":             AsString(SchemaComputed),
-			"price_unit":        AsString(SchemaComputed),
-			"sid":               AsString(SchemaComputed),
-			"status":            AsString(SchemaComputed),
-			"url":               AsString(SchemaComputed),
+			"ttl":               AsInt(SchemaOptional),
+			"account_sid":       AsString(SchemaOptional),
+			"api_version":       AsString(SchemaOptional),
+			"date_created":      AsString(SchemaOptional),
+			"date_updated":      AsString(SchemaOptional),
+			"direction":         AsString(SchemaOptional),
+			"duration":          AsInt(SchemaOptional),
+			"links":             AsString(SchemaOptional),
+			"media_sid":         AsString(SchemaOptional),
+			"num_pages":         AsInt(SchemaOptional),
+			"price":             AsFloat(SchemaOptional),
+			"price_unit":        AsString(SchemaOptional),
+			"sid":               AsString(SchemaOptional),
+			"status":            AsString(SchemaOptional),
+			"url":               AsString(SchemaOptional),
 		},
 	}
 }
@@ -66,7 +66,7 @@ func createFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

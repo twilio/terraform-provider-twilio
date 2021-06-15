@@ -30,19 +30,19 @@ func ResourceCompositionHooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"audio_sources":          AsString(SchemaOptional),
 			"audio_sources_excluded": AsString(SchemaOptional),
-			"enabled":                AsString(SchemaOptional),
+			"enabled":                AsBool(SchemaOptional),
 			"format":                 AsString(SchemaOptional),
 			"friendly_name":          AsString(SchemaOptional),
 			"resolution":             AsString(SchemaOptional),
 			"status_callback":        AsString(SchemaOptional),
 			"status_callback_method": AsString(SchemaOptional),
-			"trim":                   AsString(SchemaOptional),
+			"trim":                   AsBool(SchemaOptional),
 			"video_layout":           AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
+			"account_sid":            AsString(SchemaOptional),
+			"date_created":           AsString(SchemaOptional),
+			"date_updated":           AsString(SchemaOptional),
+			"sid":                    AsString(SchemaOptional),
+			"url":                    AsString(SchemaOptional),
 		},
 	}
 }
@@ -58,7 +58,7 @@ func createCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

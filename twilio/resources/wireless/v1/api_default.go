@@ -28,22 +28,22 @@ func ResourceRatePlans() *schema.Resource {
 		UpdateContext: updateRatePlans,
 		DeleteContext: deleteRatePlans,
 		Schema: map[string]*schema.Schema{
-			"data_enabled":                     AsString(SchemaOptional),
-			"data_limit":                       AsString(SchemaOptional),
+			"data_enabled":                     AsBool(SchemaOptional),
+			"data_limit":                       AsInt(SchemaOptional),
 			"data_metering":                    AsString(SchemaOptional),
 			"friendly_name":                    AsString(SchemaOptional),
 			"international_roaming":            AsString(SchemaOptional),
-			"international_roaming_data_limit": AsString(SchemaOptional),
-			"messaging_enabled":                AsString(SchemaOptional),
-			"national_roaming_data_limit":      AsString(SchemaOptional),
-			"national_roaming_enabled":         AsString(SchemaOptional),
+			"international_roaming_data_limit": AsInt(SchemaOptional),
+			"messaging_enabled":                AsBool(SchemaOptional),
+			"national_roaming_data_limit":      AsInt(SchemaOptional),
+			"national_roaming_enabled":         AsBool(SchemaOptional),
 			"unique_name":                      AsString(SchemaOptional),
-			"voice_enabled":                    AsString(SchemaOptional),
-			"account_sid":                      AsString(SchemaComputed),
-			"date_created":                     AsString(SchemaComputed),
-			"date_updated":                     AsString(SchemaComputed),
-			"sid":                              AsString(SchemaComputed),
-			"url":                              AsString(SchemaComputed),
+			"voice_enabled":                    AsBool(SchemaOptional),
+			"account_sid":                      AsString(SchemaOptional),
+			"date_created":                     AsString(SchemaOptional),
+			"date_updated":                     AsString(SchemaOptional),
+			"sid":                              AsString(SchemaOptional),
+			"url":                              AsString(SchemaOptional),
 		},
 	}
 }
@@ -59,7 +59,7 @@ func createRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

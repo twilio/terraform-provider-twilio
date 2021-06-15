@@ -32,14 +32,14 @@ func ResourceCustomerProfiles() *schema.Resource {
 			"friendly_name":   AsString(SchemaOptional),
 			"policy_sid":      AsString(SchemaOptional),
 			"status_callback": AsString(SchemaOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"links":           AsString(SchemaComputed),
-			"sid":             AsString(SchemaComputed),
-			"status":          AsString(SchemaComputed),
-			"url":             AsString(SchemaComputed),
-			"valid_until":     AsString(SchemaComputed),
+			"account_sid":     AsString(SchemaOptional),
+			"date_created":    AsString(SchemaOptional),
+			"date_updated":    AsString(SchemaOptional),
+			"links":           AsString(SchemaOptional),
+			"sid":             AsString(SchemaOptional),
+			"status":          AsString(SchemaOptional),
+			"url":             AsString(SchemaOptional),
+			"valid_until":     AsString(SchemaOptional),
 		},
 	}
 }
@@ -55,7 +55,7 @@ func createCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -115,98 +115,6 @@ func updateCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func ResourceSupportingDocuments() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createSupportingDocuments,
-		ReadContext:   readSupportingDocuments,
-		UpdateContext: updateSupportingDocuments,
-		DeleteContext: deleteSupportingDocuments,
-		Schema: map[string]*schema.Schema{
-			"attributes":    AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"mime_type":     AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"status":        AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
-		},
-	}
-}
-
-func createSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSupportingDocumentParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.TrusthubV1.CreateSupportingDocument(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.TrusthubV1.DeleteSupportingDocument(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TrusthubV1.FetchSupportingDocument(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSupportingDocumentParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TrusthubV1.UpdateSupportingDocument(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceEndUsers() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createEndUsers,
@@ -217,11 +125,11 @@ func ResourceEndUsers() *schema.Resource {
 			"attributes":    AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -237,7 +145,7 @@ func createEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -297,6 +205,98 @@ func updateEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	return nil
 }
 
+func ResourceSupportingDocuments() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createSupportingDocuments,
+		ReadContext:   readSupportingDocuments,
+		UpdateContext: updateSupportingDocuments,
+		DeleteContext: deleteSupportingDocuments,
+		Schema: map[string]*schema.Schema{
+			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"mime_type":     AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"status":        AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
+		},
+	}
+}
+
+func createSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSupportingDocumentParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.TrusthubV1.CreateSupportingDocument(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TrusthubV1.DeleteSupportingDocument(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrusthubV1.FetchSupportingDocument(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSupportingDocumentParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrusthubV1.UpdateSupportingDocument(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceTrustProducts() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createTrustProducts,
@@ -308,14 +308,14 @@ func ResourceTrustProducts() *schema.Resource {
 			"friendly_name":   AsString(SchemaOptional),
 			"policy_sid":      AsString(SchemaOptional),
 			"status_callback": AsString(SchemaOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"links":           AsString(SchemaComputed),
-			"sid":             AsString(SchemaComputed),
-			"status":          AsString(SchemaComputed),
-			"url":             AsString(SchemaComputed),
-			"valid_until":     AsString(SchemaComputed),
+			"account_sid":     AsString(SchemaOptional),
+			"date_created":    AsString(SchemaOptional),
+			"date_updated":    AsString(SchemaOptional),
+			"links":           AsString(SchemaOptional),
+			"sid":             AsString(SchemaOptional),
+			"status":          AsString(SchemaOptional),
+			"url":             AsString(SchemaOptional),
+			"valid_until":     AsString(SchemaOptional),
 		},
 	}
 }
@@ -331,7 +331,7 @@ func createTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

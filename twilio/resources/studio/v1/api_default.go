@@ -32,16 +32,16 @@ func ResourceFlowsExecutions() *schema.Resource {
 			"from":                    AsString(SchemaOptional),
 			"parameters":              AsString(SchemaOptional),
 			"to":                      AsString(SchemaOptional),
-			"account_sid":             AsString(SchemaComputed),
-			"contact_channel_address": AsString(SchemaComputed),
-			"contact_sid":             AsString(SchemaComputed),
-			"context":                 AsString(SchemaComputed),
-			"date_created":            AsString(SchemaComputed),
-			"date_updated":            AsString(SchemaComputed),
-			"links":                   AsString(SchemaComputed),
-			"sid":                     AsString(SchemaComputed),
-			"status":                  AsString(SchemaComputed),
-			"url":                     AsString(SchemaComputed),
+			"account_sid":             AsString(SchemaOptional),
+			"contact_channel_address": AsString(SchemaOptional),
+			"contact_sid":             AsString(SchemaOptional),
+			"context":                 AsString(SchemaOptional),
+			"date_created":            AsString(SchemaOptional),
+			"date_updated":            AsString(SchemaOptional),
+			"links":                   AsString(SchemaOptional),
+			"sid":                     AsString(SchemaOptional),
+			"status":                  AsString(SchemaOptional),
+			"url":                     AsString(SchemaOptional),
 		},
 	}
 }
@@ -59,7 +59,7 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

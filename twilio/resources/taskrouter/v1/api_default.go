@@ -21,46 +21,39 @@ import (
 	. "github.com/twilio/twilio-go/rest/taskrouter/v1"
 )
 
-func ResourceWorkspacesTaskQueues() *schema.Resource {
+func ResourceWorkspacesActivities() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createWorkspacesTaskQueues,
-		ReadContext:   readWorkspacesTaskQueues,
-		UpdateContext: updateWorkspacesTaskQueues,
-		DeleteContext: deleteWorkspacesTaskQueues,
+		CreateContext: createWorkspacesActivities,
+		ReadContext:   readWorkspacesActivities,
+		UpdateContext: updateWorkspacesActivities,
+		DeleteContext: deleteWorkspacesActivities,
 		Schema: map[string]*schema.Schema{
-			"workspace_sid":             AsString(SchemaRequired),
-			"assignment_activity_sid":   AsString(SchemaOptional),
-			"friendly_name":             AsString(SchemaOptional),
-			"max_reserved_workers":      AsString(SchemaOptional),
-			"reservation_activity_sid":  AsString(SchemaOptional),
-			"target_workers":            AsString(SchemaOptional),
-			"task_order":                AsString(SchemaOptional),
-			"account_sid":               AsString(SchemaComputed),
-			"assignment_activity_name":  AsString(SchemaComputed),
-			"date_created":              AsString(SchemaComputed),
-			"date_updated":              AsString(SchemaComputed),
-			"links":                     AsString(SchemaComputed),
-			"reservation_activity_name": AsString(SchemaComputed),
-			"sid":                       AsString(SchemaComputed),
-			"url":                       AsString(SchemaComputed),
+			"workspace_sid": AsString(SchemaRequired),
+			"available":     AsBool(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
 
-func createWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateTaskQueueParams{}
+func createWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateActivityParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*client.Config).Client.TaskrouterV1.CreateTaskQueue(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateActivity(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -69,12 +62,12 @@ func createWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func deleteWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.TaskrouterV1.DeleteTaskQueue(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteActivity(workspaceSid, sid)
 	d.SetId("")
 
 	if err != nil {
@@ -83,12 +76,12 @@ func deleteWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.TaskrouterV1.FetchTaskQueue(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchActivity(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -101,8 +94,8 @@ func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func updateWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateTaskQueueParams{}
+func updateWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateActivityParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
@@ -110,7 +103,7 @@ func updateWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateTaskQueue(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateActivity(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -132,26 +125,26 @@ func ResourceWorkspacesTasks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":            AsString(SchemaRequired),
 			"attributes":               AsString(SchemaOptional),
-			"priority":                 AsString(SchemaOptional),
+			"priority":                 AsInt(SchemaOptional),
 			"task_channel":             AsString(SchemaOptional),
-			"timeout":                  AsString(SchemaOptional),
+			"timeout":                  AsInt(SchemaOptional),
 			"workflow_sid":             AsString(SchemaOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"addons":                   AsString(SchemaComputed),
-			"age":                      AsString(SchemaComputed),
-			"assignment_status":        AsString(SchemaComputed),
-			"date_created":             AsString(SchemaComputed),
-			"date_updated":             AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"reason":                   AsString(SchemaComputed),
-			"sid":                      AsString(SchemaComputed),
-			"task_channel_sid":         AsString(SchemaComputed),
-			"task_channel_unique_name": AsString(SchemaComputed),
-			"task_queue_entered_date":  AsString(SchemaComputed),
-			"task_queue_friendly_name": AsString(SchemaComputed),
-			"task_queue_sid":           AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
-			"workflow_friendly_name":   AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaOptional),
+			"addons":                   AsString(SchemaOptional),
+			"age":                      AsInt(SchemaOptional),
+			"assignment_status":        AsString(SchemaOptional),
+			"date_created":             AsString(SchemaOptional),
+			"date_updated":             AsString(SchemaOptional),
+			"links":                    AsString(SchemaOptional),
+			"reason":                   AsString(SchemaOptional),
+			"sid":                      AsString(SchemaOptional),
+			"task_channel_sid":         AsString(SchemaOptional),
+			"task_channel_unique_name": AsString(SchemaOptional),
+			"task_queue_entered_date":  AsString(SchemaOptional),
+			"task_queue_friendly_name": AsString(SchemaOptional),
+			"task_queue_sid":           AsString(SchemaOptional),
+			"url":                      AsString(SchemaOptional),
+			"workflow_friendly_name":   AsString(SchemaOptional),
 		},
 	}
 }
@@ -169,7 +162,7 @@ func createWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -236,204 +229,6 @@ func updateWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	return nil
 }
 
-func ResourceWorkspaces() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createWorkspaces,
-		ReadContext:   readWorkspaces,
-		UpdateContext: updateWorkspaces,
-		DeleteContext: deleteWorkspaces,
-		Schema: map[string]*schema.Schema{
-			"event_callback_url":     AsString(SchemaOptional),
-			"events_filter":          AsString(SchemaOptional),
-			"friendly_name":          AsString(SchemaOptional),
-			"multi_task_enabled":     AsString(SchemaOptional),
-			"prioritize_queue_order": AsString(SchemaOptional),
-			"template":               AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"default_activity_name":  AsString(SchemaComputed),
-			"default_activity_sid":   AsString(SchemaComputed),
-			"links":                  AsString(SchemaComputed),
-			"sid":                    AsString(SchemaComputed),
-			"timeout_activity_name":  AsString(SchemaComputed),
-			"timeout_activity_sid":   AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
-		},
-	}
-}
-
-func createWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateWorkspaceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorkspace(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkspace(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorkspace(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateWorkspaceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorkspace(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceWorkspacesWorkflows() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createWorkspacesWorkflows,
-		ReadContext:   readWorkspacesWorkflows,
-		UpdateContext: updateWorkspacesWorkflows,
-		DeleteContext: deleteWorkspacesWorkflows,
-		Schema: map[string]*schema.Schema{
-			"workspace_sid":                    AsString(SchemaRequired),
-			"assignment_callback_url":          AsString(SchemaOptional),
-			"configuration":                    AsString(SchemaOptional),
-			"fallback_assignment_callback_url": AsString(SchemaOptional),
-			"friendly_name":                    AsString(SchemaOptional),
-			"task_reservation_timeout":         AsString(SchemaOptional),
-			"account_sid":                      AsString(SchemaComputed),
-			"date_created":                     AsString(SchemaComputed),
-			"date_updated":                     AsString(SchemaComputed),
-			"document_content_type":            AsString(SchemaComputed),
-			"links":                            AsString(SchemaComputed),
-			"sid":                              AsString(SchemaComputed),
-			"url":                              AsString(SchemaComputed),
-		},
-	}
-}
-
-func createWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateWorkflowParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	workspaceSid := d.Get("workspace_sid").(string)
-
-	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorkflow(workspaceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	workspaceSid := d.Get("workspace_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkflow(workspaceSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	workspaceSid := d.Get("workspace_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorkflow(workspaceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateWorkflowParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	workspaceSid := d.Get("workspace_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorkflow(workspaceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceWorkspacesTaskChannels() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createWorkspacesTaskChannels,
@@ -442,15 +237,15 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 		DeleteContext: deleteWorkspacesTaskChannels,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":             AsString(SchemaRequired),
-			"channel_optimized_routing": AsString(SchemaOptional),
+			"channel_optimized_routing": AsBool(SchemaOptional),
 			"friendly_name":             AsString(SchemaOptional),
 			"unique_name":               AsString(SchemaOptional),
-			"account_sid":               AsString(SchemaComputed),
-			"date_created":              AsString(SchemaComputed),
-			"date_updated":              AsString(SchemaComputed),
-			"links":                     AsString(SchemaComputed),
-			"sid":                       AsString(SchemaComputed),
-			"url":                       AsString(SchemaComputed),
+			"account_sid":               AsString(SchemaOptional),
+			"date_created":              AsString(SchemaOptional),
+			"date_updated":              AsString(SchemaOptional),
+			"links":                     AsString(SchemaOptional),
+			"sid":                       AsString(SchemaOptional),
+			"url":                       AsString(SchemaOptional),
 		},
 	}
 }
@@ -468,7 +263,7 @@ func createWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -531,6 +326,108 @@ func updateWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
+func ResourceWorkspacesTaskQueues() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createWorkspacesTaskQueues,
+		ReadContext:   readWorkspacesTaskQueues,
+		UpdateContext: updateWorkspacesTaskQueues,
+		DeleteContext: deleteWorkspacesTaskQueues,
+		Schema: map[string]*schema.Schema{
+			"workspace_sid":             AsString(SchemaRequired),
+			"assignment_activity_sid":   AsString(SchemaOptional),
+			"friendly_name":             AsString(SchemaOptional),
+			"max_reserved_workers":      AsInt(SchemaOptional),
+			"reservation_activity_sid":  AsString(SchemaOptional),
+			"target_workers":            AsString(SchemaOptional),
+			"task_order":                AsString(SchemaOptional),
+			"account_sid":               AsString(SchemaOptional),
+			"assignment_activity_name":  AsString(SchemaOptional),
+			"date_created":              AsString(SchemaOptional),
+			"date_updated":              AsString(SchemaOptional),
+			"links":                     AsString(SchemaOptional),
+			"reservation_activity_name": AsString(SchemaOptional),
+			"sid":                       AsString(SchemaOptional),
+			"url":                       AsString(SchemaOptional),
+		},
+	}
+}
+
+func createWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateTaskQueueParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	workspaceSid := d.Get("workspace_sid").(string)
+
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateTaskQueue(workspaceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	workspaceSid := d.Get("workspace_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteTaskQueue(workspaceSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	workspaceSid := d.Get("workspace_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchTaskQueue(workspaceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateTaskQueueParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	workspaceSid := d.Get("workspace_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateTaskQueue(workspaceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceWorkspacesWorkers() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createWorkspacesWorkers,
@@ -542,15 +439,15 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 			"activity_sid":        AsString(SchemaOptional),
 			"attributes":          AsString(SchemaOptional),
 			"friendly_name":       AsString(SchemaOptional),
-			"account_sid":         AsString(SchemaComputed),
-			"activity_name":       AsString(SchemaComputed),
-			"available":           AsString(SchemaComputed),
-			"date_created":        AsString(SchemaComputed),
-			"date_status_changed": AsString(SchemaComputed),
-			"date_updated":        AsString(SchemaComputed),
-			"links":               AsString(SchemaComputed),
-			"sid":                 AsString(SchemaComputed),
-			"url":                 AsString(SchemaComputed),
+			"account_sid":         AsString(SchemaOptional),
+			"activity_name":       AsString(SchemaOptional),
+			"available":           AsBool(SchemaOptional),
+			"date_created":        AsString(SchemaOptional),
+			"date_status_changed": AsString(SchemaOptional),
+			"date_updated":        AsString(SchemaOptional),
+			"links":               AsString(SchemaOptional),
+			"sid":                 AsString(SchemaOptional),
+			"url":                 AsString(SchemaOptional),
 		},
 	}
 }
@@ -568,7 +465,7 @@ func createWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -631,39 +528,44 @@ func updateWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	return nil
 }
 
-func ResourceWorkspacesActivities() *schema.Resource {
+func ResourceWorkspacesWorkflows() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createWorkspacesActivities,
-		ReadContext:   readWorkspacesActivities,
-		UpdateContext: updateWorkspacesActivities,
-		DeleteContext: deleteWorkspacesActivities,
+		CreateContext: createWorkspacesWorkflows,
+		ReadContext:   readWorkspacesWorkflows,
+		UpdateContext: updateWorkspacesWorkflows,
+		DeleteContext: deleteWorkspacesWorkflows,
 		Schema: map[string]*schema.Schema{
-			"workspace_sid": AsString(SchemaRequired),
-			"available":     AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"workspace_sid":                    AsString(SchemaRequired),
+			"assignment_callback_url":          AsString(SchemaOptional),
+			"configuration":                    AsString(SchemaOptional),
+			"fallback_assignment_callback_url": AsString(SchemaOptional),
+			"friendly_name":                    AsString(SchemaOptional),
+			"task_reservation_timeout":         AsInt(SchemaOptional),
+			"account_sid":                      AsString(SchemaOptional),
+			"date_created":                     AsString(SchemaOptional),
+			"date_updated":                     AsString(SchemaOptional),
+			"document_content_type":            AsString(SchemaOptional),
+			"links":                            AsString(SchemaOptional),
+			"sid":                              AsString(SchemaOptional),
+			"url":                              AsString(SchemaOptional),
 		},
 	}
 }
 
-func createWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateActivityParams{}
+func createWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateWorkflowParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*client.Config).Client.TaskrouterV1.CreateActivity(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorkflow(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -672,12 +574,12 @@ func createWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func deleteWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.TaskrouterV1.DeleteActivity(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkflow(workspaceSid, sid)
 	d.SetId("")
 
 	if err != nil {
@@ -686,12 +588,12 @@ func deleteWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.TaskrouterV1.FetchActivity(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorkflow(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -704,8 +606,8 @@ func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func updateWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateActivityParams{}
+func updateWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateWorkflowParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
@@ -713,7 +615,105 @@ func updateWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateActivity(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorkflow(workspaceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceWorkspaces() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createWorkspaces,
+		ReadContext:   readWorkspaces,
+		UpdateContext: updateWorkspaces,
+		DeleteContext: deleteWorkspaces,
+		Schema: map[string]*schema.Schema{
+			"event_callback_url":     AsString(SchemaOptional),
+			"events_filter":          AsString(SchemaOptional),
+			"friendly_name":          AsString(SchemaOptional),
+			"multi_task_enabled":     AsBool(SchemaOptional),
+			"prioritize_queue_order": AsString(SchemaOptional),
+			"template":               AsString(SchemaOptional),
+			"account_sid":            AsString(SchemaOptional),
+			"date_created":           AsString(SchemaOptional),
+			"date_updated":           AsString(SchemaOptional),
+			"default_activity_name":  AsString(SchemaOptional),
+			"default_activity_sid":   AsString(SchemaOptional),
+			"links":                  AsString(SchemaOptional),
+			"sid":                    AsString(SchemaOptional),
+			"timeout_activity_name":  AsString(SchemaOptional),
+			"timeout_activity_sid":   AsString(SchemaOptional),
+			"url":                    AsString(SchemaOptional),
+		},
+	}
+}
+
+func createWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateWorkspaceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorkspace(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkspace(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorkspace(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateWorkspaceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorkspace(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

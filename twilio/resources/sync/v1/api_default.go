@@ -22,200 +22,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/sync/v1"
 )
 
-func ResourceServices() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServices,
-		ReadContext:   readServices,
-		UpdateContext: updateServices,
-		DeleteContext: deleteServices,
-		Schema: map[string]*schema.Schema{
-			"acl_enabled":                     AsString(SchemaOptional),
-			"friendly_name":                   AsString(SchemaOptional),
-			"reachability_debouncing_enabled": AsString(SchemaOptional),
-			"reachability_debouncing_window":  AsString(SchemaOptional),
-			"reachability_webhooks_enabled":   AsString(SchemaOptional),
-			"webhook_url":                     AsString(SchemaOptional),
-			"webhooks_from_rest_enabled":      AsString(SchemaOptional),
-			"account_sid":                     AsString(SchemaComputed),
-			"date_created":                    AsString(SchemaComputed),
-			"date_updated":                    AsString(SchemaComputed),
-			"links":                           AsString(SchemaComputed),
-			"sid":                             AsString(SchemaComputed),
-			"unique_name":                     AsString(SchemaComputed),
-			"url":                             AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.SyncV1.CreateService(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.SyncV1.DeleteService(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.FetchService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceServicesStreams() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesStreams,
-		ReadContext:   readServicesStreams,
-		UpdateContext: updateServicesStreams,
-		DeleteContext: deleteServicesStreams,
-		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"ttl":          AsString(SchemaOptional),
-			"unique_name":  AsString(SchemaOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"created_by":   AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_expires": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSyncStreamParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncStream(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncStream(serviceSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncStream(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSyncStreamParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncStream(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceServicesDocuments() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesDocuments,
@@ -225,17 +31,17 @@ func ResourceServicesDocuments() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
 			"data":         AsString(SchemaOptional),
-			"ttl":          AsString(SchemaOptional),
+			"ttl":          AsInt(SchemaOptional),
 			"unique_name":  AsString(SchemaOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"created_by":   AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_expires": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"revision":     AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"account_sid":  AsString(SchemaOptional),
+			"created_by":   AsString(SchemaOptional),
+			"date_created": AsString(SchemaOptional),
+			"date_expires": AsString(SchemaOptional),
+			"date_updated": AsString(SchemaOptional),
+			"links":        AsString(SchemaOptional),
+			"revision":     AsString(SchemaOptional),
+			"sid":          AsString(SchemaOptional),
+			"url":          AsString(SchemaOptional),
 		},
 	}
 }
@@ -253,7 +59,7 @@ func createServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -316,6 +122,202 @@ func updateServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	return nil
 }
 
+func ResourceServices() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServices,
+		ReadContext:   readServices,
+		UpdateContext: updateServices,
+		DeleteContext: deleteServices,
+		Schema: map[string]*schema.Schema{
+			"acl_enabled":                     AsBool(SchemaOptional),
+			"friendly_name":                   AsString(SchemaOptional),
+			"reachability_debouncing_enabled": AsBool(SchemaOptional),
+			"reachability_debouncing_window":  AsInt(SchemaOptional),
+			"reachability_webhooks_enabled":   AsBool(SchemaOptional),
+			"webhook_url":                     AsString(SchemaOptional),
+			"webhooks_from_rest_enabled":      AsBool(SchemaOptional),
+			"account_sid":                     AsString(SchemaOptional),
+			"date_created":                    AsString(SchemaOptional),
+			"date_updated":                    AsString(SchemaOptional),
+			"links":                           AsString(SchemaOptional),
+			"sid":                             AsString(SchemaOptional),
+			"unique_name":                     AsString(SchemaOptional),
+			"url":                             AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.SyncV1.CreateService(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.SyncV1.DeleteService(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.FetchService(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.UpdateService(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceServicesLists() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesLists,
+		ReadContext:   readServicesLists,
+		UpdateContext: updateServicesLists,
+		DeleteContext: deleteServicesLists,
+		Schema: map[string]*schema.Schema{
+			"service_sid":    AsString(SchemaRequired),
+			"collection_ttl": AsInt(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
+			"unique_name":    AsString(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"created_by":     AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_expires":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"links":          AsString(SchemaOptional),
+			"revision":       AsString(SchemaOptional),
+			"sid":            AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSyncListParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.CreateSyncList(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.SyncV1.DeleteSyncList(serviceSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.FetchSyncList(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSyncListParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncList(serviceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceServicesListsItems() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesListsItems,
@@ -325,18 +327,18 @@ func ResourceServicesListsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"list_sid":       AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
+			"collection_ttl": AsInt(SchemaOptional),
 			"data":           AsString(SchemaOptional),
-			"item_ttl":       AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"index":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
+			"item_ttl":       AsInt(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"created_by":     AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_expires":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"index":          AsInt(SchemaOptional),
+			"revision":       AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
 		},
 	}
 }
@@ -355,7 +357,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId(fmt.Sprint(*r.Index))
+	d.SetId(Int32ToString(*r.Index))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -425,6 +427,106 @@ func updateServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func ResourceServicesMaps() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesMaps,
+		ReadContext:   readServicesMaps,
+		UpdateContext: updateServicesMaps,
+		DeleteContext: deleteServicesMaps,
+		Schema: map[string]*schema.Schema{
+			"service_sid":    AsString(SchemaRequired),
+			"collection_ttl": AsInt(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
+			"unique_name":    AsString(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"created_by":     AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_expires":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"links":          AsString(SchemaOptional),
+			"revision":       AsString(SchemaOptional),
+			"sid":            AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSyncMapParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.CreateSyncMap(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.SyncV1.DeleteSyncMap(serviceSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.FetchSyncMap(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSyncMapParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncMap(serviceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceServicesMapsItems() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesMapsItems,
@@ -434,18 +536,18 @@ func ResourceServicesMapsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"map_sid":        AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
+			"collection_ttl": AsInt(SchemaOptional),
 			"data":           AsString(SchemaOptional),
-			"item_ttl":       AsString(SchemaOptional),
+			"item_ttl":       AsInt(SchemaOptional),
 			"key":            AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
+			"ttl":            AsInt(SchemaOptional),
+			"account_sid":    AsString(SchemaOptional),
+			"created_by":     AsString(SchemaOptional),
+			"date_created":   AsString(SchemaOptional),
+			"date_expires":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"revision":       AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
 		},
 	}
 }
@@ -464,7 +566,7 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Key)
+	d.SetId((*r.Key))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -534,44 +636,42 @@ func updateServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	return nil
 }
 
-func ResourceServicesLists() *schema.Resource {
+func ResourceServicesStreams() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createServicesLists,
-		ReadContext:   readServicesLists,
-		UpdateContext: updateServicesLists,
-		DeleteContext: deleteServicesLists,
+		CreateContext: createServicesStreams,
+		ReadContext:   readServicesStreams,
+		UpdateContext: updateServicesStreams,
+		DeleteContext: deleteServicesStreams,
 		Schema: map[string]*schema.Schema{
-			"service_sid":    AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
-			"unique_name":    AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"links":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
+			"service_sid":  AsString(SchemaRequired),
+			"ttl":          AsInt(SchemaOptional),
+			"unique_name":  AsString(SchemaOptional),
+			"account_sid":  AsString(SchemaOptional),
+			"created_by":   AsString(SchemaOptional),
+			"date_created": AsString(SchemaOptional),
+			"date_expires": AsString(SchemaOptional),
+			"date_updated": AsString(SchemaOptional),
+			"links":        AsString(SchemaOptional),
+			"sid":          AsString(SchemaOptional),
+			"url":          AsString(SchemaOptional),
 		},
 	}
 }
 
-func createServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSyncListParams{}
+func createServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSyncStreamParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncList(serviceSid, &params)
+	r, err := m.(*client.Config).Client.SyncV1.CreateSyncStream(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -580,12 +680,12 @@ func createServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
-func deleteServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncList(serviceSid, sid)
+	err := m.(*client.Config).Client.SyncV1.DeleteSyncStream(serviceSid, sid)
 	d.SetId("")
 
 	if err != nil {
@@ -594,12 +694,12 @@ func deleteServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
-func readServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncList(serviceSid, sid)
+	r, err := m.(*client.Config).Client.SyncV1.FetchSyncStream(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -612,8 +712,8 @@ func readServicesLists(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
-func updateServicesLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSyncListParams{}
+func updateServicesStreams(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSyncStreamParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
@@ -621,107 +721,7 @@ func updateServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncList(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceServicesMaps() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesMaps,
-		ReadContext:   readServicesMaps,
-		UpdateContext: updateServicesMaps,
-		DeleteContext: deleteServicesMaps,
-		Schema: map[string]*schema.Schema{
-			"service_sid":    AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
-			"unique_name":    AsString(SchemaOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"links":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSyncMapParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncMap(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncMap(serviceSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncMap(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSyncMapParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncMap(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncStream(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

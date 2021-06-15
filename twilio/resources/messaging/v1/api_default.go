@@ -28,27 +28,27 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"area_code_geomatch":            AsString(SchemaOptional),
+			"area_code_geomatch":            AsBool(SchemaOptional),
 			"fallback_method":               AsString(SchemaOptional),
-			"fallback_to_long_code":         AsString(SchemaOptional),
+			"fallback_to_long_code":         AsBool(SchemaOptional),
 			"fallback_url":                  AsString(SchemaOptional),
 			"friendly_name":                 AsString(SchemaOptional),
 			"inbound_method":                AsString(SchemaOptional),
 			"inbound_request_url":           AsString(SchemaOptional),
-			"mms_converter":                 AsString(SchemaOptional),
+			"mms_converter":                 AsBool(SchemaOptional),
 			"scan_message_content":          AsString(SchemaOptional),
-			"smart_encoding":                AsString(SchemaOptional),
+			"smart_encoding":                AsBool(SchemaOptional),
 			"status_callback":               AsString(SchemaOptional),
-			"sticky_sender":                 AsString(SchemaOptional),
-			"synchronous_validation":        AsString(SchemaOptional),
-			"use_inbound_webhook_on_number": AsString(SchemaOptional),
-			"validity_period":               AsString(SchemaOptional),
-			"account_sid":                   AsString(SchemaComputed),
-			"date_created":                  AsString(SchemaComputed),
-			"date_updated":                  AsString(SchemaComputed),
-			"links":                         AsString(SchemaComputed),
-			"sid":                           AsString(SchemaComputed),
-			"url":                           AsString(SchemaComputed),
+			"sticky_sender":                 AsBool(SchemaOptional),
+			"synchronous_validation":        AsBool(SchemaOptional),
+			"use_inbound_webhook_on_number": AsBool(SchemaOptional),
+			"validity_period":               AsInt(SchemaOptional),
+			"account_sid":                   AsString(SchemaOptional),
+			"date_created":                  AsString(SchemaOptional),
+			"date_updated":                  AsString(SchemaOptional),
+			"links":                         AsString(SchemaOptional),
+			"sid":                           AsString(SchemaOptional),
+			"url":                           AsString(SchemaOptional),
 		},
 	}
 }
@@ -64,7 +64,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

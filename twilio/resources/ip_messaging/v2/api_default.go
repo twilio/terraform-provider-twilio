@@ -21,213 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/ip_messaging/v2"
 )
 
-func ResourceServices() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServices,
-		ReadContext:   readServices,
-		UpdateContext: updateServices,
-		DeleteContext: deleteServices,
-		Schema: map[string]*schema.Schema{
-			"friendly_name":                    AsString(SchemaOptional),
-			"account_sid":                      AsString(SchemaComputed),
-			"consumption_report_interval":      AsString(SchemaComputed),
-			"date_created":                     AsString(SchemaComputed),
-			"date_updated":                     AsString(SchemaComputed),
-			"default_channel_creator_role_sid": AsString(SchemaComputed),
-			"default_channel_role_sid":         AsString(SchemaComputed),
-			"default_service_role_sid":         AsString(SchemaComputed),
-			"limits":                           AsString(SchemaComputed),
-			"links":                            AsString(SchemaComputed),
-			"media":                            AsString(SchemaComputed),
-			"notifications":                    AsString(SchemaComputed),
-			"post_webhook_retry_count":         AsString(SchemaComputed),
-			"post_webhook_url":                 AsString(SchemaComputed),
-			"pre_webhook_retry_count":          AsString(SchemaComputed),
-			"pre_webhook_url":                  AsString(SchemaComputed),
-			"reachability_enabled":             AsString(SchemaComputed),
-			"read_status_enabled":              AsString(SchemaComputed),
-			"sid":                              AsString(SchemaComputed),
-			"typing_indicator_timeout":         AsString(SchemaComputed),
-			"url":                              AsString(SchemaComputed),
-			"webhook_filters":                  AsString(SchemaComputed),
-			"webhook_method":                   AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.CreateService(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteService(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.FetchService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceServicesUsers() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesUsers,
-		ReadContext:   readServicesUsers,
-		UpdateContext: updateServicesUsers,
-		DeleteContext: deleteServicesUsers,
-		Schema: map[string]*schema.Schema{
-			"service_sid":              AsString(SchemaRequired),
-			"x-twilio-webhook-enabled": AsString(SchemaOptional),
-			"attributes":               AsString(SchemaOptional),
-			"friendly_name":            AsString(SchemaOptional),
-			"identity":                 AsString(SchemaOptional),
-			"role_sid":                 AsString(SchemaOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"date_created":             AsString(SchemaComputed),
-			"date_updated":             AsString(SchemaComputed),
-			"is_notifiable":            AsString(SchemaComputed),
-			"is_online":                AsString(SchemaComputed),
-			"joined_channels_count":    AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"sid":                      AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateUserParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.CreateUser(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteUser(serviceSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.FetchUser(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateUserParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateUser(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceServicesChannels() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesChannels,
@@ -235,21 +28,21 @@ func ResourceServicesChannels() *schema.Resource {
 		UpdateContext: updateServicesChannels,
 		DeleteContext: deleteServicesChannels,
 		Schema: map[string]*schema.Schema{
-			"service_sid":              AsString(SchemaRequired),
-			"x-twilio-webhook-enabled": AsString(SchemaOptional),
-			"attributes":               AsString(SchemaOptional),
-			"created_by":               AsString(SchemaOptional),
-			"date_created":             AsString(SchemaOptional),
-			"date_updated":             AsString(SchemaOptional),
-			"friendly_name":            AsString(SchemaOptional),
-			"type":                     AsString(SchemaOptional),
-			"unique_name":              AsString(SchemaOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"members_count":            AsString(SchemaComputed),
-			"messages_count":           AsString(SchemaComputed),
-			"sid":                      AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
+			"service_sid":             AsString(SchemaRequired),
+			"xtwilio_webhook_enabled": AsString(SchemaOptional),
+			"attributes":              AsString(SchemaOptional),
+			"created_by":              AsString(SchemaOptional),
+			"date_created":            AsString(SchemaOptional),
+			"date_updated":            AsString(SchemaOptional),
+			"friendly_name":           AsString(SchemaOptional),
+			"type":                    AsString(SchemaOptional),
+			"unique_name":             AsString(SchemaOptional),
+			"account_sid":             AsString(SchemaOptional),
+			"links":                   AsString(SchemaOptional),
+			"members_count":           AsInt(SchemaOptional),
+			"messages_count":          AsInt(SchemaOptional),
+			"sid":                     AsString(SchemaOptional),
+			"url":                     AsString(SchemaOptional),
 		},
 	}
 }
@@ -267,7 +60,7 @@ func createServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -334,6 +127,206 @@ func updateServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
+func ResourceServicesChannelsWebhooks() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesChannelsWebhooks,
+		ReadContext:   readServicesChannelsWebhooks,
+		UpdateContext: updateServicesChannelsWebhooks,
+		DeleteContext: deleteServicesChannelsWebhooks,
+		Schema: map[string]*schema.Schema{
+			"service_sid":               AsString(SchemaRequired),
+			"channel_sid":               AsString(SchemaRequired),
+			"configuration_filters":     AsString(SchemaOptional),
+			"configuration_flow_sid":    AsString(SchemaOptional),
+			"configuration_method":      AsString(SchemaOptional),
+			"configuration_retry_count": AsInt(SchemaOptional),
+			"configuration_triggers":    AsString(SchemaOptional),
+			"configuration_url":         AsString(SchemaOptional),
+			"type":                      AsString(SchemaOptional),
+			"account_sid":               AsString(SchemaOptional),
+			"configuration":             AsString(SchemaOptional),
+			"date_created":              AsString(SchemaOptional),
+			"date_updated":              AsString(SchemaOptional),
+			"sid":                       AsString(SchemaOptional),
+			"url":                       AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateChannelWebhookParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	channelSid := d.Get("channel_sid").(string)
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.CreateChannelWebhook(serviceSid, channelSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	channelSid := d.Get("channel_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteChannelWebhook(serviceSid, channelSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	channelSid := d.Get("channel_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.FetchChannelWebhook(serviceSid, channelSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateChannelWebhookParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	channelSid := d.Get("channel_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateChannelWebhook(serviceSid, channelSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceCredentials() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createCredentials,
+		ReadContext:   readCredentials,
+		UpdateContext: updateCredentials,
+		DeleteContext: deleteCredentials,
+		Schema: map[string]*schema.Schema{
+			"api_key":       AsString(SchemaOptional),
+			"certificate":   AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"private_key":   AsString(SchemaOptional),
+			"sandbox":       AsBool(SchemaOptional),
+			"secret":        AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
+		},
+	}
+}
+
+func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.CreateCredential(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteCredential(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.FetchCredential(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateCredential(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceServicesChannelsMembers() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesChannelsMembers,
@@ -343,17 +336,17 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
-			"x-twilio-webhook-enabled":    AsString(SchemaOptional),
+			"xtwilio_webhook_enabled":     AsString(SchemaOptional),
 			"attributes":                  AsString(SchemaOptional),
 			"date_created":                AsString(SchemaOptional),
 			"date_updated":                AsString(SchemaOptional),
 			"identity":                    AsString(SchemaOptional),
-			"last_consumed_message_index": AsString(SchemaOptional),
+			"last_consumed_message_index": AsInt(SchemaOptional),
 			"last_consumption_timestamp":  AsString(SchemaOptional),
 			"role_sid":                    AsString(SchemaOptional),
-			"account_sid":                 AsString(SchemaComputed),
-			"sid":                         AsString(SchemaComputed),
-			"url":                         AsString(SchemaComputed),
+			"account_sid":                 AsString(SchemaOptional),
+			"sid":                         AsString(SchemaOptional),
+			"url":                         AsString(SchemaOptional),
 		},
 	}
 }
@@ -372,7 +365,7 @@ func createServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -449,24 +442,24 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 		UpdateContext: updateServicesChannelsMessages,
 		DeleteContext: deleteServicesChannelsMessages,
 		Schema: map[string]*schema.Schema{
-			"service_sid":              AsString(SchemaRequired),
-			"channel_sid":              AsString(SchemaRequired),
-			"x-twilio-webhook-enabled": AsString(SchemaOptional),
-			"attributes":               AsString(SchemaOptional),
-			"body":                     AsString(SchemaOptional),
-			"date_created":             AsString(SchemaOptional),
-			"date_updated":             AsString(SchemaOptional),
-			"from":                     AsString(SchemaOptional),
-			"last_updated_by":          AsString(SchemaOptional),
-			"media_sid":                AsString(SchemaOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"index":                    AsString(SchemaComputed),
-			"media":                    AsString(SchemaComputed),
-			"sid":                      AsString(SchemaComputed),
-			"to":                       AsString(SchemaComputed),
-			"type":                     AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
-			"was_edited":               AsString(SchemaComputed),
+			"service_sid":             AsString(SchemaRequired),
+			"channel_sid":             AsString(SchemaRequired),
+			"xtwilio_webhook_enabled": AsString(SchemaOptional),
+			"attributes":              AsString(SchemaOptional),
+			"body":                    AsString(SchemaOptional),
+			"date_created":            AsString(SchemaOptional),
+			"date_updated":            AsString(SchemaOptional),
+			"from":                    AsString(SchemaOptional),
+			"last_updated_by":         AsString(SchemaOptional),
+			"media_sid":               AsString(SchemaOptional),
+			"account_sid":             AsString(SchemaOptional),
+			"index":                   AsInt(SchemaOptional),
+			"media":                   AsString(SchemaOptional),
+			"sid":                     AsString(SchemaOptional),
+			"to":                      AsString(SchemaOptional),
+			"type":                    AsString(SchemaOptional),
+			"url":                     AsString(SchemaOptional),
+			"was_edited":              AsBool(SchemaOptional),
 		},
 	}
 }
@@ -485,7 +478,7 @@ func createServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -566,12 +559,12 @@ func ResourceServicesRoles() *schema.Resource {
 			"friendly_name": AsString(SchemaOptional),
 			"permission":    AsString(SchemaOptional),
 			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"permissions":   AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"permissions":   AsList(AsString(SchemaOptional), SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -589,7 +582,7 @@ func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -652,47 +645,52 @@ func updateServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
-func ResourceServicesChannelsWebhooks() *schema.Resource {
+func ResourceServices() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createServicesChannelsWebhooks,
-		ReadContext:   readServicesChannelsWebhooks,
-		UpdateContext: updateServicesChannelsWebhooks,
-		DeleteContext: deleteServicesChannelsWebhooks,
+		CreateContext: createServices,
+		ReadContext:   readServices,
+		UpdateContext: updateServices,
+		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"service_sid":               AsString(SchemaRequired),
-			"channel_sid":               AsString(SchemaRequired),
-			"configuration.filters":     AsString(SchemaOptional),
-			"configuration.flow_sid":    AsString(SchemaOptional),
-			"configuration.method":      AsString(SchemaOptional),
-			"configuration.retry_count": AsString(SchemaOptional),
-			"configuration.triggers":    AsString(SchemaOptional),
-			"configuration.url":         AsString(SchemaOptional),
-			"type":                      AsString(SchemaOptional),
-			"account_sid":               AsString(SchemaComputed),
-			"configuration":             AsString(SchemaComputed),
-			"date_created":              AsString(SchemaComputed),
-			"date_updated":              AsString(SchemaComputed),
-			"sid":                       AsString(SchemaComputed),
-			"url":                       AsString(SchemaComputed),
+			"friendly_name":                    AsString(SchemaOptional),
+			"account_sid":                      AsString(SchemaOptional),
+			"consumption_report_interval":      AsInt(SchemaOptional),
+			"date_created":                     AsString(SchemaOptional),
+			"date_updated":                     AsString(SchemaOptional),
+			"default_channel_creator_role_sid": AsString(SchemaOptional),
+			"default_channel_role_sid":         AsString(SchemaOptional),
+			"default_service_role_sid":         AsString(SchemaOptional),
+			"limits":                           AsString(SchemaOptional),
+			"links":                            AsString(SchemaOptional),
+			"media":                            AsString(SchemaOptional),
+			"notifications":                    AsString(SchemaOptional),
+			"post_webhook_retry_count":         AsInt(SchemaOptional),
+			"post_webhook_url":                 AsString(SchemaOptional),
+			"pre_webhook_retry_count":          AsInt(SchemaOptional),
+			"pre_webhook_url":                  AsString(SchemaOptional),
+			"reachability_enabled":             AsBool(SchemaOptional),
+			"read_status_enabled":              AsBool(SchemaOptional),
+			"sid":                              AsString(SchemaOptional),
+			"typing_indicator_timeout":         AsInt(SchemaOptional),
+			"url":                              AsString(SchemaOptional),
+			"webhook_filters":                  AsList(AsString(SchemaOptional), SchemaOptional),
+			"webhook_method":                   AsString(SchemaOptional),
 		},
 	}
 }
 
-func createServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateChannelWebhookParams{}
+func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateServiceParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-
-	r, err := m.(*client.Config).Client.IpMessagingV2.CreateChannelWebhook(serviceSid, channelSid, &params)
+	r, err := m.(*client.Config).Client.IpMessagingV2.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -701,13 +699,11 @@ func createServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func deleteServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteChannelWebhook(serviceSid, channelSid, sid)
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteService(sid)
 	d.SetId("")
 
 	if err != nil {
@@ -716,13 +712,11 @@ func deleteServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func readServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV2.FetchChannelWebhook(serviceSid, channelSid, sid)
+	r, err := m.(*client.Config).Client.IpMessagingV2.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -735,17 +729,15 @@ func readServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func updateServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateChannelWebhookParams{}
+func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateServiceParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateChannelWebhook(serviceSid, channelSid, sid, &params)
+	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -758,41 +750,46 @@ func updateServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func ResourceCredentials() *schema.Resource {
+func ResourceServicesUsers() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createCredentials,
-		ReadContext:   readCredentials,
-		UpdateContext: updateCredentials,
-		DeleteContext: deleteCredentials,
+		CreateContext: createServicesUsers,
+		ReadContext:   readServicesUsers,
+		UpdateContext: updateServicesUsers,
+		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
-			"api_key":       AsString(SchemaOptional),
-			"certificate":   AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"private_key":   AsString(SchemaOptional),
-			"sandbox":       AsString(SchemaOptional),
-			"secret":        AsString(SchemaOptional),
-			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"service_sid":             AsString(SchemaRequired),
+			"xtwilio_webhook_enabled": AsString(SchemaOptional),
+			"attributes":              AsString(SchemaOptional),
+			"friendly_name":           AsString(SchemaOptional),
+			"identity":                AsString(SchemaOptional),
+			"role_sid":                AsString(SchemaOptional),
+			"account_sid":             AsString(SchemaOptional),
+			"date_created":            AsString(SchemaOptional),
+			"date_updated":            AsString(SchemaOptional),
+			"is_notifiable":           AsBool(SchemaOptional),
+			"is_online":               AsBool(SchemaOptional),
+			"joined_channels_count":   AsInt(SchemaOptional),
+			"links":                   AsString(SchemaOptional),
+			"sid":                     AsString(SchemaOptional),
+			"url":                     AsString(SchemaOptional),
 		},
 	}
 }
 
-func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCredentialParams{}
+func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateUserParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.IpMessagingV2.CreateCredential(&params)
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.IpMessagingV2.CreateUser(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -801,11 +798,12 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
-func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
+	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV2.DeleteCredential(sid)
+	err := m.(*client.Config).Client.IpMessagingV2.DeleteUser(serviceSid, sid)
 	d.SetId("")
 
 	if err != nil {
@@ -814,11 +812,12 @@ func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
-func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
+	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV2.FetchCredential(sid)
+	r, err := m.(*client.Config).Client.IpMessagingV2.FetchUser(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -831,15 +830,16 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 	return nil
 }
 
-func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateCredentialParams{}
+func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateUserParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
+	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateCredential(sid, &params)
+	r, err := m.(*client.Config).Client.IpMessagingV2.UpdateUser(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

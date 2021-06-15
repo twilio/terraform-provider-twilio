@@ -461,6 +461,15 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 				}
 				return CreateErrorGeneric("Wrong type of id field")
 			} else {
+				val := resourceData.Get(name)
+				// if the resource data expected type is a string and the actual data type is not, json encode it
+				if reflect.TypeOf(val).Kind() == reflect.String && reflect.TypeOf(value) != nil && reflect.TypeOf(value).Kind() != reflect.String {
+					marshaledVal, _ := json.Marshal(value)
+					// clean up the encoded string
+					stringEncodedVal := strings.Replace(string(marshaledVal), "\"", "", -1)
+					return resourceData.Set(name, stringEncodedVal)
+				}
+
 				return resourceData.Set(name, value)
 			}
 		}
@@ -472,11 +481,11 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 	return nil
 }
 
-var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
-var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
+var removeSpecial = regexp.MustCompile("[^a-zA-Z0-9]+")
+var matchFirstCap = regexp.MustCompile("([a-z0-9])([A-Z])")
 
 func ToSnakeCase(str string) string {
-	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
-	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
+	snake := removeSpecial.ReplaceAllString(str, "_")
+	snake = matchFirstCap.ReplaceAllString(snake, "${1}_${2}")
 	return strings.ToLower(snake)
 }

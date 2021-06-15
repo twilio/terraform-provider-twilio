@@ -21,199 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/proxy/v1"
 )
 
-func ResourceServices() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServices,
-		ReadContext:   readServices,
-		UpdateContext: updateServices,
-		DeleteContext: deleteServices,
-		Schema: map[string]*schema.Schema{
-			"callback_url":                AsString(SchemaOptional),
-			"chat_instance_sid":           AsString(SchemaOptional),
-			"default_ttl":                 AsString(SchemaOptional),
-			"geo_match_level":             AsString(SchemaOptional),
-			"intercept_callback_url":      AsString(SchemaOptional),
-			"number_selection_behavior":   AsString(SchemaOptional),
-			"out_of_session_callback_url": AsString(SchemaOptional),
-			"unique_name":                 AsString(SchemaOptional),
-			"account_sid":                 AsString(SchemaComputed),
-			"date_created":                AsString(SchemaComputed),
-			"date_updated":                AsString(SchemaComputed),
-			"links":                       AsString(SchemaComputed),
-			"sid":                         AsString(SchemaComputed),
-			"url":                         AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.ProxyV1.CreateService(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.ProxyV1.DeleteService(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ProxyV1.FetchService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ProxyV1.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceServicesShortCodes() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesShortCodes,
-		ReadContext:   readServicesShortCodes,
-		UpdateContext: updateServicesShortCodes,
-		DeleteContext: deleteServicesShortCodes,
-		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"sid":          AsString(SchemaOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"capabilities": AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"is_reserved":  AsString(SchemaComputed),
-			"iso_country":  AsString(SchemaComputed),
-			"short_code":   AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateShortCodeParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-
-	r, err := m.(*client.Config).Client.ProxyV1.CreateShortCode(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.ProxyV1.DeleteShortCode(serviceSid, sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ProxyV1.FetchShortCode(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateShortCodeParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.ProxyV1.UpdateShortCode(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceServicesPhoneNumbers() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesPhoneNumbers,
@@ -222,17 +29,17 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 		DeleteContext: deleteServicesPhoneNumbers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"is_reserved":   AsString(SchemaOptional),
+			"is_reserved":   AsBool(SchemaOptional),
 			"phone_number":  AsString(SchemaOptional),
 			"sid":           AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"capabilities":  AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"friendly_name": AsString(SchemaComputed),
-			"in_use":        AsString(SchemaComputed),
-			"iso_country":   AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"capabilities":  AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"in_use":        AsInt(SchemaOptional),
+			"iso_country":   AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -250,7 +57,7 @@ func createServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -313,6 +120,102 @@ func updateServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
+func ResourceServices() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServices,
+		ReadContext:   readServices,
+		UpdateContext: updateServices,
+		DeleteContext: deleteServices,
+		Schema: map[string]*schema.Schema{
+			"callback_url":                AsString(SchemaOptional),
+			"chat_instance_sid":           AsString(SchemaOptional),
+			"default_ttl":                 AsInt(SchemaOptional),
+			"geo_match_level":             AsString(SchemaOptional),
+			"intercept_callback_url":      AsString(SchemaOptional),
+			"number_selection_behavior":   AsString(SchemaOptional),
+			"out_of_session_callback_url": AsString(SchemaOptional),
+			"unique_name":                 AsString(SchemaOptional),
+			"account_sid":                 AsString(SchemaOptional),
+			"date_created":                AsString(SchemaOptional),
+			"date_updated":                AsString(SchemaOptional),
+			"links":                       AsString(SchemaOptional),
+			"sid":                         AsString(SchemaOptional),
+			"url":                         AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.ProxyV1.CreateService(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ProxyV1.DeleteService(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.FetchService(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateService(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceServicesSessions() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesSessions,
@@ -322,22 +225,22 @@ func ResourceServicesSessions() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
 			"date_expiry":                  AsString(SchemaOptional),
-			"fail_on_participant_conflict": AsString(SchemaOptional),
+			"fail_on_participant_conflict": AsBool(SchemaOptional),
 			"mode":                         AsString(SchemaOptional),
 			"participants":                 AsString(SchemaOptional),
 			"status":                       AsString(SchemaOptional),
-			"ttl":                          AsString(SchemaOptional),
+			"ttl":                          AsInt(SchemaOptional),
 			"unique_name":                  AsString(SchemaOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"closed_reason":                AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_ended":                   AsString(SchemaComputed),
-			"date_last_interaction":        AsString(SchemaComputed),
-			"date_started":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"links":                        AsString(SchemaComputed),
-			"sid":                          AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
+			"account_sid":                  AsString(SchemaOptional),
+			"closed_reason":                AsString(SchemaOptional),
+			"date_created":                 AsString(SchemaOptional),
+			"date_ended":                   AsString(SchemaOptional),
+			"date_last_interaction":        AsString(SchemaOptional),
+			"date_started":                 AsString(SchemaOptional),
+			"date_updated":                 AsString(SchemaOptional),
+			"links":                        AsString(SchemaOptional),
+			"sid":                          AsString(SchemaOptional),
+			"url":                          AsString(SchemaOptional),
 		},
 	}
 }
@@ -355,7 +258,7 @@ func createServicesSessions(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -406,6 +309,103 @@ func updateServicesSessions(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.ProxyV1.UpdateSession(serviceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceServicesShortCodes() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesShortCodes,
+		ReadContext:   readServicesShortCodes,
+		UpdateContext: updateServicesShortCodes,
+		DeleteContext: deleteServicesShortCodes,
+		Schema: map[string]*schema.Schema{
+			"service_sid":  AsString(SchemaRequired),
+			"sid":          AsString(SchemaOptional),
+			"account_sid":  AsString(SchemaOptional),
+			"capabilities": AsString(SchemaOptional),
+			"date_created": AsString(SchemaOptional),
+			"date_updated": AsString(SchemaOptional),
+			"is_reserved":  AsBool(SchemaOptional),
+			"iso_country":  AsString(SchemaOptional),
+			"short_code":   AsString(SchemaOptional),
+			"url":          AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateShortCodeParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.CreateShortCode(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ProxyV1.DeleteShortCode(serviceSid, sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.FetchShortCode(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateShortCodeParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateShortCode(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

@@ -21,95 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/accounts/v1"
 )
 
-func ResourceCredentialsPublicKeys() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createCredentialsPublicKeys,
-		ReadContext:   readCredentialsPublicKeys,
-		UpdateContext: updateCredentialsPublicKeys,
-		DeleteContext: deleteCredentialsPublicKeys,
-		Schema: map[string]*schema.Schema{
-			"account_sid":   AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"public_key":    AsString(SchemaOptional),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
-		},
-	}
-}
-
-func createCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCredentialPublicKeyParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.AccountsV1.CreateCredentialPublicKey(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.AccountsV1.DeleteCredentialPublicKey(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AccountsV1.FetchCredentialPublicKey(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateCredentialPublicKeyParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.AccountsV1.UpdateCredentialPublicKey(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceCredentialsAWS() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createCredentialsAWS,
@@ -120,10 +31,10 @@ func ResourceCredentialsAWS() *schema.Resource {
 			"account_sid":   AsString(SchemaOptional),
 			"credentials":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -139,7 +50,7 @@ func createCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -187,6 +98,95 @@ func updateCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.AccountsV1.UpdateCredentialAws(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceCredentialsPublicKeys() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createCredentialsPublicKeys,
+		ReadContext:   readCredentialsPublicKeys,
+		UpdateContext: updateCredentialsPublicKeys,
+		DeleteContext: deleteCredentialsPublicKeys,
+		Schema: map[string]*schema.Schema{
+			"account_sid":   AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"public_key":    AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
+		},
+	}
+}
+
+func createCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCredentialPublicKeyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.AccountsV1.CreateCredentialPublicKey(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.AccountsV1.DeleteCredentialPublicKey(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AccountsV1.FetchCredentialPublicKey(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateCredentialPublicKeyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AccountsV1.UpdateCredentialPublicKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

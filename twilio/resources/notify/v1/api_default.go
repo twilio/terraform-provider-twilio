@@ -21,108 +21,6 @@ import (
 	. "github.com/twilio/twilio-go/rest/notify/v1"
 )
 
-func ResourceServices() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServices,
-		ReadContext:   readServices,
-		UpdateContext: updateServices,
-		DeleteContext: deleteServices,
-		Schema: map[string]*schema.Schema{
-			"alexa_skill_id":     AsString(SchemaOptional),
-			"apn_credential_sid": AsString(SchemaOptional),
-			"default_alexa_notification_protocol_version": AsString(SchemaOptional),
-			"default_apn_notification_protocol_version":   AsString(SchemaOptional),
-			"default_fcm_notification_protocol_version":   AsString(SchemaOptional),
-			"default_gcm_notification_protocol_version":   AsString(SchemaOptional),
-			"delivery_callback_enabled":                   AsString(SchemaOptional),
-			"delivery_callback_url":                       AsString(SchemaOptional),
-			"facebook_messenger_page_id":                  AsString(SchemaOptional),
-			"fcm_credential_sid":                          AsString(SchemaOptional),
-			"friendly_name":                               AsString(SchemaOptional),
-			"gcm_credential_sid":                          AsString(SchemaOptional),
-			"log_enabled":                                 AsString(SchemaOptional),
-			"messaging_service_sid":                       AsString(SchemaOptional),
-			"account_sid":                                 AsString(SchemaComputed),
-			"date_created":                                AsString(SchemaComputed),
-			"date_updated":                                AsString(SchemaComputed),
-			"links":                                       AsString(SchemaComputed),
-			"sid":                                         AsString(SchemaComputed),
-			"url":                                         AsString(SchemaComputed),
-		},
-	}
-}
-
-func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.NotifyV1.CreateService(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.NotifyV1.DeleteService(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.NotifyV1.FetchService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.NotifyV1.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceCredentials() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createCredentials,
@@ -134,14 +32,14 @@ func ResourceCredentials() *schema.Resource {
 			"certificate":   AsString(SchemaOptional),
 			"friendly_name": AsString(SchemaOptional),
 			"private_key":   AsString(SchemaOptional),
-			"sandbox":       AsString(SchemaOptional),
+			"sandbox":       AsBool(SchemaOptional),
 			"secret":        AsString(SchemaOptional),
 			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -157,7 +55,7 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -205,6 +103,108 @@ func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.NotifyV1.UpdateCredential(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceServices() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServices,
+		ReadContext:   readServices,
+		UpdateContext: updateServices,
+		DeleteContext: deleteServices,
+		Schema: map[string]*schema.Schema{
+			"alexa_skill_id":     AsString(SchemaOptional),
+			"apn_credential_sid": AsString(SchemaOptional),
+			"default_alexa_notification_protocol_version": AsString(SchemaOptional),
+			"default_apn_notification_protocol_version":   AsString(SchemaOptional),
+			"default_fcm_notification_protocol_version":   AsString(SchemaOptional),
+			"default_gcm_notification_protocol_version":   AsString(SchemaOptional),
+			"delivery_callback_enabled":                   AsBool(SchemaOptional),
+			"delivery_callback_url":                       AsString(SchemaOptional),
+			"facebook_messenger_page_id":                  AsString(SchemaOptional),
+			"fcm_credential_sid":                          AsString(SchemaOptional),
+			"friendly_name":                               AsString(SchemaOptional),
+			"gcm_credential_sid":                          AsString(SchemaOptional),
+			"log_enabled":                                 AsBool(SchemaOptional),
+			"messaging_service_sid":                       AsString(SchemaOptional),
+			"account_sid":                                 AsString(SchemaOptional),
+			"date_created":                                AsString(SchemaOptional),
+			"date_updated":                                AsString(SchemaOptional),
+			"links":                                       AsString(SchemaOptional),
+			"sid":                                         AsString(SchemaOptional),
+			"url":                                         AsString(SchemaOptional),
+		},
+	}
+}
+
+func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.NotifyV1.CreateService(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId((*r.Sid))
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.NotifyV1.DeleteService(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NotifyV1.FetchService(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateServiceParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NotifyV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

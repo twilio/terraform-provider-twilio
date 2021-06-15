@@ -38,11 +38,11 @@ func ResourceByocTrunks() *schema.Resource {
 			"voice_fallback_url":     AsString(SchemaOptional),
 			"voice_method":           AsString(SchemaOptional),
 			"voice_url":              AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
+			"account_sid":            AsString(SchemaOptional),
+			"date_created":           AsString(SchemaOptional),
+			"date_updated":           AsString(SchemaOptional),
+			"sid":                    AsString(SchemaOptional),
+			"url":                    AsString(SchemaOptional),
 		},
 	}
 }
@@ -126,12 +126,12 @@ func ResourceConnectionPolicies() *schema.Resource {
 		DeleteContext: deleteConnectionPolicies,
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaOptional),
+			"date_created":  AsString(SchemaOptional),
+			"date_updated":  AsString(SchemaOptional),
+			"links":         AsString(SchemaOptional),
+			"sid":           AsString(SchemaOptional),
+			"url":           AsString(SchemaOptional),
 		},
 	}
 }
@@ -220,11 +220,11 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 			"priority":              AsInt(SchemaOptional),
 			"target":                AsString(SchemaOptional),
 			"weight":                AsInt(SchemaOptional),
-			"account_sid":           AsString(SchemaComputed),
-			"date_created":          AsString(SchemaComputed),
-			"date_updated":          AsString(SchemaComputed),
-			"sid":                   AsString(SchemaComputed),
-			"url":                   AsString(SchemaComputed),
+			"account_sid":           AsString(SchemaOptional),
+			"date_created":          AsString(SchemaOptional),
+			"date_updated":          AsString(SchemaOptional),
+			"sid":                   AsString(SchemaOptional),
+			"url":                   AsString(SchemaOptional),
 		},
 	}
 }
@@ -315,11 +315,11 @@ func ResourceIpRecords() *schema.Resource {
 			"cidr_prefix_length": AsInt(SchemaOptional),
 			"friendly_name":      AsString(SchemaOptional),
 			"ip_address":         AsString(SchemaOptional),
-			"account_sid":        AsString(SchemaComputed),
-			"date_created":       AsString(SchemaComputed),
-			"date_updated":       AsString(SchemaComputed),
-			"sid":                AsString(SchemaComputed),
-			"url":                AsString(SchemaComputed),
+			"account_sid":        AsString(SchemaOptional),
+			"date_created":       AsString(SchemaOptional),
+			"date_updated":       AsString(SchemaOptional),
+			"sid":                AsString(SchemaOptional),
+			"url":                AsString(SchemaOptional),
 		},
 	}
 }
@@ -404,10 +404,10 @@ func ResourceSourceIpMappings() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"ip_record_sid":  AsString(SchemaOptional),
 			"sip_domain_sid": AsString(SchemaOptional),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
+			"date_created":   AsString(SchemaOptional),
+			"date_updated":   AsString(SchemaOptional),
+			"sid":            AsString(SchemaOptional),
+			"url":            AsString(SchemaOptional),
 		},
 	}
 }

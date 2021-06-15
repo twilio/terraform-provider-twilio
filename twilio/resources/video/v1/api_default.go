@@ -38,11 +38,11 @@ func ResourceCompositionHooks() *schema.Resource {
 			"status_callback_method": AsString(SchemaOptional),
 			"trim":                   AsBool(SchemaOptional),
 			"video_layout":           AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
+			"account_sid":            AsString(SchemaOptional),
+			"date_created":           AsString(SchemaOptional),
+			"date_updated":           AsString(SchemaOptional),
+			"sid":                    AsString(SchemaOptional),
+			"url":                    AsString(SchemaOptional),
 		},
 	}
 }

@@ -43,12 +43,12 @@ func ResourceServices() *schema.Resource {
 			"synchronous_validation":        AsBool(SchemaOptional),
 			"use_inbound_webhook_on_number": AsBool(SchemaOptional),
 			"validity_period":               AsInt(SchemaOptional),
-			"account_sid":                   AsString(SchemaComputed),
-			"date_created":                  AsString(SchemaComputed),
-			"date_updated":                  AsString(SchemaComputed),
-			"links":                         AsString(SchemaComputed),
-			"sid":                           AsString(SchemaComputed),
-			"url":                           AsString(SchemaComputed),
+			"account_sid":                   AsString(SchemaOptional),
+			"date_created":                  AsString(SchemaOptional),
+			"date_updated":                  AsString(SchemaOptional),
+			"links":                         AsString(SchemaOptional),
+			"sid":                           AsString(SchemaOptional),
+			"url":                           AsString(SchemaOptional),
 		},
 	}
 }

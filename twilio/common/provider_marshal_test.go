@@ -10,7 +10,7 @@ import (
 )
 
 func TestTagNaming(t *testing.T) {
-	type test1 struct {
+	type innerStruct struct {
 		T1 string `json:"t1"`
 		T2 string
 		T3 string `json:"t3a" provider:"t3b"`
@@ -22,49 +22,49 @@ func TestTagNaming(t *testing.T) {
 	}
 	var field reflect.StructField
 	var tag tagInfo
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T1")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T1")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "t1", "wrong name")
 	assert.Equal(t, tag.isId, false, "Id set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, false, "ignore set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T2")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T2")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "T2", "wrong name")
 	assert.Equal(t, tag.isId, false, "Id set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, false, "ignore set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T3")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T3")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "t3b", "wrong name")
 	assert.Equal(t, tag.isId, false, "Id set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, false, "ignore set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T4")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T4")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "t4", "wrong name")
 	assert.Equal(t, tag.isId, false, "Id set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, false, "ignore set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T5")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T5")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "t5", "wrong name")
 	assert.Equal(t, tag.isId, true, "Id not set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, false, "ignore set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T6")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T6")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "T6", "wrong name")
 	assert.Equal(t, tag.isId, true, "Id not set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, false, "ignore set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T7")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T7")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "T7", "wrong name")
 	assert.Equal(t, tag.isId, false, "Id set")
 	assert.Equal(t, tag.flatten, false, "Flatten set")
 	assert.Equal(t, tag.ignore, true, "ignore not set")
-	field, _ = reflect.TypeOf(test1{}).FieldByName("T8")
+	field, _ = reflect.TypeOf(innerStruct{}).FieldByName("T8")
 	tag = getNameFromTag(field)
 	assert.Equal(t, tag.name, "T8", "wrong name")
 	assert.Equal(t, tag.isId, false, "Id set")
@@ -73,7 +73,7 @@ func TestTagNaming(t *testing.T) {
 }
 
 func TestSimpleUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeBool,
 			Required: true,
@@ -91,21 +91,21 @@ func TestSimpleUnmarshal(t *testing.T) {
 			Optional: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": true,
 		"T2": 1,
 		"T3": "t3",
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 bool
 		T2 int
 		T3 string
 		T4 *int
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -116,7 +116,7 @@ func TestSimpleUnmarshal(t *testing.T) {
 }
 
 func TestComplexUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -149,7 +149,7 @@ func TestComplexUnmarshal(t *testing.T) {
 			Optional: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": "AC00112233445566778899aabbccddeeff",
 		"T2": []interface{}{"t2a", "t2b"},
 		"T3": "t3",
@@ -157,10 +157,10 @@ func TestComplexUnmarshal(t *testing.T) {
 		"T5": 1.0,
 		"T6": "AC00112233445566778899aabbccddeeff",
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
-	type test1 struct {
+	type innerStruct struct {
 		T0 *string `provider:",id"`
 		T1 AccountSid
 		T2 []string
@@ -171,7 +171,7 @@ func TestComplexUnmarshal(t *testing.T) {
 		T7 *int
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -188,23 +188,23 @@ func TestComplexUnmarshal(t *testing.T) {
 }
 
 func TestTimeUnMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T0": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T0": "2021-05-17T01:35:33Z",
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	err := resourceData.Set("T0", "2021-05-17T01:35:33Z")
 
-	type test1 struct {
+	type innerStruct struct {
 		T0 *time.Time
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -214,7 +214,7 @@ func TestTimeUnMarshal(t *testing.T) {
 }
 
 func TestUnmarshalNilValueToPointer(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -227,18 +227,18 @@ func TestUnmarshalNilValueToPointer(t *testing.T) {
 			},
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": nil,
 		"T2": nil,
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 *string
 		T2 *[]string
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -247,7 +247,7 @@ func TestUnmarshalNilValueToPointer(t *testing.T) {
 }
 
 func TestFlattenUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -257,11 +257,11 @@ func TestFlattenUnmarshal(t *testing.T) {
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": "t1",
 		"T2": "t2",
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
 	type test2 struct {
@@ -269,12 +269,12 @@ func TestFlattenUnmarshal(t *testing.T) {
 		T2 string
 	}
 
-	type test1 struct {
+	type innerStruct struct {
 		T0     *string `provider:",id"`
 		Nested test2   `provider:",flatten"`
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -284,7 +284,7 @@ func TestFlattenUnmarshal(t *testing.T) {
 }
 
 func TestListUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type: schema.TypeList,
 			Elem: &schema.Resource{
@@ -302,13 +302,13 @@ func TestListUnmarshal(t *testing.T) {
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": []interface{}{
 			map[string]interface{}{"T1a": "r1", "T1b": "r2"},
 			map[string]interface{}{"T1a": "r3", "T1b": "r4"},
 		},
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
 	type test2 struct {
@@ -316,11 +316,11 @@ func TestListUnmarshal(t *testing.T) {
 		T1b string
 	}
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 []test2
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -332,24 +332,24 @@ func TestListUnmarshal(t *testing.T) {
 }
 
 func TestSidListUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeList,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": []interface{}{"AC00112233445566778899aabbccddeefe", "AC00112233445566778899aabbccddeeff"},
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 []AccountSid
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -359,24 +359,24 @@ func TestSidListUnmarshal(t *testing.T) {
 }
 
 func TestMapUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeMap,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": map[string]interface{}{"T1a": "r1", "T1b": "r2"},
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 map[string]string
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -386,24 +386,24 @@ func TestMapUnmarshal(t *testing.T) {
 }
 
 func TestSidMapUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeMap,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": map[string]interface{}{"T1a": "AC00112233445566778899aabbccddeefe", "T1b": "AC00112233445566778899aabbccddeeff"},
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 map[string]AccountSid
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -413,16 +413,16 @@ func TestSidMapUnmarshal(t *testing.T) {
 }
 
 func TestComplexMapUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": "{\"M0\":{\"T1a\":\"r1\",\"T1b\":true},\"M1\":{\"T1a\":\"r2\",\"T1b\":false}}",
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
 	type test2 struct {
@@ -430,11 +430,11 @@ func TestComplexMapUnmarshal(t *testing.T) {
 		T1b bool
 	}
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 map[string]test2
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -446,22 +446,22 @@ func TestComplexMapUnmarshal(t *testing.T) {
 }
 
 func TestPureJsonUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{
+	data := map[string]interface{}{
 		"T1": "{\"test\":\"test_value\"}",
 	}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 interface{}
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -469,14 +469,14 @@ func TestPureJsonUnmarshal(t *testing.T) {
 }
 
 func TestJsonEncodedNilUnMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
 	type test struct {
 		T1 *interface{}
@@ -490,7 +490,7 @@ func TestJsonEncodedNilUnMarshal(t *testing.T) {
 }
 
 func TestOptionalFlattenUnmarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -500,8 +500,8 @@ func TestOptionalFlattenUnmarshal(t *testing.T) {
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 	resourceData.SetId("t0")
 
 	type test2 struct {
@@ -509,12 +509,12 @@ func TestOptionalFlattenUnmarshal(t *testing.T) {
 		T2 *string
 	}
 
-	type test1 struct {
+	type innerStruct struct {
 		T0     *string `provider:",id"`
 		Nested test2   `provider:",flatten"`
 	}
 
-	testStruct := test1{}
+	testStruct := innerStruct{}
 	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
@@ -524,7 +524,7 @@ func TestOptionalFlattenUnmarshal(t *testing.T) {
 }
 
 func TestSimpleMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeBool,
 			Required: true,
@@ -550,10 +550,10 @@ func TestSimpleMarshal(t *testing.T) {
 			Optional: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T0 string `provider:",id"`
 		T1 bool
 		T2 int
@@ -563,7 +563,7 @@ func TestSimpleMarshal(t *testing.T) {
 		T6 *interface{}
 	}
 
-	testStruct := test1{T0: "t0", T1: true, T2: 1, T3: "t3", T5: nil}
+	testStruct := innerStruct{T0: "t0", T1: true, T2: 1, T3: "t3", T5: nil}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -577,7 +577,7 @@ func TestSimpleMarshal(t *testing.T) {
 }
 
 func TestComplexMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -598,10 +598,10 @@ func TestComplexMarshal(t *testing.T) {
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T0 *string `provider:",id"`
 		T1 AccountSid
 		T2 []string
@@ -609,13 +609,13 @@ func TestComplexMarshal(t *testing.T) {
 		T4 *int
 	}
 
-	testString := "t0"
+	testStr := "t0"
 	testSid := AccountSid{}
 	_ = testSid.Set("AC00112233445566778899aabbccddeeff")
-	testString2 := "2010-04-01"
+	testDateString := "2010-04-01"
 	testInt := 1
 
-	testStruct := test1{T0: &testString, T1: testSid, T2: []string{"t2a", "t2b"}, T3: &testString2, T4: &testInt}
+	testStruct := innerStruct{T0: &testStr, T1: testSid, T2: []string{"t2a", "t2b"}, T3: &testDateString, T4: &testInt}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -629,7 +629,7 @@ func TestComplexMarshal(t *testing.T) {
 }
 
 func TestObjectMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"Errors": {
 			Type: schema.TypeString,
 		},
@@ -637,15 +637,15 @@ func TestObjectMarshal(t *testing.T) {
 			Type: schema.TypeString,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		Links  map[string]interface{}
 		Errors []map[string]interface{}
 	}
 
-	testStruct := test1{
+	testStruct := innerStruct{
 		Links: map[string]interface{}{
 			"test_users": "https://studio.twilio.com/v2/Flows/FWXX/TestUsers",
 			"revisions":  "https://studio.twilio.com/v2/Flows/FWXX/Revisions",
@@ -667,31 +667,27 @@ func TestObjectMarshal(t *testing.T) {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
 
-	//  "{\"message\":\"is missing but it is required\",\"property_path\":\"#/description\"}"
-
-	testMe := resourceData.Get("Links")
-	testMe2 := resourceData.Get("Errors")
-	assert.Equal(t, testMe, "{\"executions\":\"https://studio.twilio.com/v2/Flows/FWXX/Executions\",\"revisions\":\"https://studio.twilio.com/v2/Flows/FWXX/Revisions\",\"test_users\":\"https://studio.twilio.com/v2/Flows/FWXX/TestUsers\"}")
-	assert.Equal(t, testMe2, "[{\\message\\:\\some message\\,\\property_path\\:\\some property path\\},{\\message\\:\\some message 2\\,\\property_path\\:\\some property path 2\\}]")
+	assert.Equal(t, resourceData.Get("Links"), "{\"executions\":\"https://studio.twilio.com/v2/Flows/FWXX/Executions\",\"revisions\":\"https://studio.twilio.com/v2/Flows/FWXX/Revisions\",\"test_users\":\"https://studio.twilio.com/v2/Flows/FWXX/TestUsers\"}")
+	assert.Equal(t, resourceData.Get("Errors"), "[{\\message\\:\\some message\\,\\property_path\\:\\some property path\\},{\\message\\:\\some message 2\\,\\property_path\\:\\some property path 2\\}]")
 }
 
 func TestTimeMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T0": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T0 *time.Time
 	}
 
 	testDate, _ := time.Parse(time.RFC3339, "2021-05-17T01:35:33Z")
 
-	testStruct := test1{T0: &testDate}
+	testStruct := innerStruct{T0: &testDate}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -699,7 +695,7 @@ func TestTimeMarshal(t *testing.T) {
 }
 
 func TestFlattenMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -710,22 +706,22 @@ func TestFlattenMarshal(t *testing.T) {
 		},
 	}
 
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
 	type test2 struct {
 		T1 string
 		T2 string
 	}
 
-	type test1 struct {
+	type innerStruct struct {
 		T0     *string `provider:",id"`
 		Nested test2   `provider:",flatten"`
 	}
 
 	testString := "t0"
 
-	testStruct := test1{T0: &testString, Nested: test2{T1: "t1", T2: "t2"}}
+	testStruct := innerStruct{T0: &testString, Nested: test2{T1: "t1", T2: "t2"}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -735,7 +731,7 @@ func TestFlattenMarshal(t *testing.T) {
 }
 
 func TestListMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type: schema.TypeList,
 			Elem: &schema.Resource{
@@ -753,19 +749,19 @@ func TestListMarshal(t *testing.T) {
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
 	type test2 struct {
 		T1a string
 		T1b string
 	}
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 []test2
 	}
 
-	testStruct := test1{T1: []test2{{T1a: "r1", T1b: "r2"}, {T1a: "r3", T1b: "r4"}}}
+	testStruct := innerStruct{T1: []test2{{T1a: "r1", T1b: "r2"}, {T1a: "r3", T1b: "r4"}}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -777,24 +773,24 @@ func TestListMarshal(t *testing.T) {
 }
 
 func TestSidListMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeList,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 []AccountSid
 	}
 
 	sid1, _ := CreateAccountSid("AC00112233445566778899aabbccddeefe")
 	sid2, _ := CreateAccountSid("AC00112233445566778899aabbccddeeff")
 
-	testStruct := test1{T1: []AccountSid{sid1, sid2}}
+	testStruct := innerStruct{T1: []AccountSid{sid1, sid2}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -804,21 +800,21 @@ func TestSidListMarshal(t *testing.T) {
 }
 
 func TestMapMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeMap,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 map[string]string
 	}
 
-	testStruct := test1{T1: map[string]string{"T1a": "r1", "T1b": "r2"}}
+	testStruct := innerStruct{T1: map[string]string{"T1a": "r1", "T1b": "r2"}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -828,24 +824,24 @@ func TestMapMarshal(t *testing.T) {
 }
 
 func TestSidMapMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeMap,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 map[string]AccountSid
 	}
 
 	sid1, _ := CreateAccountSid("AC00112233445566778899aabbccddeefe")
 	sid2, _ := CreateAccountSid("AC00112233445566778899aabbccddeeff")
 
-	testStruct := test1{T1: map[string]AccountSid{"T1a": sid1, "T1b": sid2}}
+	testStruct := innerStruct{T1: map[string]AccountSid{"T1a": sid1, "T1b": sid2}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -855,25 +851,25 @@ func TestSidMapMarshal(t *testing.T) {
 }
 
 func TestComplexMapMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test2 struct {
+	type nestedStruct struct {
 		T1a string
 		T1b bool
 	}
 
-	type test1 struct {
-		T1 map[string]test2
+	type innerStruct struct {
+		T1 map[string]nestedStruct
 	}
 
-	testStruct := test1{T1: map[string]test2{"M0": {T1a: "r1", T1b: true}, "M1": {T1a: "r2", T1b: false}}}
+	testStruct := innerStruct{T1: map[string]nestedStruct{"M0": {T1a: "r1", T1b: true}, "M1": {T1a: "r2", T1b: false}}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -881,20 +877,20 @@ func TestComplexMapMarshal(t *testing.T) {
 }
 
 func TestPureJsonMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeString,
 			Required: true,
 		},
 	}
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
-	type test1 struct {
+	type innerStruct struct {
 		T1 interface{}
 	}
 
-	testStruct := test1{T1: map[string]interface{}{"test": "test_value"}}
+	testStruct := innerStruct{T1: map[string]interface{}{"test": "test_value"}}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {
 		t.Errorf("Marshall failed: result '%v'", err)
 	}
@@ -903,7 +899,7 @@ func TestPureJsonMarshal(t *testing.T) {
 }
 
 func TestJsonEncodedListOfObjectsMarshal(t *testing.T) {
-	s := map[string]*schema.Schema{
+	terraformSchema := map[string]*schema.Schema{
 		"T1": {
 			Type:     schema.TypeList,
 			Required: true,
@@ -917,8 +913,8 @@ func TestJsonEncodedListOfObjectsMarshal(t *testing.T) {
 		T1 []interface{}
 	}
 
-	v := map[string]interface{}{}
-	resourceData := schema.TestResourceDataRaw(t, s, v)
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
 
 	m1 := map[string]interface{}{
 		"foo": "bar1",
@@ -934,4 +930,25 @@ func TestJsonEncodedListOfObjectsMarshal(t *testing.T) {
 	}
 	assert.EqualValues(t, "{\"foo\":\"bar1\"}", resourceData.Get("T1.0"), "T1 did not unmarshal")
 	assert.EqualValues(t, "{\"foo\":\"bar2\"}", resourceData.Get("T1.1"), "T1 did not unmarshal")
+}
+
+func TestSnakeCaseConversion(t *testing.T) {
+	testStr := "Integration.FlowSid"
+	result := ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "Integration.Flow.Sid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "integration.flow.sid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "integration_flow_sid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_flow_sid")
+	testStr = "IntegrationChannel123"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_channel123")
+	testStr = "IntegrationChannelSid"
+	result = ToSnakeCase(testStr)
+	assert.Equal(t, result, "integration_channel_sid")
 }

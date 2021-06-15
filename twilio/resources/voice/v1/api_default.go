@@ -21,30 +21,39 @@ import (
 	. "github.com/twilio/twilio-go/rest/voice/v1"
 )
 
-func ResourceSourceIpMappings() *schema.Resource {
+func ResourceByocTrunks() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createSourceIpMappings,
-		ReadContext:   readSourceIpMappings,
-		UpdateContext: updateSourceIpMappings,
-		DeleteContext: deleteSourceIpMappings,
+		CreateContext: createByocTrunks,
+		ReadContext:   readByocTrunks,
+		UpdateContext: updateByocTrunks,
+		DeleteContext: deleteByocTrunks,
 		Schema: map[string]*schema.Schema{
-			"ip_record_sid":  AsString(SchemaOptional),
-			"sip_domain_sid": AsString(SchemaOptional),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
+			"cnam_lookup_enabled":    AsBool(SchemaOptional),
+			"connection_policy_sid":  AsString(SchemaOptional),
+			"friendly_name":          AsString(SchemaOptional),
+			"from_domain_sid":        AsString(SchemaOptional),
+			"status_callback_method": AsString(SchemaOptional),
+			"status_callback_url":    AsString(SchemaOptional),
+			"voice_fallback_method":  AsString(SchemaOptional),
+			"voice_fallback_url":     AsString(SchemaOptional),
+			"voice_method":           AsString(SchemaOptional),
+			"voice_url":              AsString(SchemaOptional),
+			"account_sid":            AsString(SchemaComputed),
+			"date_created":           AsString(SchemaComputed),
+			"date_updated":           AsString(SchemaComputed),
+			"sid":                    AsString(SchemaComputed),
+			"url":                    AsString(SchemaComputed),
 		},
 	}
 }
 
-func createSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSourceIpMappingParams{}
+func createByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateByocTrunkParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateSourceIpMapping(&params)
+	r, err := m.(*client.Config).Client.VoiceV1.CreateByocTrunk(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -58,11 +67,11 @@ func createSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func deleteSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteSourceIpMapping(sid)
+	err := m.(*client.Config).Client.VoiceV1.DeleteByocTrunk(sid)
 	d.SetId("")
 
 	if err != nil {
@@ -71,11 +80,11 @@ func deleteSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
-func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchSourceIpMapping(sid)
+	r, err := m.(*client.Config).Client.VoiceV1.FetchByocTrunk(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -88,15 +97,104 @@ func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
-func updateSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSourceIpMappingParams{}
+func updateByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateByocTrunkParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateSourceIpMapping(sid, &params)
+	r, err := m.(*client.Config).Client.VoiceV1.UpdateByocTrunk(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func ResourceConnectionPolicies() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createConnectionPolicies,
+		ReadContext:   readConnectionPolicies,
+		UpdateContext: updateConnectionPolicies,
+		DeleteContext: deleteConnectionPolicies,
+		Schema: map[string]*schema.Schema{
+			"friendly_name": AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"links":         AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
+		},
+	}
+}
+
+func createConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateConnectionPolicyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.VoiceV1.CreateConnectionPolicy(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.VoiceV1.DeleteConnectionPolicy(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VoiceV1.FetchConnectionPolicy(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateConnectionPolicyParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.VoiceV1.UpdateConnectionPolicy(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -207,95 +305,6 @@ func updateConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func ResourceConnectionPolicies() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createConnectionPolicies,
-		ReadContext:   readConnectionPolicies,
-		UpdateContext: updateConnectionPolicies,
-		DeleteContext: deleteConnectionPolicies,
-		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
-		},
-	}
-}
-
-func createConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateConnectionPolicyParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.VoiceV1.CreateConnectionPolicy(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.VoiceV1.DeleteConnectionPolicy(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.VoiceV1.FetchConnectionPolicy(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateConnectionPolicyParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateConnectionPolicy(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
 func ResourceIpRecords() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createIpRecords,
@@ -386,39 +395,30 @@ func updateIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 	return nil
 }
 
-func ResourceByocTrunks() *schema.Resource {
+func ResourceSourceIpMappings() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createByocTrunks,
-		ReadContext:   readByocTrunks,
-		UpdateContext: updateByocTrunks,
-		DeleteContext: deleteByocTrunks,
+		CreateContext: createSourceIpMappings,
+		ReadContext:   readSourceIpMappings,
+		UpdateContext: updateSourceIpMappings,
+		DeleteContext: deleteSourceIpMappings,
 		Schema: map[string]*schema.Schema{
-			"cnam_lookup_enabled":    AsBool(SchemaOptional),
-			"connection_policy_sid":  AsString(SchemaOptional),
-			"friendly_name":          AsString(SchemaOptional),
-			"from_domain_sid":        AsString(SchemaOptional),
-			"status_callback_method": AsString(SchemaOptional),
-			"status_callback_url":    AsString(SchemaOptional),
-			"voice_fallback_method":  AsString(SchemaOptional),
-			"voice_fallback_url":     AsString(SchemaOptional),
-			"voice_method":           AsString(SchemaOptional),
-			"voice_url":              AsString(SchemaOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
+			"ip_record_sid":  AsString(SchemaOptional),
+			"sip_domain_sid": AsString(SchemaOptional),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"sid":            AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
 		},
 	}
 }
 
-func createByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateByocTrunkParams{}
+func createSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSourceIpMappingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateByocTrunk(&params)
+	r, err := m.(*client.Config).Client.VoiceV1.CreateSourceIpMapping(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -432,11 +432,11 @@ func createByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 	return nil
 }
 
-func deleteByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteByocTrunk(sid)
+	err := m.(*client.Config).Client.VoiceV1.DeleteSourceIpMapping(sid)
 	d.SetId("")
 
 	if err != nil {
@@ -445,11 +445,11 @@ func deleteByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 	return nil
 }
 
-func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchByocTrunk(sid)
+	r, err := m.(*client.Config).Client.VoiceV1.FetchSourceIpMapping(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -462,15 +462,15 @@ func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	return nil
 }
 
-func updateByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateByocTrunkParams{}
+func updateSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSourceIpMappingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateByocTrunk(sid, &params)
+	r, err := m.(*client.Config).Client.VoiceV1.UpdateSourceIpMapping(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

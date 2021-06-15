@@ -21,6 +21,100 @@ import (
 	. "github.com/twilio/twilio-go/rest/notify/v1"
 )
 
+func ResourceCredentials() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createCredentials,
+		ReadContext:   readCredentials,
+		UpdateContext: updateCredentials,
+		DeleteContext: deleteCredentials,
+		Schema: map[string]*schema.Schema{
+			"api_key":       AsString(SchemaOptional),
+			"certificate":   AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"private_key":   AsString(SchemaOptional),
+			"sandbox":       AsBool(SchemaOptional),
+			"secret":        AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
+		},
+	}
+}
+
+func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.NotifyV1.CreateCredential(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId(*r.Sid)
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.NotifyV1.DeleteCredential(sid)
+	d.SetId("")
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NotifyV1.FetchCredential(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
+func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateCredentialParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NotifyV1.UpdateCredential(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	return nil
+}
+
 func ResourceServices() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServices,
@@ -111,100 +205,6 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	sid := d.Get("sid").(string)
 
 	r, err := m.(*client.Config).Client.NotifyV1.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func ResourceCredentials() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createCredentials,
-		ReadContext:   readCredentials,
-		UpdateContext: updateCredentials,
-		DeleteContext: deleteCredentials,
-		Schema: map[string]*schema.Schema{
-			"api_key":       AsString(SchemaOptional),
-			"certificate":   AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"private_key":   AsString(SchemaOptional),
-			"sandbox":       AsBool(SchemaOptional),
-			"secret":        AsString(SchemaOptional),
-			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
-		},
-	}
-}
-
-func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCredentialParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.NotifyV1.CreateCredential(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId(*r.Sid)
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.NotifyV1.DeleteCredential(sid)
-	d.SetId("")
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.NotifyV1.FetchCredential(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	return nil
-}
-
-func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateCredentialParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.NotifyV1.UpdateCredential(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

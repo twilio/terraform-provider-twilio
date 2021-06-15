@@ -21,34 +21,39 @@ import (
 	. "github.com/twilio/twilio-go/rest/numbers/v2"
 )
 
-func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
+func ResourceRegulatoryComplianceBundles() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createRegulatoryComplianceSupportingDocuments,
-		ReadContext:   readRegulatoryComplianceSupportingDocuments,
-		UpdateContext: updateRegulatoryComplianceSupportingDocuments,
-		DeleteContext: deleteRegulatoryComplianceSupportingDocuments,
+		CreateContext: createRegulatoryComplianceBundles,
+		ReadContext:   readRegulatoryComplianceBundles,
+		UpdateContext: updateRegulatoryComplianceBundles,
+		DeleteContext: deleteRegulatoryComplianceBundles,
 		Schema: map[string]*schema.Schema{
-			"attributes":    AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"type":          AsString(SchemaOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"mime_type":     AsString(SchemaComputed),
-			"sid":           AsString(SchemaComputed),
-			"status":        AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
+			"email":           AsString(SchemaOptional),
+			"end_user_type":   AsString(SchemaOptional),
+			"friendly_name":   AsString(SchemaOptional),
+			"iso_country":     AsString(SchemaOptional),
+			"number_type":     AsString(SchemaOptional),
+			"regulation_sid":  AsString(SchemaOptional),
+			"status_callback": AsString(SchemaOptional),
+			"account_sid":     AsString(SchemaComputed),
+			"date_created":    AsString(SchemaComputed),
+			"date_updated":    AsString(SchemaComputed),
+			"links":           AsString(SchemaComputed),
+			"sid":             AsString(SchemaComputed),
+			"status":          AsString(SchemaComputed),
+			"url":             AsString(SchemaComputed),
+			"valid_until":     AsString(SchemaComputed),
 		},
 	}
 }
 
-func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateSupportingDocumentParams{}
+func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateBundleParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NumbersV2.CreateSupportingDocument(&params)
+	r, err := m.(*client.Config).Client.NumbersV2.CreateBundle(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -62,11 +67,11 @@ func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 	return nil
 }
 
-func deleteRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NumbersV2.DeleteSupportingDocument(sid)
+	err := m.(*client.Config).Client.NumbersV2.DeleteBundle(sid)
 	d.SetId("")
 
 	if err != nil {
@@ -75,11 +80,11 @@ func deleteRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 	return nil
 }
 
-func readRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.FetchSupportingDocument(sid)
+	r, err := m.(*client.Config).Client.NumbersV2.FetchBundle(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -92,15 +97,15 @@ func readRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.
 	return nil
 }
 
-func updateRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateSupportingDocumentParams{}
+func updateRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateBundleParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.UpdateSupportingDocument(sid, &params)
+	r, err := m.(*client.Config).Client.NumbersV2.UpdateBundle(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -203,39 +208,34 @@ func updateRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func ResourceRegulatoryComplianceBundles() *schema.Resource {
+func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createRegulatoryComplianceBundles,
-		ReadContext:   readRegulatoryComplianceBundles,
-		UpdateContext: updateRegulatoryComplianceBundles,
-		DeleteContext: deleteRegulatoryComplianceBundles,
+		CreateContext: createRegulatoryComplianceSupportingDocuments,
+		ReadContext:   readRegulatoryComplianceSupportingDocuments,
+		UpdateContext: updateRegulatoryComplianceSupportingDocuments,
+		DeleteContext: deleteRegulatoryComplianceSupportingDocuments,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaOptional),
-			"end_user_type":   AsString(SchemaOptional),
-			"friendly_name":   AsString(SchemaOptional),
-			"iso_country":     AsString(SchemaOptional),
-			"number_type":     AsString(SchemaOptional),
-			"regulation_sid":  AsString(SchemaOptional),
-			"status_callback": AsString(SchemaOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"links":           AsString(SchemaComputed),
-			"sid":             AsString(SchemaComputed),
-			"status":          AsString(SchemaComputed),
-			"url":             AsString(SchemaComputed),
-			"valid_until":     AsString(SchemaComputed),
+			"attributes":    AsString(SchemaOptional),
+			"friendly_name": AsString(SchemaOptional),
+			"type":          AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"mime_type":     AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"status":        AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 	}
 }
 
-func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateBundleParams{}
+func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSupportingDocumentParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NumbersV2.CreateBundle(&params)
+	r, err := m.(*client.Config).Client.NumbersV2.CreateSupportingDocument(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -249,11 +249,11 @@ func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func deleteRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NumbersV2.DeleteBundle(sid)
+	err := m.(*client.Config).Client.NumbersV2.DeleteSupportingDocument(sid)
 	d.SetId("")
 
 	if err != nil {
@@ -262,11 +262,11 @@ func deleteRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func readRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.FetchBundle(sid)
+	r, err := m.(*client.Config).Client.NumbersV2.FetchSupportingDocument(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -279,15 +279,15 @@ func readRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func updateRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateBundleParams{}
+func updateRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSupportingDocumentParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.UpdateBundle(sid, &params)
+	r, err := m.(*client.Config).Client.NumbersV2.UpdateSupportingDocument(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

@@ -219,8 +219,8 @@ func ResourceServices() *schema.Resource {
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
 			"friendly_name":       AsString(SchemaOptional),
-			"include_credentials": AsString(SchemaOptional),
-			"ui_editable":         AsString(SchemaOptional),
+			"include_credentials": AsBool(SchemaOptional),
+			"ui_editable":         AsBool(SchemaOptional),
 			"unique_name":         AsString(SchemaOptional),
 			"account_sid":         AsString(SchemaComputed),
 			"date_created":        AsString(SchemaComputed),

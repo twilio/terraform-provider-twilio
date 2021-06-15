@@ -120,7 +120,7 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 		DeleteContext: deleteSubscriptionsSubscribedEvents,
 		Schema: map[string]*schema.Schema{
 			"subscription_sid": AsString(SchemaRequired),
-			"schema_version":   AsString(SchemaOptional),
+			"schema_version":   AsInt(SchemaOptional),
 			"type":             AsString(SchemaOptional),
 			"account_sid":      AsString(SchemaComputed),
 			"url":              AsString(SchemaComputed),

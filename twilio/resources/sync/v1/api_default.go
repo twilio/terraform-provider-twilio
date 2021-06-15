@@ -30,7 +30,7 @@ func ResourceServicesDocuments() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
 			"data":         AsString(SchemaOptional),
-			"ttl":          AsString(SchemaOptional),
+			"ttl":          AsInt(SchemaOptional),
 			"unique_name":  AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
 			"created_by":   AsString(SchemaComputed),
@@ -128,13 +128,13 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"acl_enabled":                     AsString(SchemaOptional),
+			"acl_enabled":                     AsBool(SchemaOptional),
 			"friendly_name":                   AsString(SchemaOptional),
-			"reachability_debouncing_enabled": AsString(SchemaOptional),
-			"reachability_debouncing_window":  AsString(SchemaOptional),
-			"reachability_webhooks_enabled":   AsString(SchemaOptional),
+			"reachability_debouncing_enabled": AsBool(SchemaOptional),
+			"reachability_debouncing_window":  AsInt(SchemaOptional),
+			"reachability_webhooks_enabled":   AsBool(SchemaOptional),
 			"webhook_url":                     AsString(SchemaOptional),
-			"webhooks_from_rest_enabled":      AsString(SchemaOptional),
+			"webhooks_from_rest_enabled":      AsBool(SchemaOptional),
 			"account_sid":                     AsString(SchemaComputed),
 			"date_created":                    AsString(SchemaComputed),
 			"date_updated":                    AsString(SchemaComputed),
@@ -225,8 +225,8 @@ func ResourceServicesLists() *schema.Resource {
 		DeleteContext: deleteServicesLists,
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
+			"collection_ttl": AsInt(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
 			"unique_name":    AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"created_by":     AsString(SchemaComputed),
@@ -326,16 +326,16 @@ func ResourceServicesListsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"list_sid":       AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
+			"collection_ttl": AsInt(SchemaOptional),
 			"data":           AsString(SchemaOptional),
-			"item_ttl":       AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
+			"item_ttl":       AsInt(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"created_by":     AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
 			"date_expires":   AsString(SchemaComputed),
 			"date_updated":   AsString(SchemaComputed),
-			"index":          AsString(SchemaComputed),
+			"index":          AsInt(SchemaComputed),
 			"revision":       AsString(SchemaComputed),
 			"url":            AsString(SchemaComputed),
 		},
@@ -373,7 +373,7 @@ func deleteServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(string)
+	index := d.Get("index").(int32)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
 	d.SetId("")
@@ -388,7 +388,7 @@ func readServicesListsItems(ctx context.Context, d *schema.ResourceData, m inter
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(string)
+	index := d.Get("index").(int32)
 
 	r, err := m.(*client.Config).Client.SyncV1.FetchSyncListItem(serviceSid, listSid, index)
 	if err != nil {
@@ -411,7 +411,7 @@ func updateServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(string)
+	index := d.Get("index").(int32)
 
 	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncListItem(serviceSid, listSid, index, &params)
 	if err != nil {
@@ -434,8 +434,8 @@ func ResourceServicesMaps() *schema.Resource {
 		DeleteContext: deleteServicesMaps,
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
+			"collection_ttl": AsInt(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
 			"unique_name":    AsString(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"created_by":     AsString(SchemaComputed),
@@ -535,11 +535,11 @@ func ResourceServicesMapsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"map_sid":        AsString(SchemaRequired),
-			"collection_ttl": AsString(SchemaOptional),
+			"collection_ttl": AsInt(SchemaOptional),
 			"data":           AsString(SchemaOptional),
-			"item_ttl":       AsString(SchemaOptional),
+			"item_ttl":       AsInt(SchemaOptional),
 			"key":            AsString(SchemaOptional),
-			"ttl":            AsString(SchemaOptional),
+			"ttl":            AsInt(SchemaOptional),
 			"account_sid":    AsString(SchemaComputed),
 			"created_by":     AsString(SchemaComputed),
 			"date_created":   AsString(SchemaComputed),
@@ -643,7 +643,7 @@ func ResourceServicesStreams() *schema.Resource {
 		DeleteContext: deleteServicesStreams,
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
-			"ttl":          AsString(SchemaOptional),
+			"ttl":          AsInt(SchemaOptional),
 			"unique_name":  AsString(SchemaOptional),
 			"account_sid":  AsString(SchemaComputed),
 			"created_by":   AsString(SchemaComputed),

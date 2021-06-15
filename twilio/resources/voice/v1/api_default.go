@@ -28,7 +28,7 @@ func ResourceByocTrunks() *schema.Resource {
 		UpdateContext: updateByocTrunks,
 		DeleteContext: deleteByocTrunks,
 		Schema: map[string]*schema.Schema{
-			"cnam_lookup_enabled":    AsString(SchemaOptional),
+			"cnam_lookup_enabled":    AsBool(SchemaOptional),
 			"connection_policy_sid":  AsString(SchemaOptional),
 			"friendly_name":          AsString(SchemaOptional),
 			"from_domain_sid":        AsString(SchemaOptional),
@@ -215,11 +215,11 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 		DeleteContext: deleteConnectionPoliciesTargets,
 		Schema: map[string]*schema.Schema{
 			"connection_policy_sid": AsString(SchemaRequired),
-			"enabled":               AsString(SchemaOptional),
+			"enabled":               AsBool(SchemaOptional),
 			"friendly_name":         AsString(SchemaOptional),
-			"priority":              AsString(SchemaOptional),
+			"priority":              AsInt(SchemaOptional),
 			"target":                AsString(SchemaOptional),
-			"weight":                AsString(SchemaOptional),
+			"weight":                AsInt(SchemaOptional),
 			"account_sid":           AsString(SchemaComputed),
 			"date_created":          AsString(SchemaComputed),
 			"date_updated":          AsString(SchemaComputed),
@@ -312,7 +312,7 @@ func ResourceIpRecords() *schema.Resource {
 		UpdateContext: updateIpRecords,
 		DeleteContext: deleteIpRecords,
 		Schema: map[string]*schema.Schema{
-			"cidr_prefix_length": AsString(SchemaOptional),
+			"cidr_prefix_length": AsInt(SchemaOptional),
 			"friendly_name":      AsString(SchemaOptional),
 			"ip_address":         AsString(SchemaOptional),
 			"account_sid":        AsString(SchemaComputed),

@@ -73,9 +73,23 @@ func AsString(conf *options) *schema.Schema {
 	return addSchemaOptions(ret, conf)
 }
 
-func AsMap(conf *options) *schema.Schema {
-	ret := &schema.Schema{
-		Type: schema.TypeMap,
+func AsMap(obj interface{}, conf *options) *schema.Schema {
+	var ret *schema.Schema
+	if item, ok := obj.(*schema.Schema); ok {
+		ret = &schema.Schema{
+			Type: schema.TypeMap,
+			Elem: &schema.Schema{
+				Type: item.Type,
+			},
+		}
+	}
+	if item, ok := obj.(map[string]*schema.Schema); ok {
+		ret = &schema.Schema{
+			Type: schema.TypeMap,
+			Elem: &schema.Resource{
+				Schema: item,
+			},
+		}
 	}
 	return addSchemaOptions(ret, conf)
 }
@@ -85,7 +99,6 @@ func AsBool(conf *options) *schema.Schema {
 		Type: schema.TypeBool,
 	}
 	return addSchemaOptions(ret, conf)
-
 }
 
 func AsInt(conf *options) *schema.Schema {
@@ -121,14 +134,14 @@ func AsSid(sid SidInterface, conf *options) *schema.Schema {
 func addSchemaOptions(s *schema.Schema, conf *options) *schema.Schema {
 	if conf.Computed {
 		if conf.Required || conf.Optional {
-			panic(fmt.Errorf("Computed parameter can't be Required/Optional"))
+			panic(fmt.Errorf("computed parameter can't be Required/Optional"))
 		}
 		if conf.ForceNew {
-			panic(fmt.Errorf("Computed parameter can't be ForceNew"))
+			panic(fmt.Errorf("computed parameter can't be ForceNew"))
 		}
 	} else {
 		if conf.Optional == conf.Required {
-			panic(fmt.Errorf("Computed and Required are mutually exclusive"))
+			panic(fmt.Errorf("computed and Required are mutually exclusive"))
 		}
 	}
 	s.Optional = conf.Optional

@@ -52,7 +52,7 @@ func createSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -141,7 +141,7 @@ func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Type)
+	d.SetId((*r.Type))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -235,7 +235,7 @@ func createSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

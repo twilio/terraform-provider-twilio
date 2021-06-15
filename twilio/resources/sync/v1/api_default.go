@@ -58,7 +58,7 @@ func createServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -157,7 +157,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -254,7 +254,7 @@ func createServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -356,7 +356,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Index)
+	d.SetId(Int32ToString(*r.Index))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -463,7 +463,7 @@ func createServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -565,7 +565,7 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Key)
+	d.SetId((*r.Key))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -670,7 +670,7 @@ func createServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

@@ -58,7 +58,7 @@ func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -148,7 +148,7 @@ func createRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -240,7 +240,7 @@ func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

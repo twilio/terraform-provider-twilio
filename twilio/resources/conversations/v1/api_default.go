@@ -59,7 +59,7 @@ func createConversations(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -163,7 +163,7 @@ func createConversationsMessages(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -270,7 +270,7 @@ func createConversationsParticipants(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -375,7 +375,7 @@ func createConversationsWebhooks(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -472,7 +472,7 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -564,7 +564,7 @@ func createRoles(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -664,7 +664,7 @@ func createServicesConversations(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -773,7 +773,7 @@ func createServicesConversationsMessages(ctx context.Context, d *schema.Resource
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -885,7 +885,7 @@ func createServicesConversationsParticipants(ctx context.Context, d *schema.Reso
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -995,7 +995,7 @@ func createServicesConversationsWebhooks(ctx context.Context, d *schema.Resource
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -1095,7 +1095,7 @@ func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -1195,7 +1195,7 @@ func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -1297,7 +1297,7 @@ func createUsers(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

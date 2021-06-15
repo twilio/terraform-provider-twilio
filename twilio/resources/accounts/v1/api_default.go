@@ -50,7 +50,7 @@ func createCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {
@@ -139,7 +139,7 @@ func createCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId((*r.Sid))
 	err = MarshalSchema(d, r)
 
 	if err != nil {

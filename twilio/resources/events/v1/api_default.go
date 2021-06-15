@@ -141,7 +141,7 @@ func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 		return diag.FromErr(err)
 	}
 
-	d.SetId(*r.Sid)
+	d.SetId(*r.Type)
 	err = MarshalSchema(d, r)
 
 	if err != nil {

@@ -1,5 +1,15 @@
 terraform-provider-twilio changelog
 ====================
+[2021-06-16] Version 0.2.0
+--------------------------
+**Api**
+- Update `status` enum for Messages to include 'canceled'
+- Update `update_status` enum for Messages to include 'canceled'
+
+**Trusthub**
+- Corrected the sid for policy sid in customer_profile_evaluation.json and trust_product_evaluation.json **(breaking change)**
+
+
 [2021-06-16] Version 0.1.2
 --------------------------
 **Library - Fix**

@@ -48,7 +48,7 @@ func Provider() *schema.Provider {
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{},
-		ResourcesMap: resources.NewTwilioResources().Map,
+		ResourcesMap:   resources.NewTwilioResources().Map,
 	}
 
 	p.ConfigureContextFunc = providerClient(p)

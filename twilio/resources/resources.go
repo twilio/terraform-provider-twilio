@@ -32,7 +32,7 @@ import (
 )
 
 type TwilioResources struct {
-	Map	map[string]*schema.Resource
+	Map map[string]*schema.Resource
 }
 
 func NewTwilioResources() *TwilioResources {

@@ -1,3 +1,4 @@
+// Package twilio provides bindings for Twilio's REST APIs.
 package twilio
 
 import (
@@ -5,10 +6,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	twilio "github.com/twilio/terraform-provider-twilio/client"
-	apiV2010 "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
-	serverlessV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/serverless/v1"
-	studioV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/studio/v2"
+	"github.com/twilio/terraform-provider-twilio/twilio/resources"
 	client "github.com/twilio/twilio-go"
 )
 
@@ -48,15 +48,7 @@ func Provider() *schema.Provider {
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{},
-		ResourcesMap: map[string]*schema.Resource{
-			"twilio_studio_flow_v2":                   studioV2.ResourceFlows(),
-			"twilio_api_message_v2010":                apiV2010.ResourceAccountsMessages(),
-			"twilio_api_call_v2010":                   apiV2010.ResourceAccountsCalls(),
-			"twilio_api_incoming_phone_numbers_v2010": apiV2010.ResourceAccountsIncomingPhoneNumbers(),
-			"twilio_api_keys_v2010":                   apiV2010.ResourceAccountsSigningKeys(),
-			"twilio_serverless_function_v1":           serverlessV1.ResourceServicesFunctions(),
-			"twilio_serverless_service_v1":            serverlessV1.ResourceServices(),
-		},
+		ResourcesMap:   resources.NewTwilioResources().Map,
 	}
 
 	p.ConfigureContextFunc = providerClient(p)

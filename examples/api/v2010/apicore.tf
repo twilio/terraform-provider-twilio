@@ -14,7 +14,7 @@ provider "twilio" {
 }
 
 
-resource "twilio_api_incoming_phone_numbers_v2010" "phone_number" {
+resource "twilio_api_accounts_incoming_phone_numbers_v2010" "phone_number" {
   area_code     = "415"
   friendly_name = "terraform phone number"
   sms_url       = "https://demo.twilio.com/welcome/sms/reply"
@@ -22,28 +22,28 @@ resource "twilio_api_incoming_phone_numbers_v2010" "phone_number" {
 }
 
 
-resource "twilio_api_message_v2010" "message" {
+resource "twilio_api_accounts_messages_v2010" "message" {
   path_account_sid = "AC123456123456123456123456123456"
   from             = "9999999999"
   to               = "4444444444"
   body             = "Hello from Twilio Terraform!"
 }
 
-resource "twilio_api_call_v2010" "call" {
+resource "twilio_api_accounts_calls_v2010" "call" {
   from  = "9999999999"
   to    = "4444444444"
   twiml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Say>Hello World</Say></Response>"
 }
 
 output "phone_numbers" {
-  value = twilio_api_incoming_phone_numbers_v2010.phone_number
+  value = twilio_api_accounts_incoming_phone_numbers_v2010.phone_number
 }
 
 output "messages" {
-  value = twilio_api_message_v2010.message
+  value = twilio_api_accounts_messages_v2010.message
 }
 
 output "calls" {
-  value = twilio_api_call_v2010.call
+  value = twilio_api_accounts_calls_v2010.call
 }
 

@@ -12,20 +12,20 @@ provider "twilio" {
   //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
 }
 
-resource "twilio_serverless_service_v1" "service" {
+resource "twilio_serverless_services_v1" "service" {
   friendly_name = "Terraform service"
   unique_name   = "uniqueName"
 }
 
-resource "twilio_serverless_function_v1" "function" {
+resource "twilio_serverless_services_functions_v1" "function" {
   service_sid   = "ZSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" //service_sid from new service
   friendly_name = "My serverless func"
 }
 
 output "services" {
-  value = twilio_serverless_service_v1.service
+  value = twilio_serverless_services_v1.service
 }
 
 output "functions" {
-  value = twilio_serverless_function_v1.function
+  value = twilio_serverless_services_functions_v1.function
 }

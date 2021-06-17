@@ -21,6 +21,11 @@ var (
 		Computed: true,
 	}
 
+	SchemaComputedOptional = &options{
+		Computed: true,
+		Optional: true,
+	}
+
 	SchemaForceNewRequired = &options{
 		Required: true,
 		ForceNew: true,
@@ -133,8 +138,8 @@ func AsSid(sid SidInterface, conf *options) *schema.Schema {
 // helper method for schema definition, for each schema item, one of optional, required, or computed must be set
 func addSchemaOptions(s *schema.Schema, conf *options) *schema.Schema {
 	if conf.Computed {
-		if conf.Required || conf.Optional {
-			panic(fmt.Errorf("computed parameter can't be Required/Optional"))
+		if conf.Required {
+			panic(fmt.Errorf("computed parameter can't be Required"))
 		}
 		if conf.ForceNew {
 			panic(fmt.Errorf("computed parameter can't be ForceNew"))

@@ -59,12 +59,6 @@ func TestInvalidComputedRequiredSchema(t *testing.T) {
 	t.Errorf("Invalid schema allowed")
 }
 
-func TestInvalidComputedOptionalSchema(t *testing.T) {
-	defer func() { _ = recover() }()
-	AsInt(&options{Optional: true, Computed: true})
-	t.Errorf("Invalid schema allowed")
-}
-
 func TestInvalidComputedForcenewSchema(t *testing.T) {
 	defer func() { _ = recover() }()
 	AsInt(&options{ForceNew: true, Computed: true})

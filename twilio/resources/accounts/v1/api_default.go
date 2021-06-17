@@ -28,13 +28,13 @@ func ResourceCredentialsAWS() *schema.Resource {
 		UpdateContext: updateCredentialsAWS,
 		DeleteContext: deleteCredentialsAWS,
 		Schema: map[string]*schema.Schema{
-			"account_sid":   AsString(SchemaOptional),
-			"credentials":   AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"date_created":  AsString(SchemaOptional),
-			"date_updated":  AsString(SchemaOptional),
-			"sid":           AsString(SchemaOptional),
-			"url":           AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputedOptional),
+			"credentials":   AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaComputedOptional),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -117,13 +117,13 @@ func ResourceCredentialsPublicKeys() *schema.Resource {
 		UpdateContext: updateCredentialsPublicKeys,
 		DeleteContext: deleteCredentialsPublicKeys,
 		Schema: map[string]*schema.Schema{
-			"account_sid":   AsString(SchemaOptional),
-			"friendly_name": AsString(SchemaOptional),
-			"public_key":    AsString(SchemaOptional),
-			"date_created":  AsString(SchemaOptional),
-			"date_updated":  AsString(SchemaOptional),
-			"sid":           AsString(SchemaOptional),
-			"url":           AsString(SchemaOptional),
+			"account_sid":   AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaComputedOptional),
+			"public_key":    AsString(SchemaComputedOptional),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"sid":           AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 	}
 }

@@ -3,7 +3,7 @@ go:
 - '1.15'
 - '1.16'
 install:
-- make install
+- make install test
 notifications:
   slack:
     if: branch = main

@@ -43,26 +43,26 @@ provider "twilio" {
   auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 
-resource "twilio_api_keys_v2010" "key_name" {
+resource "twilio_api_accounts_keys_v2010" "key_name" {
     account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     friendly_name = "terraform key"
 }
 
 output "messages" {
-    value = twilio_api_keys_v2010.key_name
+    value = twilio_api_accounts_keys_v2010.key_name
 }
 ```
 4. Run `terraform init` and `terraform apply`to initialize and apply changes to your twilio infrastructure.
 
 ### Create and Delete API Keys
 ```terraform
-resource "twilio_api_keys_v2010" "key_name" {
+resource "twilio_api_accounts_keys_v2010" "key_name" {
   account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   friendly_name = "terraform key"
 }
 
 output "messages" {
-    value = twilio_api_keys_v2010.key_name
+    value = twilio_api_accounts_keys_v2010.key_name
 }
 ```
 To delete a specific key in your terraform infrastructure you can use the command `terraform destroy -target twilio_api_keys_v2010.<resource name>`. To delete the terraform key created in this example use `terraform destroy -target twilio_api_keys_v2010.key_name`.
@@ -79,14 +79,14 @@ resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
 ```
 ### Import a Twilio Phone Number
 ```terraform
-resource "twilio_api_incoming_phone_numbers_v2010" "import_purchased_number" {
+resource "twilio_api_accounts_incoming_phone_numbers_v2010" "import_purchased_number" {
     account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     phone_number = "+14444444444"
 }
 ```
 ### Define a Studio Flow
 ```terraform
-resource "twilio_studio_flow_v2" "studio_flow" {
+resource "twilio_studio_flows_v2" "studio_flow" {
     commit_message = "first draft"
     friendly_name = "terraform flow"
     status = "draft"
@@ -159,6 +159,10 @@ In order to run the full suite of Acceptance tests, run `make testacc`. Provide 
 
 ```sh
 $  make testacc ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
+```
+You can also specify a particular suite to run like so:
+```shell
+$  make testacc TEST=./twilio/ ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
 ```
 
 An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/master/twilio/resource_taskrouter_workspace_test.go).

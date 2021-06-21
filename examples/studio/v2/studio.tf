@@ -12,7 +12,7 @@ provider "twilio" {
   //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
 }
 
-resource "twilio_studio_flow_v2" "flow" {
+resource "twilio_studio_flows_v2" "flow" {
   commit_message = "first draft"
   friendly_name  = "terraform flow"
   status         = "draft"
@@ -21,6 +21,6 @@ resource "twilio_studio_flow_v2" "flow" {
 
 
 output "flows" {
-  value = twilio_studio_flow_v2.flow
+  value = twilio_studio_flows_v2.flow
 }
 

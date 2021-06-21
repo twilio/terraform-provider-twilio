@@ -60,11 +60,12 @@ func createServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -74,11 +75,12 @@ func deleteServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteChannel(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -93,10 +95,10 @@ func readServicesChannels(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -115,10 +117,10 @@ func updateServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -157,11 +159,12 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -170,11 +173,12 @@ func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteCredential(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -188,10 +192,10 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -209,10 +213,10 @@ func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -253,11 +257,12 @@ func createServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -268,11 +273,12 @@ func deleteServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteMember(serviceSid, channelSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -288,10 +294,10 @@ func readServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -311,10 +317,10 @@ func updateServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -357,11 +363,12 @@ func createServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -372,11 +379,12 @@ func deleteServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteMessage(serviceSid, channelSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -392,10 +400,10 @@ func readServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -415,10 +423,10 @@ func updateServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -457,11 +465,12 @@ func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -471,11 +480,12 @@ func deleteServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteRole(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -490,10 +500,10 @@ func readServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -512,10 +522,10 @@ func updateServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -563,11 +573,12 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -576,11 +587,12 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteService(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -594,10 +606,10 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -615,10 +627,10 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -661,11 +673,12 @@ func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -675,11 +688,12 @@ func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ChatV1.DeleteUser(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -694,10 +708,10 @@ func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -716,9 +730,9 @@ func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

@@ -53,11 +53,12 @@ func createSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -66,11 +67,12 @@ func deleteSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.EventsV1.DeleteSink(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -84,10 +86,10 @@ func readSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -105,10 +107,10 @@ func updateSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -142,11 +144,12 @@ func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 	}
 
 	d.SetId((*r.Type))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -156,11 +159,12 @@ func deleteSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 	type_ := d.Get("type").(string)
 
 	err := m.(*client.Config).Client.EventsV1.DeleteSubscribedEvent(subscriptionSid, type_)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -175,10 +179,10 @@ func readSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceDa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -197,10 +201,10 @@ func updateSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -236,11 +240,12 @@ func createSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -249,11 +254,12 @@ func deleteSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.EventsV1.DeleteSubscription(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -267,10 +273,10 @@ func readSubscriptions(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -288,9 +294,9 @@ func updateSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

@@ -67,11 +67,12 @@ func createFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -80,11 +81,12 @@ func deleteFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.FaxV1.DeleteFax(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -98,10 +100,10 @@ func readFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -119,9 +121,9 @@ func updateFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

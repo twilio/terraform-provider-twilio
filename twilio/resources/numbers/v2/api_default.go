@@ -59,11 +59,12 @@ func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -72,11 +73,12 @@ func deleteRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.NumbersV2.DeleteBundle(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -90,10 +92,10 @@ func readRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -111,10 +113,10 @@ func updateRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -149,11 +151,12 @@ func createRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -162,11 +165,12 @@ func deleteRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.NumbersV2.DeleteEndUser(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -180,10 +184,10 @@ func readRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceDat
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -201,10 +205,10 @@ func updateRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -241,11 +245,12 @@ func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -254,11 +259,12 @@ func deleteRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.NumbersV2.DeleteSupportingDocument(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -272,10 +278,10 @@ func readRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -293,9 +299,9 @@ func updateRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

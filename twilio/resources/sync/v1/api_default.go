@@ -59,11 +59,12 @@ func createServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -73,11 +74,12 @@ func deleteServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteDocument(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -92,10 +94,10 @@ func readServicesDocuments(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -114,10 +116,10 @@ func updateServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -158,11 +160,12 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -171,11 +174,12 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteService(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -189,10 +193,10 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -210,10 +214,10 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -255,11 +259,12 @@ func createServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -269,11 +274,12 @@ func deleteServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncList(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -288,10 +294,10 @@ func readServicesLists(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -310,10 +316,10 @@ func updateServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -357,11 +363,12 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.SetId(Int32ToString(*r.Index))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -376,11 +383,12 @@ func deleteServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	index := d.Get("index").(int32)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -396,10 +404,10 @@ func readServicesListsItems(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -419,10 +427,10 @@ func updateServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -464,11 +472,12 @@ func createServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -478,11 +487,12 @@ func deleteServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncMap(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -497,10 +507,10 @@ func readServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -519,10 +529,10 @@ func updateServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -566,11 +576,12 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Key))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -585,11 +596,12 @@ func deleteServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	key := d.Get("key").(string)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncMapItem(serviceSid, mapSid, key, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -605,10 +617,10 @@ func readServicesMapsItems(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -628,10 +640,10 @@ func updateServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -671,11 +683,12 @@ func createServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -685,11 +698,12 @@ func deleteServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncStream(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -704,10 +718,10 @@ func readServicesStreams(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -726,9 +740,9 @@ func updateServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

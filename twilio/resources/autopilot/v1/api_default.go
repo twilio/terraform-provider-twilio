@@ -60,11 +60,12 @@ func createAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -73,11 +74,12 @@ func deleteAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteAssistant(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -91,10 +93,10 @@ func readAssistants(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -112,10 +114,10 @@ func updateAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -153,11 +155,12 @@ func createAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -167,11 +170,12 @@ func deleteAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteFieldType(assistantSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -186,10 +190,10 @@ func readAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -208,10 +212,10 @@ func updateAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -251,11 +255,12 @@ func createAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -265,11 +270,12 @@ func deleteAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteModelBuild(assistantSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -284,10 +290,10 @@ func readAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -306,10 +312,10 @@ func updateAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -354,11 +360,12 @@ func createAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -368,11 +375,12 @@ func deleteAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteQuery(assistantSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -387,10 +395,10 @@ func readAssistantsQueries(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -409,10 +417,10 @@ func updateAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -452,11 +460,12 @@ func createAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -467,11 +476,12 @@ func deleteAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteSample(assistantSid, taskSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -487,10 +497,10 @@ func readAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -510,10 +520,10 @@ func updateAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -553,11 +563,12 @@ func createAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -567,11 +578,12 @@ func deleteAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteTask(assistantSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -586,10 +598,10 @@ func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -608,10 +620,10 @@ func updateAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -650,11 +662,12 @@ func createAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -664,11 +677,12 @@ func deleteAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AutopilotV1.DeleteWebhook(assistantSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -683,10 +697,10 @@ func readAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -705,9 +719,9 @@ func updateAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

@@ -59,11 +59,12 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -73,11 +74,12 @@ func deleteFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.StudioV2.DeleteExecution(flowSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -92,10 +94,10 @@ func readFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -114,10 +116,10 @@ func updateFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -159,11 +161,12 @@ func createFlows(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -172,11 +175,12 @@ func deleteFlows(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.StudioV2.DeleteFlow(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -190,10 +194,10 @@ func readFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -211,9 +215,9 @@ func updateFlows(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

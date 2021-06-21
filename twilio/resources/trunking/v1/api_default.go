@@ -57,11 +57,12 @@ func createTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -71,11 +72,12 @@ func deleteTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TrunkingV1.DeleteOriginationUrl(trunkSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -90,10 +92,10 @@ func readTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -112,10 +114,10 @@ func updateTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -158,11 +160,12 @@ func createTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -171,11 +174,12 @@ func deleteTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TrunkingV1.DeleteTrunk(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -189,10 +193,10 @@ func readTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -210,9 +214,9 @@ func updateTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

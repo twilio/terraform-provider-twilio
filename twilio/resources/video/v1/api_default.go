@@ -59,11 +59,12 @@ func createCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -72,11 +73,12 @@ func deleteCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VideoV1.DeleteCompositionHook(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -90,10 +92,10 @@ func readCompositionHooks(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -111,9 +113,9 @@ func updateCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

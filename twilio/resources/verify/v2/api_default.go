@@ -56,11 +56,12 @@ func createServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -71,11 +72,12 @@ func deleteServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VerifyV2.DeleteBucket(serviceSid, rateLimitSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -91,10 +93,10 @@ func readServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -114,10 +116,10 @@ func updateServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -153,11 +155,12 @@ func createServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 	}
 
 	d.SetId((*r.Country))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -167,11 +170,12 @@ func deleteServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 	country := d.Get("country").(string)
 
 	err := m.(*client.Config).Client.VerifyV2.DeleteMessagingConfiguration(serviceSid, country)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -186,10 +190,10 @@ func readServicesMessagingConfigurations(ctx context.Context, d *schema.Resource
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -208,10 +212,10 @@ func updateServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -265,11 +269,12 @@ func createServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -280,11 +285,12 @@ func deleteServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VerifyV2.DeleteFactor(serviceSid, identity, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -300,10 +306,10 @@ func readServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -323,10 +329,10 @@ func updateServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -364,11 +370,12 @@ func createServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -378,11 +385,12 @@ func deleteServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VerifyV2.DeleteRateLimit(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -397,10 +405,10 @@ func readServicesRateLimits(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -419,10 +427,10 @@ func updateServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -473,11 +481,12 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -486,11 +495,12 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VerifyV2.DeleteService(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -504,10 +514,10 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -525,10 +535,10 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -568,11 +578,12 @@ func createServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -582,11 +593,12 @@ func deleteServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VerifyV2.DeleteWebhook(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -601,10 +613,10 @@ func readServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -623,9 +635,9 @@ func updateServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

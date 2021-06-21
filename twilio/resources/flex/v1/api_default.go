@@ -67,11 +67,12 @@ func createFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -80,11 +81,12 @@ func deleteFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.FlexV1.DeleteFlexFlow(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -98,10 +100,10 @@ func readFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{}) d
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -119,10 +121,10 @@ func updateFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -160,11 +162,12 @@ func createWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -173,11 +176,12 @@ func deleteWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.FlexV1.DeleteWebChannel(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -191,10 +195,10 @@ func readWebChannels(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -212,9 +216,9 @@ func updateWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

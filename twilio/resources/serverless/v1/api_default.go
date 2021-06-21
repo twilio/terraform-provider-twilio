@@ -54,11 +54,12 @@ func createServicesAssets(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -68,11 +69,12 @@ func deleteServicesAssets(ctx context.Context, d *schema.ResourceData, m interfa
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ServerlessV1.DeleteAsset(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -87,10 +89,10 @@ func readServicesAssets(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -109,10 +111,10 @@ func updateServicesAssets(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -149,11 +151,12 @@ func createServicesFunctions(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -163,11 +166,12 @@ func deleteServicesFunctions(ctx context.Context, d *schema.ResourceData, m inte
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ServerlessV1.DeleteFunction(serviceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -182,10 +186,10 @@ func readServicesFunctions(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -204,10 +208,10 @@ func updateServicesFunctions(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -244,11 +248,12 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -257,11 +262,12 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ServerlessV1.DeleteService(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -275,10 +281,10 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -296,10 +302,10 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -338,11 +344,12 @@ func createServicesEnvironmentsVariables(ctx context.Context, d *schema.Resource
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -353,11 +360,12 @@ func deleteServicesEnvironmentsVariables(ctx context.Context, d *schema.Resource
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ServerlessV1.DeleteVariable(serviceSid, environmentSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -373,10 +381,10 @@ func readServicesEnvironmentsVariables(ctx context.Context, d *schema.ResourceDa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -396,9 +404,9 @@ func updateServicesEnvironmentsVariables(ctx context.Context, d *schema.Resource
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

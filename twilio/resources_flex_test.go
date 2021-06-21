@@ -67,19 +67,19 @@ func testAccFlexInstanceDestroy(state *terraform.State) error {
 		client := conn.Meta().(*Config)
 
 		if rs.Type == "twilio_chat_services_v2" {
-			//Check if the chat service has destroyed
+			//Check if the chat service has been destroyed
 			_, err := client.Client.ChatV2.FetchService(rs.Primary.ID)
 			if err == nil {
 				return fmt.Errorf("flex chat service still exists")
 			}
 		} else if rs.Type == "twilio_studio_flows_v2" {
-			//Check if the studio flow has destroyed
+			//Check if the studio flow has been destroyed
 			_, err := client.Client.StudioV2.FetchFlow(rs.Primary.ID)
 			if err == nil {
 				return fmt.Errorf("flex studio flow still exists")
 			}
 		} else if rs.Type == "twilio_flex_flex_flows_v1" {
-			//Check if the flex instance has destroyed
+			//Check if the flex instance has been destroyed
 			_, err := client.Client.FlexV1.FetchFlexFlow(rs.Primary.ID)
 			if err == nil {
 				return fmt.Errorf("flex flow still exists")

@@ -59,13 +59,9 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateFlowsExecutions(ctx, d, m)
 }
 
 func deleteFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

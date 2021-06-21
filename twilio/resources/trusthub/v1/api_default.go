@@ -56,13 +56,9 @@ func createCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateCustomerProfiles(ctx, d, m)
 }
 
 func deleteCustomerProfiles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -338,13 +334,9 @@ func createTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateTrustProducts(ctx, d, m)
 }
 
 func deleteTrustProducts(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

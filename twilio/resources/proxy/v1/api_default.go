@@ -362,13 +362,9 @@ func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateServicesShortCodes(ctx, d, m)
 }
 
 func deleteServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

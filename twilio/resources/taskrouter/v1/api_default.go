@@ -165,13 +165,9 @@ func createWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateWorkspacesTasks(ctx, d, m)
 }
 
 func deleteWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -474,13 +470,9 @@ func createWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateWorkspacesWorkers(ctx, d, m)
 }
 
 func deleteWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -576,13 +568,9 @@ func createWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateWorkspacesWorkflows(ctx, d, m)
 }
 
 func deleteWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -679,13 +667,9 @@ func createWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateWorkspaces(ctx, d, m)
 }
 
 func deleteWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

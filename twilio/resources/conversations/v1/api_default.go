@@ -275,13 +275,9 @@ func createConversationsParticipants(ctx context.Context, d *schema.ResourceData
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateConversationsParticipants(ctx, d, m)
 }
 
 func deleteConversationsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -902,13 +898,9 @@ func createServicesConversationsParticipants(ctx context.Context, d *schema.Reso
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateServicesConversationsParticipants(ctx, d, m)
 }
 
 func deleteServicesConversationsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

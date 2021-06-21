@@ -45,12 +45,7 @@ func ResourceFlexFlows() *schema.Resource {
 			"integration_type":                AsString(SchemaComputedOptional),
 			"janitor_enabled":                 AsBool(SchemaComputedOptional),
 			"long_lived":                      AsBool(SchemaComputedOptional),
-			"account_sid":                     AsString(SchemaComputed),
-			"date_created":                    AsString(SchemaComputed),
-			"date_updated":                    AsString(SchemaComputed),
-			"integration":                     AsString(SchemaComputed),
 			"sid":                             AsString(SchemaComputed),
-			"url":                             AsString(SchemaComputed),
 		},
 	}
 }
@@ -141,11 +136,9 @@ func ResourceWebChannels() *schema.Resource {
 			"flex_flow_sid":          AsString(SchemaComputedOptional),
 			"identity":               AsString(SchemaComputedOptional),
 			"pre_engagement_data":    AsString(SchemaComputedOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
 			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
+			"chat_status":            AsString(SchemaComputedOptional),
+			"post_engagement_data":   AsString(SchemaComputedOptional),
 		},
 	}
 }

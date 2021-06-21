@@ -30,12 +30,7 @@ func ResourceServicesAssets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -127,12 +122,7 @@ func ResourceServicesFunctions() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -226,12 +216,7 @@ func ResourceServices() *schema.Resource {
 			"include_credentials": AsBool(SchemaComputedOptional),
 			"ui_editable":         AsBool(SchemaComputedOptional),
 			"unique_name":         AsString(SchemaComputedOptional),
-			"account_sid":         AsString(SchemaComputed),
-			"date_created":        AsString(SchemaComputed),
-			"date_updated":        AsString(SchemaComputed),
-			"links":               AsString(SchemaComputed),
 			"sid":                 AsString(SchemaComputed),
-			"url":                 AsString(SchemaComputed),
 		},
 	}
 }
@@ -320,11 +305,7 @@ func ResourceServicesEnvironmentsVariables() *schema.Resource {
 			"environment_sid": AsString(SchemaRequired),
 			"key":             AsString(SchemaComputedOptional),
 			"value":           AsString(SchemaComputedOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
 			"sid":             AsString(SchemaComputed),
-			"url":             AsString(SchemaComputed),
 		},
 	}
 }

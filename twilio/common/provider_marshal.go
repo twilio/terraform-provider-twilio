@@ -462,6 +462,12 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 				return CreateErrorGeneric("Wrong type of id field")
 			} else {
 				val := resourceData.Get(name)
+
+				// If the resource data does not contain the property, ignore it.
+				if reflect.TypeOf(val) == nil {
+					return nil
+				}
+
 				// if the resource data expected type is a string and the actual data type is not, json encode it
 				if reflect.TypeOf(val).Kind() == reflect.String && reflect.TypeOf(value) != nil && reflect.TypeOf(value).Kind() != reflect.String {
 					marshaledVal, _ := json.Marshal(value)

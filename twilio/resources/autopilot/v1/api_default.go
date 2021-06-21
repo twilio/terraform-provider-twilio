@@ -60,13 +60,9 @@ func createAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAssistants(ctx, d, m)
 }
 
 func deleteAssistants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -360,13 +356,9 @@ func createAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAssistantsQueries(ctx, d, m)
 }
 
 func deleteAssistantsQueries(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

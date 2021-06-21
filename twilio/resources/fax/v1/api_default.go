@@ -67,13 +67,9 @@ func createFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateFaxes(ctx, d, m)
 }
 
 func deleteFaxes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

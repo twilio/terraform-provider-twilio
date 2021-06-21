@@ -162,13 +162,9 @@ func createWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateWebChannels(ctx, d, m)
 }
 
 func deleteWebChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

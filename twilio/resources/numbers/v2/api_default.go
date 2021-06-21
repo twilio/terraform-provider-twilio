@@ -59,13 +59,9 @@ func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateRegulatoryComplianceBundles(ctx, d, m)
 }
 
 func deleteRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

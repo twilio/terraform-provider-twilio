@@ -269,13 +269,9 @@ func createServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateServicesEntitiesFactors(ctx, d, m)
 }
 
 func deleteServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

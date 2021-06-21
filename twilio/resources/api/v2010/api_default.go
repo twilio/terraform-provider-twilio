@@ -326,13 +326,9 @@ func createAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAccountsCalls(ctx, d, m)
 }
 
 func deleteAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -445,13 +441,9 @@ func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAccountsCallsRecordings(ctx, d, m)
 }
 
 func deleteAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -575,13 +567,9 @@ func createAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 	}
 
 	d.SetId((*r.Sid))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAccountsIncomingPhoneNumbers(ctx, d, m)
 }
 
 func deleteAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -1037,13 +1025,9 @@ func createAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 	}
 
 	d.SetId((*r.CallSid))
+	d.Set("call_sid", *r.CallSid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAccountsConferencesParticipants(ctx, d, m)
 }
 
 func deleteAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

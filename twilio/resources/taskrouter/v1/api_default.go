@@ -54,11 +54,12 @@ func createWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -68,11 +69,12 @@ func deleteWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteActivity(workspaceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -87,10 +89,10 @@ func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -109,10 +111,10 @@ func updateWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -163,11 +165,12 @@ func createWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -181,11 +184,12 @@ func deleteWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteTask(workspaceSid, sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -200,10 +204,10 @@ func readWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -222,10 +226,10 @@ func updateWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -264,11 +268,12 @@ func createWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -278,11 +283,12 @@ func deleteWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteTaskChannel(workspaceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -297,10 +303,10 @@ func readWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -319,10 +325,10 @@ func updateWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -366,11 +372,12 @@ func createWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -380,11 +387,12 @@ func deleteWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteTaskQueue(workspaceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -399,10 +407,10 @@ func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -421,10 +429,10 @@ func updateWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -466,11 +474,12 @@ func createWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -480,11 +489,12 @@ func deleteWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorker(workspaceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -499,10 +509,10 @@ func readWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -521,10 +531,10 @@ func updateWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -566,11 +576,12 @@ func createWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -580,11 +591,12 @@ func deleteWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkflow(workspaceSid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -599,10 +611,10 @@ func readWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -621,10 +633,10 @@ func updateWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -667,11 +679,12 @@ func createWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -680,11 +693,12 @@ func deleteWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkspace(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -698,10 +712,10 @@ func readWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -719,9 +733,9 @@ func updateWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

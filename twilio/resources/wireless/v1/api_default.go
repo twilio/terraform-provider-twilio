@@ -60,11 +60,12 @@ func createRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -73,11 +74,12 @@ func deleteRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.WirelessV1.DeleteRatePlan(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -91,10 +93,10 @@ func readRatePlans(ctx context.Context, d *schema.ResourceData, m interface{}) d
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -112,9 +114,9 @@ func updateRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

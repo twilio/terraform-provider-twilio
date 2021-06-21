@@ -56,11 +56,12 @@ func createCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -69,11 +70,12 @@ func deleteCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TrusthubV1.DeleteCustomerProfile(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -87,10 +89,10 @@ func readCustomerProfiles(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -108,10 +110,10 @@ func updateCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -146,11 +148,12 @@ func createEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -159,11 +162,12 @@ func deleteEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TrusthubV1.DeleteEndUser(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -177,10 +181,10 @@ func readEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -198,10 +202,10 @@ func updateEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -238,11 +242,12 @@ func createSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -251,11 +256,12 @@ func deleteSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TrusthubV1.DeleteSupportingDocument(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -269,10 +275,10 @@ func readSupportingDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -290,10 +296,10 @@ func updateSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -332,11 +338,12 @@ func createTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -345,11 +352,12 @@ func deleteTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.TrusthubV1.DeleteTrustProduct(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -363,10 +371,10 @@ func readTrustProducts(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -384,9 +392,9 @@ func updateTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

@@ -51,11 +51,12 @@ func createCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -64,11 +65,12 @@ func deleteCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AccountsV1.DeleteCredentialAws(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -82,10 +84,10 @@ func readCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -103,10 +105,10 @@ func updateCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -140,11 +142,12 @@ func createCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -153,11 +156,12 @@ func deleteCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.AccountsV1.DeleteCredentialPublicKey(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -171,10 +175,10 @@ func readCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -192,9 +196,9 @@ func updateCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

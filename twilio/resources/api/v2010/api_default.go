@@ -61,11 +61,12 @@ func createAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -78,11 +79,12 @@ func deleteAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteAddress(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -100,10 +102,10 @@ func readAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -121,10 +123,10 @@ func updateAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -172,11 +174,12 @@ func createAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -189,11 +192,12 @@ func deleteAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteApplication(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -211,10 +215,10 @@ func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -232,10 +236,10 @@ func updateAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -322,11 +326,12 @@ func createAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -339,11 +344,12 @@ func deleteAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteCall(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -361,10 +367,10 @@ func readAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -382,10 +388,10 @@ func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -439,11 +445,12 @@ func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -457,11 +464,12 @@ func deleteAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteCallRecording(callSid, sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -480,10 +488,10 @@ func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -502,10 +510,10 @@ func updateAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -525,7 +533,7 @@ func ResourceAccountsIncomingPhoneNumbers() *schema.Resource {
 			"emergency_status":       AsString(SchemaComputedOptional),
 			"friendly_name":          AsString(SchemaComputedOptional),
 			"identity_sid":           AsString(SchemaComputedOptional),
-			"phone_number":           AsString(SchemaRequired),
+			"phone_number":           AsString(SchemaComputedOptional),
 			"sms_application_sid":    AsString(SchemaComputedOptional),
 			"sms_fallback_method":    AsString(SchemaComputedOptional),
 			"sms_fallback_url":       AsString(SchemaComputedOptional),
@@ -567,11 +575,12 @@ func createAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -584,11 +593,12 @@ func deleteAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteIncomingPhoneNumber(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -606,10 +616,10 @@ func readAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceDat
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -627,10 +637,10 @@ func updateAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -690,11 +700,12 @@ func createAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -707,11 +718,12 @@ func deleteAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteMessage(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -729,10 +741,10 @@ func readAccountsMessages(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -750,10 +762,10 @@ func updateAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -786,11 +798,12 @@ func createAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -803,11 +816,12 @@ func deleteAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteKey(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -825,10 +839,10 @@ func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -846,10 +860,10 @@ func updateAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -882,11 +896,12 @@ func createAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -899,11 +914,12 @@ func deleteAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteSigningKey(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -921,10 +937,10 @@ func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -942,10 +958,10 @@ func updateAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1021,11 +1037,12 @@ func createAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 	}
 
 	d.SetId((*r.CallSid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1039,11 +1056,12 @@ func deleteAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 	callSid := d.Get("call_sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteParticipant(conferenceSid, callSid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1062,10 +1080,10 @@ func readAccountsConferencesParticipants(ctx context.Context, d *schema.Resource
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1084,10 +1102,10 @@ func updateAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1124,11 +1142,12 @@ func createAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1141,11 +1160,12 @@ func deleteAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteQueue(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1163,10 +1183,10 @@ func readAccountsQueues(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1184,10 +1204,10 @@ func updateAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1225,11 +1245,12 @@ func createAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1243,11 +1264,12 @@ func deleteAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredential(credentialListSid, sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1266,10 +1288,10 @@ func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.Re
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1288,10 +1310,10 @@ func updateAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1326,11 +1348,12 @@ func createAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1343,11 +1366,12 @@ func deleteAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredentialList(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1365,10 +1389,10 @@ func readAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceData,
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1386,10 +1410,10 @@ func updateAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1438,11 +1462,12 @@ func createAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1455,11 +1480,12 @@ func deleteAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteSipDomain(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1477,10 +1503,10 @@ func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1498,10 +1524,10 @@ func updateAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1536,11 +1562,12 @@ func createAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1553,11 +1580,12 @@ func deleteAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAccessControlList(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1575,10 +1603,10 @@ func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resource
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1596,10 +1624,10 @@ func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1638,11 +1666,12 @@ func createAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1656,11 +1685,12 @@ func deleteAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAddress(ipAccessControlListSid, sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1679,10 +1709,10 @@ func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sche
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1701,10 +1731,10 @@ func updateAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1748,11 +1778,12 @@ func createAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1765,11 +1796,12 @@ func deleteAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.ApiV2010.DeleteUsageTrigger(sid, &params)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -1787,10 +1819,10 @@ func readAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -1808,9 +1840,9 @@ func updateAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

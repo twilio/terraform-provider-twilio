@@ -59,11 +59,12 @@ func createByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -72,11 +73,12 @@ func deleteByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VoiceV1.DeleteByocTrunk(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -90,10 +92,10 @@ func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -111,10 +113,10 @@ func updateByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -148,11 +150,12 @@ func createConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -161,11 +164,12 @@ func deleteConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VoiceV1.DeleteConnectionPolicy(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -179,10 +183,10 @@ func readConnectionPolicies(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -200,10 +204,10 @@ func updateConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -243,11 +247,12 @@ func createConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -257,11 +262,12 @@ func deleteConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VoiceV1.DeleteConnectionPolicyTarget(connectionPolicySid, sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -276,10 +282,10 @@ func readConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -298,10 +304,10 @@ func updateConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -336,11 +342,12 @@ func createIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -349,11 +356,12 @@ func deleteIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VoiceV1.DeleteIpRecord(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -367,10 +375,10 @@ func readIpRecords(ctx context.Context, d *schema.ResourceData, m interface{}) d
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -388,10 +396,10 @@ func updateIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -424,11 +432,12 @@ func createSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.SetId((*r.Sid))
-	err = MarshalSchema(d, r)
 
+	err = MarshalSchema(d, r)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -437,11 +446,12 @@ func deleteSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 	sid := d.Get("sid").(string)
 
 	err := m.(*client.Config).Client.VoiceV1.DeleteSourceIpMapping(sid)
-	d.SetId("")
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId("")
+
 	return nil
 }
 
@@ -455,10 +465,10 @@ func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }
 
@@ -476,9 +486,9 @@ func updateSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	err = MarshalSchema(d, r)
-
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
 	return nil
 }

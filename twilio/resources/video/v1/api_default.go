@@ -28,8 +28,8 @@ func ResourceCompositionHooks() *schema.Resource {
 		UpdateContext: updateCompositionHooks,
 		DeleteContext: deleteCompositionHooks,
 		Schema: map[string]*schema.Schema{
-			"audio_sources":          AsString(SchemaComputedOptional),
-			"audio_sources_excluded": AsString(SchemaComputedOptional),
+			"audio_sources":          AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"audio_sources_excluded": AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"enabled":                AsBool(SchemaComputedOptional),
 			"format":                 AsString(SchemaComputedOptional),
 			"friendly_name":          AsString(SchemaComputedOptional),
@@ -38,11 +38,7 @@ func ResourceCompositionHooks() *schema.Resource {
 			"status_callback_method": AsString(SchemaComputedOptional),
 			"trim":                   AsBool(SchemaComputedOptional),
 			"video_layout":           AsString(SchemaComputedOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
 			"sid":                    AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
 		},
 	}
 }

@@ -32,11 +32,7 @@ func ResourceServicesRateLimitsBuckets() *schema.Resource {
 			"rate_limit_sid": AsString(SchemaRequired),
 			"interval":       AsInt(SchemaComputedOptional),
 			"max":            AsInt(SchemaComputedOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
 			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
 		},
 	}
 }
@@ -133,10 +129,6 @@ func ResourceServicesMessagingConfigurations() *schema.Resource {
 			"service_sid":           AsString(SchemaRequired),
 			"country":               AsString(SchemaComputedOptional),
 			"messaging_service_sid": AsString(SchemaComputedOptional),
-			"account_sid":           AsString(SchemaComputed),
-			"date_created":          AsString(SchemaComputed),
-			"date_updated":          AsString(SchemaComputed),
-			"url":                   AsString(SchemaComputed),
 		},
 	}
 }
@@ -241,15 +233,8 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 			"config_time_step":             AsInt(SchemaComputedOptional),
 			"factor_type":                  AsString(SchemaComputedOptional),
 			"friendly_name":                AsString(SchemaComputedOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"binding":                      AsString(SchemaComputed),
-			"config":                       AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"entity_sid":                   AsString(SchemaComputed),
 			"sid":                          AsString(SchemaComputed),
-			"status":                       AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
+			"auth_payload":                 AsString(SchemaComputedOptional),
 		},
 	}
 }
@@ -339,15 +324,10 @@ func ResourceServicesRateLimits() *schema.Resource {
 		UpdateContext: updateServicesRateLimits,
 		DeleteContext: deleteServicesRateLimits,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"description":  AsString(SchemaComputedOptional),
-			"unique_name":  AsString(SchemaComputedOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"service_sid": AsString(SchemaRequired),
+			"description": AsString(SchemaComputedOptional),
+			"unique_name": AsString(SchemaComputedOptional),
+			"sid":         AsString(SchemaComputed),
 		},
 	}
 }
@@ -453,14 +433,7 @@ func ResourceServices() *schema.Resource {
 			"totp_skew":                    AsInt(SchemaComputedOptional),
 			"totp_time_step":               AsInt(SchemaComputedOptional),
 			"tts_name":                     AsString(SchemaComputedOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"links":                        AsString(SchemaComputed),
-			"push":                         AsString(SchemaComputed),
 			"sid":                          AsString(SchemaComputed),
-			"totp":                         AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
 		},
 	}
 }
@@ -545,17 +518,12 @@ func ResourceServicesWebhooks() *schema.Resource {
 		UpdateContext: updateServicesWebhooks,
 		DeleteContext: deleteServicesWebhooks,
 		Schema: map[string]*schema.Schema{
-			"service_sid":    AsString(SchemaRequired),
-			"event_types":    AsString(SchemaComputedOptional),
-			"friendly_name":  AsString(SchemaComputedOptional),
-			"status":         AsString(SchemaComputedOptional),
-			"webhook_url":    AsString(SchemaComputedOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"sid":            AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-			"webhook_method": AsString(SchemaComputed),
+			"service_sid":   AsString(SchemaRequired),
+			"event_types":   AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"friendly_name": AsString(SchemaComputedOptional),
+			"status":        AsString(SchemaComputedOptional),
+			"webhook_url":   AsString(SchemaComputedOptional),
+			"sid":           AsString(SchemaComputed),
 		},
 	}
 }

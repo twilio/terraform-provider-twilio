@@ -31,12 +31,7 @@ func ResourceSinks() *schema.Resource {
 			"description":        AsString(SchemaComputedOptional),
 			"sink_configuration": AsString(SchemaComputedOptional),
 			"sink_type":          AsString(SchemaComputedOptional),
-			"date_created":       AsString(SchemaComputed),
-			"date_updated":       AsString(SchemaComputed),
-			"links":              AsString(SchemaComputed),
 			"sid":                AsString(SchemaComputed),
-			"status":             AsString(SchemaComputed),
-			"url":                AsString(SchemaComputed),
 		},
 	}
 }
@@ -124,8 +119,6 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 			"subscription_sid": AsString(SchemaRequired),
 			"schema_version":   AsInt(SchemaComputedOptional),
 			"type":             AsString(SchemaComputedOptional),
-			"account_sid":      AsString(SchemaComputed),
-			"url":              AsString(SchemaComputed),
 		},
 	}
 }
@@ -215,15 +208,10 @@ func ResourceSubscriptions() *schema.Resource {
 		UpdateContext: updateSubscriptions,
 		DeleteContext: deleteSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"description":  AsString(SchemaComputedOptional),
-			"sink_sid":     AsString(SchemaComputedOptional),
-			"types":        AsString(SchemaComputedOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"description": AsString(SchemaComputedOptional),
+			"sink_sid":    AsString(SchemaComputedOptional),
+			"types":       AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"sid":         AsString(SchemaComputed),
 		},
 	}
 }

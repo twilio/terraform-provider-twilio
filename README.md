@@ -165,7 +165,7 @@ You can also specify a particular suite to run like so:
 $  make testacc TEST=./twilio/ ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
 ```
 
-An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/master/twilio/resource_taskrouter_workspace_test.go).
+An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/main/twilio/resources_flex_test.go).
 
 ### Debugging
 First:

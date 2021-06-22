@@ -631,7 +631,10 @@ func TestComplexMarshal(t *testing.T) {
 func TestObjectMarshal(t *testing.T) {
 	terraformSchema := map[string]*schema.Schema{
 		"Errors": {
-			Type: schema.TypeString,
+			Type: schema.TypeList,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 		},
 		"Links": {
 			Type: schema.TypeString,
@@ -668,10 +671,12 @@ func TestObjectMarshal(t *testing.T) {
 	}
 
 	assert.Equal(t, resourceData.Get("Links"), "{\"executions\":\"https://studio.twilio.com/v2/Flows/FWXX/Executions\",\"revisions\":\"https://studio.twilio.com/v2/Flows/FWXX/Revisions\",\"test_users\":\"https://studio.twilio.com/v2/Flows/FWXX/TestUsers\"}")
-	assert.Equal(t, resourceData.Get("Errors"), "[{\\message\\:\\some message\\,\\property_path\\:\\some property path\\},{\\message\\:\\some message 2\\,\\property_path\\:\\some property path 2\\}]")
+	assert.Equal(t, resourceData.Get("Errors.0"), "{\"message\":\"some message\",\"property_path\":\"some property path\"}")
+	assert.Equal(t, resourceData.Get("Errors.1"), "{\"message\":\"some message 2\",\"property_path\":\"some property path 2\"}")
 }
 
 func TestTimeMarshal(t *testing.T) {
+
 	terraformSchema := map[string]*schema.Schema{
 		"T0": {
 			Type:     schema.TypeString,

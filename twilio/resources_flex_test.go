@@ -28,7 +28,7 @@ func TestAccFlexSetup_basic(t *testing.T) {
 		CheckDestroy:              testAccFlexInstanceDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "true"),
+				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "false"),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(chatResourceName, "friendly_name", chatServiceName),
 					resource.TestCheckResourceAttr(chatResourceName, "reachability_enabled", "false"),
@@ -38,18 +38,18 @@ func TestAccFlexSetup_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(flexResourceName, "friendly_name", flexName),
 					resource.TestCheckResourceAttr(flexResourceName, "channel_type", "sms"),
 					resource.TestCheckResourceAttr(flexResourceName, "contact_identity", "true"),
-					resource.TestCheckResourceAttr(flexResourceName, "enabled", "true"),
+					resource.TestCheckResourceAttr(flexResourceName, "enabled", "false"),
 				),
 			},
 			{
-				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "false"),
+				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "true"),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(chatResourceName, "friendly_name", chatServiceName),
 					resource.TestCheckResourceAttr(studioResourceName, "friendly_name", studioFlowName),
 					resource.TestCheckResourceAttr(flexResourceName, "friendly_name", flexName),
 					resource.TestCheckResourceAttr(flexResourceName, "channel_type", "sms"),
-					resource.TestCheckResourceAttr(flexResourceName, "contact_identity", "false"),
-					resource.TestCheckResourceAttr(flexResourceName, "enabled", "false"),
+					resource.TestCheckResourceAttr(flexResourceName, "contact_identity", "true"),
+					resource.TestCheckResourceAttr(flexResourceName, "enabled", "true"),
 				),
 			},
 		},
@@ -97,9 +97,6 @@ func testAccTwilioFlexConfig(chatResourceName string, studioResourceName string,
 
 	resource "twilio_chat_services_v2" "chat_service" {
 		friendly_name = "%s"
-		webhook_filters = ["onMessageSent",
-		"onChannelDestroyed",
-		"onChannelUpdated"]
 	}
 
 	resource "twilio_studio_flows_v2" "studio_flow" {

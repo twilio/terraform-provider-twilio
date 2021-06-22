@@ -461,15 +461,6 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 				}
 				return CreateErrorGeneric("Wrong type of id field")
 			} else {
-				val := resourceData.Get(name)
-				// if the resource data expected type is a string and the actual data type is not, json encode it
-				if reflect.TypeOf(val).Kind() == reflect.String && reflect.TypeOf(value) != nil && reflect.TypeOf(value).Kind() != reflect.String {
-					marshaledVal, _ := json.Marshal(value)
-					// clean up the encoded string
-					stringEncodedVal := strings.Replace(string(marshaledVal), "\"", "", -1)
-					return resourceData.Set(name, stringEncodedVal)
-				}
-
 				return resourceData.Set(name, value)
 			}
 		}

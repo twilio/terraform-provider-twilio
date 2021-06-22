@@ -16,11 +16,27 @@ resource "twilio_studio_flows_v2" "flow" {
   commit_message = "first draft"
   friendly_name  = "terraform flow"
   status         = "draft"
-  definition     = "{\"description\": \"A New Flow\", \"states\": [{\"name\": \"Trigger\", \"type\": \"trigger\", \"transitions\": [], \"properties\": {\"offset\": {\"x\": 0, \"y\": 0}}}], \"initial_state\": \"Trigger\", \"flags\": {\"allow_concurrent_calls\": true}}"
+  definition = jsonencode({
+    description = "A New Flow",
+    states = [
+      {
+        name        = "Trigger"
+        type        = "trigger"
+        transitions = []
+        properties = {
+          offset = {
+            x = 0
+            y = 0
+          }
+        }
+    }]
+    initial_state = "Trigger"
+    flags = {
+      allow_concurrent_calls = true
+    }
+  })
 }
-
 
 output "flows" {
   value = twilio_studio_flows_v2.flow
 }
-

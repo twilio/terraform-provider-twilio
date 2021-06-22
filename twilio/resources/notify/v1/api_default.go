@@ -35,11 +35,7 @@ func ResourceCredentials() *schema.Resource {
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
 			"type":          AsString(SchemaComputedOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -138,12 +134,7 @@ func ResourceServices() *schema.Resource {
 			"gcm_credential_sid":                          AsString(SchemaComputedOptional),
 			"log_enabled":                                 AsBool(SchemaComputedOptional),
 			"messaging_service_sid":                       AsString(SchemaComputedOptional),
-			"account_sid":                                 AsString(SchemaComputed),
-			"date_created":                                AsString(SchemaComputed),
-			"date_updated":                                AsString(SchemaComputed),
-			"links":                                       AsString(SchemaComputed),
 			"sid":                                         AsString(SchemaComputed),
-			"url":                                         AsString(SchemaComputed),
 		},
 	}
 }

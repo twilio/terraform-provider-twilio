@@ -32,14 +32,8 @@ func ResourceCustomerProfiles() *schema.Resource {
 			"friendly_name":   AsString(SchemaComputedOptional),
 			"policy_sid":      AsString(SchemaComputedOptional),
 			"status_callback": AsString(SchemaComputedOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"links":           AsString(SchemaComputed),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
-			"url":             AsString(SchemaComputed),
-			"valid_until":     AsString(SchemaComputed),
 		},
 	}
 }
@@ -123,11 +117,7 @@ func ResourceEndUsers() *schema.Resource {
 			"attributes":    AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"type":          AsString(SchemaComputedOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -215,13 +205,7 @@ func ResourceSupportingDocuments() *schema.Resource {
 			"attributes":    AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"type":          AsString(SchemaComputedOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"mime_type":     AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"status":        AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -310,14 +294,8 @@ func ResourceTrustProducts() *schema.Resource {
 			"friendly_name":   AsString(SchemaComputedOptional),
 			"policy_sid":      AsString(SchemaComputedOptional),
 			"status_callback": AsString(SchemaComputedOptional),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"links":           AsString(SchemaComputed),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
-			"url":             AsString(SchemaComputed),
-			"valid_until":     AsString(SchemaComputed),
 		},
 	}
 }

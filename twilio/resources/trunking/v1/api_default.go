@@ -34,11 +34,7 @@ func ResourceTrunksOriginationUrls() *schema.Resource {
 			"priority":      AsInt(SchemaComputedOptional),
 			"sip_url":       AsString(SchemaComputedOptional),
 			"weight":        AsInt(SchemaComputedOptional),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -135,15 +131,7 @@ func ResourceTrunks() *schema.Resource {
 			"friendly_name":            AsString(SchemaComputedOptional),
 			"secure":                   AsBool(SchemaComputedOptional),
 			"transfer_mode":            AsString(SchemaComputedOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"auth_type":                AsString(SchemaComputed),
-			"auth_type_set":            AsList(AsString(SchemaComputed), SchemaComputed),
-			"date_created":             AsString(SchemaComputed),
-			"date_updated":             AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"recording":                AsString(SchemaComputed),
 			"sid":                      AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
 		},
 	}
 }

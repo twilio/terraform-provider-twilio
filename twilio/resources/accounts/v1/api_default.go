@@ -31,10 +31,7 @@ func ResourceCredentialsAWS() *schema.Resource {
 			"account_sid":   AsString(SchemaComputedOptional),
 			"credentials":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }
@@ -122,10 +119,7 @@ func ResourceCredentialsPublicKeys() *schema.Resource {
 			"account_sid":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"public_key":    AsString(SchemaComputedOptional),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
 			"sid":           AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 	}
 }

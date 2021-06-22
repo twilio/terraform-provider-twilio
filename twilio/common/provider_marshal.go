@@ -461,6 +461,13 @@ func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 				}
 				return CreateErrorGeneric("Wrong type of id field")
 			} else {
+				val := resourceData.Get(name)
+
+				// If the resource data does not contain the property, ignore it.
+				if reflect.TypeOf(val) == nil {
+					return nil
+				}
+
 				return resourceData.Set(name, value)
 			}
 		}

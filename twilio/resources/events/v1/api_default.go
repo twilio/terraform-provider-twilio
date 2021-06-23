@@ -28,9 +28,9 @@ func ResourceSinks() *schema.Resource {
 		UpdateContext: updateSinks,
 		DeleteContext: deleteSinks,
 		Schema: map[string]*schema.Schema{
-			"description":        AsString(SchemaComputedOptional),
-			"sink_configuration": AsString(SchemaComputedOptional),
-			"sink_type":          AsString(SchemaComputedOptional),
+			"description":        AsString(SchemaRequired),
+			"sink_configuration": AsString(SchemaRequired),
+			"sink_type":          AsString(SchemaRequired),
 			"sid":                AsString(SchemaComputed),
 		},
 	}
@@ -117,8 +117,8 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 		DeleteContext: deleteSubscriptionsSubscribedEvents,
 		Schema: map[string]*schema.Schema{
 			"subscription_sid": AsString(SchemaRequired),
+			"type":             AsString(SchemaRequired),
 			"schema_version":   AsInt(SchemaComputedOptional),
-			"type":             AsString(SchemaComputedOptional),
 		},
 	}
 }
@@ -208,9 +208,9 @@ func ResourceSubscriptions() *schema.Resource {
 		UpdateContext: updateSubscriptions,
 		DeleteContext: deleteSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"description": AsString(SchemaComputedOptional),
-			"sink_sid":    AsString(SchemaComputedOptional),
-			"types":       AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"description": AsString(SchemaRequired),
+			"sink_sid":    AsString(SchemaRequired),
+			"types":       AsList(AsString(SchemaRequired), SchemaRequired),
 			"sid":         AsString(SchemaComputed),
 		},
 	}

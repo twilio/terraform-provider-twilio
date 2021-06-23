@@ -28,11 +28,11 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":                 AsString(SchemaRequired),
 			"area_code_geomatch":            AsBool(SchemaComputedOptional),
 			"fallback_method":               AsString(SchemaComputedOptional),
 			"fallback_to_long_code":         AsBool(SchemaComputedOptional),
 			"fallback_url":                  AsString(SchemaComputedOptional),
-			"friendly_name":                 AsString(SchemaComputedOptional),
 			"inbound_method":                AsString(SchemaComputedOptional),
 			"inbound_request_url":           AsString(SchemaComputedOptional),
 			"mms_converter":                 AsBool(SchemaComputedOptional),

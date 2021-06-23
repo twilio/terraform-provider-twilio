@@ -332,13 +332,13 @@ func ResourceConversationsWebhooks() *schema.Resource {
 		DeleteContext: deleteConversationsWebhooks,
 		Schema: map[string]*schema.Schema{
 			"conversation_sid":           AsString(SchemaRequired),
+			"target":                     AsString(SchemaRequired),
 			"configuration_filters":      AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_flow_sid":     AsString(SchemaComputedOptional),
 			"configuration_method":       AsString(SchemaComputedOptional),
 			"configuration_replay_after": AsInt(SchemaComputedOptional),
 			"configuration_triggers":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_url":          AsString(SchemaComputedOptional),
-			"target":                     AsString(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
 		},
 	}
@@ -429,13 +429,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
+			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"private_key":   AsString(SchemaComputedOptional),
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -521,9 +521,9 @@ func ResourceRoles() *schema.Resource {
 		UpdateContext: updateRoles,
 		DeleteContext: deleteRoles,
 		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaComputedOptional),
-			"permission":    AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaRequired),
+			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
+			"type":          AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -930,13 +930,13 @@ func ResourceServicesConversationsWebhooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"chat_service_sid":           AsString(SchemaRequired),
 			"conversation_sid":           AsString(SchemaRequired),
+			"target":                     AsString(SchemaRequired),
 			"configuration_filters":      AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_flow_sid":     AsString(SchemaComputedOptional),
 			"configuration_method":       AsString(SchemaComputedOptional),
 			"configuration_replay_after": AsInt(SchemaComputedOptional),
 			"configuration_triggers":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_url":          AsString(SchemaComputedOptional),
-			"target":                     AsString(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
 		},
 	}
@@ -1032,9 +1032,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"chat_service_sid": AsString(SchemaRequired),
-			"friendly_name":    AsString(SchemaComputedOptional),
-			"permission":       AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"type":             AsString(SchemaComputedOptional),
+			"friendly_name":    AsString(SchemaRequired),
+			"permission":       AsList(AsString(SchemaRequired), SchemaRequired),
+			"type":             AsString(SchemaRequired),
 			"sid":              AsString(SchemaComputed),
 		},
 	}
@@ -1126,10 +1126,10 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"chat_service_sid":         AsString(SchemaRequired),
+			"identity":                 AsString(SchemaRequired),
 			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"friendly_name":            AsString(SchemaComputedOptional),
-			"identity":                 AsString(SchemaComputedOptional),
 			"role_sid":                 AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
@@ -1225,10 +1225,10 @@ func ResourceUsers() *schema.Resource {
 		UpdateContext: updateUsers,
 		DeleteContext: deleteUsers,
 		Schema: map[string]*schema.Schema{
+			"identity":                 AsString(SchemaRequired),
 			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"friendly_name":            AsString(SchemaComputedOptional),
-			"identity":                 AsString(SchemaComputedOptional),
 			"role_sid":                 AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},

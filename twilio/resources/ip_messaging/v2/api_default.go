@@ -133,13 +133,13 @@ func ResourceServicesChannelsWebhooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":               AsString(SchemaRequired),
 			"channel_sid":               AsString(SchemaRequired),
+			"type":                      AsString(SchemaRequired),
 			"configuration_filters":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_flow_sid":    AsString(SchemaComputedOptional),
 			"configuration_method":      AsString(SchemaComputedOptional),
 			"configuration_retry_count": AsInt(SchemaComputedOptional),
 			"configuration_triggers":    AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_url":         AsString(SchemaComputedOptional),
-			"type":                      AsString(SchemaComputedOptional),
 			"sid":                       AsString(SchemaComputed),
 		},
 	}
@@ -234,13 +234,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
+			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"private_key":   AsString(SchemaComputedOptional),
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -328,11 +328,11 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
+			"identity":                    AsString(SchemaRequired),
 			"x_twilio_webhook_enabled":    AsString(SchemaComputedOptional),
 			"attributes":                  AsString(SchemaComputedOptional),
 			"date_created":                AsString(SchemaComputedOptional),
 			"date_updated":                AsString(SchemaComputedOptional),
-			"identity":                    AsString(SchemaComputedOptional),
 			"last_consumed_message_index": AsInt(SchemaComputedOptional),
 			"last_consumption_timestamp":  AsString(SchemaComputedOptional),
 			"role_sid":                    AsString(SchemaComputedOptional),
@@ -543,9 +543,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaComputedOptional),
-			"permission":    AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaRequired),
+			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
+			"type":          AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -636,7 +636,7 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                                 AsString(SchemaComputedOptional),
+			"friendly_name":                                 AsString(SchemaRequired),
 			"sid":                                           AsString(SchemaComputed),
 			"consumption_report_interval":                   AsInt(SchemaComputedOptional),
 			"default_channel_creator_role_sid":              AsString(SchemaComputedOptional),
@@ -749,10 +749,10 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":              AsString(SchemaRequired),
+			"identity":                 AsString(SchemaRequired),
 			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"friendly_name":            AsString(SchemaComputedOptional),
-			"identity":                 AsString(SchemaComputedOptional),
 			"role_sid":                 AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},

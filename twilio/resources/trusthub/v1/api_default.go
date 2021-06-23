@@ -28,9 +28,9 @@ func ResourceCustomerProfiles() *schema.Resource {
 		UpdateContext: updateCustomerProfiles,
 		DeleteContext: deleteCustomerProfiles,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaComputedOptional),
-			"friendly_name":   AsString(SchemaComputedOptional),
-			"policy_sid":      AsString(SchemaComputedOptional),
+			"email":           AsString(SchemaRequired),
+			"friendly_name":   AsString(SchemaRequired),
+			"policy_sid":      AsString(SchemaRequired),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
@@ -114,9 +114,9 @@ func ResourceEndUsers() *schema.Resource {
 		UpdateContext: updateEndUsers,
 		DeleteContext: deleteEndUsers,
 		Schema: map[string]*schema.Schema{
+			"friendly_name": AsString(SchemaRequired),
+			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
-			"friendly_name": AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -202,9 +202,9 @@ func ResourceSupportingDocuments() *schema.Resource {
 		UpdateContext: updateSupportingDocuments,
 		DeleteContext: deleteSupportingDocuments,
 		Schema: map[string]*schema.Schema{
+			"friendly_name": AsString(SchemaRequired),
+			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
-			"friendly_name": AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -290,9 +290,9 @@ func ResourceTrustProducts() *schema.Resource {
 		UpdateContext: updateTrustProducts,
 		DeleteContext: deleteTrustProducts,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaComputedOptional),
-			"friendly_name":   AsString(SchemaComputedOptional),
-			"policy_sid":      AsString(SchemaComputedOptional),
+			"email":           AsString(SchemaRequired),
+			"friendly_name":   AsString(SchemaRequired),
+			"policy_sid":      AsString(SchemaRequired),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),

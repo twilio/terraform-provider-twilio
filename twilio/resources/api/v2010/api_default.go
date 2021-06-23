@@ -28,16 +28,16 @@ func ResourceAccountsAddresses() *schema.Resource {
 		UpdateContext: updateAccountsAddresses,
 		DeleteContext: deleteAccountsAddresses,
 		Schema: map[string]*schema.Schema{
+			"city":                 AsString(SchemaRequired),
+			"customer_name":        AsString(SchemaRequired),
+			"iso_country":          AsString(SchemaRequired),
+			"postal_code":          AsString(SchemaRequired),
+			"region":               AsString(SchemaRequired),
+			"street":               AsString(SchemaRequired),
 			"path_account_sid":     AsString(SchemaComputedOptional),
 			"auto_correct_address": AsBool(SchemaComputedOptional),
-			"city":                 AsString(SchemaComputedOptional),
-			"customer_name":        AsString(SchemaComputedOptional),
 			"emergency_enabled":    AsBool(SchemaComputedOptional),
 			"friendly_name":        AsString(SchemaComputedOptional),
-			"iso_country":          AsString(SchemaComputedOptional),
-			"postal_code":          AsString(SchemaComputedOptional),
-			"region":               AsString(SchemaComputedOptional),
-			"street":               AsString(SchemaComputedOptional),
 			"sid":                  AsString(SchemaComputed),
 		},
 	}
@@ -240,6 +240,8 @@ func ResourceAccountsCalls() *schema.Resource {
 		UpdateContext: updateAccountsCalls,
 		DeleteContext: deleteAccountsCalls,
 		Schema: map[string]*schema.Schema{
+			"from":                                   AsString(SchemaRequired),
+			"to":                                     AsString(SchemaRequired),
 			"path_account_sid":                       AsString(SchemaComputedOptional),
 			"application_sid":                        AsString(SchemaComputedOptional),
 			"async_amd":                              AsString(SchemaComputedOptional),
@@ -251,7 +253,6 @@ func ResourceAccountsCalls() *schema.Resource {
 			"caller_id":                              AsString(SchemaComputedOptional),
 			"fallback_method":                        AsString(SchemaComputedOptional),
 			"fallback_url":                           AsString(SchemaComputedOptional),
-			"from":                                   AsString(SchemaComputedOptional),
 			"machine_detection":                      AsString(SchemaComputedOptional),
 			"machine_detection_silence_timeout":      AsInt(SchemaComputedOptional),
 			"machine_detection_speech_end_threshold": AsInt(SchemaComputedOptional),
@@ -271,7 +272,6 @@ func ResourceAccountsCalls() *schema.Resource {
 			"status_callback_event":                  AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"status_callback_method":                 AsString(SchemaComputedOptional),
 			"timeout":                                AsInt(SchemaComputedOptional),
-			"to":                                     AsString(SchemaComputedOptional),
 			"trim":                                   AsString(SchemaComputedOptional),
 			"twiml":                                  AsString(SchemaComputedOptional),
 			"url":                                    AsString(SchemaComputedOptional),
@@ -374,8 +374,8 @@ func ResourceAccountsCallsRecordings() *schema.Resource {
 			"recording_track":                  AsString(SchemaComputedOptional),
 			"trim":                             AsString(SchemaComputedOptional),
 			"sid":                              AsString(SchemaComputed),
-			"pause_behavior":                   AsString(SchemaComputedOptional),
 			"status":                           AsString(SchemaComputedOptional),
+			"pause_behavior":                   AsString(SchemaComputedOptional),
 		},
 	}
 }
@@ -584,6 +584,7 @@ func ResourceAccountsMessages() *schema.Resource {
 		UpdateContext: updateAccountsMessages,
 		DeleteContext: deleteAccountsMessages,
 		Schema: map[string]*schema.Schema{
+			"to":                    AsString(SchemaRequired),
 			"path_account_sid":      AsString(SchemaComputedOptional),
 			"address_retention":     AsString(SchemaComputedOptional),
 			"application_sid":       AsString(SchemaComputedOptional),
@@ -599,7 +600,6 @@ func ResourceAccountsMessages() *schema.Resource {
 			"provide_feedback":      AsBool(SchemaComputedOptional),
 			"smart_encoded":         AsBool(SchemaComputedOptional),
 			"status_callback":       AsString(SchemaComputedOptional),
-			"to":                    AsString(SchemaComputedOptional),
 			"validity_period":       AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
 		},
@@ -885,6 +885,8 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 		DeleteContext: deleteAccountsConferencesParticipants,
 		Schema: map[string]*schema.Schema{
 			"conference_sid":                       AsString(SchemaRequired),
+			"from":                                 AsString(SchemaRequired),
+			"to":                                   AsString(SchemaRequired),
 			"path_account_sid":                     AsString(SchemaComputedOptional),
 			"beep":                                 AsString(SchemaComputedOptional),
 			"byoc":                                 AsString(SchemaComputedOptional),
@@ -902,7 +904,6 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"conference_trim":                             AsString(SchemaComputedOptional),
 			"early_media":                                 AsBool(SchemaComputedOptional),
 			"end_conference_on_exit":                      AsBool(SchemaComputedOptional),
-			"from":                                        AsString(SchemaComputedOptional),
 			"jitter_buffer_size":                          AsString(SchemaComputedOptional),
 			"label":                                       AsString(SchemaComputedOptional),
 			"max_participants":                            AsInt(SchemaComputedOptional),
@@ -921,7 +922,6 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"status_callback_event":                       AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"status_callback_method":                      AsString(SchemaComputedOptional),
 			"timeout":                                     AsInt(SchemaComputedOptional),
-			"to":                                          AsString(SchemaComputedOptional),
 			"wait_method":                                 AsString(SchemaComputedOptional),
 			"wait_url":                                    AsString(SchemaComputedOptional),
 			"call_sid":                                    AsString(SchemaComputed),
@@ -1024,8 +1024,8 @@ func ResourceAccountsQueues() *schema.Resource {
 		UpdateContext: updateAccountsQueues,
 		DeleteContext: deleteAccountsQueues,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":    AsString(SchemaRequired),
 			"path_account_sid": AsString(SchemaComputedOptional),
-			"friendly_name":    AsString(SchemaComputedOptional),
 			"max_size":         AsInt(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
@@ -1121,9 +1121,9 @@ func ResourceAccountsSIPCredentialListsCredentials() *schema.Resource {
 		DeleteContext: deleteAccountsSIPCredentialListsCredentials,
 		Schema: map[string]*schema.Schema{
 			"credential_list_sid": AsString(SchemaRequired),
+			"password":            AsString(SchemaRequired),
+			"username":            AsString(SchemaRequired),
 			"path_account_sid":    AsString(SchemaComputedOptional),
-			"password":            AsString(SchemaComputedOptional),
-			"username":            AsString(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),
 		},
 	}
@@ -1222,8 +1222,8 @@ func ResourceAccountsSIPCredentialLists() *schema.Resource {
 		UpdateContext: updateAccountsSIPCredentialLists,
 		DeleteContext: deleteAccountsSIPCredentialLists,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":    AsString(SchemaRequired),
 			"path_account_sid": AsString(SchemaComputedOptional),
-			"friendly_name":    AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
 	}
@@ -1317,9 +1317,9 @@ func ResourceAccountsSIPDomains() *schema.Resource {
 		UpdateContext: updateAccountsSIPDomains,
 		DeleteContext: deleteAccountsSIPDomains,
 		Schema: map[string]*schema.Schema{
+			"domain_name":                  AsString(SchemaRequired),
 			"path_account_sid":             AsString(SchemaComputedOptional),
 			"byoc_trunk_sid":               AsString(SchemaComputedOptional),
-			"domain_name":                  AsString(SchemaComputedOptional),
 			"emergency_caller_sid":         AsString(SchemaComputedOptional),
 			"emergency_calling_enabled":    AsBool(SchemaComputedOptional),
 			"friendly_name":                AsString(SchemaComputedOptional),
@@ -1424,8 +1424,8 @@ func ResourceAccountsSIPIpAccessControlLists() *schema.Resource {
 		UpdateContext: updateAccountsSIPIpAccessControlLists,
 		DeleteContext: deleteAccountsSIPIpAccessControlLists,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":    AsString(SchemaRequired),
 			"path_account_sid": AsString(SchemaComputedOptional),
-			"friendly_name":    AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
 	}
@@ -1520,10 +1520,10 @@ func ResourceAccountsSIPIpAccessControlListsIpAddresses() *schema.Resource {
 		DeleteContext: deleteAccountsSIPIpAccessControlListsIpAddresses,
 		Schema: map[string]*schema.Schema{
 			"ip_access_control_list_sid": AsString(SchemaRequired),
+			"friendly_name":              AsString(SchemaRequired),
+			"ip_address":                 AsString(SchemaRequired),
 			"path_account_sid":           AsString(SchemaComputedOptional),
 			"cidr_prefix_length":         AsInt(SchemaComputedOptional),
-			"friendly_name":              AsString(SchemaComputedOptional),
-			"ip_address":                 AsString(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
 		},
 	}
@@ -1622,14 +1622,14 @@ func ResourceAccountsUsageTriggers() *schema.Resource {
 		UpdateContext: updateAccountsUsageTriggers,
 		DeleteContext: deleteAccountsUsageTriggers,
 		Schema: map[string]*schema.Schema{
+			"callback_url":     AsString(SchemaRequired),
+			"trigger_value":    AsString(SchemaRequired),
+			"usage_category":   AsString(SchemaRequired),
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"callback_method":  AsString(SchemaComputedOptional),
-			"callback_url":     AsString(SchemaComputedOptional),
 			"friendly_name":    AsString(SchemaComputedOptional),
 			"recurring":        AsString(SchemaComputedOptional),
 			"trigger_by":       AsString(SchemaComputedOptional),
-			"trigger_value":    AsString(SchemaComputedOptional),
-			"usage_category":   AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
 	}

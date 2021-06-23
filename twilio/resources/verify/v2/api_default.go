@@ -30,8 +30,8 @@ func ResourceServicesRateLimitsBuckets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"rate_limit_sid": AsString(SchemaRequired),
-			"interval":       AsInt(SchemaComputedOptional),
-			"max":            AsInt(SchemaComputedOptional),
+			"interval":       AsInt(SchemaRequired),
+			"max":            AsInt(SchemaRequired),
 			"sid":            AsString(SchemaComputed),
 		},
 	}
@@ -127,8 +127,8 @@ func ResourceServicesMessagingConfigurations() *schema.Resource {
 		DeleteContext: deleteServicesMessagingConfigurations,
 		Schema: map[string]*schema.Schema{
 			"service_sid":           AsString(SchemaRequired),
-			"country":               AsString(SchemaComputedOptional),
-			"messaging_service_sid": AsString(SchemaComputedOptional),
+			"country":               AsString(SchemaRequired),
+			"messaging_service_sid": AsString(SchemaRequired),
 		},
 	}
 }
@@ -220,6 +220,8 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
 			"identity":                     AsString(SchemaRequired),
+			"factor_type":                  AsString(SchemaRequired),
+			"friendly_name":                AsString(SchemaRequired),
 			"binding_alg":                  AsString(SchemaComputedOptional),
 			"binding_public_key":           AsString(SchemaComputedOptional),
 			"binding_secret":               AsString(SchemaComputedOptional),
@@ -231,8 +233,6 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 			"config_sdk_version":           AsString(SchemaComputedOptional),
 			"config_skew":                  AsInt(SchemaComputedOptional),
 			"config_time_step":             AsInt(SchemaComputedOptional),
-			"factor_type":                  AsString(SchemaComputedOptional),
-			"friendly_name":                AsString(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
 			"auth_payload":                 AsString(SchemaComputedOptional),
 		},
@@ -325,8 +325,8 @@ func ResourceServicesRateLimits() *schema.Resource {
 		DeleteContext: deleteServicesRateLimits,
 		Schema: map[string]*schema.Schema{
 			"service_sid": AsString(SchemaRequired),
+			"unique_name": AsString(SchemaRequired),
 			"description": AsString(SchemaComputedOptional),
-			"unique_name": AsString(SchemaComputedOptional),
 			"sid":         AsString(SchemaComputed),
 		},
 	}
@@ -417,11 +417,11 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":                AsString(SchemaRequired),
 			"code_length":                  AsInt(SchemaComputedOptional),
 			"custom_code_enabled":          AsBool(SchemaComputedOptional),
 			"do_not_share_warning_enabled": AsBool(SchemaComputedOptional),
 			"dtmf_input_required":          AsBool(SchemaComputedOptional),
-			"friendly_name":                AsString(SchemaComputedOptional),
 			"lookup_enabled":               AsBool(SchemaComputedOptional),
 			"psd2_enabled":                 AsBool(SchemaComputedOptional),
 			"push_apn_credential_sid":      AsString(SchemaComputedOptional),
@@ -519,10 +519,10 @@ func ResourceServicesWebhooks() *schema.Resource {
 		DeleteContext: deleteServicesWebhooks,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"event_types":   AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"friendly_name": AsString(SchemaComputedOptional),
+			"event_types":   AsList(AsString(SchemaRequired), SchemaRequired),
+			"friendly_name": AsString(SchemaRequired),
+			"webhook_url":   AsString(SchemaRequired),
 			"status":        AsString(SchemaComputedOptional),
-			"webhook_url":   AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}

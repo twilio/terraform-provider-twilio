@@ -29,8 +29,8 @@ func ResourceWorkspacesActivities() *schema.Resource {
 		DeleteContext: deleteWorkspacesActivities,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid": AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaRequired),
 			"available":     AsBool(SchemaComputedOptional),
-			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -221,9 +221,9 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 		DeleteContext: deleteWorkspacesTaskChannels,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":             AsString(SchemaRequired),
+			"friendly_name":             AsString(SchemaRequired),
+			"unique_name":               AsString(SchemaRequired),
 			"channel_optimized_routing": AsBool(SchemaComputedOptional),
-			"friendly_name":             AsString(SchemaComputedOptional),
-			"unique_name":               AsString(SchemaComputedOptional),
 			"sid":                       AsString(SchemaComputed),
 		},
 	}
@@ -315,8 +315,8 @@ func ResourceWorkspacesTaskQueues() *schema.Resource {
 		DeleteContext: deleteWorkspacesTaskQueues,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":            AsString(SchemaRequired),
+			"friendly_name":            AsString(SchemaRequired),
 			"assignment_activity_sid":  AsString(SchemaComputedOptional),
-			"friendly_name":            AsString(SchemaComputedOptional),
 			"max_reserved_workers":     AsInt(SchemaComputedOptional),
 			"reservation_activity_sid": AsString(SchemaComputedOptional),
 			"target_workers":           AsString(SchemaComputedOptional),
@@ -412,9 +412,9 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 		DeleteContext: deleteWorkspacesWorkers,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":               AsString(SchemaRequired),
+			"friendly_name":               AsString(SchemaRequired),
 			"activity_sid":                AsString(SchemaComputedOptional),
 			"attributes":                  AsString(SchemaComputedOptional),
-			"friendly_name":               AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
 			"reject_pending_reservations": AsBool(SchemaComputedOptional),
 		},
@@ -503,10 +503,10 @@ func ResourceWorkspacesWorkflows() *schema.Resource {
 		DeleteContext: deleteWorkspacesWorkflows,
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":                    AsString(SchemaRequired),
+			"configuration":                    AsString(SchemaRequired),
+			"friendly_name":                    AsString(SchemaRequired),
 			"assignment_callback_url":          AsString(SchemaComputedOptional),
-			"configuration":                    AsString(SchemaComputedOptional),
 			"fallback_assignment_callback_url": AsString(SchemaComputedOptional),
-			"friendly_name":                    AsString(SchemaComputedOptional),
 			"task_reservation_timeout":         AsInt(SchemaComputedOptional),
 			"sid":                              AsString(SchemaComputed),
 			"re_evaluate_tasks":                AsString(SchemaComputedOptional),
@@ -595,9 +595,9 @@ func ResourceWorkspaces() *schema.Resource {
 		UpdateContext: updateWorkspaces,
 		DeleteContext: deleteWorkspaces,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":          AsString(SchemaRequired),
 			"event_callback_url":     AsString(SchemaComputedOptional),
 			"events_filter":          AsString(SchemaComputedOptional),
-			"friendly_name":          AsString(SchemaComputedOptional),
 			"multi_task_enabled":     AsBool(SchemaComputedOptional),
 			"prioritize_queue_order": AsString(SchemaComputedOptional),
 			"template":               AsString(SchemaComputedOptional),

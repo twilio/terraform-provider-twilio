@@ -311,8 +311,8 @@ func ResourceServicesListsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"list_sid":       AsString(SchemaRequired),
+			"data":           AsString(SchemaRequired),
 			"collection_ttl": AsInt(SchemaComputedOptional),
-			"data":           AsString(SchemaComputedOptional),
 			"item_ttl":       AsInt(SchemaComputedOptional),
 			"ttl":            AsInt(SchemaComputedOptional),
 			"index":          AsInt(SchemaComputed),
@@ -510,10 +510,10 @@ func ResourceServicesMapsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"map_sid":        AsString(SchemaRequired),
+			"data":           AsString(SchemaRequired),
+			"key":            AsString(SchemaRequired),
 			"collection_ttl": AsInt(SchemaComputedOptional),
-			"data":           AsString(SchemaComputedOptional),
 			"item_ttl":       AsInt(SchemaComputedOptional),
-			"key":            AsString(SchemaComputedOptional),
 			"ttl":            AsInt(SchemaComputedOptional),
 			"if_match":       AsString(SchemaComputedOptional),
 		},

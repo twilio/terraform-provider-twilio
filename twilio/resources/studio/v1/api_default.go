@@ -29,9 +29,9 @@ func ResourceFlowsExecutions() *schema.Resource {
 		DeleteContext: deleteFlowsExecutions,
 		Schema: map[string]*schema.Schema{
 			"flow_sid":   AsString(SchemaRequired),
-			"from":       AsString(SchemaComputedOptional),
+			"from":       AsString(SchemaRequired),
+			"to":         AsString(SchemaRequired),
 			"parameters": AsString(SchemaComputedOptional),
-			"to":         AsString(SchemaComputedOptional),
 			"sid":        AsString(SchemaComputed),
 			"status":     AsString(SchemaComputedOptional),
 		},

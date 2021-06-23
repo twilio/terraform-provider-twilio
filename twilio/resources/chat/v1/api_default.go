@@ -123,13 +123,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
+			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"private_key":   AsString(SchemaComputedOptional),
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -217,7 +217,7 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
-			"identity":                    AsString(SchemaComputedOptional),
+			"identity":                    AsString(SchemaRequired),
 			"role_sid":                    AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
 			"last_consumed_message_index": AsInt(SchemaComputedOptional),
@@ -312,8 +312,8 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid": AsString(SchemaRequired),
 			"channel_sid": AsString(SchemaRequired),
+			"body":        AsString(SchemaRequired),
 			"attributes":  AsString(SchemaComputedOptional),
-			"body":        AsString(SchemaComputedOptional),
 			"from":        AsString(SchemaComputedOptional),
 			"sid":         AsString(SchemaComputed),
 		},
@@ -410,9 +410,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaComputedOptional),
-			"permission":    AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaRequired),
+			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
+			"type":          AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -503,7 +503,7 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                               AsString(SchemaComputedOptional),
+			"friendly_name":                               AsString(SchemaRequired),
 			"sid":                                         AsString(SchemaComputed),
 			"consumption_report_interval":                 AsInt(SchemaComputedOptional),
 			"default_channel_creator_role_sid":            AsString(SchemaComputedOptional),
@@ -639,9 +639,9 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
+			"identity":      AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"identity":      AsString(SchemaComputedOptional),
 			"role_sid":      AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},

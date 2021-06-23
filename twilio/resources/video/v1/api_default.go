@@ -28,11 +28,11 @@ func ResourceCompositionHooks() *schema.Resource {
 		UpdateContext: updateCompositionHooks,
 		DeleteContext: deleteCompositionHooks,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":          AsString(SchemaRequired),
 			"audio_sources":          AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"audio_sources_excluded": AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"enabled":                AsBool(SchemaComputedOptional),
 			"format":                 AsString(SchemaComputedOptional),
-			"friendly_name":          AsString(SchemaComputedOptional),
 			"resolution":             AsString(SchemaComputedOptional),
 			"status_callback":        AsString(SchemaComputedOptional),
 			"status_callback_method": AsString(SchemaComputedOptional),

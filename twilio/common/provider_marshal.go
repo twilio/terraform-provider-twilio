@@ -371,7 +371,9 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 		sliceSetter := func(name string, value interface{}) error {
 			index, err := strconv.ParseInt(name[strings.LastIndex(name, ".")+1:], 10, 32)
 			if err != nil {
-				return CreateErrorGeneric("Invalid index for field " + name)
+				// Ignore if we can't parse the item index. This happens when trying to add individual fields of an
+				// interface rather than serializing it. We can only support the serialized form.
+				return nil
 			}
 
 			sliceTarget[index] = value
@@ -415,6 +417,18 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 			}
 			if err := setter(fieldName, string(byteValue)); err != nil {
 				return err
+			}
+
+			// Marshal the individual fields in case of an Interface.
+			if elemKind == reflect.Interface {
+				iter := fieldValue.MapRange()
+				for iter.Next() {
+					elementValue := iter.Value().Interface()
+					//  We use "_" as a delimiter as Terraform does not support "." in property names.
+					if err := marshallNode(setter, fieldName+"_"+iter.Key().String(), reflect.TypeOf(elementValue), reflect.ValueOf(elementValue), flatten); err != nil {
+						return err
+					}
+				}
 			}
 		}
 

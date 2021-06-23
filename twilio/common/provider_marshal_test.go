@@ -937,6 +937,55 @@ func TestJsonEncodedListOfObjectsMarshal(t *testing.T) {
 	assert.EqualValues(t, "{\"foo\":\"bar2\"}", resourceData.Get("T1.1"), "T1 did not unmarshal")
 }
 
+func TestImplicitNestedMarshal(t *testing.T) {
+	terraformSchema := map[string]*schema.Schema{
+		"limits_channel_members": {
+			Type:     schema.TypeInt,
+			Optional: true,
+		},
+		"notifications_log_enabled": {
+			Type:     schema.TypeBool,
+			Optional: true,
+		},
+		"notifications_new_message_sound": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"notifications_recipient_last_name": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+	}
+	data := map[string]interface{}{}
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
+
+	type innerStruct struct {
+		Limits        *map[string]interface{} `json:"limits"`
+		Notifications *map[string]interface{} `json:"notifications"`
+	}
+
+	testStruct := innerStruct{
+		Limits: &map[string]interface{}{
+			"channel_members": 10,
+		},
+		Notifications: &map[string]interface{}{
+			"log_enabled":       true,
+			"new_message_sound": "LOUD NOISES!",
+			"recipient": &map[string]interface{}{
+				"first_name": "Turk",
+				"last_name":  "Andjaydee",
+			},
+		},
+	}
+	if err := MarshalSchema(resourceData, &testStruct); err != nil {
+		t.Errorf("Marshall failed: result '%v'", err)
+	}
+	assert.Equal(t, 10, resourceData.Get("limits_channel_members"), "limits_channel_members did not marshal")
+	assert.Equal(t, true, resourceData.Get("notifications_log_enabled"), "notifications_log_enabled did not marshal")
+	assert.Equal(t, "LOUD NOISES!", resourceData.Get("notifications_new_message_sound"), "notifications_new_message_sound did not marshal")
+	assert.Equal(t, "Andjaydee", resourceData.Get("notifications_recipient_last_name"), "notifications_recipient_last_name did not marshal")
+}
+
 func TestSnakeCaseConversion(t *testing.T) {
 	testStr := "Integration.FlowSid"
 	result := ToSnakeCase(testStr)

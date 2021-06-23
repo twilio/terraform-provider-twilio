@@ -29,11 +29,11 @@ func ResourceTrunksOriginationUrls() *schema.Resource {
 		DeleteContext: deleteTrunksOriginationUrls,
 		Schema: map[string]*schema.Schema{
 			"trunk_sid":     AsString(SchemaRequired),
-			"enabled":       AsBool(SchemaComputedOptional),
-			"friendly_name": AsString(SchemaComputedOptional),
-			"priority":      AsInt(SchemaComputedOptional),
-			"sip_url":       AsString(SchemaComputedOptional),
-			"weight":        AsInt(SchemaComputedOptional),
+			"enabled":       AsBool(SchemaRequired),
+			"friendly_name": AsString(SchemaRequired),
+			"priority":      AsInt(SchemaRequired),
+			"sip_url":       AsString(SchemaRequired),
+			"weight":        AsInt(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 	}

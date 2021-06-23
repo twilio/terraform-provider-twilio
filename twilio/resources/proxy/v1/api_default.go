@@ -121,6 +121,7 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
+			"unique_name":                 AsString(SchemaRequired),
 			"callback_url":                AsString(SchemaComputedOptional),
 			"chat_instance_sid":           AsString(SchemaComputedOptional),
 			"default_ttl":                 AsInt(SchemaComputedOptional),
@@ -128,7 +129,6 @@ func ResourceServices() *schema.Resource {
 			"intercept_callback_url":      AsString(SchemaComputedOptional),
 			"number_selection_behavior":   AsString(SchemaComputedOptional),
 			"out_of_session_callback_url": AsString(SchemaComputedOptional),
-			"unique_name":                 AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
 		},
 	}
@@ -313,7 +313,7 @@ func ResourceServicesShortCodes() *schema.Resource {
 		DeleteContext: deleteServicesShortCodes,
 		Schema: map[string]*schema.Schema{
 			"service_sid": AsString(SchemaRequired),
-			"sid":         AsString(SchemaComputedOptional),
+			"sid":         AsString(SchemaRequired),
 			"is_reserved": AsBool(SchemaComputedOptional),
 		},
 	}

@@ -29,7 +29,7 @@ func ResourceServicesAssets() *schema.Resource {
 		DeleteContext: deleteServicesAssets,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -121,7 +121,7 @@ func ResourceServicesFunctions() *schema.Resource {
 		DeleteContext: deleteServicesFunctions,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaComputedOptional),
+			"friendly_name": AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -212,10 +212,10 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":       AsString(SchemaComputedOptional),
+			"friendly_name":       AsString(SchemaRequired),
+			"unique_name":         AsString(SchemaRequired),
 			"include_credentials": AsBool(SchemaComputedOptional),
 			"ui_editable":         AsBool(SchemaComputedOptional),
-			"unique_name":         AsString(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),
 		},
 	}
@@ -303,8 +303,8 @@ func ResourceServicesEnvironmentsVariables() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":     AsString(SchemaRequired),
 			"environment_sid": AsString(SchemaRequired),
-			"key":             AsString(SchemaComputedOptional),
-			"value":           AsString(SchemaComputedOptional),
+			"key":             AsString(SchemaRequired),
+			"value":           AsString(SchemaRequired),
 			"sid":             AsString(SchemaComputed),
 		},
 	}

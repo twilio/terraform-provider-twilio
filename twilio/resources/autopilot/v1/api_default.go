@@ -118,8 +118,8 @@ func ResourceAssistantsFieldTypes() *schema.Resource {
 		DeleteContext: deleteAssistantsFieldTypes,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
+			"unique_name":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"unique_name":   AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -304,9 +304,9 @@ func ResourceAssistantsQueries() *schema.Resource {
 		DeleteContext: deleteAssistantsQueries,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
-			"language":      AsString(SchemaComputedOptional),
+			"language":      AsString(SchemaRequired),
+			"query":         AsString(SchemaRequired),
 			"model_build":   AsString(SchemaComputedOptional),
-			"query":         AsString(SchemaComputedOptional),
 			"tasks":         AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 			"sample_sid":    AsString(SchemaComputedOptional),
@@ -398,9 +398,9 @@ func ResourceAssistantsTasksSamples() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"assistant_sid":  AsString(SchemaRequired),
 			"task_sid":       AsString(SchemaRequired),
-			"language":       AsString(SchemaComputedOptional),
+			"language":       AsString(SchemaRequired),
+			"tagged_text":    AsString(SchemaRequired),
 			"source_channel": AsString(SchemaComputedOptional),
-			"tagged_text":    AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
 		},
 	}
@@ -496,10 +496,10 @@ func ResourceAssistantsTasks() *schema.Resource {
 		DeleteContext: deleteAssistantsTasks,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
+			"unique_name":   AsString(SchemaRequired),
 			"actions":       AsString(SchemaComputedOptional),
 			"actions_url":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"unique_name":   AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}
@@ -591,10 +591,10 @@ func ResourceAssistantsWebhooks() *schema.Resource {
 		DeleteContext: deleteAssistantsWebhooks,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid":  AsString(SchemaRequired),
-			"events":         AsString(SchemaComputedOptional),
-			"unique_name":    AsString(SchemaComputedOptional),
+			"events":         AsString(SchemaRequired),
+			"unique_name":    AsString(SchemaRequired),
+			"webhook_url":    AsString(SchemaRequired),
 			"webhook_method": AsString(SchemaComputedOptional),
-			"webhook_url":    AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
 		},
 	}

@@ -28,13 +28,13 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
+			"type":          AsString(SchemaRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"private_key":   AsString(SchemaComputedOptional),
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 	}

@@ -210,10 +210,10 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 		DeleteContext: deleteConnectionPoliciesTargets,
 		Schema: map[string]*schema.Schema{
 			"connection_policy_sid": AsString(SchemaRequired),
+			"target":                AsString(SchemaRequired),
 			"enabled":               AsBool(SchemaComputedOptional),
 			"friendly_name":         AsString(SchemaComputedOptional),
 			"priority":              AsInt(SchemaComputedOptional),
-			"target":                AsString(SchemaComputedOptional),
 			"weight":                AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
 		},
@@ -305,9 +305,9 @@ func ResourceIpRecords() *schema.Resource {
 		UpdateContext: updateIpRecords,
 		DeleteContext: deleteIpRecords,
 		Schema: map[string]*schema.Schema{
+			"ip_address":         AsString(SchemaRequired),
 			"cidr_prefix_length": AsInt(SchemaComputedOptional),
 			"friendly_name":      AsString(SchemaComputedOptional),
-			"ip_address":         AsString(SchemaComputedOptional),
 			"sid":                AsString(SchemaComputed),
 		},
 	}
@@ -393,8 +393,8 @@ func ResourceSourceIpMappings() *schema.Resource {
 		UpdateContext: updateSourceIpMappings,
 		DeleteContext: deleteSourceIpMappings,
 		Schema: map[string]*schema.Schema{
-			"ip_record_sid":  AsString(SchemaComputedOptional),
-			"sip_domain_sid": AsString(SchemaComputedOptional),
+			"ip_record_sid":  AsString(SchemaRequired),
+			"sip_domain_sid": AsString(SchemaRequired),
 			"sid":            AsString(SchemaComputed),
 		},
 	}

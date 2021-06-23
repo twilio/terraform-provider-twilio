@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.16.1
+ * API version: 1.17.0
  * Contact: support@twilio.com
  */
 
@@ -335,7 +335,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId(Int32ToString(*r.Index))
+	d.SetId(IntToString(*r.Index))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -353,7 +353,7 @@ func deleteServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(int32)
+	index := d.Get("index").(int)
 
 	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
 	if err != nil {
@@ -369,7 +369,7 @@ func readServicesListsItems(ctx context.Context, d *schema.ResourceData, m inter
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(int32)
+	index := d.Get("index").(int)
 
 	r, err := m.(*client.Config).Client.SyncV1.FetchSyncListItem(serviceSid, listSid, index)
 	if err != nil {
@@ -392,7 +392,7 @@ func updateServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
-	index := d.Get("index").(int32)
+	index := d.Get("index").(int)
 
 	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncListItem(serviceSid, listSid, index, &params)
 	if err != nil {

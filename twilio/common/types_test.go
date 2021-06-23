@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestInt32ToString(t *testing.T) {
-	assert.Equal(t, "123", Int32ToString(int32(123)))
-	assert.Equal(t, "0", Int32ToString(int32(0)))
-	assert.Equal(t, "-123", Int32ToString(int32(-123)))
+func TestIntToString(t *testing.T) {
+	assert.Equal(t, "123", IntToString(123))
+	assert.Equal(t, "0", IntToString(0))
+	assert.Equal(t, "-123", IntToString(-123))
 }

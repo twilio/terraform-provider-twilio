@@ -1,2 +1,3 @@
 make golint
+make terrafmt
 make test

@@ -239,3 +239,15 @@ resource "twilio_sync_services_streams_v1" "stream_prod" {
   ttl         = 3600
   unique_name = "sync_streams_prod"
 }
+
+output "service_dev" {
+  value = twilio_sync_services_v1.service_dev
+}
+
+output "service_stage" {
+  value = twilio_sync_services_v1.service_dev
+}
+
+output "service_prod" {
+  value = twilio_sync_services_v1.service_prod
+}

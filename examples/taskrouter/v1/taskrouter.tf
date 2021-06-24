@@ -70,8 +70,8 @@ resource "twilio_taskrouter_workspaces_task_queues_v1" "spanish" {
 }
 
 resource "twilio_taskrouter_workspaces_task_queues_v1" "english" {
-  workspace_sid = twilio_taskrouter_workspaces_v1.demo.sid
-  friendly_name = "English"
+  workspace_sid  = twilio_taskrouter_workspaces_v1.demo.sid
+  friendly_name  = "English"
   target_workers = "languages HAS \"en\""
 }
 
@@ -79,23 +79,23 @@ resource "twilio_taskrouter_workspaces_workflows_v1" "flow" {
   workspace_sid = twilio_taskrouter_workspaces_v1.demo.sid
   friendly_name = "Flow"
   configuration = jsonencode({
-    task_routing:{
-      filters:[
+    task_routing : {
+      filters : [
         {
-          filter_friendly_name: "Language - Spanish",
-          expression: "selected_language == \"es\"",
-          targets:[
+          filter_friendly_name : "Language - Spanish",
+          expression : "selected_language == \"es\"",
+          targets : [
             {
-              queue: twilio_taskrouter_workspaces_task_queues_v1.spanish.sid
+              queue : twilio_taskrouter_workspaces_task_queues_v1.spanish.sid
             }
           ]
         },
         {
-          filter_friendly_name: "Language - English",
-          expression: "selected_language == \"en\"",
-          targets:[
+          filter_friendly_name : "Language - English",
+          expression : "selected_language == \"en\"",
+          targets : [
             {
-              queue: twilio_taskrouter_workspaces_task_queues_v1.english.sid
+              queue : twilio_taskrouter_workspaces_task_queues_v1.english.sid
             }
           ]
         },

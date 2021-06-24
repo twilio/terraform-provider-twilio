@@ -294,6 +294,10 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 			return setter(fieldName, nil)
 		}
 		ptrSetter := func(name string, value interface{}) error {
+			if value == nil {
+				return setter(fieldName, nil)
+			}
+
 			// pointer to the type of value
 			newValue := reflect.New(reflect.TypeOf(value))
 			// set the value of newValue to value of 'value' interface
@@ -423,10 +427,16 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 			if elemKind == reflect.Interface {
 				iter := fieldValue.MapRange()
 				for iter.Next() {
-					elementValue := iter.Value().Interface()
-					//  We use "_" as a delimiter as Terraform does not support "." in property names.
-					if err := marshallNode(setter, fieldName+"_"+iter.Key().String(), reflect.TypeOf(elementValue), reflect.ValueOf(elementValue), flatten); err != nil {
-						return err
+					if iter.Value().IsNil() {
+						if err := setter(fieldName, nil); err != nil {
+							return err
+						}
+					} else {
+						elementValue := iter.Value().Interface()
+						//  We use "_" as a delimiter as Terraform does not support "." in property names.
+						if err := marshallNode(setter, fieldName+"_"+iter.Key().String(), reflect.TypeOf(elementValue), reflect.ValueOf(elementValue), flatten); err != nil {
+							return err
+						}
 					}
 				}
 			}

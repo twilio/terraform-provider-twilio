@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -33,6 +35,16 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 			"phone_number": AsString(SchemaComputedOptional),
 			"sid":          AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesPhoneNumbersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -49,7 +61,9 @@ func createServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -92,6 +106,19 @@ func readServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func parseServicesPhoneNumbersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdatePhoneNumberParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -131,6 +158,16 @@ func ResourceServices() *schema.Resource {
 			"out_of_session_callback_url": AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -145,7 +182,9 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -186,6 +225,18 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	return nil
 }
 
+func parseServicesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateServiceParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -224,6 +275,16 @@ func ResourceServicesSessions() *schema.Resource {
 			"unique_name":                  AsString(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesSessionsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -240,7 +301,9 @@ func createServicesSessions(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -283,6 +346,19 @@ func readServicesSessions(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
+func parseServicesSessionsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateServicesSessions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSessionParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -316,6 +392,16 @@ func ResourceServicesShortCodes() *schema.Resource {
 			"sid":         AsString(SchemaRequired),
 			"is_reserved": AsBool(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesShortCodesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -332,7 +418,9 @@ func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateServicesShortCodes(ctx, d, m)
@@ -371,6 +459,19 @@ func readServicesShortCodes(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
+func parseServicesShortCodesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateShortCodeParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

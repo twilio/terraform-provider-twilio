@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -40,6 +42,16 @@ func ResourceAccountsAddresses() *schema.Resource {
 			"friendly_name":        AsString(SchemaComputedOptional),
 			"sid":                  AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsAddressesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -54,7 +66,9 @@ func createAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -103,6 +117,18 @@ func readAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interf
 	return nil
 }
 
+func parseAccountsAddressesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateAddressParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -149,6 +175,16 @@ func ResourceAccountsApplications() *schema.Resource {
 			"voice_url":               AsString(SchemaComputedOptional),
 			"sid":                     AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsApplicationsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -163,7 +199,9 @@ func createAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -212,6 +250,18 @@ func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func parseAccountsApplicationsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsApplications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateApplicationParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -278,6 +328,16 @@ func ResourceAccountsCalls() *schema.Resource {
 			"sid":                                    AsString(SchemaComputed),
 			"status":                                 AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsCallsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -292,7 +352,9 @@ func createAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateAccountsCalls(ctx, d, m)
@@ -337,6 +399,18 @@ func readAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
+func parseAccountsCallsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateCallParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -377,6 +451,16 @@ func ResourceAccountsCallsRecordings() *schema.Resource {
 			"status":                           AsString(SchemaComputedOptional),
 			"pause_behavior":                   AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsCallsRecordingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -393,7 +477,9 @@ func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{callSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateAccountsCallsRecordings(ctx, d, m)
@@ -440,6 +526,19 @@ func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m 
 	return nil
 }
 
+func parseAccountsCallsRecordingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected CALLSID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("call_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateCallRecordingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -497,6 +596,16 @@ func ResourceAccountsIncomingPhoneNumbers() *schema.Resource {
 			"sid":                    AsString(SchemaComputed),
 			"account_sid":            AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsIncomingPhoneNumbersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -511,7 +620,9 @@ func createAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateAccountsIncomingPhoneNumbers(ctx, d, m)
@@ -556,6 +667,18 @@ func readAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
+func parseAccountsIncomingPhoneNumbersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateIncomingPhoneNumberParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -603,6 +726,16 @@ func ResourceAccountsMessages() *schema.Resource {
 			"validity_period":       AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsMessagesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -617,7 +750,9 @@ func createAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -666,6 +801,18 @@ func readAccountsMessages(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
+func parseAccountsMessagesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateMessageParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -698,6 +845,16 @@ func ResourceAccountsKeys() *schema.Resource {
 			"friendly_name":    AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsKeysImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -712,7 +869,9 @@ func createAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -761,6 +920,18 @@ func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}
 	return nil
 }
 
+func parseAccountsKeysImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateKeyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -793,6 +964,16 @@ func ResourceAccountsSigningKeys() *schema.Resource {
 			"friendly_name":    AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSigningKeysImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -807,7 +988,9 @@ func createAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -856,6 +1039,18 @@ func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m inte
 	return nil
 }
 
+func parseAccountsSigningKeysImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSigningKeyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -932,6 +1127,16 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"hold_method":                                 AsString(SchemaComputedOptional),
 			"hold_url":                                    AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsConferencesParticipantsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -948,7 +1153,9 @@ func createAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.CallSid))
+	idParts := []string{conferenceSid}
+	idParts = append(idParts, (*r.CallSid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("call_sid", *r.CallSid)
 
 	return updateAccountsConferencesParticipants(ctx, d, m)
@@ -995,6 +1202,19 @@ func readAccountsConferencesParticipants(ctx context.Context, d *schema.Resource
 	return nil
 }
 
+func parseAccountsConferencesParticipantsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected CONFERENCESID/CALLSID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("conference_sid", importParts[1-1])
+	d.Set("call_sid", importParts[2-1])
+
+	return nil
+}
 func updateAccountsConferencesParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateParticipantParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1029,6 +1249,16 @@ func ResourceAccountsQueues() *schema.Resource {
 			"max_size":         AsInt(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsQueuesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1043,7 +1273,9 @@ func createAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1092,6 +1324,18 @@ func readAccountsQueues(ctx context.Context, d *schema.ResourceData, m interface
 	return nil
 }
 
+func parseAccountsQueuesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateQueueParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1126,6 +1370,16 @@ func ResourceAccountsSIPCredentialListsCredentials() *schema.Resource {
 			"path_account_sid":    AsString(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPCredentialListsCredentialsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1142,7 +1396,9 @@ func createAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{credentialListSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1193,6 +1449,19 @@ func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.Re
 	return nil
 }
 
+func parseAccountsSIPCredentialListsCredentialsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected CREDENTIALLISTSID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("credential_list_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSipCredentialParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1226,6 +1495,16 @@ func ResourceAccountsSIPCredentialLists() *schema.Resource {
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPCredentialListsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1240,7 +1519,9 @@ func createAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1289,6 +1570,18 @@ func readAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
+func parseAccountsSIPCredentialListsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSipCredentialListParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1333,6 +1626,16 @@ func ResourceAccountsSIPDomains() *schema.Resource {
 			"voice_url":                    AsString(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPDomainsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1347,7 +1650,9 @@ func createAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1396,6 +1701,18 @@ func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
+func parseAccountsSIPDomainsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSipDomainParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1428,6 +1745,16 @@ func ResourceAccountsSIPIpAccessControlLists() *schema.Resource {
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPIpAccessControlListsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1442,7 +1769,9 @@ func createAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1491,6 +1820,18 @@ func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resource
 	return nil
 }
 
+func parseAccountsSIPIpAccessControlListsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSipIpAccessControlListParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1526,6 +1867,16 @@ func ResourceAccountsSIPIpAccessControlListsIpAddresses() *schema.Resource {
 			"cidr_prefix_length":         AsInt(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPIpAccessControlListsIpAddressesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1542,7 +1893,9 @@ func createAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{ipAccessControlListSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1593,6 +1946,19 @@ func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sche
 	return nil
 }
 
+func parseAccountsSIPIpAccessControlListsIpAddressesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected IPACCESSCONTROLLISTSID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("ip_access_control_list_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSipIpAddressParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -1632,6 +1998,16 @@ func ResourceAccountsUsageTriggers() *schema.Resource {
 			"trigger_by":       AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsUsageTriggersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -1646,7 +2022,9 @@ func createAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -1695,6 +2073,18 @@ func readAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m in
 	return nil
 }
 
+func parseAccountsUsageTriggersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateUsageTriggerParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

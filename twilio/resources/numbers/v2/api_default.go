@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -38,6 +40,16 @@ func ResourceRegulatoryComplianceBundles() *schema.Resource {
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseRegulatoryComplianceBundlesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -52,7 +64,9 @@ func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateRegulatoryComplianceBundles(ctx, d, m)
@@ -89,6 +103,18 @@ func readRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
+func parseRegulatoryComplianceBundlesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateBundleParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -122,6 +148,16 @@ func ResourceRegulatoryComplianceEndUsers() *schema.Resource {
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseRegulatoryComplianceEndUsersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -136,7 +172,9 @@ func createRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -177,6 +215,18 @@ func readRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
+func parseRegulatoryComplianceEndUsersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateEndUserParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -210,6 +260,16 @@ func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseRegulatoryComplianceSupportingDocumentsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -224,7 +284,9 @@ func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -265,6 +327,18 @@ func readRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.
 	return nil
 }
 
+func parseRegulatoryComplianceSupportingDocumentsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSupportingDocumentParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

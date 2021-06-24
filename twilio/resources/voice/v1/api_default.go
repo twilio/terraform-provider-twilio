@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -40,6 +42,16 @@ func ResourceByocTrunks() *schema.Resource {
 			"voice_url":              AsString(SchemaComputedOptional),
 			"sid":                    AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseByocTrunksImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -54,7 +66,9 @@ func createByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -95,6 +109,18 @@ func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	return nil
 }
 
+func parseByocTrunksImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateByocTrunkParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -126,6 +152,16 @@ func ResourceConnectionPolicies() *schema.Resource {
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseConnectionPoliciesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -140,7 +176,9 @@ func createConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -181,6 +219,18 @@ func readConnectionPolicies(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
+func parseConnectionPoliciesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateConnectionPolicies(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateConnectionPolicyParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -217,6 +267,16 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 			"weight":                AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseConnectionPoliciesTargetsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -233,7 +293,9 @@ func createConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{connectionPolicySid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -276,6 +338,19 @@ func readConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
+func parseConnectionPoliciesTargetsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected CONNECTIONPOLICYSID/SID"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("connection_policy_sid", importParts[1-1])
+	d.Set("sid", importParts[2-1])
+
+	return nil
+}
 func updateConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateConnectionPolicyTargetParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -310,6 +385,16 @@ func ResourceIpRecords() *schema.Resource {
 			"friendly_name":      AsString(SchemaComputedOptional),
 			"sid":                AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseIpRecordsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -324,7 +409,9 @@ func createIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -365,6 +452,18 @@ func readIpRecords(ctx context.Context, d *schema.ResourceData, m interface{}) d
 	return nil
 }
 
+func parseIpRecordsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateIpRecords(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateIpRecordParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -397,6 +496,16 @@ func ResourceSourceIpMappings() *schema.Resource {
 			"sip_domain_sid": AsString(SchemaRequired),
 			"sid":            AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseSourceIpMappingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -411,7 +520,9 @@ func createSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -452,6 +563,18 @@ func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
+func parseSourceIpMappingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected SID"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[1-1])
+
+	return nil
+}
 func updateSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSourceIpMappingParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

@@ -12,16 +12,12 @@
 *.out
 *.log
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
 # Terraform files for testing
 terraform-provider-twilio
-.terraform
-terraform.tfstate
-terraform.tfstate.backup
+.terraform*
+*.tfstate
+*.tfstate.backup
 
-model_*.go
 docs/
 **/.openapi-generator
 .openapi-generator-ignore

@@ -974,6 +974,7 @@ func TestImplicitNestedMarshal(t *testing.T) {
 			"recipient": &map[string]interface{}{
 				"first_name": "Turk",
 				"last_name":  "Andjaydee",
+				"email":      nil,
 			},
 		},
 	}
@@ -984,6 +985,7 @@ func TestImplicitNestedMarshal(t *testing.T) {
 	assert.Equal(t, true, resourceData.Get("notifications_log_enabled"), "notifications_log_enabled did not marshal")
 	assert.Equal(t, "LOUD NOISES!", resourceData.Get("notifications_new_message_sound"), "notifications_new_message_sound did not marshal")
 	assert.Equal(t, "Andjaydee", resourceData.Get("notifications_recipient_last_name"), "notifications_recipient_last_name did not marshal")
+	assert.Nil(t, resourceData.Get("notifications_recipient_email"), "notifications_recipient_email did not marshal")
 }
 
 func TestSnakeCaseConversion(t *testing.T) {

@@ -217,8 +217,8 @@ func TestBoolUnmarshal(t *testing.T) {
 		t.Errorf("Unmarshall failed: result '%v'", err)
 	}
 
-	assert.Equal(t, *testStruct.LookupEnabled, false, "LookupEnabled did not unmarshal")
-	assert.Equal(t, *testStruct.CustomCodeEnabled, false, "CustomCodeEnabled did not unmarshal")
+	assert.Equal(t, false, *testStruct.LookupEnabled, "LookupEnabled did not unmarshal")
+	assert.Equal(t, false, *testStruct.CustomCodeEnabled, "CustomCodeEnabled did not unmarshal")
 }
 
 func TestTimeUnMarshal(t *testing.T) {

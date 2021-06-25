@@ -79,7 +79,7 @@ resource "twilio_chat_services_v2" "chat_service_stage" {
 # Create 2 proxy services for both
 resource "twilio_proxy_services_v1" "dev_proxy_service" {
   unique_name               = "Dev Proxy Service"
-  chat_instance_sid         = twilio_chat_services_v2.chat_service_dev.id
+  chat_instance_sid         = twilio_chat_services_v2.chat_service_dev.sid
   number_selection_behavior = "prefer-sticky"
   geo_match_level           = "country"
   default_ttl               = 3600
@@ -87,7 +87,7 @@ resource "twilio_proxy_services_v1" "dev_proxy_service" {
 
 resource "twilio_proxy_services_v1" "stage_proxy_service" {
   unique_name               = "Stage Proxy Service"
-  chat_instance_sid         = twilio_chat_services_v2.chat_service_stage.id
+  chat_instance_sid         = twilio_chat_services_v2.chat_service_stage.sid
   number_selection_behavior = "avoid-sticky"
   geo_match_level           = "country"
   default_ttl               = 3600
@@ -101,7 +101,7 @@ resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_dev_service_1" {
 }
 
 resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_dev_service_2" {
-  service_sid  = twilio_proxy_services_v1.dev_proxy_service.id
+  service_sid  = twilio_proxy_services_v1.dev_proxy_service.sid
   phone_number = twilio_api_accounts_incoming_phone_numbers_v2010.proxy_phone_dev_2.phone_number
   is_reserved  = false
 }
@@ -120,7 +120,7 @@ resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_stage_service_2" 
 
 # Create a session and add Alice and Bob as participants so they can talk to each other via the proxy phone numbers
 resource "twilio_proxy_services_sessions_v1" "dev_session" {
-  service_sid = twilio_proxy_services_v1.dev_proxy_service.id
+  service_sid = twilio_proxy_services_v1.dev_proxy_service.sid
   unique_name = "Alice Proxy Session"
   depends_on = [
     twilio_proxy_services_phone_numbers_v1.proxy_phone_dev_service_1,
@@ -139,7 +139,7 @@ resource "twilio_proxy_services_sessions_v1" "dev_session" {
 }
 
 resource "twilio_proxy_services_sessions_v1" "stage_session" {
-  service_sid = twilio_proxy_services_v1.stage_proxy_service.id
+  service_sid = twilio_proxy_services_v1.stage_proxy_service.sid
   unique_name = "Bob Proxy Session"
   depends_on = [
     twilio_proxy_services_phone_numbers_v1.proxy_phone_stage_service_1,

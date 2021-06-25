@@ -149,7 +149,7 @@ provider "twilio" {
 
 ### Importing an existing Flex project
 
-For guidance on how to import resources from an existing Flex project, please reference our [Flex example documentation](examples/flex/README.md).
+For guidance on how to import resources from an existing Flex project, please reference our [Flex example documentation](examples/flex/v1/README.md).
 
 ## Developing the Provider
 

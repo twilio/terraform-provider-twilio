@@ -245,7 +245,7 @@ output "service_dev" {
 }
 
 output "service_stage" {
-  value = twilio_sync_services_v1.service_dev
+  value = twilio_sync_services_v1.service_stage
 }
 
 output "service_prod" {

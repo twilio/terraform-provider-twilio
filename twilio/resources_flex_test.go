@@ -52,6 +52,21 @@ func TestAccFlexSetup_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(flexResourceName, "enabled", "true"),
 				),
 			},
+			{
+				ResourceName:      chatResourceName,
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				ResourceName:      flexResourceName,
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				ResourceName:      studioResourceName,
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
 		},
 		IDRefreshName:   "",
 		IDRefreshIgnore: nil,

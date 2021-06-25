@@ -187,6 +187,40 @@ func TestComplexUnmarshal(t *testing.T) {
 	assert.Nil(t, testStruct.T7, "T7 did not unmarshal")
 }
 
+func TestBoolUnmarshal(t *testing.T) {
+	terraformSchema := map[string]*schema.Schema{
+		"custom_code_enabled": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Computed: true,
+		},
+		"lookup_enabled": {
+			Type:     schema.TypeBool,
+			Optional: true,
+		},
+	}
+	data := map[string]interface{}{
+		"custom_code_enabled": false,
+		"lookup_enabled":      false,
+	}
+
+	resourceData := schema.TestResourceDataRaw(t, terraformSchema, data)
+	resourceData.SetId("t0")
+
+	type innerStruct struct {
+		CustomCodeEnabled *bool `json:"CustomCodeEnabled,omitempty"`
+		LookupEnabled     *bool `json:"LookupEnabled,omitempty"`
+	}
+
+	testStruct := innerStruct{}
+	if err := UnmarshalSchema(&testStruct, resourceData); err != nil {
+		t.Errorf("Unmarshall failed: result '%v'", err)
+	}
+
+	assert.Equal(t, false, *testStruct.LookupEnabled, "LookupEnabled did not unmarshal")
+	assert.Equal(t, false, *testStruct.CustomCodeEnabled, "CustomCodeEnabled did not unmarshal")
+}
+
 func TestTimeUnMarshal(t *testing.T) {
 	terraformSchema := map[string]*schema.Schema{
 		"T0": {

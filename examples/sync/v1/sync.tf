@@ -42,7 +42,7 @@ resource "twilio_sync_services_v1" "service_prod" {
 
 # Step 2: Create Sync Document for each service
 resource "twilio_sync_services_documents_v1" "doc_dev" {
-  service_sid = twilio_sync_services_v1.service_dev.id
+  service_sid = twilio_sync_services_v1.service_dev.sid
   data = jsonencode({
     state : "new",
     count : 1
@@ -52,7 +52,7 @@ resource "twilio_sync_services_documents_v1" "doc_dev" {
 }
 
 resource "twilio_sync_services_documents_v1" "doc_stage" {
-  service_sid = twilio_sync_services_v1.service_stage.id
+  service_sid = twilio_sync_services_v1.service_stage.sid
   data = jsonencode({
     state : "new",
     count : 1
@@ -62,7 +62,7 @@ resource "twilio_sync_services_documents_v1" "doc_stage" {
 }
 
 resource "twilio_sync_services_documents_v1" "doc_prod" {
-  service_sid = twilio_sync_services_v1.service_prod.id
+  service_sid = twilio_sync_services_v1.service_prod.sid
   data = jsonencode({
     state : "new",
     count : 1
@@ -73,21 +73,21 @@ resource "twilio_sync_services_documents_v1" "doc_prod" {
 
 # Step 3: Create Sync List for each of the services
 resource "twilio_sync_services_lists_v1" "list_dev" {
-  service_sid    = twilio_sync_services_v1.service_dev.id
+  service_sid    = twilio_sync_services_v1.service_dev.sid
   collection_ttl = 3600
   ttl            = 7200
   unique_name    = "sync_list_dev"
 }
 
 resource "twilio_sync_services_lists_v1" "list_stage" {
-  service_sid    = twilio_sync_services_v1.service_stage.id
+  service_sid    = twilio_sync_services_v1.service_stage.sid
   collection_ttl = 3600
   ttl            = 7200
   unique_name    = "sync_list_stage"
 }
 
 resource "twilio_sync_services_lists_v1" "list_prod" {
-  service_sid    = twilio_sync_services_v1.service_prod.id
+  service_sid    = twilio_sync_services_v1.service_prod.sid
   collection_ttl = 3600
   ttl            = 7200
   unique_name    = "sync_list_prod"
@@ -95,8 +95,8 @@ resource "twilio_sync_services_lists_v1" "list_prod" {
 
 # Create two items in the list
 resource "twilio_sync_services_lists_items_v1" "list_items_1_dev" {
-  service_sid    = twilio_sync_services_v1.service_dev.id
-  list_sid       = twilio_sync_services_lists_v1.list_dev.id
+  service_sid    = twilio_sync_services_v1.service_dev.sid
+  list_sid       = twilio_sync_services_lists_v1.list_dev.sid
   collection_ttl = 3600
   data = jsonencode({
     state : "init"
@@ -106,8 +106,8 @@ resource "twilio_sync_services_lists_items_v1" "list_items_1_dev" {
 }
 
 resource "twilio_sync_services_lists_items_v1" "list_items_2_dev" {
-  service_sid    = twilio_sync_services_v1.service_dev.id
-  list_sid       = twilio_sync_services_lists_v1.list_dev.id
+  service_sid    = twilio_sync_services_v1.service_dev.sid
+  list_sid       = twilio_sync_services_lists_v1.list_dev.sid
   collection_ttl = 3600
   data = jsonencode({
     state : "in-progress"
@@ -117,8 +117,8 @@ resource "twilio_sync_services_lists_items_v1" "list_items_2_dev" {
 }
 
 resource "twilio_sync_services_lists_items_v1" "list_items_stage" {
-  service_sid    = twilio_sync_services_v1.service_stage.id
-  list_sid       = twilio_sync_services_lists_v1.list_stage.id
+  service_sid    = twilio_sync_services_v1.service_stage.sid
+  list_sid       = twilio_sync_services_lists_v1.list_stage.sid
   collection_ttl = 3600
   data = jsonencode({
     state : "init"
@@ -128,8 +128,8 @@ resource "twilio_sync_services_lists_items_v1" "list_items_stage" {
 }
 
 resource "twilio_sync_services_lists_items_v1" "list_items_prod" {
-  service_sid    = twilio_sync_services_v1.service_prod.id
-  list_sid       = twilio_sync_services_lists_v1.list_prod.id
+  service_sid    = twilio_sync_services_v1.service_prod.sid
+  list_sid       = twilio_sync_services_lists_v1.list_prod.sid
   collection_ttl = 3600
   data = jsonencode({
     state : "init"
@@ -140,7 +140,7 @@ resource "twilio_sync_services_lists_items_v1" "list_items_prod" {
 
 # Step 4: Create Sync Map
 resource "twilio_sync_services_maps_v1" "map_dev" {
-  service_sid    = twilio_sync_services_v1.service_dev.id
+  service_sid    = twilio_sync_services_v1.service_dev.sid
   collection_ttl = 3600
   ttl            = 7200
   unique_name    = "sync_map_dev"
@@ -148,22 +148,22 @@ resource "twilio_sync_services_maps_v1" "map_dev" {
 
 
 resource "twilio_sync_services_maps_v1" "map_stage" {
-  service_sid    = twilio_sync_services_v1.service_stage.id
+  service_sid    = twilio_sync_services_v1.service_stage.sid
   collection_ttl = 3600
   ttl            = 7200
   unique_name    = "sync_map_stage"
 }
 
 resource "twilio_sync_services_maps_v1" "map_prod" {
-  service_sid    = twilio_sync_services_v1.service_prod.id
+  service_sid    = twilio_sync_services_v1.service_prod.sid
   collection_ttl = 3600
   ttl            = 7200
   unique_name    = "sync_map_prod"
 }
 
 resource "twilio_sync_services_maps_items_v1" "map_items_1_dev" {
-  service_sid = twilio_sync_services_v1.service_dev.id
-  map_sid     = twilio_sync_services_maps_v1.map_dev.id
+  service_sid = twilio_sync_services_v1.service_dev.sid
+  map_sid     = twilio_sync_services_maps_v1.map_dev.sid
   data = jsonencode({
     field1 : "something"
     field2 : {
@@ -177,8 +177,8 @@ resource "twilio_sync_services_maps_items_v1" "map_items_1_dev" {
 }
 
 resource "twilio_sync_services_maps_items_v1" "map_items_1_stage" {
-  service_sid = twilio_sync_services_v1.service_stage.id
-  map_sid     = twilio_sync_services_maps_v1.map_stage.id
+  service_sid = twilio_sync_services_v1.service_stage.sid
+  map_sid     = twilio_sync_services_maps_v1.map_stage.sid
   data = jsonencode({
     field1 : "something"
     field2 : {
@@ -192,8 +192,8 @@ resource "twilio_sync_services_maps_items_v1" "map_items_1_stage" {
 }
 
 resource "twilio_sync_services_maps_items_v1" "map_items_2_stage" {
-  service_sid = twilio_sync_services_v1.service_stage.id
-  map_sid     = twilio_sync_services_maps_v1.map_stage.id
+  service_sid = twilio_sync_services_v1.service_stage.sid
+  map_sid     = twilio_sync_services_maps_v1.map_stage.sid
   data = jsonencode({
     field1 : "something"
     field2 : {
@@ -207,8 +207,8 @@ resource "twilio_sync_services_maps_items_v1" "map_items_2_stage" {
 }
 
 resource "twilio_sync_services_maps_items_v1" "map_items_1_prod" {
-  service_sid = twilio_sync_services_v1.service_prod.id
-  map_sid     = twilio_sync_services_maps_v1.map_prod.id
+  service_sid = twilio_sync_services_v1.service_prod.sid
+  map_sid     = twilio_sync_services_maps_v1.map_prod.sid
   data = jsonencode({
     field1 : "something"
     field2 : {
@@ -223,19 +223,19 @@ resource "twilio_sync_services_maps_items_v1" "map_items_1_prod" {
 
 # Step 5: Create Sync Streams
 resource "twilio_sync_services_streams_v1" "stream_dev" {
-  service_sid = twilio_sync_services_v1.service_dev.id
+  service_sid = twilio_sync_services_v1.service_dev.sid
   ttl         = 3600
   unique_name = "sync_streams_dev"
 }
 
 resource "twilio_sync_services_streams_v1" "stream_stage" {
-  service_sid = twilio_sync_services_v1.service_stage.id
+  service_sid = twilio_sync_services_v1.service_stage.sid
   ttl         = 3600
   unique_name = "sync_streams_stage"
 }
 
 resource "twilio_sync_services_streams_v1" "stream_prod" {
-  service_sid = twilio_sync_services_v1.service_prod.id
+  service_sid = twilio_sync_services_v1.service_prod.sid
   ttl         = 3600
   unique_name = "sync_streams_prod"
 }

@@ -111,14 +111,14 @@ func readTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m in
 
 func parseTrunksOriginationUrlsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected TRUNKSID/SID"
+	errStr := "invalid import ID (%q), expected trunk_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("trunk_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("trunk_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -229,13 +229,13 @@ func readTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag
 
 func parseTrunksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }

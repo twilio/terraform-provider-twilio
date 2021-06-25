@@ -119,13 +119,13 @@ func readAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interf
 
 func parseAccountsAddressesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -252,13 +252,13 @@ func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m int
 
 func parseAccountsApplicationsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -401,13 +401,13 @@ func readAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{
 
 func parseAccountsCallsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -528,14 +528,14 @@ func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m 
 
 func parseAccountsCallsRecordingsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CALLSID/SID"
+	errStr := "invalid import ID (%q), expected call_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("call_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("call_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -669,13 +669,13 @@ func readAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceDat
 
 func parseAccountsIncomingPhoneNumbersImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -803,13 +803,13 @@ func readAccountsMessages(ctx context.Context, d *schema.ResourceData, m interfa
 
 func parseAccountsMessagesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -922,13 +922,13 @@ func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}
 
 func parseAccountsKeysImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -1041,13 +1041,13 @@ func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m inte
 
 func parseAccountsSigningKeysImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -1204,14 +1204,14 @@ func readAccountsConferencesParticipants(ctx context.Context, d *schema.Resource
 
 func parseAccountsConferencesParticipantsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CONFERENCESID/CALLSID"
+	errStr := "invalid import ID (%q), expected conference_sid/call_sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("conference_sid", importParts[1-1])
-	d.Set("call_sid", importParts[2-1])
+	d.Set("conference_sid", importParts[0])
+	d.Set("call_sid", importParts[1])
 
 	return nil
 }
@@ -1326,13 +1326,13 @@ func readAccountsQueues(ctx context.Context, d *schema.ResourceData, m interface
 
 func parseAccountsQueuesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -1451,14 +1451,14 @@ func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.Re
 
 func parseAccountsSIPCredentialListsCredentialsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CREDENTIALLISTSID/SID"
+	errStr := "invalid import ID (%q), expected credential_list_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("credential_list_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("credential_list_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -1572,13 +1572,13 @@ func readAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceData,
 
 func parseAccountsSIPCredentialListsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -1703,13 +1703,13 @@ func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m inter
 
 func parseAccountsSIPDomainsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -1822,13 +1822,13 @@ func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resource
 
 func parseAccountsSIPIpAccessControlListsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -1948,14 +1948,14 @@ func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sche
 
 func parseAccountsSIPIpAccessControlListsIpAddressesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected IPACCESSCONTROLLISTSID/SID"
+	errStr := "invalid import ID (%q), expected ip_access_control_list_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("ip_access_control_list_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("ip_access_control_list_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -2075,13 +2075,13 @@ func readAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m in
 
 func parseAccountsUsageTriggersImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }

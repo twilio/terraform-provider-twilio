@@ -110,14 +110,14 @@ func readServicesDocuments(ctx context.Context, d *schema.ResourceData, m interf
 
 func parseServicesDocumentsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -228,13 +228,13 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 func parseServicesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -345,14 +345,14 @@ func readServicesLists(ctx context.Context, d *schema.ResourceData, m interface{
 
 func parseServicesListsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -474,15 +474,15 @@ func readServicesListsItems(ctx context.Context, d *schema.ResourceData, m inter
 
 func parseServicesListsItemsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/LISTSID/INDEX"
+	errStr := "invalid import ID (%q), expected service_sid/list_sid/index"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("list_sid", importParts[2-1])
-	d.Set("index", importParts[3-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("list_sid", importParts[1])
+	d.Set("index", importParts[2])
 
 	return nil
 }
@@ -595,14 +595,14 @@ func readServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}
 
 func parseServicesMapsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -724,15 +724,15 @@ func readServicesMapsItems(ctx context.Context, d *schema.ResourceData, m interf
 
 func parseServicesMapsItemsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/MAPSID/KEY"
+	errStr := "invalid import ID (%q), expected service_sid/map_sid/key"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("map_sid", importParts[2-1])
-	d.Set("key", importParts[3-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("map_sid", importParts[1])
+	d.Set("key", importParts[2])
 
 	return nil
 }
@@ -844,14 +844,14 @@ func readServicesStreams(ctx context.Context, d *schema.ResourceData, m interfac
 
 func parseServicesStreamsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }

@@ -111,13 +111,13 @@ func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 func parseByocTrunksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -221,13 +221,13 @@ func readConnectionPolicies(ctx context.Context, d *schema.ResourceData, m inter
 
 func parseConnectionPoliciesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -340,14 +340,14 @@ func readConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData, 
 
 func parseConnectionPoliciesTargetsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CONNECTIONPOLICYSID/SID"
+	errStr := "invalid import ID (%q), expected connection_policy_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("connection_policy_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("connection_policy_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -454,13 +454,13 @@ func readIpRecords(ctx context.Context, d *schema.ResourceData, m interface{}) d
 
 func parseIpRecordsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -565,13 +565,13 @@ func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interfa
 
 func parseSourceIpMappingsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }

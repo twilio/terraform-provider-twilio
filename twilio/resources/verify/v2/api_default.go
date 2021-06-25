@@ -112,15 +112,15 @@ func readServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData, 
 
 func parseServicesRateLimitsBucketsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/RATELIMITSID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/rate_limit_sid/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("rate_limit_sid", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("rate_limit_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -231,14 +231,14 @@ func readServicesMessagingConfigurations(ctx context.Context, d *schema.Resource
 
 func parseServicesMessagingConfigurationsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/COUNTRY"
+	errStr := "invalid import ID (%q), expected service_sid/country"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("country", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("country", importParts[1])
 
 	return nil
 }
@@ -361,15 +361,15 @@ func readServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, m 
 
 func parseServicesEntitiesFactorsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/IDENTITY/SID"
+	errStr := "invalid import ID (%q), expected service_sid/identity/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("identity", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("identity", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -481,14 +481,14 @@ func readServicesRateLimits(ctx context.Context, d *schema.ResourceData, m inter
 
 func parseServicesRateLimitsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -608,13 +608,13 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 func parseServicesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -726,14 +726,14 @@ func readServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interfa
 
 func parseServicesWebhooksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }

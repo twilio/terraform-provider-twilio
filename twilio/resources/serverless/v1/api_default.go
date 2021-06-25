@@ -107,14 +107,14 @@ func readServicesAssets(ctx context.Context, d *schema.ResourceData, m interface
 
 func parseServicesAssetsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -224,14 +224,14 @@ func readServicesFunctions(ctx context.Context, d *schema.ResourceData, m interf
 
 func parseServicesFunctionsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -339,13 +339,13 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 func parseServicesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -459,15 +459,15 @@ func readServicesEnvironmentsVariables(ctx context.Context, d *schema.ResourceDa
 
 func parseServicesEnvironmentsVariablesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/ENVIRONMENTSID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/environment_sid/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("environment_sid", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("environment_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }

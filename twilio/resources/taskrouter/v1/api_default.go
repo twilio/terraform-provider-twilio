@@ -108,14 +108,14 @@ func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m int
 
 func parseWorkspacesActivitiesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected WORKSPACESID/SID"
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("workspace_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -232,14 +232,14 @@ func readWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interfac
 
 func parseWorkspacesTasksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected WORKSPACESID/SID"
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("workspace_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -351,14 +351,14 @@ func readWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m i
 
 func parseWorkspacesTaskChannelsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected WORKSPACESID/SID"
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("workspace_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -473,14 +473,14 @@ func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m int
 
 func parseWorkspacesTaskQueuesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected WORKSPACESID/SID"
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("workspace_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -589,14 +589,14 @@ func readWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interf
 
 func parseWorkspacesWorkersImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected WORKSPACESID/SID"
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("workspace_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -707,14 +707,14 @@ func readWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m inte
 
 func parseWorkspacesWorkflowsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected WORKSPACESID/SID"
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("workspace_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -822,13 +822,13 @@ func readWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 func parseWorkspacesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }

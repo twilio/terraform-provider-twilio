@@ -108,14 +108,14 @@ func readServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m int
 
 func parseServicesPhoneNumbersImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -227,13 +227,13 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 func parseServicesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -348,14 +348,14 @@ func readServicesSessions(ctx context.Context, d *schema.ResourceData, m interfa
 
 func parseServicesSessionsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -461,14 +461,14 @@ func readServicesShortCodes(ctx context.Context, d *schema.ResourceData, m inter
 
 func parseServicesShortCodesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SERVICESID/SID"
+	errStr := "invalid import ID (%q), expected service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }

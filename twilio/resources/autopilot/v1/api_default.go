@@ -105,13 +105,13 @@ func readAssistants(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 func parseAssistantsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -221,14 +221,14 @@ func readAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m int
 
 func parseAssistantsFieldTypesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected ASSISTANTSID/SID"
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("assistant_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -339,14 +339,14 @@ func readAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m in
 
 func parseAssistantsModelBuildsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected ASSISTANTSID/SID"
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("assistant_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -457,14 +457,14 @@ func readAssistantsQueries(ctx context.Context, d *schema.ResourceData, m interf
 
 func parseAssistantsQueriesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected ASSISTANTSID/SID"
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("assistant_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -580,15 +580,15 @@ func readAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m i
 
 func parseAssistantsTasksSamplesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected ASSISTANTSID/TASKSID/SID"
+	errStr := "invalid import ID (%q), expected assistant_sid/task_sid/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("assistant_sid", importParts[1-1])
-	d.Set("task_sid", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("assistant_sid", importParts[0])
+	d.Set("task_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -702,14 +702,14 @@ func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interfac
 
 func parseAssistantsTasksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected ASSISTANTSID/SID"
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("assistant_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -822,14 +822,14 @@ func readAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 
 func parseAssistantsWebhooksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected ASSISTANTSID/SID"
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("assistant_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }

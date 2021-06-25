@@ -115,13 +115,13 @@ func readConversations(ctx context.Context, d *schema.ResourceData, m interface{
 
 func parseConversationsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -240,14 +240,14 @@ func readConversationsMessages(ctx context.Context, d *schema.ResourceData, m in
 
 func parseConversationsMessagesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CONVERSATIONSID/SID"
+	errStr := "invalid import ID (%q), expected conversation_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("conversation_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("conversation_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -367,14 +367,14 @@ func readConversationsParticipants(ctx context.Context, d *schema.ResourceData, 
 
 func parseConversationsParticipantsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CONVERSATIONSID/SID"
+	errStr := "invalid import ID (%q), expected conversation_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("conversation_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("conversation_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -490,14 +490,14 @@ func readConversationsWebhooks(ctx context.Context, d *schema.ResourceData, m in
 
 func parseConversationsWebhooksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CONVERSATIONSID/SID"
+	errStr := "invalid import ID (%q), expected conversation_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("conversation_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("conversation_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -608,13 +608,13 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 
 func parseCredentialsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -720,13 +720,13 @@ func readRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 func parseRolesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -848,14 +848,14 @@ func readServicesConversations(ctx context.Context, d *schema.ResourceData, m in
 
 func parseServicesConversationsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CHATSERVICESID/SID"
+	errStr := "invalid import ID (%q), expected chat_service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("chat_service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("chat_service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -979,15 +979,15 @@ func readServicesConversationsMessages(ctx context.Context, d *schema.ResourceDa
 
 func parseServicesConversationsMessagesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CHATSERVICESID/CONVERSATIONSID/SID"
+	errStr := "invalid import ID (%q), expected chat_service_sid/conversation_sid/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("chat_service_sid", importParts[1-1])
-	d.Set("conversation_sid", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("chat_service_sid", importParts[0])
+	d.Set("conversation_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -1112,15 +1112,15 @@ func readServicesConversationsParticipants(ctx context.Context, d *schema.Resour
 
 func parseServicesConversationsParticipantsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CHATSERVICESID/CONVERSATIONSID/SID"
+	errStr := "invalid import ID (%q), expected chat_service_sid/conversation_sid/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("chat_service_sid", importParts[1-1])
-	d.Set("conversation_sid", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("chat_service_sid", importParts[0])
+	d.Set("conversation_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -1241,15 +1241,15 @@ func readServicesConversationsWebhooks(ctx context.Context, d *schema.ResourceDa
 
 func parseServicesConversationsWebhooksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CHATSERVICESID/CONVERSATIONSID/SID"
+	errStr := "invalid import ID (%q), expected chat_service_sid/conversation_sid/sid"
 
 	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("chat_service_sid", importParts[1-1])
-	d.Set("conversation_sid", importParts[2-1])
-	d.Set("sid", importParts[3-1])
+	d.Set("chat_service_sid", importParts[0])
+	d.Set("conversation_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -1362,14 +1362,14 @@ func readServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{
 
 func parseServicesRolesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CHATSERVICESID/SID"
+	errStr := "invalid import ID (%q), expected chat_service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("chat_service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("chat_service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -1487,14 +1487,14 @@ func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{
 
 func parseServicesUsersImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected CHATSERVICESID/SID"
+	errStr := "invalid import ID (%q), expected chat_service_sid/sid"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("chat_service_sid", importParts[1-1])
-	d.Set("sid", importParts[2-1])
+	d.Set("chat_service_sid", importParts[0])
+	d.Set("sid", importParts[1])
 
 	return nil
 }
@@ -1607,13 +1607,13 @@ func readUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 func parseUsersImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }

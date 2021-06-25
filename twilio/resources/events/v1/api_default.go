@@ -104,13 +104,13 @@ func readSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 func parseSinksImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }
@@ -219,14 +219,14 @@ func readSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceDa
 
 func parseSubscriptionsSubscribedEventsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SUBSCRIPTIONSID/TYPE"
+	errStr := "invalid import ID (%q), expected subscription_sid/type"
 
 	if len(importParts) != 2 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("subscription_sid", importParts[1-1])
-	d.Set("type", importParts[2-1])
+	d.Set("subscription_sid", importParts[0])
+	d.Set("type", importParts[1])
 
 	return nil
 }
@@ -333,13 +333,13 @@ func readSubscriptions(ctx context.Context, d *schema.ResourceData, m interface{
 
 func parseSubscriptionsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected SID"
+	errStr := "invalid import ID (%q), expected sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("sid", importParts[1-1])
+	d.Set("sid", importParts[0])
 
 	return nil
 }

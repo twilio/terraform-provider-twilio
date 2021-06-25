@@ -49,12 +49,16 @@ twilio api:taskrouter:v1:workspaces:activities:list --workspace-sid=<WORKSPACE_S
 ```
 Note that the `<WORKSPACE_SID>` used in this command is the "Taskrouter Workspace SID" value obtained from the CLI call above.
 
-Once you have configurations for each of your existing resources, you'll need to import each resource using `terraform import`, mapping each one its corresponding SID CLI output:
+Once you have configurations for each of your existing resources, you'll need to import each resource using `terraform import`, mapping each one its corresponding SID from the CLI output:
 ```bash
 terraform import twilio_chat_services_v2.flex_chat_service <CHAT_SERVICE_INSTANCE_SID>
 terraform import twilio_taskrouter_workspaces_v1.flex_task_assignment <TASKROUTER_WORKSPACE_SID>
 terraform import twilio_taskrouter_workspaces_task_queues_v1.everyone <TASKROUTER_WORKSPACE_SID>/<TASKROUTER_TARGET_TASK_QUEUE_SID>
 terraform import twilio_taskrouter_workspaces_workflows_v1.assign_to_everyone <TASKROUTER_WORKSPACE_SID>/<TASKROUTER_TARGET_WORKFLOW_SID>
 terraform import twilio_taskrouter_workspaces_activities_v1.offline <TASKROUTER_WORKSPACE_SID>/<TASKROUTER_OFFLINE_ACTIVITY_SID>
+terraform import twilio_taskrouter_workspaces_activities_v1.available <TASKROUTER_WORKSPACE_SID>/<TASKROUTER_AVAILABLE_ACTIVITY_SID>
+terraform import twilio_taskrouter_workspaces_activities_v1.unavailable <TASKROUTER_WORKSPACE_SID>/<TASKROUTER_UNAVAILABLE_ACTIVITY_SID>
+terraform import twilio_taskrouter_workspaces_activities_v1.break <TASKROUTER_WORKSPACE_SID>/<TASKROUTER_BREAK_ACTIVITY_SID>
 ```
 
+Repeat these steps as necessary for any other resources you've already created for your Flex workspace. You can inspect your imported resources by running `terraform show`

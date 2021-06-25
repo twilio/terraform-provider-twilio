@@ -1,6 +1,8 @@
 # Twilio Terraform Provider
 
-**:warning: Note: Issues are currently closed on this repo as we are not quite ready for feedback. Thanks!**
+## Project Status
+
+:warning: This project is currently in **PILOT** and under active development. Issues are currently closed as we are not quite ready for feedback. If you would like to participate in the pilot, please sign up for [Twilio Insiders](https://twil.io/insiders).
 
 ## Requirements
 

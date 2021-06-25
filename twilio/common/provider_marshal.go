@@ -241,7 +241,7 @@ func UnmarshalSchema(dest interface{}, resourceData *schema.ResourceData) error 
 				return srcValue, true
 			} else {
 				srcValue, exists := resourceData.GetOk(name)
-				if !exists {
+				if !exists && srcValue != false {
 					// empty/nil values will be defaults
 					return nil, false
 				}

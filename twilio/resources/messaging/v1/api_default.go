@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -45,6 +47,16 @@ func ResourceServices() *schema.Resource {
 			"validity_period":               AsInt(SchemaComputedOptional),
 			"sid":                           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -59,7 +71,9 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -100,6 +114,18 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	return nil
 }
 
+func parseServicesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateServiceParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

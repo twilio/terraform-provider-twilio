@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -35,6 +37,16 @@ func ResourceFlowsExecutions() *schema.Resource {
 			"sid":        AsString(SchemaComputed),
 			"status":     AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseFlowsExecutionsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -51,7 +63,9 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{flowSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateFlowsExecutions(ctx, d, m)
@@ -90,6 +104,19 @@ func readFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
+func parseFlowsExecutionsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected flow_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("flow_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateExecutionParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

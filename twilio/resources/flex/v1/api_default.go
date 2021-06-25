@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -47,6 +49,16 @@ func ResourceFlexFlows() *schema.Resource {
 			"long_lived":                      AsBool(SchemaComputedOptional),
 			"sid":                             AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseFlexFlowsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -61,7 +73,9 @@ func createFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -102,6 +116,18 @@ func readFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{}) d
 	return nil
 }
 
+func parseFlexFlowsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateFlexFlowParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -140,6 +166,16 @@ func ResourceWebChannels() *schema.Resource {
 			"chat_status":            AsString(SchemaComputedOptional),
 			"post_engagement_data":   AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWebChannelsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -154,7 +190,9 @@ func createWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateWebChannels(ctx, d, m)
@@ -191,6 +229,18 @@ func readWebChannels(ctx context.Context, d *schema.ResourceData, m interface{})
 	return nil
 }
 
+func parseWebChannelsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateWebChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateWebChannelParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

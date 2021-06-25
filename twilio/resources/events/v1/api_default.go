@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -33,6 +35,16 @@ func ResourceSinks() *schema.Resource {
 			"sink_type":          AsString(SchemaRequired),
 			"sid":                AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseSinksImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -47,7 +59,9 @@ func createSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -88,6 +102,18 @@ func readSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 	return nil
 }
 
+func parseSinksImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSinkParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -120,6 +146,16 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 			"type":             AsString(SchemaRequired),
 			"schema_version":   AsInt(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseSubscriptionsSubscribedEventsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -136,7 +172,9 @@ func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Type))
+	idParts := []string{subscriptionSid}
+	idParts = append(idParts, (*r.Type))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -179,6 +217,19 @@ func readSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
+func parseSubscriptionsSubscribedEventsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected subscription_sid/type"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("subscription_sid", importParts[0])
+	d.Set("type", importParts[1])
+
+	return nil
+}
 func updateSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSubscribedEventParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -213,6 +264,16 @@ func ResourceSubscriptions() *schema.Resource {
 			"types":       AsList(AsString(SchemaRequired), SchemaRequired),
 			"sid":         AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseSubscriptionsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -227,7 +288,9 @@ func createSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -268,6 +331,18 @@ func readSubscriptions(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
+func parseSubscriptionsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateSubscriptions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSubscriptionParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

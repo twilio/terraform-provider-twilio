@@ -42,6 +42,16 @@ func TestAccServerlessSetup_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(serverlessSvcFuncResourceName, "friendly_name", "Serverless func 2"),
 				),
 			},
+			{
+				ResourceName:      serverlessSvcResourceName,
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				ResourceName:      serverlessSvcFuncResourceName,
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
 		},
 		IDRefreshName:   "",
 		IDRefreshIgnore: nil,
@@ -75,7 +85,7 @@ func testAccTwilioServerlessConfig(serviceName string, funcName string) string {
 	}
 
 	resource "twilio_serverless_services_functions_v1" "function" {
-		service_sid   = twilio_serverless_services_v1.service.id 
+		service_sid   = twilio_serverless_services_v1.service.id
 		friendly_name = "%s"
 	}
 `, serviceName, funcName)

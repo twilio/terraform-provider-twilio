@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -38,6 +40,16 @@ func ResourceAssistants() *schema.Resource {
 			"sid":               AsString(SchemaComputed),
 			"development_stage": AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -52,7 +64,9 @@ func createAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateAssistants(ctx, d, m)
@@ -89,6 +103,18 @@ func readAssistants(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	return nil
 }
 
+func parseAssistantsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateAssistants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateAssistantParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -122,6 +148,16 @@ func ResourceAssistantsFieldTypes() *schema.Resource {
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsFieldTypesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -138,7 +174,9 @@ func createAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{assistantSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -181,6 +219,19 @@ func readAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func parseAssistantsFieldTypesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateFieldTypeParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -215,6 +266,16 @@ func ResourceAssistantsModelBuilds() *schema.Resource {
 			"unique_name":     AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsModelBuildsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -231,7 +292,9 @@ func createAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{assistantSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -274,6 +337,19 @@ func readAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m in
 	return nil
 }
 
+func parseAssistantsModelBuildsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateModelBuildParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -312,6 +388,16 @@ func ResourceAssistantsQueries() *schema.Resource {
 			"sample_sid":    AsString(SchemaComputedOptional),
 			"status":        AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsQueriesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -328,7 +414,9 @@ func createAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{assistantSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateAssistantsQueries(ctx, d, m)
@@ -367,6 +455,19 @@ func readAssistantsQueries(ctx context.Context, d *schema.ResourceData, m interf
 	return nil
 }
 
+func parseAssistantsQueriesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateAssistantsQueries(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateQueryParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -403,6 +504,16 @@ func ResourceAssistantsTasksSamples() *schema.Resource {
 			"source_channel": AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsTasksSamplesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -420,7 +531,9 @@ func createAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{assistantSid, taskSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -465,6 +578,20 @@ func readAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
+func parseAssistantsTasksSamplesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/task_sid/sid"
+
+	if len(importParts) != 3 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("task_sid", importParts[1])
+	d.Set("sid", importParts[2])
+
+	return nil
+}
 func updateAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateSampleParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -502,6 +629,16 @@ func ResourceAssistantsTasks() *schema.Resource {
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsTasksImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -518,7 +655,9 @@ func createAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{assistantSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -561,6 +700,19 @@ func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
+func parseAssistantsTasksImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateTaskParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -597,6 +749,16 @@ func ResourceAssistantsWebhooks() *schema.Resource {
 			"webhook_method": AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsWebhooksImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -613,7 +775,9 @@ func createAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{assistantSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -656,6 +820,19 @@ func readAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	return nil
 }
 
+func parseAssistantsWebhooksImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateWebhookParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

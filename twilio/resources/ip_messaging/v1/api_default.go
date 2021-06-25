@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -35,6 +37,16 @@ func ResourceServicesChannels() *schema.Resource {
 			"unique_name":   AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesChannelsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -51,7 +63,9 @@ func createServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -94,6 +108,19 @@ func readServicesChannels(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
+func parseServicesChannelsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateServicesChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateChannelParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -132,6 +159,16 @@ func ResourceCredentials() *schema.Resource {
 			"secret":        AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseCredentialsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -146,7 +183,9 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -187,6 +226,18 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 	return nil
 }
 
+func parseCredentialsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateCredentialParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -222,6 +273,16 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 			"sid":                         AsString(SchemaComputed),
 			"last_consumed_message_index": AsInt(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesChannelsMembersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -239,7 +300,9 @@ func createServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid, channelSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateServicesChannelsMembers(ctx, d, m)
@@ -280,6 +343,20 @@ func readServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m 
 	return nil
 }
 
+func parseServicesChannelsMembersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
+
+	if len(importParts) != 3 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("channel_sid", importParts[1])
+	d.Set("sid", importParts[2])
+
+	return nil
+}
 func updateServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateMemberParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -317,6 +394,16 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 			"from":        AsString(SchemaComputedOptional),
 			"sid":         AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesChannelsMessagesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -334,7 +421,9 @@ func createServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid, channelSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -379,6 +468,20 @@ func readServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
+func parseServicesChannelsMessagesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
+
+	if len(importParts) != 3 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("channel_sid", importParts[1])
+	d.Set("sid", importParts[2])
+
+	return nil
+}
 func updateServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateMessageParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -415,6 +518,16 @@ func ResourceServicesRoles() *schema.Resource {
 			"type":          AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesRolesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -431,7 +544,9 @@ func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -474,6 +589,19 @@ func readServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
+func parseServicesRolesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateRoleParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -559,6 +687,16 @@ func ResourceServices() *schema.Resource {
 			"webhooks_on_message_updated_method":          AsString(SchemaComputedOptional),
 			"webhooks_on_message_updated_url":             AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -573,7 +711,9 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateServices(ctx, d, m)
@@ -610,6 +750,18 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	return nil
 }
 
+func parseServicesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateServiceParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -645,6 +797,16 @@ func ResourceServicesUsers() *schema.Resource {
 			"role_sid":      AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesUsersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -661,7 +823,9 @@ func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -704,6 +868,19 @@ func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{
 	return nil
 }
 
+func parseServicesUsersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateUserParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

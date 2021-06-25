@@ -13,6 +13,8 @@ package openapi
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -33,6 +35,16 @@ func ResourceWorkspacesActivities() *schema.Resource {
 			"available":     AsBool(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesActivitiesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -49,7 +61,9 @@ func createWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{workspaceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -92,6 +106,19 @@ func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func parseWorkspacesActivitiesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateActivityParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -132,6 +159,16 @@ func ResourceWorkspacesTasks() *schema.Resource {
 			"assignment_status": AsString(SchemaComputedOptional),
 			"reason":            AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesTasksImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -148,7 +185,9 @@ func createWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{workspaceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateWorkspacesTasks(ctx, d, m)
@@ -191,6 +230,19 @@ func readWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
+func parseWorkspacesTasksImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateTaskParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -226,6 +278,16 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 			"channel_optimized_routing": AsBool(SchemaComputedOptional),
 			"sid":                       AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesTaskChannelsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -242,7 +304,9 @@ func createWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{workspaceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -285,6 +349,19 @@ func readWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
+func parseWorkspacesTaskChannelsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateTaskChannelParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -323,6 +400,16 @@ func ResourceWorkspacesTaskQueues() *schema.Resource {
 			"task_order":               AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesTaskQueuesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -339,7 +426,9 @@ func createWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{workspaceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
 	if err != nil {
@@ -382,6 +471,19 @@ func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func parseWorkspacesTaskQueuesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateTaskQueueParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -418,6 +520,16 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 			"sid":                         AsString(SchemaComputed),
 			"reject_pending_reservations": AsBool(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesWorkersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -434,7 +546,9 @@ func createWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{workspaceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateWorkspacesWorkers(ctx, d, m)
@@ -473,6 +587,19 @@ func readWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interf
 	return nil
 }
 
+func parseWorkspacesWorkersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateWorkerParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -511,6 +638,16 @@ func ResourceWorkspacesWorkflows() *schema.Resource {
 			"sid":                              AsString(SchemaComputed),
 			"re_evaluate_tasks":                AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesWorkflowsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -527,7 +664,9 @@ func createWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{workspaceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateWorkspacesWorkflows(ctx, d, m)
@@ -566,6 +705,19 @@ func readWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m inte
 	return nil
 }
 
+func parseWorkspacesWorkflowsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected workspace_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("workspace_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func updateWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateWorkflowParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
@@ -605,6 +757,16 @@ func ResourceWorkspaces() *schema.Resource {
 			"default_activity_sid":   AsString(SchemaComputedOptional),
 			"timeout_activity_sid":   AsString(SchemaComputedOptional),
 		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseWorkspacesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 	}
 }
 
@@ -619,7 +781,9 @@ func createWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 		return diag.FromErr(err)
 	}
 
-	d.SetId((*r.Sid))
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
 	d.Set("sid", *r.Sid)
 
 	return updateWorkspaces(ctx, d, m)
@@ -656,6 +820,18 @@ func readWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	return nil
 }
 
+func parseWorkspacesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func updateWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateWorkspaceParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {

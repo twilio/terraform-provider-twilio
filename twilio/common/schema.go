@@ -26,6 +26,11 @@ var (
 		Optional: true,
 	}
 
+	SchemaComputedSensitive = &options{
+		Computed:  true,
+		Sensitive: true,
+	}
+
 	SchemaForceNewRequired = &options{
 		Required: true,
 		ForceNew: true,
@@ -38,10 +43,11 @@ var (
 )
 
 type options struct {
-	Optional bool
-	Required bool
-	Computed bool
-	ForceNew bool
+	Optional  bool
+	Required  bool
+	Computed  bool
+	ForceNew  bool
+	Sensitive bool
 }
 
 type SchemaPlus struct {
@@ -153,5 +159,6 @@ func addSchemaOptions(s *schema.Schema, conf *options) *schema.Schema {
 	s.Required = conf.Required
 	s.Computed = conf.Computed
 	s.ForceNew = conf.ForceNew
+	s.Sensitive = conf.Sensitive
 	return s
 }

@@ -51,7 +51,6 @@ provider "twilio" {
 }
 
 resource "twilio_api_accounts_keys_v2010" "key_name" {
-    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     friendly_name = "terraform key"
 }
 
@@ -65,7 +64,6 @@ output "messages" {
 
 ```terraform
 resource "twilio_api_accounts_keys_v2010" "key_name" {
-  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   friendly_name = "terraform key"
 }
 
@@ -80,7 +78,6 @@ To delete a specific key in your terraform infrastructure you can use the comman
 
 ```terraform
 resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
-    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     area_code = "415"
     friendly_name = "terraform phone number"
     sms_url = "https://demo.twilio.com/welcome/sms/reply"
@@ -92,7 +89,6 @@ resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
 
 ```terraform
 resource "twilio_api_accounts_incoming_phone_numbers_v2010" "import_purchased_number" {
-    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     phone_number = "+14444444444"
 }
 ```
@@ -129,7 +125,7 @@ This will result in the hostname transforming from api.twilio.com to api.sydney.
 
 A Twilio client constructed without these parameters will also look for TWILIO_REGION and TWILIO_EDGE variables inside the current environment.
 
-### Specify subaccount for v2010 APIs
+### Specify Subaccount for v2010 APIs
 
 You can specify a subaccount to use with the provider by either setting the `TWILIO_SUBACCOUNT_SID` environment variable or explicitly passing it to the provider like so:
 
@@ -146,6 +142,15 @@ provider "twilio" {
     account_sid    = "AC00112233445566778899aabbccddeefe"
     auth_token    = "12345678123456781234567812345678"
     subaccount_sid = "AC00112233445566778899aabbccddeeff"
+}
+```
+
+Alternatively, you can specify the subaccount to use at the resource level:
+
+```terraform
+resource "twilio_api_accounts_keys_v2010" "key_name" {
+  path_account_sid = "AC00112233445566778899aabbccddeeff"
+  friendly_name = "subaccount key"
 }
 ```
 
@@ -188,6 +193,7 @@ You can also specify a particular suite to run like so:
 An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/main/twilio/resources_flex_test.go).
 
 ### Debugging
+
 First:
 ```sh
 export TF_LOG=TRACE

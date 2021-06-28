@@ -21,6 +21,7 @@ func TestOptionalSchema(t *testing.T) {
 	assert.Equal(t, false, testSchema.Required, "Invalid options")
 	assert.Equal(t, false, testSchema.Computed, "Invalid options")
 	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
+	assert.Equal(t, false, testSchema.Sensitive, "Invalid options")
 }
 
 func TestComputedSchema(t *testing.T) {
@@ -29,6 +30,25 @@ func TestComputedSchema(t *testing.T) {
 	assert.Equal(t, false, testSchema.Required, "Invalid options")
 	assert.Equal(t, true, testSchema.Computed, "Invalid options")
 	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
+	assert.Equal(t, false, testSchema.Sensitive, "Invalid options")
+}
+
+func TestComputedOptionalSchema(t *testing.T) {
+	testSchema := AsInt(SchemaComputedOptional)
+	assert.Equal(t, true, testSchema.Optional, "Invalid options")
+	assert.Equal(t, false, testSchema.Required, "Invalid options")
+	assert.Equal(t, true, testSchema.Computed, "Invalid options")
+	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
+	assert.Equal(t, false, testSchema.Sensitive, "Invalid options")
+}
+
+func TestComputedSensitiveSchema(t *testing.T) {
+	testSchema := AsInt(SchemaComputedSensitive)
+	assert.Equal(t, false, testSchema.Optional, "Invalid options")
+	assert.Equal(t, false, testSchema.Required, "Invalid options")
+	assert.Equal(t, true, testSchema.Computed, "Invalid options")
+	assert.Equal(t, false, testSchema.ForceNew, "Invalid options")
+	assert.Equal(t, true, testSchema.Sensitive, "Invalid options")
 }
 
 func TestForceNewRequiredSchemaSchema(t *testing.T) {
@@ -37,6 +57,7 @@ func TestForceNewRequiredSchemaSchema(t *testing.T) {
 	assert.Equal(t, true, testSchema.Required, "Invalid options")
 	assert.Equal(t, false, testSchema.Computed, "Invalid options")
 	assert.Equal(t, true, testSchema.ForceNew, "Invalid options")
+	assert.Equal(t, false, testSchema.Sensitive, "Invalid options")
 }
 
 func TestForceNewRequiredOptionalSchema(t *testing.T) {
@@ -45,6 +66,7 @@ func TestForceNewRequiredOptionalSchema(t *testing.T) {
 	assert.Equal(t, false, testSchema.Required, "Invalid options")
 	assert.Equal(t, false, testSchema.Computed, "Invalid options")
 	assert.Equal(t, true, testSchema.ForceNew, "Invalid options")
+	assert.Equal(t, false, testSchema.Sensitive, "Invalid options")
 }
 
 func TestInvalidEmptySchema(t *testing.T) {

@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/proxy/v1"
 )
@@ -55,7 +56,7 @@ func createServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.CreatePhoneNumber(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreatePhoneNumber(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -77,7 +78,7 @@ func deleteServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ProxyV1.DeletePhoneNumber(serviceSid, sid)
+	err := m.(*client.Config).Client.ProxyV1.DeletePhoneNumber(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -92,7 +93,7 @@ func readServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.FetchPhoneNumber(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchPhoneNumber(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -127,7 +128,7 @@ func updateServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.UpdatePhoneNumber(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.UpdatePhoneNumber(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -176,7 +177,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.ProxyV1.CreateService(&params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -197,7 +198,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ProxyV1.DeleteService(sid)
+	err := m.(*client.Config).Client.ProxyV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -211,7 +212,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.FetchService(sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -244,7 +245,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.UpdateService(sid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -295,7 +296,7 @@ func createServicesSessions(ctx context.Context, d *schema.ResourceData, m inter
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.CreateSession(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreateSession(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -317,7 +318,7 @@ func deleteServicesSessions(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ProxyV1.DeleteSession(serviceSid, sid)
+	err := m.(*client.Config).Client.ProxyV1.DeleteSession(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -332,7 +333,7 @@ func readServicesSessions(ctx context.Context, d *schema.ResourceData, m interfa
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.FetchSession(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchSession(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -367,7 +368,7 @@ func updateServicesSessions(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.UpdateSession(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateSession(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -412,7 +413,7 @@ func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.CreateShortCode(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreateShortCode(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -430,7 +431,7 @@ func deleteServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ProxyV1.DeleteShortCode(serviceSid, sid)
+	err := m.(*client.Config).Client.ProxyV1.DeleteShortCode(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -445,7 +446,7 @@ func readServicesShortCodes(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.FetchShortCode(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchShortCode(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -480,7 +481,7 @@ func updateServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ProxyV1.UpdateShortCode(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateShortCode(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/conversations/v1"
 )
@@ -60,7 +61,7 @@ func createConversations(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateConversation(&params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateConversation(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -85,7 +86,7 @@ func deleteConversations(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteConversation(sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversation(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -99,7 +100,7 @@ func readConversations(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchConversation(sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchConversation(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -132,7 +133,7 @@ func updateConversations(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateConversation(sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateConversation(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -183,7 +184,7 @@ func createConversationsMessages(ctx context.Context, d *schema.ResourceData, m 
 
 	conversationSid := d.Get("conversation_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateConversationMessage(conversationSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateConversationMessage(conversationSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -209,7 +210,7 @@ func deleteConversationsMessages(ctx context.Context, d *schema.ResourceData, m 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteConversationMessage(conversationSid, sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationMessage(conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -224,7 +225,7 @@ func readConversationsMessages(ctx context.Context, d *schema.ResourceData, m in
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchConversationMessage(conversationSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchConversationMessage(conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -259,7 +260,7 @@ func updateConversationsMessages(ctx context.Context, d *schema.ResourceData, m 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateConversationMessage(conversationSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateConversationMessage(conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -314,7 +315,7 @@ func createConversationsParticipants(ctx context.Context, d *schema.ResourceData
 
 	conversationSid := d.Get("conversation_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateConversationParticipant(conversationSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateConversationParticipant(conversationSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -336,7 +337,7 @@ func deleteConversationsParticipants(ctx context.Context, d *schema.ResourceData
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteConversationParticipant(conversationSid, sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationParticipant(conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -351,7 +352,7 @@ func readConversationsParticipants(ctx context.Context, d *schema.ResourceData, 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchConversationParticipant(conversationSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchConversationParticipant(conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -386,7 +387,7 @@ func updateConversationsParticipants(ctx context.Context, d *schema.ResourceData
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateConversationParticipant(conversationSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateConversationParticipant(conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -437,7 +438,7 @@ func createConversationsWebhooks(ctx context.Context, d *schema.ResourceData, m 
 
 	conversationSid := d.Get("conversation_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateConversationScopedWebhook(conversationSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateConversationScopedWebhook(conversationSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -459,7 +460,7 @@ func deleteConversationsWebhooks(ctx context.Context, d *schema.ResourceData, m 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteConversationScopedWebhook(conversationSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConversationScopedWebhook(conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -474,7 +475,7 @@ func readConversationsWebhooks(ctx context.Context, d *schema.ResourceData, m in
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchConversationScopedWebhook(conversationSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchConversationScopedWebhook(conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -509,7 +510,7 @@ func updateConversationsWebhooks(ctx context.Context, d *schema.ResourceData, m 
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateConversationScopedWebhook(conversationSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateConversationScopedWebhook(conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -557,7 +558,7 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateCredential(&params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateCredential(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -578,7 +579,7 @@ func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteCredential(sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteCredential(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -592,7 +593,7 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchCredential(sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchCredential(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -625,7 +626,7 @@ func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateCredential(sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateCredential(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -669,7 +670,7 @@ func createRoles(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateRole(&params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateRole(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -690,7 +691,7 @@ func deleteRoles(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteRole(sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteRole(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -704,7 +705,7 @@ func readRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchRole(sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchRole(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -737,7 +738,7 @@ func updateRoles(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateRole(sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateRole(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -791,7 +792,7 @@ func createServicesConversations(ctx context.Context, d *schema.ResourceData, m 
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateServiceConversation(chatServiceSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateServiceConversation(chatServiceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -817,7 +818,7 @@ func deleteServicesConversations(ctx context.Context, d *schema.ResourceData, m 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteServiceConversation(chatServiceSid, sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversation(chatServiceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -832,7 +833,7 @@ func readServicesConversations(ctx context.Context, d *schema.ResourceData, m in
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchServiceConversation(chatServiceSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchServiceConversation(chatServiceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -867,7 +868,7 @@ func updateServicesConversations(ctx context.Context, d *schema.ResourceData, m 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateServiceConversation(chatServiceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateServiceConversation(chatServiceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -920,7 +921,7 @@ func createServicesConversationsMessages(ctx context.Context, d *schema.Resource
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	conversationSid := d.Get("conversation_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateServiceConversationMessage(chatServiceSid, conversationSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateServiceConversationMessage(chatServiceSid, conversationSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -947,7 +948,7 @@ func deleteServicesConversationsMessages(ctx context.Context, d *schema.Resource
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteServiceConversationMessage(chatServiceSid, conversationSid, sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationMessage(chatServiceSid, conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -963,7 +964,7 @@ func readServicesConversationsMessages(ctx context.Context, d *schema.ResourceDa
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchServiceConversationMessage(chatServiceSid, conversationSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchServiceConversationMessage(chatServiceSid, conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1000,7 +1001,7 @@ func updateServicesConversationsMessages(ctx context.Context, d *schema.Resource
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateServiceConversationMessage(chatServiceSid, conversationSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateServiceConversationMessage(chatServiceSid, conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1057,7 +1058,7 @@ func createServicesConversationsParticipants(ctx context.Context, d *schema.Reso
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	conversationSid := d.Get("conversation_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateServiceConversationParticipant(chatServiceSid, conversationSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateServiceConversationParticipant(chatServiceSid, conversationSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1080,7 +1081,7 @@ func deleteServicesConversationsParticipants(ctx context.Context, d *schema.Reso
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteServiceConversationParticipant(chatServiceSid, conversationSid, sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationParticipant(chatServiceSid, conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1096,7 +1097,7 @@ func readServicesConversationsParticipants(ctx context.Context, d *schema.Resour
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchServiceConversationParticipant(chatServiceSid, conversationSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchServiceConversationParticipant(chatServiceSid, conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1133,7 +1134,7 @@ func updateServicesConversationsParticipants(ctx context.Context, d *schema.Reso
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateServiceConversationParticipant(chatServiceSid, conversationSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateServiceConversationParticipant(chatServiceSid, conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1186,7 +1187,7 @@ func createServicesConversationsWebhooks(ctx context.Context, d *schema.Resource
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	conversationSid := d.Get("conversation_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateServiceConversationScopedWebhook(chatServiceSid, conversationSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateServiceConversationScopedWebhook(chatServiceSid, conversationSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1209,7 +1210,7 @@ func deleteServicesConversationsWebhooks(ctx context.Context, d *schema.Resource
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteServiceConversationScopedWebhook(chatServiceSid, conversationSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceConversationScopedWebhook(chatServiceSid, conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1225,7 +1226,7 @@ func readServicesConversationsWebhooks(ctx context.Context, d *schema.ResourceDa
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchServiceConversationScopedWebhook(chatServiceSid, conversationSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchServiceConversationScopedWebhook(chatServiceSid, conversationSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1262,7 +1263,7 @@ func updateServicesConversationsWebhooks(ctx context.Context, d *schema.Resource
 	conversationSid := d.Get("conversation_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateServiceConversationScopedWebhook(chatServiceSid, conversationSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateServiceConversationScopedWebhook(chatServiceSid, conversationSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1309,7 +1310,7 @@ func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateServiceRole(chatServiceSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateServiceRole(chatServiceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1331,7 +1332,7 @@ func deleteServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteServiceRole(chatServiceSid, sid)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceRole(chatServiceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1346,7 +1347,7 @@ func readServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchServiceRole(chatServiceSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchServiceRole(chatServiceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1381,7 +1382,7 @@ func updateServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateServiceRole(chatServiceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateServiceRole(chatServiceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1430,7 +1431,7 @@ func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 
 	chatServiceSid := d.Get("chat_service_sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateServiceUser(chatServiceSid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateServiceUser(chatServiceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1456,7 +1457,7 @@ func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteServiceUser(chatServiceSid, sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteServiceUser(chatServiceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1471,7 +1472,7 @@ func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchServiceUser(chatServiceSid, sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchServiceUser(chatServiceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1506,7 +1507,7 @@ func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	chatServiceSid := d.Get("chat_service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateServiceUser(chatServiceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateServiceUser(chatServiceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1552,7 +1553,7 @@ func createUsers(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.ConversationsV1.CreateUser(&params)
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateUser(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1577,7 +1578,7 @@ func deleteUsers(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ConversationsV1.DeleteUser(sid, &params)
+	err := m.(*client.Config).Client.ConversationsV1.DeleteUser(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1591,7 +1592,7 @@ func readUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.FetchUser(sid)
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchUser(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1624,7 +1625,7 @@ func updateUsers(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ConversationsV1.UpdateUser(sid, &params)
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateUser(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

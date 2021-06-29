@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/taskrouter/v1"
 )
@@ -55,7 +56,7 @@ func createWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateActivity(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateActivity(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -77,7 +78,7 @@ func deleteWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteActivity(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteActivity(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -92,7 +93,7 @@ func readWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m int
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchActivity(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchActivity(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -127,7 +128,7 @@ func updateWorkspacesActivities(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateActivity(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateActivity(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -179,7 +180,7 @@ func createWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateTask(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateTask(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -201,7 +202,7 @@ func deleteWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteTask(workspaceSid, sid, &params)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteTask(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -216,7 +217,7 @@ func readWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchTask(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchTask(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -251,7 +252,7 @@ func updateWorkspacesTasks(ctx context.Context, d *schema.ResourceData, m interf
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateTask(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateTask(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -298,7 +299,7 @@ func createWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateTaskChannel(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateTaskChannel(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -320,7 +321,7 @@ func deleteWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteTaskChannel(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteTaskChannel(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -335,7 +336,7 @@ func readWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchTaskChannel(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchTaskChannel(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -370,7 +371,7 @@ func updateWorkspacesTaskChannels(ctx context.Context, d *schema.ResourceData, m
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateTaskChannel(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateTaskChannel(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -420,7 +421,7 @@ func createWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateTaskQueue(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateTaskQueue(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -442,7 +443,7 @@ func deleteWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteTaskQueue(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteTaskQueue(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -457,7 +458,7 @@ func readWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m int
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchTaskQueue(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchTaskQueue(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -492,7 +493,7 @@ func updateWorkspacesTaskQueues(ctx context.Context, d *schema.ResourceData, m i
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateTaskQueue(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateTaskQueue(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -540,7 +541,7 @@ func createWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateWorker(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorker(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -558,7 +559,7 @@ func deleteWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteWorker(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorker(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -573,7 +574,7 @@ func readWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interf
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchWorker(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorker(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -608,7 +609,7 @@ func updateWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateWorker(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorker(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -658,7 +659,7 @@ func createWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 
 	workspaceSid := d.Get("workspace_sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateWorkflow(workspaceSid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorkflow(workspaceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -676,7 +677,7 @@ func deleteWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteWorkflow(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkflow(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -691,7 +692,7 @@ func readWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m inte
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchWorkflow(workspaceSid, sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorkflow(workspaceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -726,7 +727,7 @@ func updateWorkspacesWorkflows(ctx context.Context, d *schema.ResourceData, m in
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateWorkflow(workspaceSid, sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorkflow(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -775,7 +776,7 @@ func createWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.TaskrouterV1.CreateWorkspace(&params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.CreateWorkspace(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -792,7 +793,7 @@ func deleteWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TaskrouterV1.DeleteWorkspace(sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorkspace(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -806,7 +807,7 @@ func readWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.FetchWorkspace(sid)
+	r, err := m.(*client.Config).Client.TaskrouterV1.FetchWorkspace(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -839,7 +840,7 @@ func updateWorkspaces(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TaskrouterV1.UpdateWorkspace(sid, &params)
+	r, err := m.(*client.Config).Client.TaskrouterV1.UpdateWorkspace(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

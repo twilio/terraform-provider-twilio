@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/verify/v2"
 )
@@ -57,7 +58,7 @@ func createServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	serviceSid := d.Get("service_sid").(string)
 	rateLimitSid := d.Get("rate_limit_sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.CreateBucket(serviceSid, rateLimitSid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateBucket(serviceSid, rateLimitSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -80,7 +81,7 @@ func deleteServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	rateLimitSid := d.Get("rate_limit_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.VerifyV2.DeleteBucket(serviceSid, rateLimitSid, sid)
+	err := m.(*client.Config).Client.VerifyV2.DeleteBucket(serviceSid, rateLimitSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -96,7 +97,7 @@ func readServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData, 
 	rateLimitSid := d.Get("rate_limit_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.FetchBucket(serviceSid, rateLimitSid, sid)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchBucket(serviceSid, rateLimitSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -133,7 +134,7 @@ func updateServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	rateLimitSid := d.Get("rate_limit_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.UpdateBucket(serviceSid, rateLimitSid, sid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateBucket(serviceSid, rateLimitSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -178,7 +179,7 @@ func createServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.CreateMessagingConfiguration(serviceSid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateMessagingConfiguration(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -200,7 +201,7 @@ func deleteServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 	serviceSid := d.Get("service_sid").(string)
 	country := d.Get("country").(string)
 
-	err := m.(*Config).Client.VerifyV2.DeleteMessagingConfiguration(serviceSid, country)
+	err := m.(*client.Config).Client.VerifyV2.DeleteMessagingConfiguration(serviceSid, country)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -215,7 +216,7 @@ func readServicesMessagingConfigurations(ctx context.Context, d *schema.Resource
 	serviceSid := d.Get("service_sid").(string)
 	country := d.Get("country").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.FetchMessagingConfiguration(serviceSid, country)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchMessagingConfiguration(serviceSid, country)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -250,7 +251,7 @@ func updateServicesMessagingConfigurations(ctx context.Context, d *schema.Resour
 	serviceSid := d.Get("service_sid").(string)
 	country := d.Get("country").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.UpdateMessagingConfiguration(serviceSid, country, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateMessagingConfiguration(serviceSid, country, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -310,7 +311,7 @@ func createServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	serviceSid := d.Get("service_sid").(string)
 	identity := d.Get("identity").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.CreateNewFactor(serviceSid, identity, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateNewFactor(serviceSid, identity, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -329,7 +330,7 @@ func deleteServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	identity := d.Get("identity").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.VerifyV2.DeleteFactor(serviceSid, identity, sid)
+	err := m.(*client.Config).Client.VerifyV2.DeleteFactor(serviceSid, identity, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -345,7 +346,7 @@ func readServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, m 
 	identity := d.Get("identity").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.FetchFactor(serviceSid, identity, sid)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchFactor(serviceSid, identity, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -382,7 +383,7 @@ func updateServicesEntitiesFactors(ctx context.Context, d *schema.ResourceData, 
 	identity := d.Get("identity").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.UpdateFactor(serviceSid, identity, sid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateFactor(serviceSid, identity, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -428,7 +429,7 @@ func createServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.CreateRateLimit(serviceSid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateRateLimit(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -450,7 +451,7 @@ func deleteServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.VerifyV2.DeleteRateLimit(serviceSid, sid)
+	err := m.(*client.Config).Client.VerifyV2.DeleteRateLimit(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -465,7 +466,7 @@ func readServicesRateLimits(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.FetchRateLimit(serviceSid, sid)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchRateLimit(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -500,7 +501,7 @@ func updateServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.UpdateRateLimit(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateRateLimit(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -557,7 +558,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.VerifyV2.CreateService(&params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -578,7 +579,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.VerifyV2.DeleteService(sid)
+	err := m.(*client.Config).Client.VerifyV2.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -592,7 +593,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.FetchService(sid)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -625,7 +626,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.UpdateService(sid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -673,7 +674,7 @@ func createServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.CreateWebhook(serviceSid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.CreateWebhook(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -695,7 +696,7 @@ func deleteServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.VerifyV2.DeleteWebhook(serviceSid, sid)
+	err := m.(*client.Config).Client.VerifyV2.DeleteWebhook(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -710,7 +711,7 @@ func readServicesWebhooks(ctx context.Context, d *schema.ResourceData, m interfa
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.FetchWebhook(serviceSid, sid)
+	r, err := m.(*client.Config).Client.VerifyV2.FetchWebhook(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -745,7 +746,7 @@ func updateServicesWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VerifyV2.UpdateWebhook(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.VerifyV2.UpdateWebhook(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

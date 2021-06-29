@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/video/v1"
 )
@@ -60,7 +61,7 @@ func createCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.VideoV1.CreateCompositionHook(&params)
+	r, err := m.(*client.Config).Client.VideoV1.CreateCompositionHook(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -81,7 +82,7 @@ func deleteCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.VideoV1.DeleteCompositionHook(sid)
+	err := m.(*client.Config).Client.VideoV1.DeleteCompositionHook(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -95,7 +96,7 @@ func readCompositionHooks(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VideoV1.FetchCompositionHook(sid)
+	r, err := m.(*client.Config).Client.VideoV1.FetchCompositionHook(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -128,7 +129,7 @@ func updateCompositionHooks(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.VideoV1.UpdateCompositionHook(sid, &params)
+	r, err := m.(*client.Config).Client.VideoV1.UpdateCompositionHook(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

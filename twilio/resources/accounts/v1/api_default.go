@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/accounts/v1"
 )
@@ -53,7 +54,7 @@ func createCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.AccountsV1.CreateCredentialAws(&params)
+	r, err := m.(*client.Config).Client.AccountsV1.CreateCredentialAws(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -74,7 +75,7 @@ func deleteCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AccountsV1.DeleteCredentialAws(sid)
+	err := m.(*client.Config).Client.AccountsV1.DeleteCredentialAws(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -88,7 +89,7 @@ func readCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interface
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AccountsV1.FetchCredentialAws(sid)
+	r, err := m.(*client.Config).Client.AccountsV1.FetchCredentialAws(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -121,7 +122,7 @@ func updateCredentialsAWS(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AccountsV1.UpdateCredentialAws(sid, &params)
+	r, err := m.(*client.Config).Client.AccountsV1.UpdateCredentialAws(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -165,7 +166,7 @@ func createCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.AccountsV1.CreateCredentialPublicKey(&params)
+	r, err := m.(*client.Config).Client.AccountsV1.CreateCredentialPublicKey(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -186,7 +187,7 @@ func deleteCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AccountsV1.DeleteCredentialPublicKey(sid)
+	err := m.(*client.Config).Client.AccountsV1.DeleteCredentialPublicKey(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -200,7 +201,7 @@ func readCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m in
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AccountsV1.FetchCredentialPublicKey(sid)
+	r, err := m.(*client.Config).Client.AccountsV1.FetchCredentialPublicKey(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -233,7 +234,7 @@ func updateCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AccountsV1.UpdateCredentialPublicKey(sid, &params)
+	r, err := m.(*client.Config).Client.AccountsV1.UpdateCredentialPublicKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

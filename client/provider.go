@@ -1,4 +1,4 @@
-package core
+package client
 
 import (
 	client "github.com/twilio/twilio-go"

@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/studio/v1"
 )
@@ -57,7 +58,7 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 
 	flowSid := d.Get("flow_sid").(string)
 
-	r, err := m.(*Config).Client.StudioV1.CreateExecution(flowSid, &params)
+	r, err := m.(*client.Config).Client.StudioV1.CreateExecution(flowSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -75,7 +76,7 @@ func deleteFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	flowSid := d.Get("flow_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.StudioV1.DeleteExecution(flowSid, sid)
+	err := m.(*client.Config).Client.StudioV1.DeleteExecution(flowSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -90,7 +91,7 @@ func readFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interfac
 	flowSid := d.Get("flow_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.StudioV1.FetchExecution(flowSid, sid)
+	r, err := m.(*client.Config).Client.StudioV1.FetchExecution(flowSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -125,7 +126,7 @@ func updateFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	flowSid := d.Get("flow_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.StudioV1.UpdateExecution(flowSid, sid, &params)
+	r, err := m.(*client.Config).Client.StudioV1.UpdateExecution(flowSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

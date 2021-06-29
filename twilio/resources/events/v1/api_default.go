@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/events/v1"
 )
@@ -53,7 +54,7 @@ func createSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.EventsV1.CreateSink(&params)
+	r, err := m.(*client.Config).Client.EventsV1.CreateSink(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -74,7 +75,7 @@ func deleteSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.EventsV1.DeleteSink(sid)
+	err := m.(*client.Config).Client.EventsV1.DeleteSink(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -88,7 +89,7 @@ func readSinks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.EventsV1.FetchSink(sid)
+	r, err := m.(*client.Config).Client.EventsV1.FetchSink(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -121,7 +122,7 @@ func updateSinks(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.EventsV1.UpdateSink(sid, &params)
+	r, err := m.(*client.Config).Client.EventsV1.UpdateSink(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -166,7 +167,7 @@ func createSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 
 	subscriptionSid := d.Get("subscription_sid").(string)
 
-	r, err := m.(*Config).Client.EventsV1.CreateSubscribedEvent(subscriptionSid, &params)
+	r, err := m.(*client.Config).Client.EventsV1.CreateSubscribedEvent(subscriptionSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -188,7 +189,7 @@ func deleteSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 	subscriptionSid := d.Get("subscription_sid").(string)
 	type_ := d.Get("type").(string)
 
-	err := m.(*Config).Client.EventsV1.DeleteSubscribedEvent(subscriptionSid, type_)
+	err := m.(*client.Config).Client.EventsV1.DeleteSubscribedEvent(subscriptionSid, type_)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -203,7 +204,7 @@ func readSubscriptionsSubscribedEvents(ctx context.Context, d *schema.ResourceDa
 	subscriptionSid := d.Get("subscription_sid").(string)
 	type_ := d.Get("type").(string)
 
-	r, err := m.(*Config).Client.EventsV1.FetchSubscribedEvent(subscriptionSid, type_)
+	r, err := m.(*client.Config).Client.EventsV1.FetchSubscribedEvent(subscriptionSid, type_)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -238,7 +239,7 @@ func updateSubscriptionsSubscribedEvents(ctx context.Context, d *schema.Resource
 	subscriptionSid := d.Get("subscription_sid").(string)
 	type_ := d.Get("type").(string)
 
-	r, err := m.(*Config).Client.EventsV1.UpdateSubscribedEvent(subscriptionSid, type_, &params)
+	r, err := m.(*client.Config).Client.EventsV1.UpdateSubscribedEvent(subscriptionSid, type_, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -282,7 +283,7 @@ func createSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.EventsV1.CreateSubscription(&params)
+	r, err := m.(*client.Config).Client.EventsV1.CreateSubscription(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -303,7 +304,7 @@ func deleteSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.EventsV1.DeleteSubscription(sid)
+	err := m.(*client.Config).Client.EventsV1.DeleteSubscription(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -317,7 +318,7 @@ func readSubscriptions(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.EventsV1.FetchSubscription(sid)
+	r, err := m.(*client.Config).Client.EventsV1.FetchSubscription(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -350,7 +351,7 @@ func updateSubscriptions(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.EventsV1.UpdateSubscription(sid, &params)
+	r, err := m.(*client.Config).Client.EventsV1.UpdateSubscription(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

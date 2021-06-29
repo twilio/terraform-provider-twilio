@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/serverless/v1"
 )
@@ -54,7 +55,7 @@ func createServicesAssets(ctx context.Context, d *schema.ResourceData, m interfa
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.CreateAsset(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.CreateAsset(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -76,7 +77,7 @@ func deleteServicesAssets(ctx context.Context, d *schema.ResourceData, m interfa
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ServerlessV1.DeleteAsset(serviceSid, sid)
+	err := m.(*client.Config).Client.ServerlessV1.DeleteAsset(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -91,7 +92,7 @@ func readServicesAssets(ctx context.Context, d *schema.ResourceData, m interface
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.FetchAsset(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ServerlessV1.FetchAsset(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -126,7 +127,7 @@ func updateServicesAssets(ctx context.Context, d *schema.ResourceData, m interfa
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.UpdateAsset(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.UpdateAsset(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -171,7 +172,7 @@ func createServicesFunctions(ctx context.Context, d *schema.ResourceData, m inte
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.CreateFunction(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.CreateFunction(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -193,7 +194,7 @@ func deleteServicesFunctions(ctx context.Context, d *schema.ResourceData, m inte
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ServerlessV1.DeleteFunction(serviceSid, sid)
+	err := m.(*client.Config).Client.ServerlessV1.DeleteFunction(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -208,7 +209,7 @@ func readServicesFunctions(ctx context.Context, d *schema.ResourceData, m interf
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.FetchFunction(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ServerlessV1.FetchFunction(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -243,7 +244,7 @@ func updateServicesFunctions(ctx context.Context, d *schema.ResourceData, m inte
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.UpdateFunction(serviceSid, sid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.UpdateFunction(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -288,7 +289,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.ServerlessV1.CreateService(&params)
+	r, err := m.(*client.Config).Client.ServerlessV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -309,7 +310,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ServerlessV1.DeleteService(sid)
+	err := m.(*client.Config).Client.ServerlessV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -323,7 +324,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.FetchService(sid)
+	r, err := m.(*client.Config).Client.ServerlessV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -356,7 +357,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.UpdateService(sid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -404,7 +405,7 @@ func createServicesEnvironmentsVariables(ctx context.Context, d *schema.Resource
 	serviceSid := d.Get("service_sid").(string)
 	environmentSid := d.Get("environment_sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.CreateVariable(serviceSid, environmentSid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.CreateVariable(serviceSid, environmentSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -427,7 +428,7 @@ func deleteServicesEnvironmentsVariables(ctx context.Context, d *schema.Resource
 	environmentSid := d.Get("environment_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.ServerlessV1.DeleteVariable(serviceSid, environmentSid, sid)
+	err := m.(*client.Config).Client.ServerlessV1.DeleteVariable(serviceSid, environmentSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -443,7 +444,7 @@ func readServicesEnvironmentsVariables(ctx context.Context, d *schema.ResourceDa
 	environmentSid := d.Get("environment_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.FetchVariable(serviceSid, environmentSid, sid)
+	r, err := m.(*client.Config).Client.ServerlessV1.FetchVariable(serviceSid, environmentSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -480,7 +481,7 @@ func updateServicesEnvironmentsVariables(ctx context.Context, d *schema.Resource
 	environmentSid := d.Get("environment_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.ServerlessV1.UpdateVariable(serviceSid, environmentSid, sid, &params)
+	r, err := m.(*client.Config).Client.ServerlessV1.UpdateVariable(serviceSid, environmentSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

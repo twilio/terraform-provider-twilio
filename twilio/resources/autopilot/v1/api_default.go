@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/autopilot/v1"
 )
@@ -58,7 +59,7 @@ func createAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateAssistant(&params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateAssistant(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -75,7 +76,7 @@ func deleteAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteAssistant(sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteAssistant(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -89,7 +90,7 @@ func readAssistants(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchAssistant(sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchAssistant(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -122,7 +123,7 @@ func updateAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateAssistant(sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateAssistant(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -168,7 +169,7 @@ func createAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 
 	assistantSid := d.Get("assistant_sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateFieldType(assistantSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateFieldType(assistantSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -190,7 +191,7 @@ func deleteAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteFieldType(assistantSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteFieldType(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -205,7 +206,7 @@ func readAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m int
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchFieldType(assistantSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchFieldType(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -240,7 +241,7 @@ func updateAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateFieldType(assistantSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateFieldType(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -286,7 +287,7 @@ func createAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 
 	assistantSid := d.Get("assistant_sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateModelBuild(assistantSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateModelBuild(assistantSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -308,7 +309,7 @@ func deleteAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteModelBuild(assistantSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteModelBuild(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -323,7 +324,7 @@ func readAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m in
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchModelBuild(assistantSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchModelBuild(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -358,7 +359,7 @@ func updateAssistantsModelBuilds(ctx context.Context, d *schema.ResourceData, m 
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateModelBuild(assistantSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateModelBuild(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -408,7 +409,7 @@ func createAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 
 	assistantSid := d.Get("assistant_sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateQuery(assistantSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateQuery(assistantSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -426,7 +427,7 @@ func deleteAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteQuery(assistantSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteQuery(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -441,7 +442,7 @@ func readAssistantsQueries(ctx context.Context, d *schema.ResourceData, m interf
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchQuery(assistantSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchQuery(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -476,7 +477,7 @@ func updateAssistantsQueries(ctx context.Context, d *schema.ResourceData, m inte
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateQuery(assistantSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateQuery(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -525,7 +526,7 @@ func createAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 	assistantSid := d.Get("assistant_sid").(string)
 	taskSid := d.Get("task_sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateSample(assistantSid, taskSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateSample(assistantSid, taskSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -548,7 +549,7 @@ func deleteAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 	taskSid := d.Get("task_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteSample(assistantSid, taskSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteSample(assistantSid, taskSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -564,7 +565,7 @@ func readAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m i
 	taskSid := d.Get("task_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchSample(assistantSid, taskSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchSample(assistantSid, taskSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -601,7 +602,7 @@ func updateAssistantsTasksSamples(ctx context.Context, d *schema.ResourceData, m
 	taskSid := d.Get("task_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateSample(assistantSid, taskSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateSample(assistantSid, taskSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -649,7 +650,7 @@ func createAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 
 	assistantSid := d.Get("assistant_sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateTask(assistantSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateTask(assistantSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -671,7 +672,7 @@ func deleteAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteTask(assistantSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteTask(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -686,7 +687,7 @@ func readAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interfac
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchTask(assistantSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchTask(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -721,7 +722,7 @@ func updateAssistantsTasks(ctx context.Context, d *schema.ResourceData, m interf
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateTask(assistantSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateTask(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -769,7 +770,7 @@ func createAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 
 	assistantSid := d.Get("assistant_sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.CreateWebhook(assistantSid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateWebhook(assistantSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -791,7 +792,7 @@ func deleteAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.AutopilotV1.DeleteWebhook(assistantSid, sid)
+	err := m.(*client.Config).Client.AutopilotV1.DeleteWebhook(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -806,7 +807,7 @@ func readAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m inter
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.FetchWebhook(assistantSid, sid)
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchWebhook(assistantSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -841,7 +842,7 @@ func updateAssistantsWebhooks(ctx context.Context, d *schema.ResourceData, m int
 	assistantSid := d.Get("assistant_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.AutopilotV1.UpdateWebhook(assistantSid, sid, &params)
+	r, err := m.(*client.Config).Client.AutopilotV1.UpdateWebhook(assistantSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

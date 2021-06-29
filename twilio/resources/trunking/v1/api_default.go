@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/trunking/v1"
 )
@@ -58,7 +59,7 @@ func createTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 
 	trunkSid := d.Get("trunk_sid").(string)
 
-	r, err := m.(*Config).Client.TrunkingV1.CreateOriginationUrl(trunkSid, &params)
+	r, err := m.(*client.Config).Client.TrunkingV1.CreateOriginationUrl(trunkSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -80,7 +81,7 @@ func deleteTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	trunkSid := d.Get("trunk_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TrunkingV1.DeleteOriginationUrl(trunkSid, sid)
+	err := m.(*client.Config).Client.TrunkingV1.DeleteOriginationUrl(trunkSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -95,7 +96,7 @@ func readTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m in
 	trunkSid := d.Get("trunk_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrunkingV1.FetchOriginationUrl(trunkSid, sid)
+	r, err := m.(*client.Config).Client.TrunkingV1.FetchOriginationUrl(trunkSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -130,7 +131,7 @@ func updateTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	trunkSid := d.Get("trunk_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrunkingV1.UpdateOriginationUrl(trunkSid, sid, &params)
+	r, err := m.(*client.Config).Client.TrunkingV1.UpdateOriginationUrl(trunkSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -178,7 +179,7 @@ func createTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) di
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.TrunkingV1.CreateTrunk(&params)
+	r, err := m.(*client.Config).Client.TrunkingV1.CreateTrunk(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -199,7 +200,7 @@ func deleteTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TrunkingV1.DeleteTrunk(sid)
+	err := m.(*client.Config).Client.TrunkingV1.DeleteTrunk(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -213,7 +214,7 @@ func readTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) diag
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrunkingV1.FetchTrunk(sid)
+	r, err := m.(*client.Config).Client.TrunkingV1.FetchTrunk(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -246,7 +247,7 @@ func updateTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrunkingV1.UpdateTrunk(sid, &params)
+	r, err := m.(*client.Config).Client.TrunkingV1.UpdateTrunk(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

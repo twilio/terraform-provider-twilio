@@ -18,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/trusthub/v1"
 )
@@ -55,7 +56,7 @@ func createCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.TrusthubV1.CreateCustomerProfile(&params)
+	r, err := m.(*client.Config).Client.TrusthubV1.CreateCustomerProfile(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -72,7 +73,7 @@ func deleteCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TrusthubV1.DeleteCustomerProfile(sid)
+	err := m.(*client.Config).Client.TrusthubV1.DeleteCustomerProfile(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -86,7 +87,7 @@ func readCustomerProfiles(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.FetchCustomerProfile(sid)
+	r, err := m.(*client.Config).Client.TrusthubV1.FetchCustomerProfile(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -119,7 +120,7 @@ func updateCustomerProfiles(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.UpdateCustomerProfile(sid, &params)
+	r, err := m.(*client.Config).Client.TrusthubV1.UpdateCustomerProfile(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -163,7 +164,7 @@ func createEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.TrusthubV1.CreateEndUser(&params)
+	r, err := m.(*client.Config).Client.TrusthubV1.CreateEndUser(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -184,7 +185,7 @@ func deleteEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TrusthubV1.DeleteEndUser(sid)
+	err := m.(*client.Config).Client.TrusthubV1.DeleteEndUser(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -198,7 +199,7 @@ func readEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.FetchEndUser(sid)
+	r, err := m.(*client.Config).Client.TrusthubV1.FetchEndUser(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -231,7 +232,7 @@ func updateEndUsers(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.UpdateEndUser(sid, &params)
+	r, err := m.(*client.Config).Client.TrusthubV1.UpdateEndUser(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -275,7 +276,7 @@ func createSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.TrusthubV1.CreateSupportingDocument(&params)
+	r, err := m.(*client.Config).Client.TrusthubV1.CreateSupportingDocument(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -296,7 +297,7 @@ func deleteSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TrusthubV1.DeleteSupportingDocument(sid)
+	err := m.(*client.Config).Client.TrusthubV1.DeleteSupportingDocument(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -310,7 +311,7 @@ func readSupportingDocuments(ctx context.Context, d *schema.ResourceData, m inte
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.FetchSupportingDocument(sid)
+	r, err := m.(*client.Config).Client.TrusthubV1.FetchSupportingDocument(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -343,7 +344,7 @@ func updateSupportingDocuments(ctx context.Context, d *schema.ResourceData, m in
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.UpdateSupportingDocument(sid, &params)
+	r, err := m.(*client.Config).Client.TrusthubV1.UpdateSupportingDocument(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -389,7 +390,7 @@ func createTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*Config).Client.TrusthubV1.CreateTrustProduct(&params)
+	r, err := m.(*client.Config).Client.TrusthubV1.CreateTrustProduct(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -406,7 +407,7 @@ func deleteTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*Config).Client.TrusthubV1.DeleteTrustProduct(sid)
+	err := m.(*client.Config).Client.TrusthubV1.DeleteTrustProduct(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -420,7 +421,7 @@ func readTrustProducts(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.FetchTrustProduct(sid)
+	r, err := m.(*client.Config).Client.TrusthubV1.FetchTrustProduct(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -453,7 +454,7 @@ func updateTrustProducts(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*Config).Client.TrusthubV1.UpdateTrustProduct(sid, &params)
+	r, err := m.(*client.Config).Client.TrusthubV1.UpdateTrustProduct(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

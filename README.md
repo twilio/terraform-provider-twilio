@@ -36,12 +36,12 @@ make build
 3. Add your resource configurations to your Terraform configuration file (e.g. main.tf).
 ```terraform
 terraform {
-    required_providers {
-        twilio = {
-            source  = "twilio.com/twilio/twilio"
-            version = "0.2.0"
-        }
+  required_providers {
+    twilio = {
+      source  = "twilio.com/twilio/twilio"
+      version = "0.2.0"
     }
+  }
 }
 
 # Credentials can be found at www.twilio.com/console.
@@ -51,11 +51,11 @@ provider "twilio" {
 }
 
 resource "twilio_api_accounts_keys_v2010" "key_name" {
-    friendly_name = "terraform key"
+  friendly_name = "terraform key"
 }
 
 output "messages" {
-    value = twilio_api_accounts_keys_v2010.key_name
+  value = twilio_api_accounts_keys_v2010.key_name
 }
 ```
 4. Run `terraform init` and `terraform apply`to initialize and apply changes to your twilio infrastructure.
@@ -68,7 +68,7 @@ resource "twilio_api_accounts_keys_v2010" "key_name" {
 }
 
 output "messages" {
-    value = twilio_api_accounts_keys_v2010.key_name
+  value = twilio_api_accounts_keys_v2010.key_name
 }
 ```
 
@@ -78,10 +78,10 @@ To delete a specific key in your terraform infrastructure you can use the comman
 
 ```terraform
 resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
-    area_code = "415"
-    friendly_name = "terraform phone number"
-    sms_url = "https://demo.twilio.com/welcome/sms/reply"
-    voice_url = "https://demo.twilio.com/docs/voice.xml"
+  area_code = "415"
+  friendly_name = "terraform phone number"
+  sms_url = "https://demo.twilio.com/welcome/sms/reply"
+  voice_url = "https://demo.twilio.com/docs/voice.xml"
 }
 ```
 
@@ -89,7 +89,7 @@ resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
 
 ```terraform
 resource "twilio_api_accounts_incoming_phone_numbers_v2010" "import_purchased_number" {
-    phone_number = "+14444444444"
+  phone_number = "+14444444444"
 }
 ```
 
@@ -97,10 +97,10 @@ resource "twilio_api_accounts_incoming_phone_numbers_v2010" "import_purchased_nu
 
 ```terraform
 resource "twilio_studio_flows_v2" "studio_flow" {
-    commit_message = "first draft"
-    friendly_name = "terraform flow"
-    status = "draft"
-    definition = "{\"description\": \"A New Flow\", \"states\": [{\"name\": \"Trigger\", \"type\": \"trigger\", \"transitions\": [], \"properties\": {\"offset\": {\"x\": 0, \"y\": 0}}}], \"initial_state\": \"Trigger\", \"flags\": {\"allow_concurrent_calls\": true}}"
+  commit_message = "first draft"
+  friendly_name = "terraform flow"
+  status = "draft"
+  definition = "{\"description\": \"A New Flow\", \"states\": [{\"name\": \"Trigger\", \"type\": \"trigger\", \"transitions\": [], \"properties\": {\"offset\": {\"x\": 0, \"y\": 0}}}], \"initial_state\": \"Trigger\", \"flags\": {\"allow_concurrent_calls\": true}}"
 }
 ```
 
@@ -114,10 +114,10 @@ You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge
 
 ```terraform
 provider "twilio" {
-    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    region = "au1"
-    edge = "sydney"
+  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  region = "au1"
+  edge = "sydney"
 }
 ```
 
@@ -131,17 +131,17 @@ You can specify a subaccount to use with the provider by either setting the `TWI
 
 ```terraform
 provider "twilio" {
-  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
-  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
-  //  subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
+  // account_sid defaults to TWILIO_ACCOUNT_SID env var
+  // auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  // subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
 }
 ```
 
 ```terraform
 provider "twilio" {
-    account_sid    = "AC00112233445566778899aabbccddeefe"
-    auth_token    = "12345678123456781234567812345678"
-    subaccount_sid = "AC00112233445566778899aabbccddeeff"
+  account_sid    = "AC00112233445566778899aabbccddeefe"
+  auth_token    = "12345678123456781234567812345678"
+  subaccount_sid = "AC00112233445566778899aabbccddeeff"
 }
 ```
 

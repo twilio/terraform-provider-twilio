@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/wireless/v1"
 )
 
@@ -62,7 +61,7 @@ func createRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.WirelessV1.CreateRatePlan(&params)
+	r, err := m.(*Config).Client.WirelessV1.CreateRatePlan(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -83,7 +82,7 @@ func deleteRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.WirelessV1.DeleteRatePlan(sid)
+	err := m.(*Config).Client.WirelessV1.DeleteRatePlan(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -97,7 +96,7 @@ func readRatePlans(ctx context.Context, d *schema.ResourceData, m interface{}) d
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.WirelessV1.FetchRatePlan(sid)
+	r, err := m.(*Config).Client.WirelessV1.FetchRatePlan(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -130,7 +129,7 @@ func updateRatePlans(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.WirelessV1.UpdateRatePlan(sid, &params)
+	r, err := m.(*Config).Client.WirelessV1.UpdateRatePlan(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

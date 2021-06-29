@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/ip_messaging/v1"
 )
 
@@ -58,7 +57,7 @@ func createServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateChannel(serviceSid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateChannel(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -80,7 +79,7 @@ func deleteServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteChannel(serviceSid, sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteChannel(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -95,7 +94,7 @@ func readServicesChannels(ctx context.Context, d *schema.ResourceData, m interfa
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchChannel(serviceSid, sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchChannel(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -130,7 +129,7 @@ func updateServicesChannels(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateChannel(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateChannel(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -178,7 +177,7 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateCredential(&params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateCredential(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -199,7 +198,7 @@ func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteCredential(sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteCredential(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -213,7 +212,7 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchCredential(sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchCredential(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -246,7 +245,7 @@ func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateCredential(sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateCredential(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -295,7 +294,7 @@ func createServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 	serviceSid := d.Get("service_sid").(string)
 	channelSid := d.Get("channel_sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateMember(serviceSid, channelSid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateMember(serviceSid, channelSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -314,7 +313,7 @@ func deleteServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteMember(serviceSid, channelSid, sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteMember(serviceSid, channelSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -330,7 +329,7 @@ func readServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m 
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchMember(serviceSid, channelSid, sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchMember(serviceSid, channelSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -367,7 +366,7 @@ func updateServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, 
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateMember(serviceSid, channelSid, sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateMember(serviceSid, channelSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -416,7 +415,7 @@ func createServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 	serviceSid := d.Get("service_sid").(string)
 	channelSid := d.Get("channel_sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateMessage(serviceSid, channelSid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateMessage(serviceSid, channelSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -439,7 +438,7 @@ func deleteServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteMessage(serviceSid, channelSid, sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteMessage(serviceSid, channelSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -455,7 +454,7 @@ func readServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchMessage(serviceSid, channelSid, sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchMessage(serviceSid, channelSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -492,7 +491,7 @@ func updateServicesChannelsMessages(ctx context.Context, d *schema.ResourceData,
 	channelSid := d.Get("channel_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateMessage(serviceSid, channelSid, sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateMessage(serviceSid, channelSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -539,7 +538,7 @@ func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateRole(serviceSid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateRole(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -561,7 +560,7 @@ func deleteServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteRole(serviceSid, sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteRole(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -576,7 +575,7 @@ func readServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchRole(serviceSid, sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchRole(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -611,7 +610,7 @@ func updateServicesRoles(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateRole(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateRole(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -706,7 +705,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateService(&params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -723,7 +722,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteService(sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -737,7 +736,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchService(sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -770,7 +769,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateService(sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -818,7 +817,7 @@ func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.CreateUser(serviceSid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.CreateUser(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -840,7 +839,7 @@ func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.IpMessagingV1.DeleteUser(serviceSid, sid)
+	err := m.(*Config).Client.IpMessagingV1.DeleteUser(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -855,7 +854,7 @@ func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.FetchUser(serviceSid, sid)
+	r, err := m.(*Config).Client.IpMessagingV1.FetchUser(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -890,7 +889,7 @@ func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.IpMessagingV1.UpdateUser(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.IpMessagingV1.UpdateUser(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

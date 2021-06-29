@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/voice/v1"
 )
 
@@ -61,7 +60,7 @@ func createByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateByocTrunk(&params)
+	r, err := m.(*Config).Client.VoiceV1.CreateByocTrunk(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -82,7 +81,7 @@ func deleteByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteByocTrunk(sid)
+	err := m.(*Config).Client.VoiceV1.DeleteByocTrunk(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -96,7 +95,7 @@ func readByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchByocTrunk(sid)
+	r, err := m.(*Config).Client.VoiceV1.FetchByocTrunk(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -129,7 +128,7 @@ func updateByocTrunks(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateByocTrunk(sid, &params)
+	r, err := m.(*Config).Client.VoiceV1.UpdateByocTrunk(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -171,7 +170,7 @@ func createConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateConnectionPolicy(&params)
+	r, err := m.(*Config).Client.VoiceV1.CreateConnectionPolicy(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -192,7 +191,7 @@ func deleteConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteConnectionPolicy(sid)
+	err := m.(*Config).Client.VoiceV1.DeleteConnectionPolicy(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -206,7 +205,7 @@ func readConnectionPolicies(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchConnectionPolicy(sid)
+	r, err := m.(*Config).Client.VoiceV1.FetchConnectionPolicy(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -239,7 +238,7 @@ func updateConnectionPolicies(ctx context.Context, d *schema.ResourceData, m int
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateConnectionPolicy(sid, &params)
+	r, err := m.(*Config).Client.VoiceV1.UpdateConnectionPolicy(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -288,7 +287,7 @@ func createConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 
 	connectionPolicySid := d.Get("connection_policy_sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateConnectionPolicyTarget(connectionPolicySid, &params)
+	r, err := m.(*Config).Client.VoiceV1.CreateConnectionPolicyTarget(connectionPolicySid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -310,7 +309,7 @@ func deleteConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 	connectionPolicySid := d.Get("connection_policy_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteConnectionPolicyTarget(connectionPolicySid, sid)
+	err := m.(*Config).Client.VoiceV1.DeleteConnectionPolicyTarget(connectionPolicySid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -325,7 +324,7 @@ func readConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData, 
 	connectionPolicySid := d.Get("connection_policy_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchConnectionPolicyTarget(connectionPolicySid, sid)
+	r, err := m.(*Config).Client.VoiceV1.FetchConnectionPolicyTarget(connectionPolicySid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -360,7 +359,7 @@ func updateConnectionPoliciesTargets(ctx context.Context, d *schema.ResourceData
 	connectionPolicySid := d.Get("connection_policy_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateConnectionPolicyTarget(connectionPolicySid, sid, &params)
+	r, err := m.(*Config).Client.VoiceV1.UpdateConnectionPolicyTarget(connectionPolicySid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -404,7 +403,7 @@ func createIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateIpRecord(&params)
+	r, err := m.(*Config).Client.VoiceV1.CreateIpRecord(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -425,7 +424,7 @@ func deleteIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteIpRecord(sid)
+	err := m.(*Config).Client.VoiceV1.DeleteIpRecord(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -439,7 +438,7 @@ func readIpRecords(ctx context.Context, d *schema.ResourceData, m interface{}) d
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchIpRecord(sid)
+	r, err := m.(*Config).Client.VoiceV1.FetchIpRecord(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -472,7 +471,7 @@ func updateIpRecords(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateIpRecord(sid, &params)
+	r, err := m.(*Config).Client.VoiceV1.UpdateIpRecord(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -515,7 +514,7 @@ func createSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.VoiceV1.CreateSourceIpMapping(&params)
+	r, err := m.(*Config).Client.VoiceV1.CreateSourceIpMapping(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -536,7 +535,7 @@ func deleteSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.VoiceV1.DeleteSourceIpMapping(sid)
+	err := m.(*Config).Client.VoiceV1.DeleteSourceIpMapping(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -550,7 +549,7 @@ func readSourceIpMappings(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.FetchSourceIpMapping(sid)
+	r, err := m.(*Config).Client.VoiceV1.FetchSourceIpMapping(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -583,7 +582,7 @@ func updateSourceIpMappings(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.VoiceV1.UpdateSourceIpMapping(sid, &params)
+	r, err := m.(*Config).Client.VoiceV1.UpdateSourceIpMapping(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

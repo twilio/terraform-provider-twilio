@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/flex/v1"
 )
 
@@ -68,7 +67,7 @@ func createFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.FlexV1.CreateFlexFlow(&params)
+	r, err := m.(*Config).Client.FlexV1.CreateFlexFlow(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -89,7 +88,7 @@ func deleteFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.FlexV1.DeleteFlexFlow(sid)
+	err := m.(*Config).Client.FlexV1.DeleteFlexFlow(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -103,7 +102,7 @@ func readFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{}) d
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.FlexV1.FetchFlexFlow(sid)
+	r, err := m.(*Config).Client.FlexV1.FetchFlexFlow(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -136,7 +135,7 @@ func updateFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.FlexV1.UpdateFlexFlow(sid, &params)
+	r, err := m.(*Config).Client.FlexV1.UpdateFlexFlow(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -185,7 +184,7 @@ func createWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.FlexV1.CreateWebChannel(&params)
+	r, err := m.(*Config).Client.FlexV1.CreateWebChannel(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -202,7 +201,7 @@ func deleteWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.FlexV1.DeleteWebChannel(sid)
+	err := m.(*Config).Client.FlexV1.DeleteWebChannel(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -216,7 +215,7 @@ func readWebChannels(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.FlexV1.FetchWebChannel(sid)
+	r, err := m.(*Config).Client.FlexV1.FetchWebChannel(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -249,7 +248,7 @@ func updateWebChannels(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.FlexV1.UpdateWebChannel(sid, &params)
+	r, err := m.(*Config).Client.FlexV1.UpdateWebChannel(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

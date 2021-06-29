@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/messaging/v1"
 )
 
@@ -66,7 +65,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.MessagingV1.CreateService(&params)
+	r, err := m.(*Config).Client.MessagingV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -87,7 +86,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.MessagingV1.DeleteService(sid)
+	err := m.(*Config).Client.MessagingV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -101,7 +100,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.FetchService(sid)
+	r, err := m.(*Config).Client.MessagingV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -134,7 +133,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.UpdateService(sid, &params)
+	r, err := m.(*Config).Client.MessagingV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

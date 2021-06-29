@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/numbers/v2"
 )
 
@@ -59,7 +58,7 @@ func createRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NumbersV2.CreateBundle(&params)
+	r, err := m.(*Config).Client.NumbersV2.CreateBundle(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -76,7 +75,7 @@ func deleteRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NumbersV2.DeleteBundle(sid)
+	err := m.(*Config).Client.NumbersV2.DeleteBundle(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -90,7 +89,7 @@ func readRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceData
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.FetchBundle(sid)
+	r, err := m.(*Config).Client.NumbersV2.FetchBundle(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -123,7 +122,7 @@ func updateRegulatoryComplianceBundles(ctx context.Context, d *schema.ResourceDa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.UpdateBundle(sid, &params)
+	r, err := m.(*Config).Client.NumbersV2.UpdateBundle(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -167,7 +166,7 @@ func createRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NumbersV2.CreateEndUser(&params)
+	r, err := m.(*Config).Client.NumbersV2.CreateEndUser(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -188,7 +187,7 @@ func deleteRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NumbersV2.DeleteEndUser(sid)
+	err := m.(*Config).Client.NumbersV2.DeleteEndUser(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -202,7 +201,7 @@ func readRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceDat
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.FetchEndUser(sid)
+	r, err := m.(*Config).Client.NumbersV2.FetchEndUser(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -235,7 +234,7 @@ func updateRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.UpdateEndUser(sid, &params)
+	r, err := m.(*Config).Client.NumbersV2.UpdateEndUser(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -279,7 +278,7 @@ func createRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NumbersV2.CreateSupportingDocument(&params)
+	r, err := m.(*Config).Client.NumbersV2.CreateSupportingDocument(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -300,7 +299,7 @@ func deleteRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NumbersV2.DeleteSupportingDocument(sid)
+	err := m.(*Config).Client.NumbersV2.DeleteSupportingDocument(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -314,7 +313,7 @@ func readRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schema.
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.FetchSupportingDocument(sid)
+	r, err := m.(*Config).Client.NumbersV2.FetchSupportingDocument(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -347,7 +346,7 @@ func updateRegulatoryComplianceSupportingDocuments(ctx context.Context, d *schem
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NumbersV2.UpdateSupportingDocument(sid, &params)
+	r, err := m.(*Config).Client.NumbersV2.UpdateSupportingDocument(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

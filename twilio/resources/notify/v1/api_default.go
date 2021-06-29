@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/notify/v1"
 )
 
@@ -58,7 +57,7 @@ func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NotifyV1.CreateCredential(&params)
+	r, err := m.(*Config).Client.NotifyV1.CreateCredential(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -79,7 +78,7 @@ func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NotifyV1.DeleteCredential(sid)
+	err := m.(*Config).Client.NotifyV1.DeleteCredential(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -93,7 +92,7 @@ func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{})
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NotifyV1.FetchCredential(sid)
+	r, err := m.(*Config).Client.NotifyV1.FetchCredential(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -126,7 +125,7 @@ func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NotifyV1.UpdateCredential(sid, &params)
+	r, err := m.(*Config).Client.NotifyV1.UpdateCredential(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -181,7 +180,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.NotifyV1.CreateService(&params)
+	r, err := m.(*Config).Client.NotifyV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -202,7 +201,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.NotifyV1.DeleteService(sid)
+	err := m.(*Config).Client.NotifyV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -216,7 +215,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NotifyV1.FetchService(sid)
+	r, err := m.(*Config).Client.NotifyV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -249,7 +248,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.NotifyV1.UpdateService(sid, &params)
+	r, err := m.(*Config).Client.NotifyV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

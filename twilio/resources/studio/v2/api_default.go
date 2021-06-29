@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/studio/v2"
 )
 
@@ -58,7 +57,7 @@ func createFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 
 	flowSid := d.Get("flow_sid").(string)
 
-	r, err := m.(*client.Config).Client.StudioV2.CreateExecution(flowSid, &params)
+	r, err := m.(*Config).Client.StudioV2.CreateExecution(flowSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -76,7 +75,7 @@ func deleteFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	flowSid := d.Get("flow_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.StudioV2.DeleteExecution(flowSid, sid)
+	err := m.(*Config).Client.StudioV2.DeleteExecution(flowSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -91,7 +90,7 @@ func readFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interfac
 	flowSid := d.Get("flow_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.StudioV2.FetchExecution(flowSid, sid)
+	r, err := m.(*Config).Client.StudioV2.FetchExecution(flowSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -126,7 +125,7 @@ func updateFlowsExecutions(ctx context.Context, d *schema.ResourceData, m interf
 	flowSid := d.Get("flow_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.StudioV2.UpdateExecution(flowSid, sid, &params)
+	r, err := m.(*Config).Client.StudioV2.UpdateExecution(flowSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -171,7 +170,7 @@ func createFlows(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.StudioV2.CreateFlow(&params)
+	r, err := m.(*Config).Client.StudioV2.CreateFlow(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -192,7 +191,7 @@ func deleteFlows(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.StudioV2.DeleteFlow(sid)
+	err := m.(*Config).Client.StudioV2.DeleteFlow(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -206,7 +205,7 @@ func readFlows(ctx context.Context, d *schema.ResourceData, m interface{}) diag.
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.StudioV2.FetchFlow(sid)
+	r, err := m.(*Config).Client.StudioV2.FetchFlow(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -239,7 +238,7 @@ func updateFlows(ctx context.Context, d *schema.ResourceData, m interface{}) dia
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.StudioV2.UpdateFlow(sid, &params)
+	r, err := m.(*Config).Client.StudioV2.UpdateFlow(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

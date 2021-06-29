@@ -18,8 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/twilio/common"
+	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/sync/v1"
 )
 
@@ -58,7 +57,7 @@ func createServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateDocument(serviceSid, &params)
+	r, err := m.(*Config).Client.SyncV1.CreateDocument(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -80,7 +79,7 @@ func deleteServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteDocument(serviceSid, sid)
+	err := m.(*Config).Client.SyncV1.DeleteDocument(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -95,7 +94,7 @@ func readServicesDocuments(ctx context.Context, d *schema.ResourceData, m interf
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchDocument(serviceSid, sid)
+	r, err := m.(*Config).Client.SyncV1.FetchDocument(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -130,7 +129,7 @@ func updateServicesDocuments(ctx context.Context, d *schema.ResourceData, m inte
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateDocument(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateDocument(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -178,7 +177,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateService(&params)
+	r, err := m.(*Config).Client.SyncV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -199,7 +198,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteService(sid)
+	err := m.(*Config).Client.SyncV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -213,7 +212,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchService(sid)
+	r, err := m.(*Config).Client.SyncV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -246,7 +245,7 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateService(sid, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateService(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -293,7 +292,7 @@ func createServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncList(serviceSid, &params)
+	r, err := m.(*Config).Client.SyncV1.CreateSyncList(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -315,7 +314,7 @@ func deleteServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncList(serviceSid, sid)
+	err := m.(*Config).Client.SyncV1.DeleteSyncList(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -330,7 +329,7 @@ func readServicesLists(ctx context.Context, d *schema.ResourceData, m interface{
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncList(serviceSid, sid)
+	r, err := m.(*Config).Client.SyncV1.FetchSyncList(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -365,7 +364,7 @@ func updateServicesLists(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncList(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateSyncList(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -416,7 +415,7 @@ func createServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	listSid := d.Get("list_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncListItem(serviceSid, listSid, &params)
+	r, err := m.(*Config).Client.SyncV1.CreateSyncListItem(serviceSid, listSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -443,7 +442,7 @@ func deleteServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	listSid := d.Get("list_sid").(string)
 	index := d.Get("index").(int)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
+	err := m.(*Config).Client.SyncV1.DeleteSyncListItem(serviceSid, listSid, index, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -459,7 +458,7 @@ func readServicesListsItems(ctx context.Context, d *schema.ResourceData, m inter
 	listSid := d.Get("list_sid").(string)
 	index := d.Get("index").(int)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncListItem(serviceSid, listSid, index)
+	r, err := m.(*Config).Client.SyncV1.FetchSyncListItem(serviceSid, listSid, index)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -496,7 +495,7 @@ func updateServicesListsItems(ctx context.Context, d *schema.ResourceData, m int
 	listSid := d.Get("list_sid").(string)
 	index := d.Get("index").(int)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncListItem(serviceSid, listSid, index, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateSyncListItem(serviceSid, listSid, index, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -543,7 +542,7 @@ func createServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncMap(serviceSid, &params)
+	r, err := m.(*Config).Client.SyncV1.CreateSyncMap(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -565,7 +564,7 @@ func deleteServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncMap(serviceSid, sid)
+	err := m.(*Config).Client.SyncV1.DeleteSyncMap(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -580,7 +579,7 @@ func readServicesMaps(ctx context.Context, d *schema.ResourceData, m interface{}
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncMap(serviceSid, sid)
+	r, err := m.(*Config).Client.SyncV1.FetchSyncMap(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -615,7 +614,7 @@ func updateServicesMaps(ctx context.Context, d *schema.ResourceData, m interface
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncMap(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateSyncMap(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -666,7 +665,7 @@ func createServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	serviceSid := d.Get("service_sid").(string)
 	mapSid := d.Get("map_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncMapItem(serviceSid, mapSid, &params)
+	r, err := m.(*Config).Client.SyncV1.CreateSyncMapItem(serviceSid, mapSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -693,7 +692,7 @@ func deleteServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	mapSid := d.Get("map_sid").(string)
 	key := d.Get("key").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncMapItem(serviceSid, mapSid, key, &params)
+	err := m.(*Config).Client.SyncV1.DeleteSyncMapItem(serviceSid, mapSid, key, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -709,7 +708,7 @@ func readServicesMapsItems(ctx context.Context, d *schema.ResourceData, m interf
 	mapSid := d.Get("map_sid").(string)
 	key := d.Get("key").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncMapItem(serviceSid, mapSid, key)
+	r, err := m.(*Config).Client.SyncV1.FetchSyncMapItem(serviceSid, mapSid, key)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -746,7 +745,7 @@ func updateServicesMapsItems(ctx context.Context, d *schema.ResourceData, m inte
 	mapSid := d.Get("map_sid").(string)
 	key := d.Get("key").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncMapItem(serviceSid, mapSid, key, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateSyncMapItem(serviceSid, mapSid, key, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -792,7 +791,7 @@ func createServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.CreateSyncStream(serviceSid, &params)
+	r, err := m.(*Config).Client.SyncV1.CreateSyncStream(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -814,7 +813,7 @@ func deleteServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.SyncV1.DeleteSyncStream(serviceSid, sid)
+	err := m.(*Config).Client.SyncV1.DeleteSyncStream(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -829,7 +828,7 @@ func readServicesStreams(ctx context.Context, d *schema.ResourceData, m interfac
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.FetchSyncStream(serviceSid, sid)
+	r, err := m.(*Config).Client.SyncV1.FetchSyncStream(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -864,7 +863,7 @@ func updateServicesStreams(ctx context.Context, d *schema.ResourceData, m interf
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.SyncV1.UpdateSyncStream(serviceSid, sid, &params)
+	r, err := m.(*Config).Client.SyncV1.UpdateSyncStream(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

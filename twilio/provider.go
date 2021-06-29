@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	twilio "github.com/twilio/terraform-provider-twilio/client"
+	twilio "github.com/twilio/terraform-provider-twilio/core"
 	"github.com/twilio/terraform-provider-twilio/twilio/resources"
 	client "github.com/twilio/twilio-go"
 )

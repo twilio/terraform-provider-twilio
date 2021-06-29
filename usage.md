@@ -11,7 +11,7 @@ The provider needs to be configured with the proper credentials before it can be
 
 ## Example Usage
 
-```hcl-terraform
+```terraform
 # Configure the Twilio provider
 provider "twilio" {
   account_sid = "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -50,7 +50,7 @@ The following arguments are supported:
 
 ### Usage
 
-```hcl-terraform
+```terraform
 resource "twilio_api_keys_v2010" "default" {
     account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     friendly_name = "terraform key"
@@ -74,7 +74,7 @@ Twilio Proxy Service is the top-level scope of all other resources in the Proxy 
 
 ### Usage:
 
-```hcl-terraform
+```terraform
 resource "twilio_proxy_service" "default" {
   unique_name = "Unique Proxy Service"
   chat_instance_sid = "ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"

@@ -3,13 +3,16 @@
 The Twilio provider is used to interact with the resources supported by Twilio.
 The provider needs to be configured with the proper credentials before it can be used.
 
-- [Twilio Provider](#twilio-provider)
+- [Configuration](#configuration)
   - [Arguments](#arguments)
-  - [Example Usage](#example-usage)
-  - [Example: Create an API key](#example-create-an-api-key)
-  - [Example: Proxy Service](#example-proxy-service)
+  - [Specify an Edge Location](#specify-an-edge-location)
+  - [Specify a Subaccount](#specify-a-subaccount)
+- [Example: Create an API key](#example-create-an-api-key)
+- [Example: Proxy Service](#example-proxy-service)
 
-## Arguments
+## Configuration
+
+### Arguments
 
 The following arguments are supported:
 
@@ -19,7 +22,7 @@ The following arguments are supported:
 - `edge` - (Optional) The [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) location to be used by the Twilio client. This can also be set via the `TWILIO_EDGE` environment variable.
 - `region` - (Optional) The [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) to be used by the Twilio client. This can also be set via the `TWILIO_REGION` environment variable.
 
-## Example Usage
+#### Example Usage
 
 ```terraform
 # Configure the Twilio provider
@@ -39,13 +42,62 @@ resource "twilio_flex_flow" "default" {
 }
 ```
 
-then:
+then execute the following in your terminal:
 
 ```bash
+# Initialize a new or existing Terraform working directory
 $ terraform init
+# Generate a new infrastructure plan and create or update infrastructure accordingly
 $ terraform apply
-$ terraform destroy
 ```
+
+### Specify an Edge Location
+
+You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) and/or [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) by setting the environment variables TWILIO_EDGE and/or TWILIO_REGION. However, the resource configuration in your Terraform configuration file take precedence.
+
+```terraform
+provider "twilio" {
+  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  region = "au1"
+  edge = "sydney"
+}
+```
+
+This will result in the hostname transforming from `api.twilio.com` to `api.sydney.au1.twilio.com`.
+
+A Twilio client constructed without these parameters will also look for TWILIO_REGION and TWILIO_EDGE variables inside the current environment.
+
+### Specify a Subaccount
+
+You can specify a subaccount to use with the provider by either setting the `TWILIO_SUBACCOUNT_SID` environment variable or explicitly passing it to the provider like so:
+
+```terraform
+provider "twilio" {
+  // account_sid defaults to TWILIO_ACCOUNT_SID env var
+  // auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  // subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
+}
+```
+
+```terraform
+provider "twilio" {
+  account_sid    = "AC00112233445566778899aabbccddeefe"
+  auth_token    = "12345678123456781234567812345678"
+  subaccount_sid = "AC00112233445566778899aabbccddeeff"
+}
+```
+
+Alternatively, you can specify the subaccount to use at the resource level:
+
+```terraform
+resource "twilio_api_accounts_keys_v2010" "key_name" {
+  path_account_sid = "AC00112233445566778899aabbccddeeff"
+  friendly_name = "subaccount key"
+}
+```
+
+## Examples
 
 ## Example: Create an API Key
 

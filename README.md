@@ -128,52 +128,6 @@ After creating a studio flow, you can make changes to your infrastructure by cha
 
 For more examples checkout the [documentation in the usage.md](usage.md) and the [examples folder](examples).
 
-### Specify a Region and/or Edge
-
-You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) and/or [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) by setting the environment variables TWILIO_EDGE and/or TWILIO_REGION. However, the resource configuration in your Terraform configuration file take precedence.
-
-```terraform
-provider "twilio" {
-  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  region = "au1"
-  edge = "sydney"
-}
-```
-
-This will result in the hostname transforming from api.twilio.com to api.sydney.au1.twilio.com.
-
-A Twilio client constructed without these parameters will also look for TWILIO_REGION and TWILIO_EDGE variables inside the current environment.
-
-### Specify Subaccount for v2010 APIs
-
-You can specify a subaccount to use with the provider by either setting the `TWILIO_SUBACCOUNT_SID` environment variable or explicitly passing it to the provider like so:
-
-```terraform
-provider "twilio" {
-  // account_sid defaults to TWILIO_ACCOUNT_SID env var
-  // auth_token  defaults to TWILIO_AUTH_TOKEN env var
-  // subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
-}
-```
-
-```terraform
-provider "twilio" {
-  account_sid    = "AC00112233445566778899aabbccddeefe"
-  auth_token    = "12345678123456781234567812345678"
-  subaccount_sid = "AC00112233445566778899aabbccddeeff"
-}
-```
-
-Alternatively, you can specify the subaccount to use at the resource level:
-
-```terraform
-resource "twilio_api_accounts_keys_v2010" "key_name" {
-  path_account_sid = "AC00112233445566778899aabbccddeeff"
-  friendly_name = "subaccount key"
-}
-```
-
 ### Importing an existing Flex project
 
 For guidance on how to import resources from an existing Flex project, please reference our [Flex example documentation](examples/flex/v1/README.md).

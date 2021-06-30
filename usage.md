@@ -65,7 +65,7 @@ $ terraform apply
 
 ### Specify an Edge Location
 
-You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) and/or [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) by setting the environment variables TWILIO_EDGE and/or TWILIO_REGION. However, the resource configuration in your Terraform configuration file take precedence.
+You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) and/or [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) by setting the environment variables `TWILIO_EDGE` and/or `TWILIO_REGION`. However, the resource configuration in your Terraform configuration file takes precedence.
 
 ```terraform
 provider "twilio" {
@@ -76,9 +76,9 @@ provider "twilio" {
 }
 ```
 
-This will result in the hostname transforming from `api.twilio.com` to `api.sydney.au1.twilio.com`.
+Setting this configuration will result in the Twilio client hostname transforming from `api.twilio.com` to `api.sydney.au1.twilio.com`.
 
-A Twilio client constructed without these parameters will also look for TWILIO_REGION and TWILIO_EDGE variables inside the current environment.
+A Twilio client constructed without these parameters will also look for `TWILIO_REGION` and `TWILIO_EDGE` variables inside the current environment.
 
 ### Specify a Subaccount
 

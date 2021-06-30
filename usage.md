@@ -4,10 +4,20 @@ The Twilio provider is used to interact with the resources supported by Twilio.
 The provider needs to be configured with the proper credentials before it can be used.
 
 - [Twilio Provider](#twilio-provider)
+  - [Arguments](#arguments)
   - [Example Usage](#example-usage)
-    - [Argument Reference](#argument-reference)
   - [Example: Create an API key](#example-create-an-api-key)
   - [Example: Proxy Service](#example-proxy-service)
+
+## Arguments
+
+The following arguments are supported:
+
+- `account_sid` - (Required) Twilio Account SID. This can also be set via the `TWILIO_ACCOUNT_SID` environment variable.
+- `auth_token` - (Required) Auth token for the account. This can also be set via the `TWILIO_AUTH_TOKEN` environment variable.
+- `subaccount_sid` - (Optional) Twilio Subaccount SID. This can also be set via the `TWILIO_SUBACCOUNT_SID` environment variable.
+- `edge` - (Optional) The [Edge](https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations) location to be used by the Twilio client. This can also be set via the `TWILIO_EDGE` environment variable.
+- `region` - (Optional) The [Region](https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions) to be used by the Twilio client. This can also be set via the `TWILIO_REGION` environment variable.
 
 ## Example Usage
 
@@ -37,13 +47,6 @@ $ terraform apply
 $ terraform destroy
 ```
 
-### Argument Reference
-
-The following arguments are supported:
-
-- `account_sid` - (Required) Twilio Account SID. This can also be set via the `ACCOUNT_SID` environment variable.
-- `auth_token` - (Required) Auth token for the account. This can also be set via the `AUTH_TOKEN` environment variable.
-
 ## Example: Create an API Key
 
 `twilio_api_incoming_phone_numbers_v2010` provides a Twilio Phone Number resource.
@@ -72,7 +75,7 @@ For more information see [the API Key documentation](https://www.twilio.com/docs
 `twilio_proxy_service` provides a Twilio Proxy Service resource.
 Twilio Proxy Service is the top-level scope of all other resources in the Proxy Service REST API.
 
-### Usage:
+### Usage
 
 ```terraform
 resource "twilio_proxy_service" "default" {

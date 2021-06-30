@@ -60,77 +60,11 @@ output "messages" {
 }
 ```
 
-4. Run `terraform init` and `terraform apply`to initialize and apply changes to your twilio infrastructure.
+4. Run `terraform init` and `terraform apply` to initialize and apply changes to your Twilio infrastructure.
 
-### Create and Delete API Keys
+## Examples
 
-```terraform
-resource "twilio_api_accounts_keys_v2010" "key_name" {
-  friendly_name = "terraform key"
-}
-
-output "messages" {
-  value = twilio_api_accounts_keys_v2010.key_name
-}
-```
-
-To delete a specific key in your terraform infrastructure you can use the command `terraform destroy -target twilio_api_keys_v2010.<resource name>`. To delete the terraform key created in this example use `terraform destroy -target twilio_api_keys_v2010.key_name`.
-
-### Buy and Configure a Phone Number
-
-```terraform
-resource "twilio_api_incoming_phone_numbers_v2010" "buy_phone_number" {
-  area_code = "415"
-  friendly_name = "terraform phone number"
-  sms_url = "https://demo.twilio.com/welcome/sms/reply"
-  voice_url = "https://demo.twilio.com/docs/voice.xml"
-}
-```
-
-### Import a Twilio Phone Number
-
-```terraform
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "import_purchased_number" {
-  phone_number = "+14444444444"
-}
-```
-
-### Define a Studio Flow
-
-```terraform
-resource "twilio_studio_flows_v2" "studio_flow" {
-  commit_message = "first draft"
-  friendly_name  = "terraform flow"
-  status         = "draft"
-  definition = jsonencode({
-    description = "A New Flow",
-    states = [
-      {
-        name        = "Trigger"
-        type        = "trigger"
-        transitions = []
-        properties  = {
-          offset = {
-            x = 0
-            y = 0
-          }
-        }
-    }]
-    initial_state = "Trigger"
-    flags = {
-      allow_concurrent_calls = true
-    }
-  })
-}
-```
-
-After creating a studio flow, you can make changes to your infrastructure by changing the values in your configuration file. Run `terraform apply` to apply these changes to your infrastructure.
-
-For more examples checkout the [documentation in the usage.md](usage.md) and the [examples folder](examples).
-
-### Importing an existing Flex project
-
-For guidance on how to import resources from an existing Flex project, please reference our [Flex example documentation](examples/flex/v1/README.md).
+For usage examples, checkout the [documentation in usage.md](usage.md) and the [examples folder](examples).
 
 ## Developing the Provider
 

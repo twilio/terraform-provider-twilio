@@ -7,8 +7,12 @@ The provider needs to be configured with the proper credentials before it can be
   - [Arguments](#arguments)
   - [Specify an Edge Location](#specify-an-edge-location)
   - [Specify a Subaccount](#specify-a-subaccount)
-- [Example: Create an API key](#example-create-an-api-key)
-- [Example: Proxy Service](#example-proxy-service)
+- [Examples](#examples)
+  - [Create and delete API Keys](#create-and-delete-api-keys)
+  - [Buy and configure a Phone Number](#buy-and-configure-a-phone-number)
+  - [Import a Twilio Phone Number](#import-a-twilio-phone-number)
+  - [Define a Studio Flow](#define-a-studio-flow)
+  - [Importing an existing Flex project](#importing-an-existing-flex-project)
 
 ## Configuration
 
@@ -25,24 +29,32 @@ The following arguments are supported:
 #### Example Usage
 
 ```terraform
-# Configure the Twilio provider
+terraform {
+  required_providers {
+    twilio = {
+      source  = "twilio.com/twilio/twilio"
+      version = "0.2.0"
+    }
+  }
+}
+
+# Configure the Twilio provider. Credentials can be found at www.twilio.com/console
 provider "twilio" {
-  account_sid = "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  auth_token = "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 
-# Create a new chat service
-resource "twilio_chat_service" "default" {
-  # ...
+# Create a new API key resource
+resource "twilio_api_accounts_keys_v2010" "key_name" {
+  friendly_name = "terraform key"
 }
 
-# Create a new flex flow
-resource "twilio_flex_flow" "default" {
-  # ...
+output "messages" {
+  value = twilio_api_accounts_keys_v2010.key_name
 }
 ```
 
-then execute the following in your terminal:
+then execute the following in your terminal to initialize and apply the changes to your Twilio infrastructure:
 
 ```bash
 # Initialize a new or existing Terraform working directory
@@ -99,30 +111,88 @@ resource "twilio_api_accounts_keys_v2010" "key_name" {
 
 ## Examples
 
-## Example: Create an API Key
-
-`twilio_api_incoming_phone_numbers_v2010` provides a Twilio Phone Number resource.
-
-### Usage
+### Create and Delete API Keys
 
 ```terraform
-resource "twilio_api_keys_v2010" "default" {
-    account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    friendly_name = "terraform key"
+resource "twilio_api_accounts_keys_v2010" "key_name" {
+  friendly_name = "terraform key"
 }
+
 output "messages" {
-    value = twilio_api_keys_v2010.default
+  value = twilio_api_accounts_keys_v2010.key_name
 }
 ```
 
-### Attributes Reference
+To delete a specific key in your terraform infrastructure you can use the command:
+
+`terraform destroy -target twilio_api_keys_v2010.<resource name>`
+
+To delete the terraform key created in this example, use:
+
+`terraform destroy -target twilio_api_keys_v2010.key_name`
+
+#### API Key Attributes
 
 - `sid` - The unique string that that we created to identify the Key resource.
 - `friendly_name` - The string that you assigned to describe the resource.
 
 For more information see [the API Key documentation](https://www.twilio.com/docs/iam/keys/api-key).
 
-## Example: Proxy Service
+### Buy and configure a Phone Number
+
+```terraform
+resource "twilio_api_incoming_phone_numbers_v2010" "phone_number" {
+  area_code = "415"
+  friendly_name = "terraform phone number"
+  sms_url = "https://demo.twilio.com/welcome/sms/reply"
+  voice_url = "https://demo.twilio.com/docs/voice.xml"
+}
+```
+
+### Import a Twilio Phone Number
+
+```terraform
+resource "twilio_api_accounts_incoming_phone_numbers_v2010" "imported_phone_number" {
+  phone_number = "+14444444444"
+}
+```
+
+### Define a Studio Flow
+
+```terraform
+resource "twilio_studio_flows_v2" "studio_flow" {
+  commit_message = "first draft"
+  friendly_name  = "terraform flow"
+  status         = "draft"
+  definition = jsonencode({
+    description = "A New Flow",
+    states = [
+      {
+        name        = "Trigger"
+        type        = "trigger"
+        transitions = []
+        properties  = {
+          offset = {
+            x = 0
+            y = 0
+          }
+        }
+    }]
+    initial_state = "Trigger"
+    flags = {
+      allow_concurrent_calls = true
+    }
+  })
+}
+```
+
+After creating a studio flow, you can make changes to your infrastructure by changing the values in your configuration file. Run `terraform apply` to apply these changes to your infrastructure.
+
+### Importing an existing Flex project
+
+For guidance on how to import resources from an existing Flex project, please reference our [Flex example documentation](examples/flex/v1/README.md).
+
+<!-- ## Proxy Service
 
 `twilio_proxy_service` provides a Twilio Proxy Service resource.
 Twilio Proxy Service is the top-level scope of all other resources in the Proxy Service REST API.
@@ -148,4 +218,4 @@ resource "twilio_proxy_service" "default" {
 - `out_of_session_callback_url` - The URL we should call when an inbound call or SMS action occurs on a closed or non-existent Session. If your server (or a Twilio function) responds with valid TwiML, we will process it. This means it is possible, for example, to play a message for a call, send an automated text message response, or redirect a call to another Phone Number. See Out-of-Session Callback Response Guide for more information.
 - `chat_instance_sid` - The SID of the Chat Service Instance managed by Proxy Service. The Chat Service enables Proxy to forward SMS and channel messages to this chat instance. This is a one-to-one relationship.
 
-For more information see [the Proxy Service documentation](https://www.twilio.com/docs/proxy/api/service).
+For more information see [the Proxy Service documentation](https://www.twilio.com/docs/proxy/api/service). -->

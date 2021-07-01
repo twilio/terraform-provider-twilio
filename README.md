@@ -1,8 +1,10 @@
 # Twilio Terraform Provider
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/twilio/terraform-provider-twilio?)](https://github.com/Twilio/terraform-provider-twilio/releases/latest)
+[![Terraform Registry](https://img.shields.io/badge/registry-twilio-green?logo=terraform&style=flat)](https://registry.terraform.io/providers/twilio/twilio/latest)
 
 ## Project Status
 
-:warning: This project is currently in **PILOT** and under active development. Issues are currently closed as we are not quite ready for feedback. If you would like to participate in the pilot, please sign up for [Twilio Insiders](https://twil.io/insiders).
+:warning: This project is currently in **PILOT** and under active development. If you would like to participate in the pilot, please sign up for [Twilio Insiders](https://twil.io/insiders).
 
 ## Requirements
 

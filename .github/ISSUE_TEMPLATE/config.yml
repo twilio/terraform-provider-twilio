@@ -6,5 +6,5 @@ contact_links:
     url: https://stackoverflow.com/questions/tagged/terraform-provider-twilio+or+twilio+terraform
     about: Ask questions on Stack Overflow
   - name: Documentation
-    url: https://www.twilio.com/docs/libraries/reference/terraform-provider-twilio
+    url: https://github.com/twilio/terraform-provider-twilio/blob/main/twilio/resources/README.md
     about: View Reference Documentation

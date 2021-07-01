@@ -1,5 +1,14 @@
 terraform-provider-twilio changelog
 ====================
+[2021-07-01] Version 0.4.0
+--------------------------
+**Library - Feature**
+- [PR #56](https://github.com/twilio/terraform-provider-twilio/pull/56): add release action to sign terraform. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Library - Chore**
+- [PR #55](https://github.com/twilio/terraform-provider-twilio/pull/55): add build as a prerequisite to test. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+
+
 [2021-06-30] Version 0.3.0
 --------------------------
 **Library - Docs**

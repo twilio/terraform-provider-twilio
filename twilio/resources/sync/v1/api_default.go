@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.18.1
+ * API version: 1.18.0
  * Contact: support@twilio.com
  */
 
@@ -482,7 +482,11 @@ func parseServicesListsItemsImportId(importId string, d *schema.ResourceData) er
 
 	d.Set("service_sid", importParts[0])
 	d.Set("list_sid", importParts[1])
-	d.Set("index", importParts[2])
+	index, err := StringToInt(importParts[2])
+	if err != nil {
+		return nil
+	}
+	d.Set("index", index)
 
 	return nil
 }

@@ -49,8 +49,8 @@ terraform {
 
 # Credentials can be found at www.twilio.com/console.
 provider "twilio" {
-  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // removing account_sid defaults to TWILIO_ACCOUNT_SID env var
-  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // removing auth_token defaults to TWILIO_AUTH_TOKEN env var
+  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
 }
 
 resource "twilio_api_accounts_keys_v2010" "key_name" {

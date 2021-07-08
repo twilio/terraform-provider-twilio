@@ -1,7 +1,7 @@
 .PHONY: default githooks build goimports govet golint terrafmt install test testacc
 
 TEST?=$$(go list ./... |grep -v 'vendor')
-HOSTNAME=twilio.com
+REGISTRY=local
 NAMESPACE=twilio
 NAME=twilio
 BINARY=terraform-provider-${NAME}
@@ -31,8 +31,8 @@ terrafmt:
 	terraform fmt -recursive
 
 install: build
-	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
-	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
+	mkdir -p ~/.terraform.d/plugins/${REGISTRY}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
+	mv ${BINARY} ~/.terraform.d/plugins/${REGISTRY}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 
 test: build
 	go test $(TEST) || exit 1

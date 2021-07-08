@@ -32,16 +32,16 @@ The following arguments are supported:
 terraform {
   required_providers {
     twilio = {
-      source  = "twilio.com/twilio/twilio"
-      version = "0.2.0"
+      source  = "twilio/twilio"
+      version = ">=0.4.0"
     }
   }
 }
 
 # Configure the Twilio provider. Credentials can be found at www.twilio.com/console
 provider "twilio" {
-  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
 }
 
 # Create a new API key resource
@@ -69,10 +69,10 @@ You can define the [Edge](https://www.twilio.com/docs/global-infrastructure/edge
 
 ```terraform
 provider "twilio" {
-  account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  auth_token  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
   region = "au1"
-  edge = "sydney"
+  edge   = "sydney"
 }
 ```
 
@@ -86,8 +86,8 @@ You can specify a subaccount to use with the provider by either setting the `TWI
 
 ```terraform
 provider "twilio" {
-  // account_sid defaults to TWILIO_ACCOUNT_SID env var
-  // auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  // account_sid     defaults to TWILIO_ACCOUNT_SID env var
+  // auth_token      defaults to TWILIO_AUTH_TOKEN env var
   // subaccount_sid  defaults to TWILIO_SUBACCOUNT_SID env var
 }
 ```
@@ -95,7 +95,7 @@ provider "twilio" {
 ```terraform
 provider "twilio" {
   account_sid    = "AC00112233445566778899aabbccddeefe"
-  auth_token    = "12345678123456781234567812345678"
+  auth_token     = "12345678123456781234567812345678"
   subaccount_sid = "AC00112233445566778899aabbccddeeff"
 }
 ```
@@ -105,7 +105,7 @@ Alternatively, you can specify the subaccount to use at the resource level:
 ```terraform
 resource "twilio_api_accounts_keys_v2010" "key_name" {
   path_account_sid = "AC00112233445566778899aabbccddeeff"
-  friendly_name = "subaccount key"
+  friendly_name    = "subaccount key"
 }
 ```
 
@@ -142,10 +142,10 @@ For more information see [the API Key documentation](https://www.twilio.com/docs
 
 ```terraform
 resource "twilio_api_incoming_phone_numbers_v2010" "phone_number" {
-  area_code = "415"
+  area_code     = "415"
   friendly_name = "terraform phone number"
-  sms_url = "https://demo.twilio.com/welcome/sms/reply"
-  voice_url = "https://demo.twilio.com/docs/voice.xml"
+  sms_url       = "https://demo.twilio.com/welcome/sms/reply"
+  voice_url     = "https://demo.twilio.com/docs/voice.xml"
 }
 ```
 

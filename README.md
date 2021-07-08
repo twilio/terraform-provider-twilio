@@ -74,7 +74,7 @@ The boilerplate includes the following:
 
 - `Makefile` contains helper functions used to build, package and install the Twilio Terraform Provider. It's currently written for MacOS Terraform provider development, but you can change the variables at the top of the file to match your OS_ARCH.
 
-  The `install` function is configured to install the provider into the ~/.terraform.d/plugins/ folder.
+  The `install` function is configured to install the provider into the ~/.terraform.d/plugins/ folder. To use the locally installed provider, prefix the source path with `local` in your Terraform configuration file (i.e., `source = "local/twilio/twilio"`). Then run `terraform init` to use the locally built provider.
 
 - `examples` contains sample Terraform configuration that can be used to test the Twilio provider
 - `twilio` contains the main provider code. This will be where the provider's resources and data source implementations will be defined.

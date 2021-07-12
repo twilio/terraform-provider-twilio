@@ -141,7 +141,7 @@ For more information see [the API Key documentation](https://www.twilio.com/docs
 ### Buy and configure a Phone Number
 
 ```terraform
-resource "twilio_api_incoming_phone_numbers_v2010" "phone_number" {
+resource "twilio_api_accounts_incoming_phone_numbers_v2010" "phone_number" {
   area_code     = "415"
   friendly_name = "terraform phone number"
   sms_url       = "https://demo.twilio.com/welcome/sms/reply"

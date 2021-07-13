@@ -1,4 +1,4 @@
-.PHONY: default githooks build goimports govet golint terrafmt install test testacc
+.PHONY: default githooks build goimports govet golint terrafmt install test testacc cover
 
 TEST?=$$(go list ./... |grep -v 'vendor')
 REGISTRY=local
@@ -41,3 +41,8 @@ test: build
 
 testacc:
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
+
+GO_DIRS = $(shell go list ./... | grep -v /resources/)
+cover:
+	go test ${GO_DIRS} -coverprofile coverage.out
+	go test ${GO_DIRS} -json > test-report.out

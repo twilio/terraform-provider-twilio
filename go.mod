@@ -8,14 +8,14 @@ require (
 	github.com/fatih/color v1.12.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cty v1.4.1-0.20200723130312-85980079f637
-	github.com/hashicorp/go-hclog v0.16.1 // indirect
+	github.com/hashicorp/go-hclog v0.16.2 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/go-plugin v1.4.2 // indirect
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/hashicorp/hcl/v2 v2.10.0 // indirect
 	github.com/hashicorp/terraform-plugin-go v0.3.1 // indirect
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.0
-	github.com/hashicorp/yamux v0.0.0-20210316155119-a95892c5f864 // indirect
+	github.com/hashicorp/yamux v0.0.0-20210707203944-259a57b3608c // indirect
 	github.com/jhump/protoreflect v1.6.1 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/mattn/go-isatty v0.0.13 // indirect
@@ -24,12 +24,12 @@ require (
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/oklog/run v1.1.0 // indirect
 	github.com/stretchr/testify v1.7.0
-	github.com/twilio/twilio-go v0.11.0
+	github.com/twilio/twilio-go v0.12.0
+	github.com/zclconf/go-cty v1.9.0 // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	golang.org/x/tools v0.1.5 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20210630183607-d20f26d13c79 // indirect
-	google.golang.org/grpc v1.39.0 // indirect
+	google.golang.org/genproto v0.0.0-20210714021259-044028024a4f // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

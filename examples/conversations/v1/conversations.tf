@@ -21,14 +21,15 @@ resource "twilio_conversations_conversations_v1" "create_conversation" {
 
 # Add a SMS Participant
 resource "twilio_conversations_conversations_participants_v1" "add_user_00_to_conversation" {
-  conversation_sid = twilio_conversations_conversations_v1.create_conversation.sid
-  messaging_binding_address = "<User 00 Personal Mobile Number>"
+  conversation_sid                = twilio_conversations_conversations_v1.create_conversation.sid
+  messaging_binding_address       = "<User 00 Personal Mobile Number>"
   messaging_binding_proxy_address = "<Your purchased Twilio Phone Number>"
 }
 
 # Add a SMS Participant
 resource "twilio_conversations_conversations_participants_v1" "add_user_01_to_conversation" {
-  messaging_binding_address = "<User 01 Personal Mobile Number>"
+  conversation_sid                = twilio_conversations_conversations_v1.create_conversation.sid
+  messaging_binding_address       = "<User 01 Personal Mobile Number>"
   messaging_binding_proxy_address = "<Your purchased Twilio Phone Number>"
 }
 

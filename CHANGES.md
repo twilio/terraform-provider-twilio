@@ -1,5 +1,27 @@
 terraform-provider-twilio changelog
 ====================
+[2021-07-14] Version 0.5.0
+--------------------------
+**Library - Docs**
+- [PR #62](https://github.com/twilio/terraform-provider-twilio/pull/62): Fix typo in terraform example for creating a phone number. Thanks to [@eflann](https://github.com/eflann)!
+- [PR #61](https://github.com/twilio/terraform-provider-twilio/pull/61): add details on how to use a locally-built provider. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #60](https://github.com/twilio/terraform-provider-twilio/pull/60): Fix usage registry. Thanks to [@stern-shawn](https://github.com/stern-shawn)!
+- [PR #58](https://github.com/twilio/terraform-provider-twilio/pull/58): update examples to pull from the terraform registry. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+
+**Library - Fix**
+- [PR #59](https://github.com/twilio/terraform-provider-twilio/pull/59): convert ints in path params to properly be imported. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Chore**
+- [PR #57](https://github.com/twilio/terraform-provider-twilio/pull/57): update readme and issue template. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Conversations**
+- Changed `last_read_message_index` and `unread_messages_count` type in User Conversation's resource **(breaking change)**
+- Expose UserConversations resource
+
+**Messaging**
+- Add brand_score field to brand registration responses
+
+
 [2021-07-01] Version 0.4.0
 --------------------------
 **Library - Feature**

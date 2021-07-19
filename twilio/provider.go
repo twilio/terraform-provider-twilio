@@ -65,12 +65,14 @@ func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 		region := d.Get("region").(string)
 		edge := d.Get("edge").(string)
 
-		if d.Get("subaccount_sid") != nil {
-			params := client.RestClientParams{AccountSid: d.Get("subaccount_sid").(string)}
-			TwilioClient = client.NewRestClientWithParams(username, password, params)
-		} else {
-			TwilioClient = client.NewRestClient(username, password)
+		params := client.RestClientParams{
+			Username: username,
+			Password: password,
 		}
+		if d.Get("subaccount_sid") != nil {
+			params.AccountSid = d.Get("subaccount_sid").(string)
+		}
+		TwilioClient = client.NewRestClientWithParams(params)
 
 		TwilioClient.SetRegion(region)
 		TwilioClient.SetEdge(edge)

@@ -1,5 +1,20 @@
 terraform-provider-twilio changelog
 ====================
+[2021-07-28] Version 0.5.1
+--------------------------
+**Library - Fix**
+- [PR #64](https://github.com/twilio/terraform-provider-twilio/pull/64): update underlying client construction. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Conversations**
+- Expose ParticipantConversations resource
+
+**Taskrouter**
+- Adding `links` to the activity resource
+
+**Verify**
+- Added a `Version` to Verify Factors `Webhooks` to add new fields without breaking old Webhooks.
+
+
 [2021-07-14] Version 0.5.0
 --------------------------
 **Library - Docs**

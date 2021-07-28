@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.19.0
+ * API version: 1.19.1
  * Contact: support@twilio.com
  */
 
@@ -651,6 +651,7 @@ func ResourceServicesWebhooks() *schema.Resource {
 			"friendly_name": AsString(SchemaRequired),
 			"webhook_url":   AsString(SchemaRequired),
 			"status":        AsString(SchemaComputedOptional),
+			"version":       AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

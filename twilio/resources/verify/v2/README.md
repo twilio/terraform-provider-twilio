@@ -91,5 +91,6 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | The string that you assigned to describe the webhook. **This value should not contain PII.**
 **webhook_url** | string | **Required** | The URL associated with this Webhook.
 **status** | string | Optional | The webhook status. Default value is &#x60;enabled&#x60;. One of: &#x60;enabled&#x60; or &#x60;disabled&#x60;
+**version** | string | Optional | The webhook version. Default value is &#x60;v2&#x60; which includes all the latest fields. Version &#x60;v1&#x60; is legacy and may be removed in the future.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Webhook resource to update.
 

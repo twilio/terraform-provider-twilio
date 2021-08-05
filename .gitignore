@@ -21,3 +21,6 @@ terraform-provider-twilio
 docs/
 **/.openapi-generator
 .openapi-generator-ignore
+
+coverage.out
+test-report.out

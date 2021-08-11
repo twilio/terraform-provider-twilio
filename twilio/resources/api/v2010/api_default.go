@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.19.1
+ * API version: 1.20.0
  * Contact: support@twilio.com
  */
 
@@ -321,6 +321,7 @@ func ResourceAccountsCalls() *schema.Resource {
 			"status_callback":                        AsString(SchemaComputedOptional),
 			"status_callback_event":                  AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"status_callback_method":                 AsString(SchemaComputedOptional),
+			"time_limit":                             AsInt(SchemaComputedOptional),
 			"timeout":                                AsInt(SchemaComputedOptional),
 			"trim":                                   AsString(SchemaComputedOptional),
 			"twiml":                                  AsString(SchemaComputedOptional),
@@ -1116,6 +1117,7 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"status_callback":                             AsString(SchemaComputedOptional),
 			"status_callback_event":                       AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"status_callback_method":                      AsString(SchemaComputedOptional),
+			"time_limit":                                  AsInt(SchemaComputedOptional),
 			"timeout":                                     AsInt(SchemaComputedOptional),
 			"wait_method":                                 AsString(SchemaComputedOptional),
 			"wait_url":                                    AsString(SchemaComputedOptional),

@@ -24,13 +24,13 @@ resource "twilio_api_accounts_incoming_phone_numbers_v2010" "phone_number" {
 
 resource "twilio_api_accounts_messages_v2010" "message" {
   path_account_sid = "AC123456123456123456123456123456"
-  from             = "9999999999"
+  from             = twilio_api_accounts_incoming_phone_numbers_v2010.phone_number.phone_number
   to               = "4444444444"
   body             = "Hello from Twilio Terraform!"
 }
 
 resource "twilio_api_accounts_calls_v2010" "call" {
-  from  = "9999999999"
+  from  = twilio_api_accounts_incoming_phone_numbers_v2010.phone_number.phone_number
   to    = "4444444444"
   twiml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Say>Hello World</Say></Response>"
 }

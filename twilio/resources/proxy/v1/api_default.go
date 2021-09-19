@@ -23,6 +23,109 @@ import (
 	. "github.com/twilio/twilio-go/rest/proxy/v1"
 )
 
+func ResourceServicesSessionsParticipants() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesSessionsParticipants,
+		ReadContext:   readServicesSessionsParticipants,
+		DeleteContext: deleteServicesSessionsParticipants,
+		Schema: map[string]*schema.Schema{
+			"service_sid":                  AsString(SchemaForceNewRequired),
+			"session_sid":                  AsString(SchemaForceNewRequired),
+			"identifier":                   AsString(SchemaForceNewRequired),
+			"fail_on_participant_conflict": AsBool(SchemaForceNewOptional),
+			"friendly_name":                AsString(SchemaForceNewOptional),
+			"proxy_identifier":             AsString(SchemaForceNewOptional),
+			"proxy_identifier_sid":         AsString(SchemaForceNewOptional),
+			"sid":                          AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesSessionsParticipantsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createServicesSessionsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateParticipantParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sessionSid := d.Get("session_sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.CreateParticipant(serviceSid, sessionSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{serviceSid, sessionSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteServicesSessionsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sessionSid := d.Get("session_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ProxyV1.DeleteParticipant(serviceSid, sessionSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readServicesSessionsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sessionSid := d.Get("session_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.FetchParticipant(serviceSid, sessionSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseServicesSessionsParticipantsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/session_sid/sid"
+
+	if len(importParts) != 3 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("session_sid", importParts[1])
+	d.Set("sid", importParts[2])
+
+	return nil
+}
 func ResourceServicesPhoneNumbers() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesPhoneNumbers,

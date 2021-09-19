@@ -23,6 +23,106 @@ import (
 	. "github.com/twilio/twilio-go/rest/notify/v1"
 )
 
+func ResourceServicesBindings() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesBindings,
+		ReadContext:   readServicesBindings,
+		DeleteContext: deleteServicesBindings,
+		Schema: map[string]*schema.Schema{
+			"service_sid":                   AsString(SchemaForceNewRequired),
+			"address":                       AsString(SchemaForceNewRequired),
+			"binding_type":                  AsString(SchemaForceNewRequired),
+			"identity":                      AsString(SchemaForceNewRequired),
+			"credential_sid":                AsString(SchemaForceNewOptional),
+			"endpoint":                      AsString(SchemaForceNewOptional),
+			"notification_protocol_version": AsString(SchemaForceNewOptional),
+			"tag":                           AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"sid":                           AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesBindingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createServicesBindings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateBindingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.NotifyV1.CreateBinding(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteServicesBindings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.NotifyV1.DeleteBinding(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readServicesBindings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NotifyV1.FetchBinding(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseServicesBindingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceCredentials() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createCredentials,

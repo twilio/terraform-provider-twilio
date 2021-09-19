@@ -147,6 +147,99 @@ func updateServicesRateLimitsBuckets(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
+func ResourceServicesEntities() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesEntities,
+		ReadContext:   readServicesEntities,
+		DeleteContext: deleteServicesEntities,
+		Schema: map[string]*schema.Schema{
+			"service_sid": AsString(SchemaForceNewRequired),
+			"identity":    AsString(SchemaForceNewRequired),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesEntitiesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createServicesEntities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateEntityParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.CreateEntity(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Identity))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteServicesEntities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	identity := d.Get("identity").(string)
+
+	err := m.(*client.Config).Client.VerifyV2.DeleteEntity(serviceSid, identity)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readServicesEntities(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	identity := d.Get("identity").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.FetchEntity(serviceSid, identity)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseServicesEntitiesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/identity"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("identity", importParts[1])
+
+	return nil
+}
 func ResourceServicesMessagingConfigurations() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesMessagingConfigurations,

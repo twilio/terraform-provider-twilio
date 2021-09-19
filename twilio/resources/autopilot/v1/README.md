@@ -15,6 +15,18 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Assistant resource to update.
 **development_stage** | string | Optional | A string describing the state of the assistant.
 
+## twilio_autopilot_assistants_tasks_fields_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**assistant_sid** | string | **Required** | The SID of the [Assistant](https://www.twilio.com/docs/autopilot/api/assistant) that is the parent of the Task associated with the new resource.
+**task_sid** | string | **Required** | The SID of the [Task](https://www.twilio.com/docs/autopilot/api/task) resource associated with the new Field resource.
+**field_type** | string | **Required** | The Field Type of the new field. Can be: a [Built-in Field Type](https://www.twilio.com/docs/autopilot/built-in-field-types), the &#x60;unique_name&#x60;, or the &#x60;sid&#x60; of a custom Field Type.
+**unique_name** | string | **Required** | An application-defined string that uniquely identifies the new resource. This value must be a unique string of no more than 64 characters. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource.
+**sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Field resource to fetch.
+
 ## twilio_autopilot_assistants_field_types_v1
 
 ### Parameters
@@ -25,6 +37,19 @@ Name | Type | Requirement | Description
 **unique_name** | string | **Required** | An application-defined string that uniquely identifies the new resource. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource. The first 64 characters must be unique.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new resource. It is not unique and can be up to 255 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the FieldType resource to update.
+
+## twilio_autopilot_assistants_field_types_field_values_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**assistant_sid** | string | **Required** | The SID of the [Assistant](https://www.twilio.com/docs/autopilot/api/assistant) that is the parent of the FieldType associated with the new resource.
+**field_type_sid** | string | **Required** | The SID of the Field Type associated with the Field Value.
+**language** | string | **Required** | The [ISO language-country](https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html) tag that specifies the language of the value. Currently supported tags: &#x60;en-US&#x60;
+**value** | string | **Required** | The Field Value data.
+**synonym_of** | string | Optional | The string value that indicates which word the field value is a synonym of.
+**sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the FieldValue resource to fetch.
 
 ## twilio_autopilot_assistants_model_builds_v1
 

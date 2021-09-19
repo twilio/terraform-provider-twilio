@@ -86,6 +86,20 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Call resource to update
 **status** | string | Optional | The new status of the resource. Can be: &#x60;canceled&#x60; or &#x60;completed&#x60;. Specifying &#x60;canceled&#x60; will attempt to hang up calls that are queued or ringing; however, it will not affect calls already in progress. Specifying &#x60;completed&#x60; will attempt to hang up a call even if it&#39;s already in progress.
 
+## twilio_api_accounts_calls_feedback_summary_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**end_date** | string | **Required** | Only include feedback given on or before this date. Format is &#x60;YYYY-MM-DD&#x60; and specified in UTC.
+**start_date** | string | **Required** | Only include feedback given on or after this date. Format is &#x60;YYYY-MM-DD&#x60; and specified in UTC.
+**path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
+**include_subaccounts** | bool | Optional | Whether to also include Feedback resources from all subaccounts. &#x60;true&#x60; includes feedback from all subaccounts and &#x60;false&#x60;, the default, includes feedback from only the specified account.
+**status_callback** | string | Optional | The URL that we will request when the feedback summary is complete.
+**status_callback_method** | string | Optional | The HTTP method (&#x60;GET&#x60; or &#x60;POST&#x60;) we use to make the request to the &#x60;StatusCallback&#x60; URL.
+**sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
+
 ## twilio_api_accounts_calls_recordings_v2010
 
 ### Parameters
@@ -137,6 +151,17 @@ Name | Type | Requirement | Description
 **voice_url** | string | Optional | The URL that we should call to answer a call to the new phone number. The &#x60;voice_url&#x60; will not be called if a &#x60;voice_application_sid&#x60; or a &#x60;trunk_sid&#x60; is set.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the IncomingPhoneNumber resource to update.
 **account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the IncomingPhoneNumber resource to update.  For more information, see [Exchanging Numbers Between Subaccounts](https://www.twilio.com/docs/iam/api/subaccounts#exchanging-numbers).
+
+## twilio_api_accounts_incoming_phone_numbers_assigned_add_ons_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**resource_sid** | string | **Required** | The SID of the Phone Number to assign the Add-on.
+**installed_add_on_sid** | string | **Required** | The SID that identifies the Add-on installation.
+**path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
+**sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the resource to fetch.
 
 ## twilio_api_accounts_messages_v2010
 
@@ -249,6 +274,39 @@ Name | Type | Requirement | Description
 **max_size** | int | Optional | The maximum number of calls allowed to be in the queue. The default is 100. The maximum is 5000.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Queue resource to update
 
+## twilio_api_accounts_sipdomains_auth_calls_credential_list_mappings_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**domain_sid** | string | **Required** | The SID of the SIP domain that will contain the new resource.
+**credential_list_sid** | string | **Required** | The SID of the CredentialList resource to map to the SIP domain.
+**path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
+**sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the CredentialListMapping resource to fetch.
+
+## twilio_api_accounts_sipdomains_auth_calls_ip_access_control_list_mappings_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**domain_sid** | string | **Required** | The SID of the SIP domain that will contain the new resource.
+**ip_access_control_list_sid** | string | **Required** | The SID of the IpAccessControlList resource to map to the SIP domain.
+**path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
+**sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the IpAccessControlListMapping resource to fetch.
+
+## twilio_api_accounts_sipdomains_auth_registrations_credential_list_mappings_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**domain_sid** | string | **Required** | The SID of the SIP domain that will contain the new resource.
+**credential_list_sid** | string | **Required** | The SID of the CredentialList resource to map to the SIP domain.
+**path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
+**sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the CredentialListMapping resource to fetch.
+
 ## twilio_api_accounts_sipcredential_lists_credentials_v2010
 
 ### Parameters
@@ -270,6 +328,17 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | A human readable descriptive text that describes the CredentialList, up to 64 characters long.
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | The credential list Sid that uniquely identifies this resource
+
+## twilio_api_accounts_sipdomains_credential_list_mappings_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**domain_sid** | string | **Required** | A 34 character string that uniquely identifies the SIP Domain for which the CredentialList resource will be mapped.
+**credential_list_sid** | string | **Required** | A 34 character string that uniquely identifies the CredentialList resource to map to the SIP domain.
+**path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
+**sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to fetch.
 
 ## twilio_api_accounts_sipdomains_v2010
 
@@ -302,6 +371,17 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | A human readable descriptive text that describes the IpAccessControlList, up to 64 characters long.
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to udpate.
+
+## twilio_api_accounts_sipdomains_ip_access_control_list_mappings_v2010
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**domain_sid** | string | **Required** | A 34 character string that uniquely identifies the SIP domain.
+**ip_access_control_list_sid** | string | **Required** | The unique id of the IP access control list to map to the SIP domain.
+**path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
+**sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to fetch.
 
 ## twilio_api_accounts_sipip_access_control_lists_ip_addresses_v2010
 

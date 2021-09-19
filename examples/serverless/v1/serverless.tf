@@ -18,8 +18,14 @@ resource "twilio_serverless_services_v1" "service" {
 }
 
 resource "twilio_serverless_services_functions_v1" "function" {
-  service_sid   = "ZSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" //service_sid from new service
+  service_sid   = twilio_serverless_services_v1.service.sid //service_sid from new service
   friendly_name = "My serverless func"
+}
+
+resource "twilio_serverless_services_environments_v1" "environment" {
+  service_sid   = twilio_serverless_services_v1.service.sid
+  unique_name   = "environment-dummy"
+  domain_suffix = "com"
 }
 
 output "services" {
@@ -28,4 +34,8 @@ output "services" {
 
 output "functions" {
   value = twilio_serverless_services_functions_v1.function
+}
+
+output "environments" {
+  value = twilio_serverless_services_environments_v1.environment
 }

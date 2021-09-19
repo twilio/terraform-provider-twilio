@@ -12,6 +12,27 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The unique string that we created to identify the Customer-Profile resource.
 **status** | string | Optional | The verification status of the Customer-Profile resource.
 
+## twilio_trusthub_customer_profiles_channel_endpoint_assignments_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**customer_profile_sid** | string | **Required** | The unique string that we created to identify the CustomerProfile resource.
+**channel_endpoint_sid** | string | **Required** | The SID of an channel endpoint
+**channel_endpoint_type** | string | **Required** | The type of channel endpoint. eg: phone-number
+**sid** | string | *Computed* | The unique string that we created to identify the resource.
+
+## twilio_trusthub_customer_profiles_entity_assignments_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**customer_profile_sid** | string | **Required** | The unique string that we created to identify the CustomerProfile resource.
+**object_sid** | string | **Required** | The SID of an object bag that holds information of the different items.
+**sid** | string | *Computed* | The unique string that we created to identify the Identity resource.
+
 ## twilio_trusthub_end_users_v1
 
 ### Parameters
@@ -46,4 +67,25 @@ Name | Type | Requirement | Description
 **status_callback** | string | Optional | The URL we call to inform your application of status changes.
 **sid** | string | *Computed* | The unique string that we created to identify the Customer-Profile resource.
 **status** | string | Optional | The verification status of the Customer-Profile resource.
+
+## twilio_trusthub_trust_products_channel_endpoint_assignments_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**trust_product_sid** | string | **Required** | The unique string that we created to identify the CustomerProfile resource.
+**channel_endpoint_sid** | string | **Required** | The SID of an channel endpoint
+**channel_endpoint_type** | string | **Required** | The type of channel endpoint. eg: phone-number
+**sid** | string | *Computed* | The unique string that we created to identify the resource.
+
+## twilio_trusthub_trust_products_entity_assignments_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**trust_product_sid** | string | **Required** | The unique string that we created to identify the TrustProduct resource.
+**object_sid** | string | **Required** | The SID of an object bag that holds information of the different items.
+**sid** | string | *Computed* | The unique string that we created to identify the Identity resource.
 

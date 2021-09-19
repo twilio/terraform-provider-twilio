@@ -23,6 +23,103 @@ import (
 	. "github.com/twilio/twilio-go/rest/flex/v1"
 )
 
+func ResourceChannels() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createChannels,
+		ReadContext:   readChannels,
+		DeleteContext: deleteChannels,
+		Schema: map[string]*schema.Schema{
+			"chat_friendly_name":      AsString(SchemaForceNewRequired),
+			"chat_user_friendly_name": AsString(SchemaForceNewRequired),
+			"flex_flow_sid":           AsString(SchemaForceNewRequired),
+			"identity":                AsString(SchemaForceNewRequired),
+			"chat_unique_name":        AsString(SchemaForceNewOptional),
+			"long_lived":              AsBool(SchemaForceNewOptional),
+			"pre_engagement_data":     AsString(SchemaForceNewOptional),
+			"target":                  AsString(SchemaForceNewOptional),
+			"task_attributes":         AsString(SchemaForceNewOptional),
+			"task_sid":                AsString(SchemaForceNewOptional),
+			"sid":                     AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseChannelsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateChannelParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.FlexV1.CreateChannel(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.FlexV1.DeleteChannel(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.FlexV1.FetchChannel(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseChannelsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func ResourceFlexFlows() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createFlexFlows,

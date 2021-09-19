@@ -1,4 +1,22 @@
 
+## twilio_flex_channels_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**chat_friendly_name** | string | **Required** | The chat channel&#39;s friendly name.
+**chat_user_friendly_name** | string | **Required** | The chat participant&#39;s friendly name.
+**flex_flow_sid** | string | **Required** | The SID of the Flex Flow.
+**identity** | string | **Required** | The &#x60;identity&#x60; value that uniquely identifies the new resource&#39;s chat User.
+**chat_unique_name** | string | Optional | The chat channel&#39;s unique name.
+**long_lived** | bool | Optional | Whether to create the channel as long-lived.
+**pre_engagement_data** | string | Optional | The pre-engagement data.
+**target** | string | Optional | The Target Contact Identity, for example the phone number of an SMS.
+**task_attributes** | string | Optional | The Task attributes to be added for the TaskRouter Task.
+**task_sid** | string | Optional | The SID of the TaskRouter Task. Only valid when integration type is &#x60;task&#x60;. &#x60;null&#x60; for integration types &#x60;studio&#x60; &amp; &#x60;external&#x60;
+**sid** | string | *Computed* | The SID of the Flex chat channel resource to fetch.
+
 ## twilio_flex_flex_flows_v1
 
 ### Parameters

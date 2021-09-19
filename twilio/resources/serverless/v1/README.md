@@ -9,6 +9,30 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | A descriptive string that you create to describe the Asset resource. It can be a maximum of 255 characters.
 **sid** | string | *Computed* | The SID that identifies the Asset resource to update.
 
+## twilio_serverless_services_builds_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | The SID of the Service to create the Build resource under.
+**asset_versions** | list(string) | Optional | The list of Asset Version resource SIDs to include in the Build.
+**dependencies** | string | Optional | A list of objects that describe the Dependencies included in the Build. Each object contains the &#x60;name&#x60; and &#x60;version&#x60; of the dependency.
+**function_versions** | list(string) | Optional | The list of the Function Version resource SIDs to include in the Build.
+**runtime** | string | Optional | The Runtime version that will be used to run the Build resource when it is deployed.
+**sid** | string | *Computed* | The SID of the Build resource to fetch.
+
+## twilio_serverless_services_environments_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | The SID of the Service to create the Environment resource under.
+**unique_name** | string | **Required** | A user-defined string that uniquely identifies the Environment resource. It can be a maximum of 100 characters.
+**domain_suffix** | string | Optional | A URL-friendly name that represents the environment and forms part of the domain name. It can be a maximum of 16 characters.
+**sid** | string | *Computed* | The SID of the Environment resource to fetch.
+
 ## twilio_serverless_services_functions_v1
 
 ### Parameters

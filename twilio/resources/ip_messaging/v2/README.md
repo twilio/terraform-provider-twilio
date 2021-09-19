@@ -48,6 +48,18 @@ Name | Type | Requirement | Description
 **secret** | string | Optional | 
 **sid** | string | *Computed* | 
 
+## twilio_ip_messaging_services_channels_invites_v2
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | 
+**channel_sid** | string | **Required** | 
+**identity** | string | **Required** | 
+**role_sid** | string | Optional | 
+**sid** | string | *Computed* | 
+
 ## twilio_ip_messaging_services_channels_members_v2
 
 ### Parameters

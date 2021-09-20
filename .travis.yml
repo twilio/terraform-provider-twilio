@@ -11,19 +11,12 @@ before_install:
 - rm terraform_"$TF_VERSION"_linux_amd64.zip
 install:
 - make install test
-jobs:
-  include:
-  - language: go
-    go: '1.16'
-    after_success:
-    - sonar-scanner
 script:
 - echo "$TRAVIS_BRANCH"
 - echo $TRAVIS_PULL_REQUEST
 - if [[ "$TRAVIS_BRANCH" == "main"  ||  "$TRAVIS_BRANCH" == "travis" ]] && [ "$TRAVIS_PULL_REQUEST"
   == "false" ]; then make testacc TWILIO_ACCOUNT_SID="$ACCOUNT_SID" TWILIO_AUTH_TOKEN="$AUTH_TOKEN";
   fi
-- make cover
 notifications:
   slack:
     if: branch = main
@@ -32,8 +25,3 @@ notifications:
     on_failure: change
     rooms:
       secure: u5V05tOR3IkkwYIGrX0l9rvLdc6h1RiHlgzrMTkcJ7CKAvMRE50KVv/kkzJ+CRlKnmJCmmy2/NRw4JbmbubGyZ2/kp3oqmkPRqbHNKlZqQlmW0OacexDxnKxJwhV5uGVAO2ErDKHCoE3O13jsVUiiPmJqpWl5qOU/Gh9K7/YvO0zKAj+fms2hJSG+tw1Qkz+DrMflvSV7MuZLelOWVLI/Jg584wlymN+Tp8Y6N2Napv40XSDz8vneo+vtoay+9tdmRNEwLeNihPWjKQQO+mYiWwtyNm7TcK9nu+IRDt+/B/wAV6Jgnw/6o7+pPsXwGMvR0SIYtgkGz3olgkxIDrPWx7F0Bm+uEwI4JMNYgnR69QXUpmwd1cfSxHpu3tHYWtGExMht8NRCs51UAW9W8qz+x8mHH9p4q+Mq0a4pN3Q82Qj8B+KQCHWX6ZlrO0cWV748cXcVlVh25QVUHfZHfBqKyMQ/QeLTufsROROqYNyXbdUiMziWzSGddo/hscOPWyCYIka+k/B9pzUwi6RoXrlYsfoVRAYCLk+AtXt2xsFqUCkajozZx92Wes1mxrakLLBPQt4r8zjPMMg+nH0DXWi13tD3SMfIPaog543J2CRifQN9CTATdMGK7BCM5kqw2U9u0ZXX5zg6IMebukDxfoHxCtYwEqpJX0OXFTWzzsXnJw=
-addons:
-  sonarcloud:
-    organization: twilio
-    token:
-      secure: XZAEy3vdjlRYOk8IKq8iBJC6zrQWeqbSTKh4VC0v8O1GK2mdNBIPoLgu/hijCzy4dgV1rItaKeJWZqCPy1t8Mv5TJ9Hwmy8S4F7WbfGxl5um9unwVLW1AsM92qmdAhMZy5c8GMlQb9hP+MgWx+IDVXhmd6oxyjf/Ns6JeTEIGdLmEwi4TKT1VslHYPj4Vcoc3CPzkUVwtxyvG/AJlCRcuTZ1sI1Sh7MY9yOqYOPeV0pSSM/zaekUAnD9ESyLaYnQqC1tv2SiZvkdzeW77saGGA1I1LgAVg0J7DYkEuozOgbmG2pYRLYc6x79ubQ6n12saQ2yCDYaM5wpXvZYdOl+SUEsvMROLm6KPAmIZp41dCbi30vna/59ue+qGEFcQ3hSUcg0YoT0TQGtL7vYtWGQYPpMGgUEqrGKPDgp+bB9OmMtWWGFPRwnnPeRY6jnxBS6ZfbnTo17UnsuDdsb8BitBQatkGESKkstlPrweWMtWoV7d8A0VoO5jST/jPsqlhd8p1b1xFcA0PXnqDHAyVqO6IsYJGrKYbGDImMRqYGjERT5pYBuRqYl56KDSTMLcxt8idBSrv/9qFv3LnNeykbpYxCEgM45d0blgakf2CJgdFBju1Dx1UgiKfQ9tcmsx4mwgkrrQlOB/2zySm/+NJAntQpjTzGKUxSkcMeOWH+ogY0=

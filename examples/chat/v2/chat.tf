@@ -8,8 +8,8 @@ terraform {
 }
 
 provider "twilio" {
-  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
-  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  //  account_sid defaults to TWILIO_ACCOUNT_SID/TWILIO_API_KEY env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN/TWILIO_API_SECRET env var
 }
 
 # Configure chat service

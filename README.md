@@ -49,8 +49,8 @@ terraform {
 
 # Credentials can be found at www.twilio.com/console.
 provider "twilio" {
-  //  account_sid defaults to TWILIO_ACCOUNT_SID env var
-  //  auth_token  defaults to TWILIO_AUTH_TOKEN env var
+  //  account_sid defaults to TWILIO_ACCOUNT_SID with TWILIO_API_KEY as the fallback env var
+  //  auth_token  defaults to TWILIO_AUTH_TOKEN with TWILIO_API_SECRET as the fallback env var
 }
 
 resource "twilio_api_accounts_keys_v2010" "key_name" {
@@ -95,13 +95,13 @@ In order to run the full suite of Acceptance tests, run `make testacc`. Provide 
 _Note:_ Acceptance tests create real resources, and often cost money to run.
 
 ```sh
- make testacc ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
+ make testacc TWILIO_ACCOUNT_SID=YOUR_ACCOUNT_SID TWILIO_AUTH_TOKEN=YOUR_AUTH_TOKEN
 ```
 
 You can also specify a particular suite to run like so:
 
 ```shell
- make testacc TEST=./twilio/ ACCOUNT_SID=YOUR_ACCOUNT_SID AUTH_TOKEN=YOUR_AUTH_TOKEN
+ make testacc TEST=./twilio/ TWILIO_ACCOUNT_SID=YOUR_ACCOUNT_SID TWILIO_AUTH_TOKEN=YOUR_AUTH_TOKEN
 ```
 
 An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/main/twilio/resources_flex_test.go).

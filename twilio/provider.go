@@ -18,14 +18,14 @@ func Provider() *schema.Provider {
 		Schema: map[string]*schema.Schema{
 			"account_sid": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("TWILIO_ACCOUNT_SID", nil),
-				Description: "Your Account SID can be found on the Twilio dashboard at www.twilio.com/console.",
+				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TWILIO_ACCOUNT_SID", "TWILIO_API_KEY"}, nil),
+				Description: "Your Account SID/ API Key can be found on the Twilio dashboard at www.twilio.com/console.",
 				Required:    true,
 			},
 			"auth_token": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("TWILIO_AUTH_TOKEN", nil),
-				Description: "Your Auth Token can be found on the Twilio dashboard at www.twilio.com/console.",
+				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TWILIO_AUTH_TOKEN", "TWILIO_API_SECRET"}, nil),
+				Description: "Your Auth Token/ API Secret can be found on the Twilio dashboard at www.twilio.com/console.",
 				Required:    true,
 			},
 			"subaccount_sid": {

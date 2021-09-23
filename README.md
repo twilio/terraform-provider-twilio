@@ -49,8 +49,8 @@ terraform {
 
 # Credentials can be found at www.twilio.com/console.
 provider "twilio" {
-  //  account_sid defaults to TWILIO_ACCOUNT_SID with TWILIO_API_KEY as the fallback env var
-  //  auth_token  defaults to TWILIO_AUTH_TOKEN with TWILIO_API_SECRET as the fallback env var
+  //  username defaults to TWILIO_API_KEY with TWILIO_ACCOUNT_SID as the fallback env var
+  //  password  defaults to TWILIO_API_SECRET with TWILIO_AUTH_TOKEN as the fallback env var
 }
 
 resource "twilio_api_accounts_keys_v2010" "key_name" {
@@ -63,6 +63,21 @@ output "messages" {
 ```
 
 4. Run `terraform init` and `terraform apply` to initialize and apply changes to your Twilio infrastructure.
+
+### Using environment variables
+
+You can use credentials stored in environment variables for your setup:
+
+#### OPTION 1 (recommended)
+* `TWILIO_ACCOUNT_SID` = your Account SID from [your console](https://www.twilio.com/console)
+* `TWILIO_API_KEY` = an API Key created in [your console](https://twil.io/get-api-key)
+* `TWILIO_API_SECRET` = the secret for the API Key (you would have received this when you created an API key)
+* _(optional)_ `TWILIO_REGION` = the Region for the account
+
+#### OPTION 2
+* `TWILIO_ACCOUNT_SID` = your Account SID from [your console](https://www.twilio.com/console)
+* `TWILIO_AUTH_TOKEN` = your Auth Token from [your console](https://www.twilio.com/console)
+* _(optional)_ `TWILIO_REGION` = the Region for the account
 
 ## Examples
 

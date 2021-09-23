@@ -8,8 +8,8 @@ terraform {
 }
 
 provider "twilio" {
-  //  account_sid defaults to TWILIO_ACCOUNT_SID with TWILIO_API_KEY as the fallback env var
-  //  auth_token  defaults to TWILIO_AUTH_TOKEN with TWILIO_API_SECRET as the fallback env var
+  //  username defaults to TWILIO_API_KEY with TWILIO_ACCOUNT_SID as the fallback env var
+  //  password  defaults to TWILIO_API_SECRET with TWILIO_AUTH_TOKEN as the fallback env var
 }
 
 resource "twilio_serverless_services_v1" "service" {
@@ -18,7 +18,7 @@ resource "twilio_serverless_services_v1" "service" {
 }
 
 resource "twilio_serverless_services_functions_v1" "function" {
-  service_sid   = "ZSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" //service_sid from new service
+  service_sid   = twilio_serverless_services_v1.service.sid //service_sid from new service
   friendly_name = "My serverless func"
 }
 

@@ -8,8 +8,8 @@ terraform {
 }
 
 provider "twilio" {
-  //  account_sid defaults to TWILIO_ACCOUNT_SID with TWILIO_API_KEY as the fallback env var
-  //  auth_token  defaults to TWILIO_AUTH_TOKEN with TWILIO_API_SECRET as the fallback env var
+  //  username defaults to TWILIO_API_KEY with TWILIO_ACCOUNT_SID as the fallback env var
+  //  password  defaults to TWILIO_API_SECRET with TWILIO_AUTH_TOKEN as the fallback env var
 }
 
 # Step 1: Purchase 2 phone numbers -- these are going to be the participants

@@ -12,37 +12,47 @@ import (
 	client "github.com/twilio/twilio-go"
 )
 
+const (
+	AccountSid    = "TWILIO_ACCOUNT_SID"
+	AuthToken     = "TWILIO_AUTH_TOKEN"
+	ApiKey        = "TWILIO_API_KEY"
+	ApiSecret     = "TWILIO_API_SECRET"
+	SubAccountSid = "TWILIO_SUBACCOUNT_SID"
+	Edge          = "TWILIO_EDGE"
+	Region        = "TWILIO_REGION"
+)
+
 // Provider initializes terraform-provider-twilio.
 func Provider() *schema.Provider {
 	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"account_sid": {
+			"username": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TWILIO_ACCOUNT_SID", "TWILIO_API_KEY"}, nil),
-				Description: "Your Account SID/ API Key can be found on the Twilio dashboard at www.twilio.com/console.",
+				DefaultFunc: schema.MultiEnvDefaultFunc([]string{ApiKey, AccountSid}, nil),
 				Required:    true,
+				Description: "Your Account SID/ API Key can be found on the Twilio dashboard at www.twilio.com/console.",
 			},
-			"auth_token": {
+			"password": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TWILIO_AUTH_TOKEN", "TWILIO_API_SECRET"}, nil),
+				DefaultFunc: schema.MultiEnvDefaultFunc([]string{ApiSecret, AuthToken}, nil),
 				Description: "Your Auth Token/ API Secret can be found on the Twilio dashboard at www.twilio.com/console.",
 				Required:    true,
 			},
-			"subaccount_sid": {
+			"account_sid": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("TWILIO_SUBACCOUNT_SID", nil),
+				DefaultFunc: schema.MultiEnvDefaultFunc([]string{SubAccountSid, AccountSid}, nil),
 				Description: "Your SubAccount SID can be found on the Twilio dashboard at www.twilio.com/console.",
 				Optional:    true,
 			},
 			"edge": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("TWILIO_EDGE", nil),
+				DefaultFunc: schema.EnvDefaultFunc(Edge, nil),
 				Description: "https://www.twilio.com/docs/global-infrastructure/edge-locations#public-edge-locations",
 				Optional:    true,
 			},
 			"region": {
 				Type:        schema.TypeString,
-				DefaultFunc: schema.EnvDefaultFunc("TWILIO_REGION", nil),
+				DefaultFunc: schema.EnvDefaultFunc(Region, nil),
 				Description: "https://www.twilio.com/docs/global-infrastructure/edge-locations/legacy-regions",
 				Optional:    true,
 			},
@@ -60,8 +70,8 @@ func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 	return func(c context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 		var TwilioClient *client.RestClient
 
-		username := d.Get("account_sid").(string)
-		password := d.Get("auth_token").(string)
+		username := d.Get("username").(string)
+		password := d.Get("password").(string)
 		region := d.Get("region").(string)
 		edge := d.Get("edge").(string)
 
@@ -69,9 +79,11 @@ func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 			Username: username,
 			Password: password,
 		}
-		if d.Get("subaccount_sid") != nil {
-			params.AccountSid = d.Get("subaccount_sid").(string)
+
+		if d.Get("account_sid") != nil {
+			params.AccountSid = d.Get("account_sid").(string)
 		}
+
 		TwilioClient = client.NewRestClientWithParams(params)
 
 		TwilioClient.SetRegion(region)

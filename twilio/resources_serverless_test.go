@@ -3,8 +3,9 @@ package twilio
 import (
 	"context"
 	"fmt"
-	openapi "github.com/twilio/twilio-go/rest/serverless/v1"
 	"testing"
+
+	openapi "github.com/twilio/twilio-go/rest/serverless/v1"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 

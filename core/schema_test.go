@@ -64,7 +64,6 @@ func TestForceNewRequiredOptionalSchema(t *testing.T) {
 	testSchema := AsInt(SchemaForceNewOptional)
 	assert.Equal(t, true, testSchema.Optional, "Invalid options")
 	assert.Equal(t, false, testSchema.Required, "Invalid options")
-	assert.Equal(t, false, testSchema.Computed, "Invalid options")
 	assert.Equal(t, true, testSchema.ForceNew, "Invalid options")
 	assert.Equal(t, false, testSchema.Sensitive, "Invalid options")
 }
@@ -78,12 +77,6 @@ func TestInvalidEmptySchema(t *testing.T) {
 func TestInvalidComputedRequiredSchema(t *testing.T) {
 	defer func() { _ = recover() }()
 	AsInt(&options{Required: true, Computed: true})
-	t.Errorf("Invalid schema allowed")
-}
-
-func TestInvalidComputedForcenewSchema(t *testing.T) {
-	defer func() { _ = recover() }()
-	AsInt(&options{ForceNew: true, Computed: true})
 	t.Errorf("Invalid schema allowed")
 }
 

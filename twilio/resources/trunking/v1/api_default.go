@@ -23,6 +23,194 @@ import (
 	. "github.com/twilio/twilio-go/rest/trunking/v1"
 )
 
+func ResourceTrunksCredentialLists() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createTrunksCredentialLists,
+		ReadContext:   readTrunksCredentialLists,
+		DeleteContext: deleteTrunksCredentialLists,
+		Schema: map[string]*schema.Schema{
+			"trunk_sid":           AsString(SchemaForceNewRequired),
+			"credential_list_sid": AsString(SchemaForceNewRequired),
+			"sid":                 AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseTrunksCredentialListsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createTrunksCredentialLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCredentialListParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	trunkSid := d.Get("trunk_sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.CreateCredentialList(trunkSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{trunkSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteTrunksCredentialLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	trunkSid := d.Get("trunk_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TrunkingV1.DeleteCredentialList(trunkSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readTrunksCredentialLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	trunkSid := d.Get("trunk_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.FetchCredentialList(trunkSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseTrunksCredentialListsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected trunk_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("trunk_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
+func ResourceTrunksIpAccessControlLists() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createTrunksIpAccessControlLists,
+		ReadContext:   readTrunksIpAccessControlLists,
+		DeleteContext: deleteTrunksIpAccessControlLists,
+		Schema: map[string]*schema.Schema{
+			"trunk_sid":                  AsString(SchemaForceNewRequired),
+			"ip_access_control_list_sid": AsString(SchemaForceNewRequired),
+			"sid":                        AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseTrunksIpAccessControlListsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createTrunksIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateIpAccessControlListParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	trunkSid := d.Get("trunk_sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.CreateIpAccessControlList(trunkSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{trunkSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteTrunksIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	trunkSid := d.Get("trunk_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TrunkingV1.DeleteIpAccessControlList(trunkSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readTrunksIpAccessControlLists(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	trunkSid := d.Get("trunk_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.FetchIpAccessControlList(trunkSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseTrunksIpAccessControlListsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected trunk_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("trunk_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceTrunksOriginationUrls() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createTrunksOriginationUrls,
@@ -144,6 +332,100 @@ func updateTrunksOriginationUrls(ctx context.Context, d *schema.ResourceData, m 
 	return nil
 }
 
+func ResourceTrunksPhoneNumbers() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createTrunksPhoneNumbers,
+		ReadContext:   readTrunksPhoneNumbers,
+		DeleteContext: deleteTrunksPhoneNumbers,
+		Schema: map[string]*schema.Schema{
+			"trunk_sid":        AsString(SchemaForceNewRequired),
+			"phone_number_sid": AsString(SchemaForceNewRequired),
+			"sid":              AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseTrunksPhoneNumbersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createTrunksPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreatePhoneNumberParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	trunkSid := d.Get("trunk_sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.CreatePhoneNumber(trunkSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{trunkSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteTrunksPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	trunkSid := d.Get("trunk_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.TrunkingV1.DeletePhoneNumber(trunkSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readTrunksPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	trunkSid := d.Get("trunk_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.TrunkingV1.FetchPhoneNumber(trunkSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseTrunksPhoneNumbersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected trunk_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("trunk_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceTrunks() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createTrunks,

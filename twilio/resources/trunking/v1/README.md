@@ -1,4 +1,24 @@
 
+## twilio_trunking_trunks_credential_lists_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**trunk_sid** | string | **Required** | The SID of the Trunk to associate the credential list with.
+**credential_list_sid** | string | **Required** | The SID of the [Credential List](https://www.twilio.com/docs/voice/sip/api/sip-credentiallist-resource) that you want to associate with the trunk. Once associated, we will authenticate access to the trunk against this list.
+**sid** | string | *Computed* | The unique string that we created to identify the CredentialList resource to fetch.
+
+## twilio_trunking_trunks_ip_access_control_lists_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**trunk_sid** | string | **Required** | The SID of the Trunk to associate the IP Access Control List with.
+**ip_access_control_list_sid** | string | **Required** | The SID of the [IP Access Control List](https://www.twilio.com/docs/voice/sip/api/sip-ipaccesscontrollist-resource) that you want to associate with the trunk.
+**sid** | string | *Computed* | The unique string that we created to identify the IpAccessControlList resource to fetch.
+
 ## twilio_trunking_trunks_origination_urls_v1
 
 ### Parameters
@@ -12,6 +32,16 @@ Name | Type | Requirement | Description
 **sip_url** | string | **Required** | The SIP address you want Twilio to route your Origination calls to. This must be a &#x60;sip:&#x60; schema.
 **weight** | int | **Required** | The value that determines the relative share of the load the URI should receive compared to other URIs with the same priority. Can be an integer from 1 to 65535, inclusive, and the default is 10. URLs with higher values receive more load than those with lower ones with the same priority.
 **sid** | string | *Computed* | The unique string that we created to identify the OriginationUrl resource to update.
+
+## twilio_trunking_trunks_phone_numbers_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**trunk_sid** | string | **Required** | The SID of the Trunk to associate the phone number with.
+**phone_number_sid** | string | **Required** | The SID of the [Incoming Phone Number](https://www.twilio.com/docs/phone-numbers/api/incomingphonenumber-resource) that you want to associate with the trunk.
+**sid** | string | *Computed* | The unique string that we created to identify the PhoneNumber resource to fetch.
 
 ## twilio_trunking_trunks_v1
 

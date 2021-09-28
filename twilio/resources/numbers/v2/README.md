@@ -26,6 +26,16 @@ Name | Type | Requirement | Description
 **attributes** | string | Optional | The set of parameters that are the attributes of the End User resource which are derived End User Types.
 **sid** | string | *Computed* | The unique string created by Twilio to identify the End User resource.
 
+## twilio_numbers_regulatory_compliance_bundles_item_assignments_v2
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**bundle_sid** | string | **Required** | The unique string that we created to identify the Bundle resource.
+**object_sid** | string | **Required** | The SID of an object bag that holds information of the different items.
+**sid** | string | *Computed* | The unique string that we created to identify the Identity resource.
+
 ## twilio_numbers_regulatory_compliance_supporting_documents_v2
 
 ### Parameters

@@ -433,6 +433,107 @@ func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
+func ResourceAccountsCallsFeedbackSummary() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsCallsFeedbackSummary,
+		ReadContext:   readAccountsCallsFeedbackSummary,
+		DeleteContext: deleteAccountsCallsFeedbackSummary,
+		Schema: map[string]*schema.Schema{
+			"end_date":               AsString(SchemaForceNewRequired),
+			"start_date":             AsString(SchemaForceNewRequired),
+			"path_account_sid":       AsString(SchemaForceNewOptional),
+			"include_subaccounts":    AsBool(SchemaForceNewOptional),
+			"status_callback":        AsString(SchemaForceNewOptional),
+			"status_callback_method": AsString(SchemaForceNewOptional),
+			"sid":                    AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsCallsFeedbackSummaryImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCallFeedbackSummaryParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateCallFeedbackSummary(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteCallFeedbackSummaryParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteCallFeedbackSummary(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchCallFeedbackSummaryParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchCallFeedbackSummary(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsCallsFeedbackSummaryImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func ResourceAccountsCallsRecordings() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsCallsRecordings,
@@ -701,6 +802,109 @@ func updateAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
+func ResourceAccountsIncomingPhoneNumbersAssignedAddOns() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsIncomingPhoneNumbersAssignedAddOns,
+		ReadContext:   readAccountsIncomingPhoneNumbersAssignedAddOns,
+		DeleteContext: deleteAccountsIncomingPhoneNumbersAssignedAddOns,
+		Schema: map[string]*schema.Schema{
+			"resource_sid":         AsString(SchemaForceNewRequired),
+			"installed_add_on_sid": AsString(SchemaForceNewRequired),
+			"path_account_sid":     AsString(SchemaForceNewOptional),
+			"sid":                  AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsIncomingPhoneNumbersAssignedAddOnsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsIncomingPhoneNumbersAssignedAddOns(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateIncomingPhoneNumberAssignedAddOnParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	resourceSid := d.Get("resource_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateIncomingPhoneNumberAssignedAddOn(resourceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{resourceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsIncomingPhoneNumbersAssignedAddOns(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteIncomingPhoneNumberAssignedAddOnParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	resourceSid := d.Get("resource_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteIncomingPhoneNumberAssignedAddOn(resourceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsIncomingPhoneNumbersAssignedAddOns(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchIncomingPhoneNumberAssignedAddOnParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	resourceSid := d.Get("resource_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchIncomingPhoneNumberAssignedAddOn(resourceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsIncomingPhoneNumbersAssignedAddOnsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected resource_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("resource_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceAccountsMessages() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsMessages,
@@ -1359,6 +1563,315 @@ func updateAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 	return nil
 }
 
+func ResourceAccountsSIPDomainsAuthCallsCredentialListMappings() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPDomainsAuthCallsCredentialListMappings,
+		ReadContext:   readAccountsSIPDomainsAuthCallsCredentialListMappings,
+		DeleteContext: deleteAccountsSIPDomainsAuthCallsCredentialListMappings,
+		Schema: map[string]*schema.Schema{
+			"domain_sid":          AsString(SchemaForceNewRequired),
+			"credential_list_sid": AsString(SchemaForceNewRequired),
+			"path_account_sid":    AsString(SchemaForceNewOptional),
+			"sid":                 AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPDomainsAuthCallsCredentialListMappingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsSIPDomainsAuthCallsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipAuthCallsCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipAuthCallsCredentialListMapping(domainSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{domainSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsSIPDomainsAuthCallsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipAuthCallsCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipAuthCallsCredentialListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsSIPDomainsAuthCallsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipAuthCallsCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipAuthCallsCredentialListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsSIPDomainsAuthCallsCredentialListMappingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected domain_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("domain_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
+func ResourceAccountsSIPDomainsAuthCallsIpAccessControlListMappings() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPDomainsAuthCallsIpAccessControlListMappings,
+		ReadContext:   readAccountsSIPDomainsAuthCallsIpAccessControlListMappings,
+		DeleteContext: deleteAccountsSIPDomainsAuthCallsIpAccessControlListMappings,
+		Schema: map[string]*schema.Schema{
+			"domain_sid":                 AsString(SchemaForceNewRequired),
+			"ip_access_control_list_sid": AsString(SchemaForceNewRequired),
+			"path_account_sid":           AsString(SchemaForceNewOptional),
+			"sid":                        AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPDomainsAuthCallsIpAccessControlListMappingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsSIPDomainsAuthCallsIpAccessControlListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipAuthCallsIpAccessControlListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipAuthCallsIpAccessControlListMapping(domainSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{domainSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsSIPDomainsAuthCallsIpAccessControlListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipAuthCallsIpAccessControlListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipAuthCallsIpAccessControlListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsSIPDomainsAuthCallsIpAccessControlListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipAuthCallsIpAccessControlListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipAuthCallsIpAccessControlListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsSIPDomainsAuthCallsIpAccessControlListMappingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected domain_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("domain_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
+func ResourceAccountsSIPDomainsAuthRegistrationsCredentialListMappings() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPDomainsAuthRegistrationsCredentialListMappings,
+		ReadContext:   readAccountsSIPDomainsAuthRegistrationsCredentialListMappings,
+		DeleteContext: deleteAccountsSIPDomainsAuthRegistrationsCredentialListMappings,
+		Schema: map[string]*schema.Schema{
+			"domain_sid":          AsString(SchemaForceNewRequired),
+			"credential_list_sid": AsString(SchemaForceNewRequired),
+			"path_account_sid":    AsString(SchemaForceNewOptional),
+			"sid":                 AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPDomainsAuthRegistrationsCredentialListMappingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsSIPDomainsAuthRegistrationsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipAuthRegistrationsCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipAuthRegistrationsCredentialListMapping(domainSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{domainSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsSIPDomainsAuthRegistrationsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipAuthRegistrationsCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipAuthRegistrationsCredentialListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsSIPDomainsAuthRegistrationsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipAuthRegistrationsCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipAuthRegistrationsCredentialListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsSIPDomainsAuthRegistrationsCredentialListMappingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected domain_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("domain_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceAccountsSIPCredentialListsCredentials() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsSIPCredentialListsCredentials,
@@ -1605,6 +2118,109 @@ func updateAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
+func ResourceAccountsSIPDomainsCredentialListMappings() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPDomainsCredentialListMappings,
+		ReadContext:   readAccountsSIPDomainsCredentialListMappings,
+		DeleteContext: deleteAccountsSIPDomainsCredentialListMappings,
+		Schema: map[string]*schema.Schema{
+			"domain_sid":          AsString(SchemaForceNewRequired),
+			"credential_list_sid": AsString(SchemaForceNewRequired),
+			"path_account_sid":    AsString(SchemaForceNewOptional),
+			"sid":                 AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPDomainsCredentialListMappingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsSIPDomainsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipCredentialListMapping(domainSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{domainSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsSIPDomainsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredentialListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsSIPDomainsCredentialListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipCredentialListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipCredentialListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsSIPDomainsCredentialListMappingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected domain_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("domain_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceAccountsSIPDomains() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsSIPDomains,
@@ -1855,6 +2471,109 @@ func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 	return nil
 }
 
+func ResourceAccountsSIPDomainsIpAccessControlListMappings() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAccountsSIPDomainsIpAccessControlListMappings,
+		ReadContext:   readAccountsSIPDomainsIpAccessControlListMappings,
+		DeleteContext: deleteAccountsSIPDomainsIpAccessControlListMappings,
+		Schema: map[string]*schema.Schema{
+			"domain_sid":                 AsString(SchemaForceNewRequired),
+			"ip_access_control_list_sid": AsString(SchemaForceNewRequired),
+			"path_account_sid":           AsString(SchemaForceNewOptional),
+			"sid":                        AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAccountsSIPDomainsIpAccessControlListMappingsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAccountsSIPDomainsIpAccessControlListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSipIpAccessControlListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAccessControlListMapping(domainSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{domainSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAccountsSIPDomainsIpAccessControlListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSipIpAccessControlListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAccessControlListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAccountsSIPDomainsIpAccessControlListMappings(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSipIpAccessControlListMappingParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	domainSid := d.Get("domain_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAccessControlListMapping(domainSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAccountsSIPDomainsIpAccessControlListMappingsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected domain_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("domain_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceAccountsSIPIpAccessControlListsIpAddresses() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsSIPIpAccessControlListsIpAddresses,

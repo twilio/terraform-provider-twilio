@@ -48,6 +48,18 @@ Name | Type | Requirement | Description
 **secret** | string | Optional | [FCM only] The **Server key** of your project from the Firebase console, found under Settings / Cloud messaging.
 **sid** | string | *Computed* | The SID of the Credential resource to update.
 
+## twilio_chat_services_channels_invites_v2
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the Invite resource under.
+**channel_sid** | string | **Required** | The SID of the [Channel](https://www.twilio.com/docs/chat/channels) the new Invite resource belongs to. This value can be the Channel resource&#39;s &#x60;sid&#x60; or &#x60;unique_name&#x60;.
+**identity** | string | **Required** | The &#x60;identity&#x60; value that uniquely identifies the new resource&#39;s [User](https://www.twilio.com/docs/chat/rest/user-resource) within the [Service](https://www.twilio.com/docs/chat/rest/service-resource). See [access tokens](https://www.twilio.com/docs/chat/create-tokens) for more info.
+**role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/chat/rest/role-resource) assigned to the new member.
+**sid** | string | *Computed* | The SID of the Invite resource to fetch.
+
 ## twilio_chat_services_channels_members_v2
 
 ### Parameters

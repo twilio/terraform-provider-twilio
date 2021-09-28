@@ -136,6 +136,106 @@ func updateAssistants(ctx context.Context, d *schema.ResourceData, m interface{}
 	return nil
 }
 
+func ResourceAssistantsTasksFields() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAssistantsTasksFields,
+		ReadContext:   readAssistantsTasksFields,
+		DeleteContext: deleteAssistantsTasksFields,
+		Schema: map[string]*schema.Schema{
+			"assistant_sid": AsString(SchemaForceNewRequired),
+			"task_sid":      AsString(SchemaForceNewRequired),
+			"field_type":    AsString(SchemaForceNewRequired),
+			"unique_name":   AsString(SchemaForceNewRequired),
+			"sid":           AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsTasksFieldsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAssistantsTasksFields(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateFieldParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateField(assistantSid, taskSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{assistantSid, taskSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAssistantsTasksFields(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.AutopilotV1.DeleteField(assistantSid, taskSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAssistantsTasksFields(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	taskSid := d.Get("task_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchField(assistantSid, taskSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAssistantsTasksFieldsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/task_sid/sid"
+
+	if len(importParts) != 3 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("task_sid", importParts[1])
+	d.Set("sid", importParts[2])
+
+	return nil
+}
 func ResourceAssistantsFieldTypes() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAssistantsFieldTypes,
@@ -254,6 +354,107 @@ func updateAssistantsFieldTypes(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
+func ResourceAssistantsFieldTypesFieldValues() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createAssistantsFieldTypesFieldValues,
+		ReadContext:   readAssistantsFieldTypesFieldValues,
+		DeleteContext: deleteAssistantsFieldTypesFieldValues,
+		Schema: map[string]*schema.Schema{
+			"assistant_sid":  AsString(SchemaForceNewRequired),
+			"field_type_sid": AsString(SchemaForceNewRequired),
+			"language":       AsString(SchemaForceNewRequired),
+			"value":          AsString(SchemaForceNewRequired),
+			"synonym_of":     AsString(SchemaForceNewOptional),
+			"sid":            AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseAssistantsFieldTypesFieldValuesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createAssistantsFieldTypesFieldValues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateFieldValueParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	assistantSid := d.Get("assistant_sid").(string)
+	fieldTypeSid := d.Get("field_type_sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.CreateFieldValue(assistantSid, fieldTypeSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{assistantSid, fieldTypeSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteAssistantsFieldTypesFieldValues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	fieldTypeSid := d.Get("field_type_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.AutopilotV1.DeleteFieldValue(assistantSid, fieldTypeSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readAssistantsFieldTypesFieldValues(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	assistantSid := d.Get("assistant_sid").(string)
+	fieldTypeSid := d.Get("field_type_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.AutopilotV1.FetchFieldValue(assistantSid, fieldTypeSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseAssistantsFieldTypesFieldValuesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected assistant_sid/field_type_sid/sid"
+
+	if len(importParts) != 3 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("assistant_sid", importParts[0])
+	d.Set("field_type_sid", importParts[1])
+	d.Set("sid", importParts[2])
+
+	return nil
+}
 func ResourceAssistantsModelBuilds() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAssistantsModelBuilds,

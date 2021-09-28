@@ -95,6 +95,15 @@ Name | Type | Requirement | Description
 **type** | string | **Required** | The type of role. Can be: &#x60;conversation&#x60; for [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) roles or &#x60;service&#x60; for [Conversation Service](https://www.twilio.com/docs/conversations/api/service-resource) roles.
 **sid** | string | *Computed* | The SID of the Role resource to update.
 
+## twilio_conversations_services_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**friendly_name** | string | **Required** | The human-readable name of this service, limited to 256 characters. Optional.
+**sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
+
 ## twilio_conversations_services_conversations_v1
 
 ### Parameters

@@ -37,8 +37,9 @@ var (
 	}
 
 	SchemaForceNewOptional = &options{
-		Optional: true,
 		ForceNew: true,
+		Computed: true,
+		Optional: true,
 	}
 )
 
@@ -146,9 +147,6 @@ func addSchemaOptions(s *schema.Schema, conf *options) *schema.Schema {
 	if conf.Computed {
 		if conf.Required {
 			panic(fmt.Errorf("computed parameter can't be Required"))
-		}
-		if conf.ForceNew {
-			panic(fmt.Errorf("computed parameter can't be ForceNew"))
 		}
 	} else {
 		if conf.Optional == conf.Required {

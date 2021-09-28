@@ -23,6 +23,102 @@ import (
 	. "github.com/twilio/twilio-go/rest/studio/v1"
 )
 
+func ResourceFlowsEngagements() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createFlowsEngagements,
+		ReadContext:   readFlowsEngagements,
+		DeleteContext: deleteFlowsEngagements,
+		Schema: map[string]*schema.Schema{
+			"flow_sid":   AsString(SchemaForceNewRequired),
+			"from":       AsString(SchemaForceNewRequired),
+			"to":         AsString(SchemaForceNewRequired),
+			"parameters": AsString(SchemaForceNewOptional),
+			"sid":        AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseFlowsEngagementsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createFlowsEngagements(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateEngagementParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	flowSid := d.Get("flow_sid").(string)
+
+	r, err := m.(*client.Config).Client.StudioV1.CreateEngagement(flowSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{flowSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteFlowsEngagements(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	flowSid := d.Get("flow_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.StudioV1.DeleteEngagement(flowSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readFlowsEngagements(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	flowSid := d.Get("flow_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.StudioV1.FetchEngagement(flowSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseFlowsEngagementsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected flow_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("flow_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
 func ResourceFlowsExecutions() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createFlowsExecutions,

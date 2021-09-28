@@ -1,4 +1,24 @@
 
+## twilio_messaging_services_alpha_senders_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the resource under.
+**alpha_sender** | string | **Required** | The Alphanumeric Sender ID string. Can be up to 11 characters long. Valid characters are A-Z, a-z, 0-9, space, and hyphen &#x60;-&#x60;. This value cannot contain only numbers.
+**sid** | string | *Computed* | The SID of the AlphaSender resource to fetch.
+
+## twilio_messaging_services_phone_numbers_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the resource under.
+**phone_number_sid** | string | **Required** | The SID of the Phone Number being added to the Service.
+**sid** | string | *Computed* | The SID of the PhoneNumber resource to fetch.
+
 ## twilio_messaging_services_v1
 
 ### Parameters
@@ -21,4 +41,29 @@ Name | Type | Requirement | Description
 **use_inbound_webhook_on_number** | bool | Optional | A boolean value that indicates either the webhook url configured on the phone number will be used or &#x60;inbound_request_url&#x60;/&#x60;fallback_url&#x60; url will be called when a message is received from the phone number. If this field is enabled then the webhook url defined on the phone number will override the &#x60;inbound_request_url&#x60;/&#x60;fallback_url&#x60; defined for the Messaging Service.
 **validity_period** | int | Optional | How long, in seconds, messages sent from the Service are valid. Can be an integer from &#x60;1&#x60; to &#x60;14,400&#x60;.
 **sid** | string | *Computed* | The SID of the Service resource to update.
+
+## twilio_messaging_services_short_codes_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the resource under.
+**short_code_sid** | string | **Required** | The SID of the ShortCode resource being added to the Service.
+**sid** | string | *Computed* | The SID of the ShortCode resource to fetch.
+
+## twilio_messaging_services_compliance_usa2p_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**messaging_service_sid** | string | **Required** | The SID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) to create the resources from.
+**brand_registration_sid** | string | **Required** | A2P Brand Registration SID
+**description** | string | **Required** | A short description of what this SMS campaign does.
+**has_embedded_links** | bool | **Required** | Indicates that this SMS campaign will send messages that contain links.
+**has_embedded_phone** | bool | **Required** | Indicates that this SMS campaign will send messages that contain phone numbers.
+**message_samples** | list(string) | **Required** | Message samples, at least 2 and up to 5 sample messages, &lt;&#x3D;1024 chars each.
+**us_app_to_person_usecase** | string | **Required** | A2P Campaign Use Case. Examples: [ 2FA, EMERGENCY, MARKETING..]
+**sid** | string | *Computed* | The SID of the US A2P Compliance resource to fetch &#x60;QE2c6890da8086d771620e9b13fadeba0b&#x60;.
 

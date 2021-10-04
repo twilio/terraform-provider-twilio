@@ -11,6 +11,14 @@ Name | Type | Requirement | Description
 **type** | string | Optional | 
 **unique_name** | string | Optional | 
 **sid** | string | *Computed* | 
+**account_sid** | string | *Computed* | 
+**created_by** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**links** | string | *Computed* | 
+**members_count** | string | *Computed* | 
+**messages_count** | string | *Computed* | 
+**url** | string | *Computed* | 
 
 ## twilio_ip_messaging_credentials_v1
 
@@ -26,6 +34,10 @@ Name | Type | Requirement | Description
 **sandbox** | bool | Optional | 
 **secret** | string | Optional | 
 **sid** | string | *Computed* | 
+**account_sid** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**url** | string | *Computed* | 
 
 ## twilio_ip_messaging_services_channels_invites_v1
 
@@ -38,6 +50,11 @@ Name | Type | Requirement | Description
 **identity** | string | **Required** | 
 **role_sid** | string | Optional | 
 **sid** | string | *Computed* | 
+**account_sid** | string | *Computed* | 
+**created_by** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**url** | string | *Computed* | 
 
 ## twilio_ip_messaging_services_channels_members_v1
 
@@ -51,6 +68,11 @@ Name | Type | Requirement | Description
 **role_sid** | string | Optional | 
 **sid** | string | *Computed* | 
 **last_consumed_message_index** | int | Optional | 
+**account_sid** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**last_consumption_timestamp** | string | *Computed* | 
+**url** | string | *Computed* | 
 
 ## twilio_ip_messaging_services_channels_messages_v1
 
@@ -64,6 +86,13 @@ Name | Type | Requirement | Description
 **attributes** | string | Optional | 
 **from** | string | Optional | 
 **sid** | string | *Computed* | 
+**account_sid** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**index** | string | *Computed* | 
+**to** | string | *Computed* | 
+**url** | string | *Computed* | 
+**was_edited** | string | *Computed* | 
 
 ## twilio_ip_messaging_services_roles_v1
 
@@ -76,6 +105,11 @@ Name | Type | Requirement | Description
 **permission** | list(string) | **Required** | 
 **type** | string | **Required** | 
 **sid** | string | *Computed* | 
+**account_sid** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**permissions** | list(string) | *Computed* | 
+**url** | string | *Computed* | 
 
 ## twilio_ip_messaging_services_v1
 
@@ -138,6 +172,14 @@ Name | Type | Requirement | Description
 **webhooks_on_message_update_url** | string | Optional | 
 **webhooks_on_message_updated_method** | string | Optional | 
 **webhooks_on_message_updated_url** | string | Optional | 
+**account_sid** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**limits** | string | *Computed* | 
+**links** | string | *Computed* | 
+**notifications** | string | *Computed* | 
+**url** | string | *Computed* | 
+**webhooks** | string | *Computed* | 
 
 ## twilio_ip_messaging_services_users_v1
 
@@ -151,4 +193,12 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | 
 **role_sid** | string | Optional | 
 **sid** | string | *Computed* | 
+**account_sid** | string | *Computed* | 
+**date_created** | string | *Computed* | 
+**date_updated** | string | *Computed* | 
+**is_notifiable** | string | *Computed* | 
+**is_online** | string | *Computed* | 
+**joined_channels_count** | string | *Computed* | 
+**links** | string | *Computed* | 
+**url** | string | *Computed* | 
 

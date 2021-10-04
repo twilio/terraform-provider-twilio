@@ -36,6 +36,12 @@ func ResourceCustomerProfiles() *schema.Resource {
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
+			"account_sid":     AsString(SchemaComputed),
+			"date_created":    AsString(SchemaComputed),
+			"date_updated":    AsString(SchemaComputed),
+			"links":           AsString(SchemaComputed),
+			"url":             AsString(SchemaComputed),
+			"valid_until":     AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -143,6 +149,9 @@ func ResourceCustomerProfilesChannelEndpointAssignments() *schema.Resource {
 			"channel_endpoint_sid":  AsString(SchemaForceNewRequired),
 			"channel_endpoint_type": AsString(SchemaForceNewRequired),
 			"sid":                   AsString(SchemaComputed),
+			"account_sid":           AsString(SchemaComputed),
+			"date_created":          AsString(SchemaComputed),
+			"url":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -237,6 +246,9 @@ func ResourceCustomerProfilesEntityAssignments() *schema.Resource {
 			"customer_profile_sid": AsString(SchemaForceNewRequired),
 			"object_sid":           AsString(SchemaForceNewRequired),
 			"sid":                  AsString(SchemaComputed),
+			"account_sid":          AsString(SchemaComputed),
+			"date_created":         AsString(SchemaComputed),
+			"url":                  AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -333,6 +345,10 @@ func ResourceEndUsers() *schema.Resource {
 			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -445,6 +461,12 @@ func ResourceSupportingDocuments() *schema.Resource {
 			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"mime_type":     AsString(SchemaComputed),
+			"status":        AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -559,6 +581,12 @@ func ResourceTrustProducts() *schema.Resource {
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
+			"account_sid":     AsString(SchemaComputed),
+			"date_created":    AsString(SchemaComputed),
+			"date_updated":    AsString(SchemaComputed),
+			"links":           AsString(SchemaComputed),
+			"url":             AsString(SchemaComputed),
+			"valid_until":     AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -666,6 +694,9 @@ func ResourceTrustProductsChannelEndpointAssignments() *schema.Resource {
 			"channel_endpoint_sid":  AsString(SchemaForceNewRequired),
 			"channel_endpoint_type": AsString(SchemaForceNewRequired),
 			"sid":                   AsString(SchemaComputed),
+			"account_sid":           AsString(SchemaComputed),
+			"date_created":          AsString(SchemaComputed),
+			"url":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -760,6 +791,9 @@ func ResourceTrustProductsEntityAssignments() *schema.Resource {
 			"trust_product_sid": AsString(SchemaForceNewRequired),
 			"object_sid":        AsString(SchemaForceNewRequired),
 			"sid":               AsString(SchemaComputed),
+			"account_sid":       AsString(SchemaComputed),
+			"date_created":      AsString(SchemaComputed),
+			"url":               AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

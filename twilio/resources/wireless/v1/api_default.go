@@ -37,6 +37,14 @@ func ResourceCommands() *schema.Resource {
 			"include_sid":                AsString(SchemaForceNewOptional),
 			"sim":                        AsString(SchemaForceNewOptional),
 			"sid":                        AsString(SchemaComputed),
+			"account_sid":                AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"direction":                  AsString(SchemaComputed),
+			"sim_sid":                    AsString(SchemaComputed),
+			"status":                     AsString(SchemaComputed),
+			"transport":                  AsString(SchemaComputed),
+			"url":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -136,6 +144,10 @@ func ResourceRatePlans() *schema.Resource {
 			"unique_name":                      AsString(SchemaComputedOptional),
 			"voice_enabled":                    AsBool(SchemaComputedOptional),
 			"sid":                              AsString(SchemaComputed),
+			"account_sid":                      AsString(SchemaComputed),
+			"date_created":                     AsString(SchemaComputed),
+			"date_updated":                     AsString(SchemaComputed),
+			"url":                              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

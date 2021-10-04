@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.20.2
+ * API version: 1.20.3
  * Contact: support@twilio.com
  */
 
@@ -29,14 +29,17 @@ func ResourceExportsJobs() *schema.Resource {
 		ReadContext:   readExportsJobs,
 		DeleteContext: deleteExportsJobs,
 		Schema: map[string]*schema.Schema{
-			"resource_type":  AsString(SchemaForceNewRequired),
-			"end_day":        AsString(SchemaForceNewRequired),
-			"friendly_name":  AsString(SchemaForceNewRequired),
-			"start_day":      AsString(SchemaForceNewRequired),
-			"email":          AsString(SchemaForceNewOptional),
-			"webhook_method": AsString(SchemaForceNewOptional),
-			"webhook_url":    AsString(SchemaForceNewOptional),
-			"job_sid":        AsString(SchemaComputed),
+			"resource_type":             AsString(SchemaForceNewRequired),
+			"end_day":                   AsString(SchemaForceNewRequired),
+			"friendly_name":             AsString(SchemaForceNewRequired),
+			"start_day":                 AsString(SchemaForceNewRequired),
+			"email":                     AsString(SchemaForceNewOptional),
+			"webhook_method":            AsString(SchemaForceNewOptional),
+			"webhook_url":               AsString(SchemaForceNewOptional),
+			"job_sid":                   AsString(SchemaComputed),
+			"details":                   AsString(SchemaComputed),
+			"estimated_completion_time": AsString(SchemaComputed),
+			"job_queue_position":        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

@@ -39,6 +39,12 @@ func ResourceRegulatoryComplianceBundles() *schema.Resource {
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
+			"account_sid":     AsString(SchemaComputed),
+			"date_created":    AsString(SchemaComputed),
+			"date_updated":    AsString(SchemaComputed),
+			"links":           AsString(SchemaComputed),
+			"url":             AsString(SchemaComputed),
+			"valid_until":     AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -147,6 +153,10 @@ func ResourceRegulatoryComplianceEndUsers() *schema.Resource {
 			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -254,9 +264,12 @@ func ResourceRegulatoryComplianceBundlesItemAssignments() *schema.Resource {
 		ReadContext:   readRegulatoryComplianceBundlesItemAssignments,
 		DeleteContext: deleteRegulatoryComplianceBundlesItemAssignments,
 		Schema: map[string]*schema.Schema{
-			"bundle_sid": AsString(SchemaForceNewRequired),
-			"object_sid": AsString(SchemaForceNewRequired),
-			"sid":        AsString(SchemaComputed),
+			"bundle_sid":   AsString(SchemaForceNewRequired),
+			"object_sid":   AsString(SchemaForceNewRequired),
+			"sid":          AsString(SchemaComputed),
+			"account_sid":  AsString(SchemaComputed),
+			"date_created": AsString(SchemaComputed),
+			"url":          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -353,6 +366,12 @@ func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
 			"type":          AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"mime_type":     AsString(SchemaComputed),
+			"status":        AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

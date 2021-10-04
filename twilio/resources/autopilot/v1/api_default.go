@@ -30,15 +30,22 @@ func ResourceAssistants() *schema.Resource {
 		UpdateContext: updateAssistants,
 		DeleteContext: deleteAssistants,
 		Schema: map[string]*schema.Schema{
-			"callback_events":   AsString(SchemaComputedOptional),
-			"callback_url":      AsString(SchemaComputedOptional),
-			"defaults":          AsString(SchemaComputedOptional),
-			"friendly_name":     AsString(SchemaComputedOptional),
-			"log_queries":       AsBool(SchemaComputedOptional),
-			"style_sheet":       AsString(SchemaComputedOptional),
-			"unique_name":       AsString(SchemaComputedOptional),
-			"sid":               AsString(SchemaComputed),
-			"development_stage": AsString(SchemaComputedOptional),
+			"callback_events":        AsString(SchemaComputedOptional),
+			"callback_url":           AsString(SchemaComputedOptional),
+			"defaults":               AsString(SchemaComputedOptional),
+			"friendly_name":          AsString(SchemaComputedOptional),
+			"log_queries":            AsBool(SchemaComputedOptional),
+			"style_sheet":            AsString(SchemaComputedOptional),
+			"unique_name":            AsString(SchemaComputedOptional),
+			"sid":                    AsString(SchemaComputed),
+			"development_stage":      AsString(SchemaComputedOptional),
+			"account_sid":            AsString(SchemaComputed),
+			"date_created":           AsString(SchemaComputed),
+			"date_updated":           AsString(SchemaComputed),
+			"latest_model_build_sid": AsString(SchemaComputed),
+			"links":                  AsString(SchemaComputed),
+			"needs_model_build":      AsString(SchemaComputed),
+			"url":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -147,6 +154,10 @@ func ResourceAssistantsTasksFields() *schema.Resource {
 			"field_type":    AsString(SchemaForceNewRequired),
 			"unique_name":   AsString(SchemaForceNewRequired),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -247,6 +258,11 @@ func ResourceAssistantsFieldTypes() *schema.Resource {
 			"unique_name":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"links":         AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -366,6 +382,10 @@ func ResourceAssistantsFieldTypesFieldValues() *schema.Resource {
 			"value":          AsString(SchemaForceNewRequired),
 			"synonym_of":     AsString(SchemaForceNewOptional),
 			"sid":            AsString(SchemaComputed),
+			"account_sid":    AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -466,6 +486,13 @@ func ResourceAssistantsModelBuilds() *schema.Resource {
 			"status_callback": AsString(SchemaComputedOptional),
 			"unique_name":     AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
+			"account_sid":     AsString(SchemaComputed),
+			"build_duration":  AsString(SchemaComputed),
+			"date_created":    AsString(SchemaComputed),
+			"date_updated":    AsString(SchemaComputed),
+			"error_code":      AsString(SchemaComputed),
+			"status":          AsString(SchemaComputed),
+			"url":             AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -580,14 +607,22 @@ func ResourceAssistantsQueries() *schema.Resource {
 		UpdateContext: updateAssistantsQueries,
 		DeleteContext: deleteAssistantsQueries,
 		Schema: map[string]*schema.Schema{
-			"assistant_sid": AsString(SchemaRequired),
-			"language":      AsString(SchemaRequired),
-			"query":         AsString(SchemaRequired),
-			"model_build":   AsString(SchemaComputedOptional),
-			"tasks":         AsString(SchemaComputedOptional),
-			"sid":           AsString(SchemaComputed),
-			"sample_sid":    AsString(SchemaComputedOptional),
-			"status":        AsString(SchemaComputedOptional),
+			"assistant_sid":   AsString(SchemaRequired),
+			"language":        AsString(SchemaRequired),
+			"query":           AsString(SchemaRequired),
+			"model_build":     AsString(SchemaComputedOptional),
+			"tasks":           AsString(SchemaComputedOptional),
+			"sid":             AsString(SchemaComputed),
+			"sample_sid":      AsString(SchemaComputedOptional),
+			"status":          AsString(SchemaComputedOptional),
+			"account_sid":     AsString(SchemaComputed),
+			"date_created":    AsString(SchemaComputed),
+			"date_updated":    AsString(SchemaComputed),
+			"dialogue_sid":    AsString(SchemaComputed),
+			"model_build_sid": AsString(SchemaComputed),
+			"results":         AsString(SchemaComputed),
+			"source_channel":  AsString(SchemaComputed),
+			"url":             AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -704,6 +739,10 @@ func ResourceAssistantsTasksSamples() *schema.Resource {
 			"tagged_text":    AsString(SchemaRequired),
 			"source_channel": AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
+			"account_sid":    AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -829,6 +868,11 @@ func ResourceAssistantsTasks() *schema.Resource {
 			"actions_url":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"links":         AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -949,6 +993,10 @@ func ResourceAssistantsWebhooks() *schema.Resource {
 			"webhook_url":    AsString(SchemaRequired),
 			"webhook_method": AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
+			"account_sid":    AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

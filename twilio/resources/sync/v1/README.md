@@ -11,6 +11,14 @@ Name | Type | Requirement | Description
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the Sync Document
 **sid** | string | *Computed* | The SID of the Document resource to update. Can be the Document resource&#39;s &#x60;sid&#x60; or its &#x60;unique_name&#x60;.
 **if_match** | string | Optional | The If-Match HTTP request header
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the Sync Document&#39;s creator
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_expires** | string | *Computed* | The ISO 8601 date and time in GMT when the Sync Document expires
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of resources related to the Sync Document
+**revision** | string | *Computed* | The current revision of the Sync Document, represented by a string identifier
+**url** | string | *Computed* | The absolute URL of the Document resource
 
 ## twilio_sync_services_v1
 
@@ -26,6 +34,12 @@ Name | Type | Requirement | Description
 **webhook_url** | string | Optional | The URL we should call when Sync objects are manipulated.
 **webhooks_from_rest_enabled** | bool | Optional | Whether the Service instance should call &#x60;webhook_url&#x60; when the REST API is used to update Sync objects. The default is &#x60;false&#x60;.
 **sid** | string | *Computed* | The SID of the Service resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of related resources
+**unique_name** | string | *Computed* | An application-defined string that uniquely identifies the resource
+**url** | string | *Computed* | The absolute URL of the Service resource
 
 ## twilio_sync_services_lists_v1
 
@@ -38,6 +52,14 @@ Name | Type | Requirement | Description
 **ttl** | int | Optional | Alias for collection_ttl. If both are provided, this value is ignored.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. This value must be unique within its Service and it can be up to 320 characters long. The &#x60;unique_name&#x60; value can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource.
 **sid** | string | *Computed* | The SID of the Sync List resource to update. Can be the Sync List resource&#39;s &#x60;sid&#x60; or its &#x60;unique_name&#x60;.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the Sync List&#39;s creator
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_expires** | string | *Computed* | The ISO 8601 date and time in GMT when the Sync List expires
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of the Sync List&#39;s nested resources
+**revision** | string | *Computed* | The current revision of the Sync List, represented as a string
+**url** | string | *Computed* | The absolute URL of the Sync List resource
 
 ## twilio_sync_services_lists_items_v1
 
@@ -53,6 +75,13 @@ Name | Type | Requirement | Description
 **ttl** | int | Optional | An alias for &#x60;item_ttl&#x60;. If both parameters are provided, this value is ignored.
 **index** | int | *Computed* | The index of the Sync List Item resource to update.
 **if_match** | string | Optional | If provided, applies this mutation if (and only if) the “revision” field of this [map item] matches the provided value. This matches the semantics of (and is implemented with) the HTTP [If-Match header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match).
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the List Item&#39;s creator
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_expires** | string | *Computed* | The ISO 8601 date and time in GMT when the List Item expires
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**revision** | string | *Computed* | The current revision of the item, represented as a string
+**url** | string | *Computed* | The absolute URL of the List Item resource
 
 ## twilio_sync_services_maps_v1
 
@@ -65,6 +94,14 @@ Name | Type | Requirement | Description
 **ttl** | int | Optional | An alias for &#x60;collection_ttl&#x60;. If both parameters are provided, this value is ignored.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource.
 **sid** | string | *Computed* | The SID of the Sync Map resource to update. Can be the Sync Map&#39;s &#x60;sid&#x60; or its &#x60;unique_name&#x60;.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the Sync Map&#39;s creator
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_expires** | string | *Computed* | The ISO 8601 date and time in GMT when the Sync Map expires
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of the Sync Map&#39;s nested resources
+**revision** | string | *Computed* | The current revision of the Sync Map, represented as a string
+**url** | string | *Computed* | The absolute URL of the Sync Map resource
 
 ## twilio_sync_services_maps_items_v1
 
@@ -80,6 +117,13 @@ Name | Type | Requirement | Description
 **item_ttl** | int | Optional | How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Map Item expires (time-to-live) and is deleted.
 **ttl** | int | Optional | An alias for &#x60;item_ttl&#x60;. If both parameters are provided, this value is ignored.
 **if_match** | string | Optional | If provided, applies this mutation if (and only if) the “revision” field of this [map item] matches the provided value. This matches the semantics of (and is implemented with) the HTTP [If-Match header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match).
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the Map Item&#39;s creator
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_expires** | string | *Computed* | The ISO 8601 date and time in GMT when the Map Item expires
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**revision** | string | *Computed* | The current revision of the Map Item, represented as a string
+**url** | string | *Computed* | The absolute URL of the Map Item resource
 
 ## twilio_sync_services_streams_v1
 
@@ -91,4 +135,11 @@ Name | Type | Requirement | Description
 **ttl** | int | Optional | How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the Stream expires and is deleted (time-to-live).
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. This value must be unique within its Service and it can be up to 320 characters long. The &#x60;unique_name&#x60; value can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource.
 **sid** | string | *Computed* | The SID of the Stream resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The Identity of the Stream&#39;s creator
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_expires** | string | *Computed* | The ISO 8601 date and time in GMT when the Message Stream expires
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of the Stream&#39;s nested resources
+**url** | string | *Computed* | The absolute URL of the Message Stream resource
 

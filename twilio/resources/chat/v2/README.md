@@ -15,11 +15,6 @@ Name | Type | Requirement | Description
 **type** | string | Optional | The visibility of the channel. Can be: &#x60;public&#x60; or &#x60;private&#x60; and defaults to &#x60;public&#x60;.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the Channel resource&#39;s &#x60;sid&#x60; in the URL. This value must be 64 characters or less in length and be unique within the Service.
 **sid** | string | *Computed* | The SID of the Channel resource to update. This value can be either the &#x60;sid&#x60; or the &#x60;unique_name&#x60; of the Channel resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**links** | string | *Computed* | Absolute URLs to access the Members, Messages , Invites and, if it exists, the last Message for the Channel
-**members_count** | string | *Computed* | The number of Members in the Channel
-**messages_count** | string | *Computed* | The number of Messages that have been passed in the Channel
-**url** | string | *Computed* | The absolute URL of the Channel resource
 
 ## twilio_chat_services_channels_webhooks_v2
 
@@ -37,11 +32,6 @@ Name | Type | Requirement | Description
 **configuration_triggers** | list(string) | Optional | A string that will cause us to call the webhook when it is present in a message body. This parameter takes only one trigger string. To specify more than one, repeat this parameter for each trigger string up to a total of 5 trigger strings. Used only when &#x60;type&#x60; &#x3D; &#x60;trigger&#x60;.
 **configuration_url** | string | Optional | The URL of the webhook to call using the &#x60;configuration.method&#x60;.
 **sid** | string | *Computed* | The SID of the Channel Webhook resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**configuration** | string | *Computed* | The JSON string that describes the configuration object for the channel webhook
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**url** | string | *Computed* | The absolute URL of the Channel Webhook resource
 
 ## twilio_chat_credentials_v2
 
@@ -57,10 +47,6 @@ Name | Type | Requirement | Description
 **sandbox** | bool | Optional | [APN only] Whether to send the credential to sandbox APNs. Can be &#x60;true&#x60; to send to sandbox APNs or &#x60;false&#x60; to send to production.
 **secret** | string | Optional | [FCM only] The **Server key** of your project from the Firebase console, found under Settings / Cloud messaging.
 **sid** | string | *Computed* | The SID of the Credential resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**url** | string | *Computed* | The absolute URL of the Credential resource
 
 ## twilio_chat_services_channels_invites_v2
 
@@ -73,11 +59,6 @@ Name | Type | Requirement | Description
 **identity** | string | **Required** | The &#x60;identity&#x60; value that uniquely identifies the new resource&#39;s [User](https://www.twilio.com/docs/chat/rest/user-resource) within the [Service](https://www.twilio.com/docs/chat/rest/service-resource). See [access tokens](https://www.twilio.com/docs/chat/create-tokens) for more info.
 **role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/chat/rest/role-resource) assigned to the new member.
 **sid** | string | *Computed* | The SID of the Invite resource to fetch.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**created_by** | string | *Computed* | The identity of the User that created the invite
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**url** | string | *Computed* | The absolute URL of the Invite resource
 
 ## twilio_chat_services_channels_members_v2
 
@@ -96,8 +77,6 @@ Name | Type | Requirement | Description
 **last_consumption_timestamp** | string | Optional | The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp of the last [Message](https://www.twilio.com/docs/chat/rest/message-resource) read event for the Member within the [Channel](https://www.twilio.com/docs/chat/channels).
 **role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/chat/rest/role-resource) to assign to the member. The default roles are those specified on the [Service](https://www.twilio.com/docs/chat/rest/service-resource).
 **sid** | string | *Computed* | The SID of the Member resource to update. This value can be either the Member&#39;s &#x60;sid&#x60; or its &#x60;identity&#x60; value.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**url** | string | *Computed* | The absolute URL of the Member resource
 
 ## twilio_chat_services_channels_messages_v2
 
@@ -116,13 +95,6 @@ Name | Type | Requirement | Description
 **last_updated_by** | string | Optional | The [Identity](https://www.twilio.com/docs/chat/identity) of the User who last updated the Message, if applicable.
 **media_sid** | string | Optional | The SID of the [Media](https://www.twilio.com/docs/chat/rest/media) to attach to the new Message.
 **sid** | string | *Computed* | The SID of the Message resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**index** | string | *Computed* | The index of the message within the Channel
-**media** | string | *Computed* | A Media object that describes the Message&#39;s media if attached; otherwise, null
-**to** | string | *Computed* | The SID of the Channel that the message was sent to
-**type** | string | *Computed* | The Message type
-**url** | string | *Computed* | The absolute URL of the Message resource
-**was_edited** | string | *Computed* | Whether the message has been edited since  it was created
 
 ## twilio_chat_services_roles_v2
 
@@ -135,11 +107,6 @@ Name | Type | Requirement | Description
 **permission** | list(string) | **Required** | A permission that you grant to the new role. Only one permission can be granted per parameter. To assign more than one permission, repeat this parameter for each permission value. The values for this parameter depend on the role&#39;s &#x60;type&#x60;.
 **type** | string | **Required** | The type of role. Can be: &#x60;channel&#x60; for [Channel](https://www.twilio.com/docs/chat/channels) roles or &#x60;deployment&#x60; for [Service](https://www.twilio.com/docs/chat/rest/service-resource) roles.
 **sid** | string | *Computed* | The SID of the Role resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**permissions** | list(string) | *Computed* | An array of the permissions the role has been granted
-**url** | string | *Computed* | The absolute URL of the Role resource
 
 ## twilio_chat_services_v2
 
@@ -179,14 +146,6 @@ Name | Type | Requirement | Description
 **typing_indicator_timeout** | int | Optional | How long in seconds after a &#x60;started typing&#x60; event until clients should assume that user is no longer typing, even if no &#x60;ended typing&#x60; message was received.  The default is 5 seconds.
 **webhook_filters** | list(string) | Optional | The list of webhook events that are enabled for this Service instance. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
 **webhook_method** | string | Optional | The HTTP method to use for calls to the &#x60;pre_webhook_url&#x60; and &#x60;post_webhook_url&#x60; webhooks.  Can be: &#x60;POST&#x60; or &#x60;GET&#x60; and the default is &#x60;POST&#x60;. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
-**limits** | string | *Computed* | An object that describes the limits of the service instance
-**links** | string | *Computed* | The absolute URLs of the Service&#39;s Channels, Roles, and Users
-**media** | string | *Computed* | The properties of the media that the service supports
-**notifications** | string | *Computed* | The notification configuration for the Service instance
-**url** | string | *Computed* | The absolute URL of the Service resource
 
 ## twilio_chat_services_users_v2
 
@@ -201,12 +160,4 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new resource. This value is often used for display purposes.
 **role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/chat/rest/role-resource) to assign to the new User.
 **sid** | string | *Computed* | The SID of the User resource to update. This value can be either the &#x60;sid&#x60; or the &#x60;identity&#x60; of the User resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**is_notifiable** | string | *Computed* | Whether the User has a potentially valid Push Notification registration for the Service instance
-**is_online** | string | *Computed* | Whether the User is actively connected to the Service instance and online
-**joined_channels_count** | string | *Computed* | The number of Channels the User is a Member of
-**links** | string | *Computed* | The absolute URLs of the Channel and Binding resources related to the user
-**url** | string | *Computed* | The absolute URL of the User resource
 

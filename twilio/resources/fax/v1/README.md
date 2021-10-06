@@ -16,16 +16,4 @@ Name | Type | Requirement | Description
 **ttl** | int | Optional | How long in minutes from when the fax is initiated that we should try to send the fax.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Fax resource to update.
 **status** | string | Optional | The new [status](https://www.twilio.com/docs/fax/api/fax-resource#fax-status-values) of the resource. Can be only &#x60;canceled&#x60;. This may fail if transmission has already started.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**api_version** | string | *Computed* | The API version used to transmit the fax
-**date_created** | string | *Computed* | The ISO 8601 formatted date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 formatted date and time in GMT when the resource was last updated
-**direction** | string | *Computed* | The direction of the fax
-**duration** | string | *Computed* | The time it took to transmit the fax
-**links** | string | *Computed* | The URLs of the fax&#39;s related resources
-**media_sid** | string | *Computed* | The SID of the FaxMedia resource that is associated with the Fax
-**num_pages** | string | *Computed* | The number of pages contained in the fax document
-**price** | string | *Computed* | The fax transmission price
-**price_unit** | string | *Computed* | The ISO 4217 currency used for billing
-**url** | string | *Computed* | The absolute URL of the fax resource
 

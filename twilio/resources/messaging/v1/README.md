@@ -8,11 +8,6 @@ Name | Type | Requirement | Description
 **service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the resource under.
 **alpha_sender** | string | **Required** | The Alphanumeric Sender ID string. Can be up to 11 characters long. Valid characters are A-Z, a-z, 0-9, space, and hyphen &#x60;-&#x60;. This value cannot contain only numbers.
 **sid** | string | *Computed* | The SID of the AlphaSender resource to fetch.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**capabilities** | list(string) | *Computed* | An array of values that describe whether the number can receive calls or messages
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**url** | string | *Computed* | The absolute URL of the AlphaSender resource
 
 ## twilio_messaging_services_phone_numbers_v1
 
@@ -23,13 +18,6 @@ Name | Type | Requirement | Description
 **service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the resource under.
 **phone_number_sid** | string | **Required** | The SID of the Phone Number being added to the Service.
 **sid** | string | *Computed* | The SID of the PhoneNumber resource to fetch.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**capabilities** | list(string) | *Computed* | An array of values that describe whether the number can receive calls or messages
-**country_code** | string | *Computed* | The 2-character ISO Country Code of the number
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**phone_number** | string | *Computed* | The phone number in E.164 format
-**url** | string | *Computed* | The absolute URL of the PhoneNumber resource
 
 ## twilio_messaging_services_v1
 
@@ -53,11 +41,6 @@ Name | Type | Requirement | Description
 **use_inbound_webhook_on_number** | bool | Optional | A boolean value that indicates either the webhook url configured on the phone number will be used or &#x60;inbound_request_url&#x60;/&#x60;fallback_url&#x60; url will be called when a message is received from the phone number. If this field is enabled then the webhook url defined on the phone number will override the &#x60;inbound_request_url&#x60;/&#x60;fallback_url&#x60; defined for the Messaging Service.
 **validity_period** | int | Optional | How long, in seconds, messages sent from the Service are valid. Can be an integer from &#x60;1&#x60; to &#x60;14,400&#x60;.
 **sid** | string | *Computed* | The SID of the Service resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**links** | string | *Computed* | The absolute URLs of related resources
-**url** | string | *Computed* | The absolute URL of the Service resource
 
 ## twilio_messaging_services_short_codes_v1
 
@@ -68,13 +51,6 @@ Name | Type | Requirement | Description
 **service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/chat/rest/service-resource) to create the resource under.
 **short_code_sid** | string | **Required** | The SID of the ShortCode resource being added to the Service.
 **sid** | string | *Computed* | The SID of the ShortCode resource to fetch.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**capabilities** | list(string) | *Computed* | An array of values that describe whether the number can receive calls or messages
-**country_code** | string | *Computed* | The 2-character ISO Country Code of the number
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**short_code** | string | *Computed* | The E.164 format of the short code
-**url** | string | *Computed* | The absolute URL of the ShortCode resource
 
 ## twilio_messaging_services_compliance_usa2p_v1
 
@@ -90,13 +66,4 @@ Name | Type | Requirement | Description
 **message_samples** | list(string) | **Required** | Message samples, at least 2 and up to 5 sample messages, &lt;&#x3D;1024 chars each.
 **us_app_to_person_usecase** | string | **Required** | A2P Campaign Use Case. Examples: [ 2FA, EMERGENCY, MARKETING..]
 **sid** | string | *Computed* | The SID of the US A2P Compliance resource to fetch &#x60;QE2c6890da8086d771620e9b13fadeba0b&#x60;.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**campaign_id** | string | *Computed* | The Campaign Registry (TCR) Campaign ID.
-**campaign_status** | string | *Computed* | Campaign status
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**is_externally_registered** | string | *Computed* | Indicates whether the campaign was registered externally or not
-**mock** | string | *Computed* | A boolean that specifies whether campaign is a mock or not.
-**rate_limits** | string | *Computed* | Rate limit and/or classification set by each carrier
-**url** | string | *Computed* | The absolute URL of the US App to Person resource
 

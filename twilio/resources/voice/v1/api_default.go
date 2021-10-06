@@ -41,6 +41,10 @@ func ResourceByocTrunks() *schema.Resource {
 			"voice_method":           AsString(SchemaComputedOptional),
 			"voice_url":              AsString(SchemaComputedOptional),
 			"sid":                    AsString(SchemaComputed),
+			"account_sid":            AsString(SchemaComputed),
+			"date_created":           AsString(SchemaComputed),
+			"date_updated":           AsString(SchemaComputed),
+			"url":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -151,6 +155,11 @@ func ResourceConnectionPolicies() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"links":         AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -266,6 +275,10 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 			"priority":              AsInt(SchemaComputedOptional),
 			"weight":                AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
+			"account_sid":           AsString(SchemaComputed),
+			"date_created":          AsString(SchemaComputed),
+			"date_updated":          AsString(SchemaComputed),
+			"url":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -384,6 +397,10 @@ func ResourceIpRecords() *schema.Resource {
 			"cidr_prefix_length": AsInt(SchemaComputedOptional),
 			"friendly_name":      AsString(SchemaComputedOptional),
 			"sid":                AsString(SchemaComputed),
+			"account_sid":        AsString(SchemaComputed),
+			"date_created":       AsString(SchemaComputed),
+			"date_updated":       AsString(SchemaComputed),
+			"url":                AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -495,6 +512,9 @@ func ResourceSourceIpMappings() *schema.Resource {
 			"ip_record_sid":  AsString(SchemaRequired),
 			"sip_domain_sid": AsString(SchemaRequired),
 			"sid":            AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

@@ -14,6 +14,13 @@ Name | Type | Requirement | Description
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the new resource. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource. The first 64 characters must be unique.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Assistant resource to update.
 **development_stage** | string | Optional | A string describing the state of the assistant.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**latest_model_build_sid** | string | *Computed* | Reserved
+**links** | string | *Computed* | A list of the URLs of the Assistant&#39;s related resources
+**needs_model_build** | string | *Computed* | Whether model needs to be rebuilt
+**url** | string | *Computed* | The absolute URL of the Assistant resource
 
 ## twilio_autopilot_assistants_tasks_fields_v1
 
@@ -26,6 +33,10 @@ Name | Type | Requirement | Description
 **field_type** | string | **Required** | The Field Type of the new field. Can be: a [Built-in Field Type](https://www.twilio.com/docs/autopilot/built-in-field-types), the &#x60;unique_name&#x60;, or the &#x60;sid&#x60; of a custom Field Type.
 **unique_name** | string | **Required** | An application-defined string that uniquely identifies the new resource. This value must be a unique string of no more than 64 characters. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Field resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the Field resource
 
 ## twilio_autopilot_assistants_field_types_v1
 
@@ -37,6 +48,11 @@ Name | Type | Requirement | Description
 **unique_name** | string | **Required** | An application-defined string that uniquely identifies the new resource. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource. The first 64 characters must be unique.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new resource. It is not unique and can be up to 255 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the FieldType resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | A list of the URLs of related resources
+**url** | string | *Computed* | The absolute URL of the FieldType resource
 
 ## twilio_autopilot_assistants_field_types_field_values_v1
 
@@ -50,6 +66,10 @@ Name | Type | Requirement | Description
 **value** | string | **Required** | The Field Value data.
 **synonym_of** | string | Optional | The string value that indicates which word the field value is a synonym of.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the FieldValue resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the FieldValue resource
 
 ## twilio_autopilot_assistants_model_builds_v1
 
@@ -61,6 +81,13 @@ Name | Type | Requirement | Description
 **status_callback** | string | Optional | The URL we should call using a POST method to send status information to your application.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the new resource. This value must be a unique string of no more than 64 characters. It can be used as an alternative to the &#x60;sid&#x60; in the URL path to address the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the ModelBuild resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**build_duration** | string | *Computed* | The time in seconds it took to build the model
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**error_code** | string | *Computed* | More information about why the model build failed, if &#x60;status&#x60; is &#x60;failed&#x60;
+**status** | string | *Computed* | The status of the model build process
+**url** | string | *Computed* | The absolute URL of the ModelBuild resource
 
 ## twilio_autopilot_assistants_queries_v1
 
@@ -76,6 +103,14 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Query resource to update.
 **sample_sid** | string | Optional | The SID of an optional reference to the [Sample](https://www.twilio.com/docs/autopilot/api/task-sample) created from the query.
 **status** | string | Optional | The new status of the resource. Can be: &#x60;pending-review&#x60;, &#x60;reviewed&#x60;, or &#x60;discarded&#x60;
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**dialogue_sid** | string | *Computed* | The SID of the [Dialogue](https://www.twilio.com/docs/autopilot/api/dialogue).
+**model_build_sid** | string | *Computed* | The SID of the [Model Build](https://www.twilio.com/docs/autopilot/api/model-build) queried
+**results** | string | *Computed* | The natural language analysis results that include the Task recognized and a list of identified Fields
+**source_channel** | string | *Computed* | The communication channel from where the end-user input came
+**url** | string | *Computed* | The absolute URL of the Query resource
 
 ## twilio_autopilot_assistants_tasks_samples_v1
 
@@ -89,6 +124,10 @@ Name | Type | Requirement | Description
 **tagged_text** | string | **Required** | The text example of how end users might express the task. The sample can contain [Field tag blocks](https://www.twilio.com/docs/autopilot/api/task-sample#field-tagging).
 **source_channel** | string | Optional | The communication channel from which the new sample was captured. Can be: &#x60;voice&#x60;, &#x60;sms&#x60;, &#x60;chat&#x60;, &#x60;alexa&#x60;, &#x60;google-assistant&#x60;, &#x60;slack&#x60;, or null if not included.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Sample resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the Sample resource
 
 ## twilio_autopilot_assistants_tasks_v1
 
@@ -102,6 +141,11 @@ Name | Type | Requirement | Description
 **actions_url** | string | Optional | The URL from which the Assistant can fetch actions.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new resource. It is not unique and can be up to 255 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Task resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | A list of the URLs of related resources
+**url** | string | *Computed* | The absolute URL of the Task resource
 
 ## twilio_autopilot_assistants_webhooks_v1
 
@@ -115,4 +159,8 @@ Name | Type | Requirement | Description
 **webhook_url** | string | **Required** | The URL associated with this Webhook.
 **webhook_method** | string | Optional | The method to be used when calling the webhook&#39;s URL.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Webhook resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the Webhook resource
 

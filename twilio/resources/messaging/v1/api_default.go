@@ -32,6 +32,11 @@ func ResourceServicesAlphaSenders() *schema.Resource {
 			"service_sid":  AsString(SchemaForceNewRequired),
 			"alpha_sender": AsString(SchemaForceNewRequired),
 			"sid":          AsString(SchemaComputed),
+			"account_sid":  AsString(SchemaComputed),
+			"capabilities": AsList(AsString(SchemaComputed), SchemaComputed),
+			"date_created": AsString(SchemaComputed),
+			"date_updated": AsString(SchemaComputed),
+			"url":          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -126,6 +131,13 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 			"service_sid":      AsString(SchemaForceNewRequired),
 			"phone_number_sid": AsString(SchemaForceNewRequired),
 			"sid":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaComputed),
+			"capabilities":     AsList(AsString(SchemaComputed), SchemaComputed),
+			"country_code":     AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"phone_number":     AsString(SchemaComputed),
+			"url":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -234,6 +246,11 @@ func ResourceServices() *schema.Resource {
 			"use_inbound_webhook_on_number": AsBool(SchemaComputedOptional),
 			"validity_period":               AsInt(SchemaComputedOptional),
 			"sid":                           AsString(SchemaComputed),
+			"account_sid":                   AsString(SchemaComputed),
+			"date_created":                  AsString(SchemaComputed),
+			"date_updated":                  AsString(SchemaComputed),
+			"links":                         AsString(SchemaComputed),
+			"url":                           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -344,6 +361,13 @@ func ResourceServicesShortCodes() *schema.Resource {
 			"service_sid":    AsString(SchemaForceNewRequired),
 			"short_code_sid": AsString(SchemaForceNewRequired),
 			"sid":            AsString(SchemaComputed),
+			"account_sid":    AsString(SchemaComputed),
+			"capabilities":   AsList(AsString(SchemaComputed), SchemaComputed),
+			"country_code":   AsString(SchemaComputed),
+			"date_created":   AsString(SchemaComputed),
+			"date_updated":   AsString(SchemaComputed),
+			"short_code":     AsString(SchemaComputed),
+			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -443,6 +467,15 @@ func ResourceServicesComplianceUsa2p() *schema.Resource {
 			"message_samples":          AsList(AsString(SchemaForceNewRequired), SchemaForceNewRequired),
 			"us_app_to_person_usecase": AsString(SchemaForceNewRequired),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"campaign_id":              AsString(SchemaComputed),
+			"campaign_status":          AsString(SchemaComputed),
+			"date_created":             AsString(SchemaComputed),
+			"date_updated":             AsString(SchemaComputed),
+			"is_externally_registered": AsString(SchemaComputed),
+			"mock":                     AsString(SchemaComputed),
+			"rate_limits":              AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

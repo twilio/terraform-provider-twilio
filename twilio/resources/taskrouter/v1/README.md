@@ -9,6 +9,11 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | A descriptive string that you create to describe the Activity resource. It can be up to 64 characters long. These names are used to calculate and expose statistics about Workers, and provide visibility into the state of each Worker. Examples of friendly names include: &#x60;on-call&#x60;, &#x60;break&#x60;, and &#x60;email&#x60;.
 **available** | bool | Optional | Whether the Worker should be eligible to receive a Task when it occupies the Activity. A value of &#x60;true&#x60;, &#x60;1&#x60;, or &#x60;yes&#x60; specifies the Activity is available. All other values specify that it is not. The value cannot be changed after the Activity is created.
 **sid** | string | *Computed* | The SID of the Activity resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | 
+**url** | string | *Computed* | The absolute URL of the Activity resource
 
 ## twilio_taskrouter_workspaces_tasks_v1
 
@@ -26,6 +31,19 @@ Name | Type | Requirement | Description
 **if_match** | string | Optional | If provided, applies this mutation if (and only if) the [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) header of the Task matches the provided value. This matches the semantics of (and is implemented with) the HTTP [If-Match header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match).
 **assignment_status** | string | Optional | The new status of the task. Can be: &#x60;canceled&#x60;, to cancel a Task that is currently &#x60;pending&#x60; or &#x60;reserved&#x60;; &#x60;wrapping&#x60;, to move the Task to wrapup state; or &#x60;completed&#x60;, to move a Task to the completed state.
 **reason** | string | Optional | The reason that the Task was canceled or completed. This parameter is required only if the Task is canceled or completed. Setting this value queues the task for deletion and logs the reason.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**addons** | string | *Computed* | An object that contains the addon data for all installed addons
+**age** | string | *Computed* | The number of seconds since the Task was created
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of related resources
+**task_channel_sid** | string | *Computed* | The SID of the TaskChannel
+**task_channel_unique_name** | string | *Computed* | The unique name of the TaskChannel
+**task_queue_entered_date** | string | *Computed* | The ISO 8601 date and time in GMT when the Task entered the TaskQueue.
+**task_queue_friendly_name** | string | *Computed* | The friendly name of the TaskQueue
+**task_queue_sid** | string | *Computed* | The SID of the TaskQueue
+**url** | string | *Computed* | The absolute URL of the Task resource
+**workflow_friendly_name** | string | *Computed* | The friendly name of the Workflow that is controlling the Task
 
 ## twilio_taskrouter_workspaces_task_channels_v1
 
@@ -38,6 +56,11 @@ Name | Type | Requirement | Description
 **unique_name** | string | **Required** | An application-defined string that uniquely identifies the Task Channel, such as &#x60;voice&#x60; or &#x60;sms&#x60;.
 **channel_optimized_routing** | bool | Optional | Whether the Task Channel should prioritize Workers that have been idle. If &#x60;true&#x60;, Workers that have been idle the longest are prioritized.
 **sid** | string | *Computed* | The SID of the Task Channel resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of related resources
+**url** | string | *Computed* | The absolute URL of the Task Channel resource
 
 ## twilio_taskrouter_workspaces_task_queues_v1
 
@@ -53,6 +76,13 @@ Name | Type | Requirement | Description
 **target_workers** | string | Optional | A string that describes the Worker selection criteria for any Tasks that enter the TaskQueue. For example, &#x60;&#39;\\\&quot;language\\\&quot; &#x3D;&#x3D; \\\&quot;spanish\\\&quot;&#39;&#x60;. The default value is &#x60;1&#x3D;&#x3D;1&#x60;. If this value is empty, Tasks will wait in the TaskQueue until they are deleted or moved to another TaskQueue. For more information about Worker selection, see [Describing Worker selection criteria](https://www.twilio.com/docs/taskrouter/api/taskqueues#target-workers).
 **task_order** | string | Optional | How Tasks will be assigned to Workers. Set this parameter to &#x60;LIFO&#x60; to assign most recently created Task first or FIFO to assign the oldest Task first. Default is &#x60;FIFO&#x60;. [Click here](https://www.twilio.com/docs/taskrouter/queue-ordering-last-first-out-lifo) to learn more.
 **sid** | string | *Computed* | The SID of the TaskQueue resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**assignment_activity_name** | string | *Computed* | The name of the Activity to assign Workers when a task is assigned for them
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of related resources
+**reservation_activity_name** | string | *Computed* | The name of the Activity to assign Workers once a task is reserved for them
+**url** | string | *Computed* | The absolute URL of the TaskQueue resource
 
 ## twilio_taskrouter_workspaces_workers_v1
 
@@ -66,6 +96,14 @@ Name | Type | Requirement | Description
 **attributes** | string | Optional | A valid JSON string that describes the new Worker. For example: &#x60;{ \\\&quot;email\\\&quot;: \\\&quot;Bob@example.com\\\&quot;, \\\&quot;phone\\\&quot;: \\\&quot;+5095551234\\\&quot; }&#x60;. This data is passed to the &#x60;assignment_callback_url&#x60; when TaskRouter assigns a Task to the Worker. Defaults to {}.
 **sid** | string | *Computed* | The SID of the Worker resource to update.
 **reject_pending_reservations** | bool | Optional | Whether to reject pending reservations.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**activity_name** | string | *Computed* | The friendly_name of the Worker&#39;s current Activity
+**available** | string | *Computed* | Whether the Worker is available to perform tasks
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_status_changed** | string | *Computed* | The date and time in GMT of the last change to the Worker&#39;s activity
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of related resources
+**url** | string | *Computed* | The absolute URL of the Worker resource
 
 ## twilio_taskrouter_workspaces_workflows_v1
 
@@ -81,6 +119,12 @@ Name | Type | Requirement | Description
 **task_reservation_timeout** | int | Optional | How long TaskRouter will wait for a confirmation response from your application after it assigns a Task to a Worker. Can be up to &#x60;86,400&#x60; (24 hours) and the default is &#x60;120&#x60;.
 **sid** | string | *Computed* | The SID of the Workflow resource to update.
 **re_evaluate_tasks** | string | Optional | Whether or not to re-evaluate Tasks. The default is &#x60;false&#x60;, which means Tasks in the Workflow will not be processed through the assignment loop again.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**document_content_type** | string | *Computed* | The MIME type of the document
+**links** | string | *Computed* | The URLs of related resources
+**url** | string | *Computed* | The absolute URL of the Workflow resource
 
 ## twilio_taskrouter_workspaces_v1
 
@@ -97,4 +141,11 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The SID of the Workspace resource to update.
 **default_activity_sid** | string | Optional | The SID of the Activity that will be used when new Workers are created in the Workspace.
 **timeout_activity_sid** | string | Optional | The SID of the Activity that will be assigned to a Worker when a Task reservation times out without a response.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**default_activity_name** | string | *Computed* | The name of the default activity
+**links** | string | *Computed* | The URLs of related resources
+**timeout_activity_name** | string | *Computed* | The name of the timeout activity
+**url** | string | *Computed* | The absolute URL of the Workspace resource
 

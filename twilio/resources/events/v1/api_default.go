@@ -34,6 +34,11 @@ func ResourceSinks() *schema.Resource {
 			"sink_configuration": AsString(SchemaRequired),
 			"sink_type":          AsString(SchemaRequired),
 			"sid":                AsString(SchemaComputed),
+			"date_created":       AsString(SchemaComputed),
+			"date_updated":       AsString(SchemaComputed),
+			"links":              AsString(SchemaComputed),
+			"status":             AsString(SchemaComputed),
+			"url":                AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -145,6 +150,8 @@ func ResourceSubscriptionsSubscribedEvents() *schema.Resource {
 			"subscription_sid": AsString(SchemaRequired),
 			"type":             AsString(SchemaRequired),
 			"schema_version":   AsInt(SchemaComputedOptional),
+			"account_sid":      AsString(SchemaComputed),
+			"url":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -259,10 +266,15 @@ func ResourceSubscriptions() *schema.Resource {
 		UpdateContext: updateSubscriptions,
 		DeleteContext: deleteSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"description": AsString(SchemaRequired),
-			"sink_sid":    AsString(SchemaRequired),
-			"types":       AsList(AsString(SchemaRequired), SchemaRequired),
-			"sid":         AsString(SchemaComputed),
+			"description":  AsString(SchemaRequired),
+			"sink_sid":     AsString(SchemaRequired),
+			"types":        AsList(AsString(SchemaRequired), SchemaRequired),
+			"sid":          AsString(SchemaComputed),
+			"account_sid":  AsString(SchemaComputed),
+			"date_created": AsString(SchemaComputed),
+			"date_updated": AsString(SchemaComputed),
+			"links":        AsString(SchemaComputed),
+			"url":          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

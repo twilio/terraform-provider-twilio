@@ -16,6 +16,12 @@ Name | Type | Requirement | Description
 **emergency_enabled** | bool | Optional | Whether to enable emergency calling on the new address. Can be: &#x60;true&#x60; or &#x60;false&#x60;.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new address. It can be up to 64 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Address resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that is responsible for the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
+**validated** | string | *Computed* | Whether the address has been validated to comply with local regulation
+**verified** | string | *Computed* | Whether the address has been verified to comply with regulation
 
 ## twilio_api_accounts_applications_v2010
 
@@ -40,6 +46,10 @@ Name | Type | Requirement | Description
 **voice_method** | string | Optional | The HTTP method we should use to call &#x60;voice_url&#x60;. Can be: &#x60;GET&#x60; or &#x60;POST&#x60;.
 **voice_url** | string | Optional | The URL we should call when the phone number assigned to this application receives a call.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Application resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_calls_v2010
 
@@ -85,6 +95,29 @@ Name | Type | Requirement | Description
 **url** | string | Optional | The absolute URL that returns the TwiML instructions for the call. We will call this URL using the &#x60;method&#x60; when the call connects. For more information, see the [Url Parameter](https://www.twilio.com/docs/voice/make-calls#specify-a-url-parameter) section in [Making Calls](https://www.twilio.com/docs/voice/make-calls).
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Call resource to update
 **status** | string | Optional | The new status of the resource. Can be: &#x60;canceled&#x60; or &#x60;completed&#x60;. Specifying &#x60;canceled&#x60; will attempt to hang up calls that are queued or ringing; however, it will not affect calls already in progress. Specifying &#x60;completed&#x60; will attempt to hang up a call even if it&#39;s already in progress.
+**account_sid** | string | *Computed* | The SID of the Account that created this resource
+**annotation** | string | *Computed* | The annotation provided for the call
+**answered_by** | string | *Computed* | Either &#x60;human&#x60; or &#x60;machine&#x60; if this call was initiated with answering machine detection. Empty otherwise.
+**api_version** | string | *Computed* | The API Version used to create the call
+**caller_name** | string | *Computed* | The caller&#39;s name if this call was an incoming call to a phone number with caller ID Lookup enabled. Otherwise, empty.
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that this resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that this resource was last updated
+**direction** | string | *Computed* | A string describing the direction of the call. &#x60;inbound&#x60; for inbound calls, &#x60;outbound-api&#x60; for calls initiated via the REST API or &#x60;outbound-dial&#x60; for calls initiated by a &#x60;Dial&#x60; verb.
+**duration** | string | *Computed* | The length of the call in seconds.
+**end_time** | string | *Computed* | The end time of the call. Null if the call did not complete successfully.
+**forwarded_from** | string | *Computed* | The forwarding phone number if this call was an incoming call forwarded from another number (depends on carrier supporting forwarding). Otherwise, empty.
+**from_formatted** | string | *Computed* | The calling phone number, SIP address, or Client identifier formatted for display.
+**group_sid** | string | *Computed* | The Group SID associated with this call. If no Group is associated with the call, the field is empty.
+**parent_call_sid** | string | *Computed* | The SID that identifies the call that created this leg.
+**phone_number_sid** | string | *Computed* | If the call was inbound, this is the SID of the IncomingPhoneNumber resource that received the call. If the call was outbound, it is the SID of the OutgoingCallerId resource from which the call was placed.
+**price** | string | *Computed* | The charge for this call, in the currency associated with the account. Populated after the call is completed. May not be immediately available.
+**price_unit** | string | *Computed* | The currency in which &#x60;Price&#x60; is measured.
+**queue_time** | string | *Computed* | The wait time in milliseconds before the call is placed.
+**start_time** | string | *Computed* | The start time of the call. Null if the call has not yet been dialed.
+**subresource_uris** | string | *Computed* | A list of related subresources identified by their relative URIs
+**to_formatted** | string | *Computed* | The phone number, SIP address or Client identifier that received this call. Formatted for display.
+**trunk_sid** | string | *Computed* | The (optional) unique identifier of the trunk resource that was used for this call.
+**uri** | string | *Computed* | The URI of this resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_calls_feedback_summary_v2010
 
@@ -99,6 +132,16 @@ Name | Type | Requirement | Description
 **status_callback** | string | Optional | The URL that we will request when the feedback summary is complete.
 **status_callback_method** | string | Optional | The HTTP method (&#x60;GET&#x60; or &#x60;POST&#x60;) we use to make the request to the &#x60;StatusCallback&#x60; URL.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
+**account_sid** | string | *Computed* | The unique sid that identifies this account
+**call_count** | string | *Computed* | The total number of calls
+**call_feedback_count** | string | *Computed* | The total number of calls with a feedback entry
+**date_created** | string | *Computed* | The date this resource was created
+**date_updated** | string | *Computed* | The date this resource was last updated
+**issues** | list(string) | *Computed* | Issues experienced during the call
+**quality_score_average** | string | *Computed* | The average QualityScore of the feedback entries
+**quality_score_median** | string | *Computed* | The median QualityScore of the feedback entries
+**quality_score_standard_deviation** | string | *Computed* | The standard deviation of the quality scores
+**status** | string | *Computed* | The status of the feedback summary
 
 ## twilio_api_accounts_calls_recordings_v2010
 
@@ -117,6 +160,21 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Recording resource to update.
 **status** | string | Optional | The new status of the recording. Can be: &#x60;stopped&#x60;, &#x60;paused&#x60;, &#x60;in-progress&#x60;.
 **pause_behavior** | string | Optional | Whether to record during a pause. Can be: &#x60;skip&#x60; or &#x60;silence&#x60; and the default is &#x60;silence&#x60;. &#x60;skip&#x60; does not record during the pause period, while &#x60;silence&#x60; will replace the actual audio of the call with silence during the pause period. This parameter only applies when setting &#x60;status&#x60; is set to &#x60;paused&#x60;.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**api_version** | string | *Computed* | The API version used to make the recording
+**channels** | string | *Computed* | The number of channels in the final recording file
+**conference_sid** | string | *Computed* | The Conference SID that identifies the conference associated with the recording
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**duration** | string | *Computed* | The length of the recording in seconds
+**encryption_details** | string | *Computed* | How to decrypt the recording.
+**error_code** | string | *Computed* | More information about why the recording is missing, if status is &#x60;absent&#x60;.
+**price** | string | *Computed* | The one-time cost of creating the recording.
+**price_unit** | string | *Computed* | The currency used in the price property.
+**source** | string | *Computed* | How the recording was created
+**start_time** | string | *Computed* | The start time of the recording, given in RFC 2822 format
+**track** | string | *Computed* | The recorded track. Can be: &#x60;inbound&#x60;, &#x60;outbound&#x60;, or &#x60;both&#x60;.
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_incoming_phone_numbers_v2010
 
@@ -151,6 +209,14 @@ Name | Type | Requirement | Description
 **voice_url** | string | Optional | The URL that we should call to answer a call to the new phone number. The &#x60;voice_url&#x60; will not be called if a &#x60;voice_application_sid&#x60; or a &#x60;trunk_sid&#x60; is set.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the IncomingPhoneNumber resource to update.
 **account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the IncomingPhoneNumber resource to update.  For more information, see [Exchanging Numbers Between Subaccounts](https://www.twilio.com/docs/iam/api/subaccounts#exchanging-numbers).
+**address_requirements** | string | *Computed* | Whether the phone number requires an Address registered with Twilio.
+**beta** | string | *Computed* | Whether the phone number is new to the Twilio platform
+**capabilities** | string | *Computed* | 
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**origin** | string | *Computed* | The phone number&#39;s origin. Can be twilio or hosted.
+**status** | string | *Computed* | 
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_incoming_phone_numbers_assigned_add_ons_v2010
 
@@ -162,6 +228,15 @@ Name | Type | Requirement | Description
 **installed_add_on_sid** | string | **Required** | The SID that identifies the Add-on installation.
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**configuration** | string | *Computed* | A JSON string that represents the current configuration
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**description** | string | *Computed* | A short description of the Add-on functionality
+**friendly_name** | string | *Computed* | The string that you assigned to describe the resource
+**subresource_uris** | string | *Computed* | A list of related resources identified by their relative URIs
+**unique_name** | string | *Computed* | An application-defined string that uniquely identifies the resource
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_messages_v2010
 
@@ -187,6 +262,21 @@ Name | Type | Requirement | Description
 **status_callback** | string | Optional | The URL we should call using the &#x60;status_callback_method&#x60; to send status information to your application. If specified, we POST these message status changes to the URL: &#x60;queued&#x60;, &#x60;failed&#x60;, &#x60;sent&#x60;, &#x60;delivered&#x60;, or &#x60;undelivered&#x60;. Twilio will POST its [standard request parameters](https://www.twilio.com/docs/sms/twiml#request-parameters) as well as some additional parameters including &#x60;MessageSid&#x60;, &#x60;MessageStatus&#x60;, and &#x60;ErrorCode&#x60;. If you include this parameter with the &#x60;messaging_service_sid&#x60;, we use this URL instead of the Status Callback URL of the [Messaging Service](https://www.twilio.com/docs/sms/services/api). URLs must contain a valid hostname and underscores are not allowed.
 **validity_period** | int | Optional | How long in seconds the message can remain in our outgoing message queue. After this period elapses, the message fails and we call your status callback. Can be between 1 and the default value of 14,400 seconds. After a message has been accepted by a carrier, however, we cannot guarantee that the message will not be queued after this period. We recommend that this value be at least 5 seconds.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Message resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**api_version** | string | *Computed* | The API version used to process the message
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_sent** | string | *Computed* | The RFC 2822 date and time in GMT when the message was sent
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**direction** | string | *Computed* | The direction of the message
+**error_code** | string | *Computed* | The error code associated with the message
+**error_message** | string | *Computed* | The description of the error_code
+**num_media** | string | *Computed* | The number of media files associated with the message
+**num_segments** | string | *Computed* | The number of messages used to deliver the message body
+**price** | string | *Computed* | The amount billed for the message
+**price_unit** | string | *Computed* | The currency in which price is measured
+**status** | string | *Computed* | The status of the message
+**subresource_uris** | string | *Computed* | A list of related resources identified by their relative URIs
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_keys_v2010
 
@@ -197,6 +287,9 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will be responsible for the new Key resource.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the resource. It can be up to 64 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Key resource to update.
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**secret** | string | *Computed* | The secret your application uses to sign Access Tokens and to authenticate to the REST API.
 
 ## twilio_api_accounts_signing_keys_v2010
 
@@ -207,6 +300,9 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will be responsible for the new Key resource.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the resource. It can be up to 64 characters long.
 **sid** | string | *Computed* | 
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**secret** | string | *Computed* | The secret your application uses to sign Access Tokens and to authenticate to the REST API.
 
 ## twilio_api_accounts_conferences_participants_v2010
 
@@ -262,6 +358,11 @@ Name | Type | Requirement | Description
 **hold** | bool | Optional | Whether the participant should be on hold. Can be: &#x60;true&#x60; or &#x60;false&#x60;. &#x60;true&#x60; puts the participant on hold, and &#x60;false&#x60; lets them rejoin the conference.
 **hold_method** | string | Optional | The HTTP method we should use to call &#x60;hold_url&#x60;. Can be: &#x60;GET&#x60; or &#x60;POST&#x60; and the default is &#x60;GET&#x60;.
 **hold_url** | string | Optional | The URL we call using the &#x60;hold_method&#x60; for  music that plays when the participant is on hold. The URL may return an MP3 file, a WAV file, or a TwiML document that contains the &#x60;&lt;Play&gt;&#x60;, &#x60;&lt;Say&gt;&#x60; or &#x60;&lt;Redirect&gt;&#x60; commands.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**status** | string | *Computed* | The status of the participant&#39;s call in a session
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_queues_v2010
 
@@ -273,6 +374,12 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **max_size** | int | Optional | The maximum number of calls allowed to be in the queue. The default is 100. The maximum is 5000.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Queue resource to update
+**account_sid** | string | *Computed* | The SID of the Account that created this resource
+**average_wait_time** | string | *Computed* | Average wait time of members in the queue
+**current_size** | string | *Computed* | The number of calls currently in the queue.
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that this resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that this resource was last updated
+**uri** | string | *Computed* | The URI of this resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_sipdomains_auth_calls_credential_list_mappings_v2010
 
@@ -284,6 +391,10 @@ Name | Type | Requirement | Description
 **credential_list_sid** | string | **Required** | The SID of the CredentialList resource to map to the SIP domain.
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the CredentialListMapping resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**friendly_name** | string | *Computed* | The string that you assigned to describe the resource
 
 ## twilio_api_accounts_sipdomains_auth_calls_ip_access_control_list_mappings_v2010
 
@@ -295,6 +406,10 @@ Name | Type | Requirement | Description
 **ip_access_control_list_sid** | string | **Required** | The SID of the IpAccessControlList resource to map to the SIP domain.
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the IpAccessControlListMapping resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**friendly_name** | string | *Computed* | The string that you assigned to describe the resource
 
 ## twilio_api_accounts_sipdomains_auth_registrations_credential_list_mappings_v2010
 
@@ -306,6 +421,10 @@ Name | Type | Requirement | Description
 **credential_list_sid** | string | **Required** | The SID of the CredentialList resource to map to the SIP domain.
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the CredentialListMapping resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**friendly_name** | string | *Computed* | The string that you assigned to describe the resource
 
 ## twilio_api_accounts_sipcredential_lists_credentials_v2010
 
@@ -318,6 +437,10 @@ Name | Type | Requirement | Description
 **username** | string | **Required** | The username that will be passed when authenticating SIP requests. The username should be sent in response to Twilio&#39;s challenge of the initial INVITE. It can be up to 32 characters long.
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | The unique id that identifies the resource to update.
+**account_sid** | string | *Computed* | The unique id of the Account that is responsible for this resource.
+**date_created** | string | *Computed* | The date that this resource was created, given as GMT in RFC 2822 format.
+**date_updated** | string | *Computed* | The date that this resource was last updated, given as GMT in RFC 2822 format.
+**uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
 ## twilio_api_accounts_sipcredential_lists_v2010
 
@@ -328,6 +451,11 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | A human readable descriptive text that describes the CredentialList, up to 64 characters long.
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | The credential list Sid that uniquely identifies this resource
+**account_sid** | string | *Computed* | The unique sid that identifies this account
+**date_created** | string | *Computed* | The date this resource was created
+**date_updated** | string | *Computed* | The date this resource was last updated
+**subresource_uris** | string | *Computed* | The list of credentials associated with this credential list.
+**uri** | string | *Computed* | The URI for this resource
 
 ## twilio_api_accounts_sipdomains_credential_list_mappings_v2010
 
@@ -339,6 +467,11 @@ Name | Type | Requirement | Description
 **credential_list_sid** | string | **Required** | A 34 character string that uniquely identifies the CredentialList resource to map to the SIP domain.
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to fetch.
+**account_sid** | string | *Computed* | The unique id of the Account that is responsible for this resource.
+**date_created** | string | *Computed* | The date that this resource was created, given as GMT in RFC 2822 format.
+**date_updated** | string | *Computed* | The date that this resource was last updated, given as GMT in RFC 2822 format.
+**friendly_name** | string | *Computed* | A human readable descriptive text for this resource, up to 64 characters long.
+**uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
 ## twilio_api_accounts_sipdomains_v2010
 
@@ -361,6 +494,13 @@ Name | Type | Requirement | Description
 **voice_status_callback_url** | string | Optional | The URL that we should call to pass status parameters (such as call ended) to your application.
 **voice_url** | string | Optional | The URL we should when the domain receives a call.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the SipDomain resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**api_version** | string | *Computed* | The API version used to process the call
+**auth_type** | string | *Computed* | The types of authentication mapped to the domain
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**subresource_uris** | string | *Computed* | A list mapping resources associated with the SIP Domain resource
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
 ## twilio_api_accounts_sipip_access_control_lists_v2010
 
@@ -371,6 +511,11 @@ Name | Type | Requirement | Description
 **friendly_name** | string | **Required** | A human readable descriptive text that describes the IpAccessControlList, up to 64 characters long.
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to udpate.
+**account_sid** | string | *Computed* | The unique sid that identifies this account
+**date_created** | string | *Computed* | The date this resource was created
+**date_updated** | string | *Computed* | The date this resource was last updated
+**subresource_uris** | string | *Computed* | The IP addresses associated with this resource.
+**uri** | string | *Computed* | The URI for this resource
 
 ## twilio_api_accounts_sipdomains_ip_access_control_list_mappings_v2010
 
@@ -382,6 +527,11 @@ Name | Type | Requirement | Description
 **ip_access_control_list_sid** | string | **Required** | The unique id of the IP access control list to map to the SIP domain.
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to fetch.
+**account_sid** | string | *Computed* | The unique id of the Account that is responsible for this resource.
+**date_created** | string | *Computed* | The date that this resource was created, given as GMT in RFC 2822 format.
+**date_updated** | string | *Computed* | The date that this resource was last updated, given as GMT in RFC 2822 format.
+**friendly_name** | string | *Computed* | A human readable descriptive text for this resource, up to 64 characters long.
+**uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
 ## twilio_api_accounts_sipip_access_control_lists_ip_addresses_v2010
 
@@ -395,6 +545,10 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **cidr_prefix_length** | int | Optional | An integer representing the length of the CIDR prefix to use with this IP address when accepting traffic. By default the entire IP address is used.
 **sid** | string | *Computed* | A 34 character string that identifies the IpAddress resource to update.
+**account_sid** | string | *Computed* | The unique id of the Account that is responsible for this resource.
+**date_created** | string | *Computed* | The date that this resource was created, given as GMT in RFC 2822 format.
+**date_updated** | string | *Computed* | The date that this resource was last updated, given as GMT in RFC 2822 format.
+**uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
 ## twilio_api_accounts_usage_triggers_v2010
 
@@ -411,4 +565,12 @@ Name | Type | Requirement | Description
 **recurring** | string | Optional | The frequency of a recurring UsageTrigger.  Can be: &#x60;daily&#x60;, &#x60;monthly&#x60;, or &#x60;yearly&#x60; for recurring triggers or empty for non-recurring triggers. A trigger will only fire once during each period. Recurring times are in GMT.
 **trigger_by** | string | Optional | The field in the [UsageRecord](https://www.twilio.com/docs/usage/api/usage-record) resource that should fire the trigger.  Can be: &#x60;count&#x60;, &#x60;usage&#x60;, or &#x60;price&#x60; as described in the [UsageRecords documentation](https://www.twilio.com/docs/usage/api/usage-record#usage-count-price).  The default is &#x60;usage&#x60;.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the UsageTrigger resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that this trigger monitors
+**api_version** | string | *Computed* | The API version used to create the resource
+**current_value** | string | *Computed* | The current value of the field the trigger is watching
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
+**date_fired** | string | *Computed* | The RFC 2822 date and time in GMT that the trigger was last fired
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
+**usage_record_uri** | string | *Computed* | The URI of the UsageRecord resource this trigger watches
 

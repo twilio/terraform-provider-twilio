@@ -37,6 +37,12 @@ func ResourceServicesSessionsParticipants() *schema.Resource {
 			"proxy_identifier":             AsString(SchemaForceNewOptional),
 			"proxy_identifier_sid":         AsString(SchemaForceNewOptional),
 			"sid":                          AsString(SchemaComputed),
+			"account_sid":                  AsString(SchemaComputed),
+			"date_created":                 AsString(SchemaComputed),
+			"date_deleted":                 AsString(SchemaComputed),
+			"date_updated":                 AsString(SchemaComputed),
+			"links":                        AsString(SchemaComputed),
+			"url":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -133,10 +139,18 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 		UpdateContext: updateServicesPhoneNumbers,
 		DeleteContext: deleteServicesPhoneNumbers,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"is_reserved":  AsBool(SchemaComputedOptional),
-			"phone_number": AsString(SchemaComputedOptional),
-			"sid":          AsString(SchemaComputedOptional),
+			"service_sid":   AsString(SchemaRequired),
+			"is_reserved":   AsBool(SchemaComputedOptional),
+			"phone_number":  AsString(SchemaComputedOptional),
+			"sid":           AsString(SchemaComputedOptional),
+			"account_sid":   AsString(SchemaComputed),
+			"capabilities":  AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"friendly_name": AsString(SchemaComputed),
+			"in_use":        AsString(SchemaComputed),
+			"iso_country":   AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -260,6 +274,11 @@ func ResourceServices() *schema.Resource {
 			"number_selection_behavior":   AsString(SchemaComputedOptional),
 			"out_of_session_callback_url": AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
+			"account_sid":                 AsString(SchemaComputed),
+			"date_created":                AsString(SchemaComputed),
+			"date_updated":                AsString(SchemaComputed),
+			"links":                       AsString(SchemaComputed),
+			"url":                         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -377,6 +396,15 @@ func ResourceServicesSessions() *schema.Resource {
 			"ttl":                          AsInt(SchemaComputedOptional),
 			"unique_name":                  AsString(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
+			"account_sid":                  AsString(SchemaComputed),
+			"closed_reason":                AsString(SchemaComputed),
+			"date_created":                 AsString(SchemaComputed),
+			"date_ended":                   AsString(SchemaComputed),
+			"date_last_interaction":        AsString(SchemaComputed),
+			"date_started":                 AsString(SchemaComputed),
+			"date_updated":                 AsString(SchemaComputed),
+			"links":                        AsString(SchemaComputed),
+			"url":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -491,9 +519,16 @@ func ResourceServicesShortCodes() *schema.Resource {
 		UpdateContext: updateServicesShortCodes,
 		DeleteContext: deleteServicesShortCodes,
 		Schema: map[string]*schema.Schema{
-			"service_sid": AsString(SchemaRequired),
-			"sid":         AsString(SchemaRequired),
-			"is_reserved": AsBool(SchemaComputedOptional),
+			"service_sid":  AsString(SchemaRequired),
+			"sid":          AsString(SchemaRequired),
+			"is_reserved":  AsBool(SchemaComputedOptional),
+			"account_sid":  AsString(SchemaComputed),
+			"capabilities": AsString(SchemaComputed),
+			"date_created": AsString(SchemaComputed),
+			"date_updated": AsString(SchemaComputed),
+			"iso_country":  AsString(SchemaComputed),
+			"short_code":   AsString(SchemaComputed),
+			"url":          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

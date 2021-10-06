@@ -39,16 +39,6 @@ func ResourceCompositions() *schema.Resource {
 			"trim":                   AsBool(SchemaForceNewOptional),
 			"video_layout":           AsString(SchemaForceNewOptional),
 			"sid":                    AsString(SchemaComputed),
-			"account_sid":            AsString(SchemaComputed),
-			"bitrate":                AsString(SchemaComputed),
-			"date_completed":         AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_deleted":           AsString(SchemaComputed),
-			"duration":               AsString(SchemaComputed),
-			"links":                  AsString(SchemaComputed),
-			"size":                   AsString(SchemaComputed),
-			"status":                 AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -147,10 +137,6 @@ func ResourceCompositionHooks() *schema.Resource {
 			"trim":                   AsBool(SchemaComputedOptional),
 			"video_layout":           AsString(SchemaComputedOptional),
 			"sid":                    AsString(SchemaComputed),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

@@ -65,7 +65,8 @@ Name | Type | Requirement | Description
 **activity_sid** | string | Optional | The SID of a valid Activity that will describe the new Worker&#39;s initial state. See [Activities](https://www.twilio.com/docs/taskrouter/api/activity) for more information. If not provided, the new Worker&#39;s initial state is the &#x60;default_activity_sid&#x60; configured on the Workspace.
 **attributes** | string | Optional | A valid JSON string that describes the new Worker. For example: &#x60;{ \\\&quot;email\\\&quot;: \\\&quot;Bob@example.com\\\&quot;, \\\&quot;phone\\\&quot;: \\\&quot;+5095551234\\\&quot; }&#x60;. This data is passed to the &#x60;assignment_callback_url&#x60; when TaskRouter assigns a Task to the Worker. Defaults to {}.
 **sid** | string | *Computed* | The SID of the Worker resource to update.
-**reject_pending_reservations** | bool | Optional | Whether to reject pending reservations.
+**if_match** | string | Optional | The If-Match HTTP request header
+**reject_pending_reservations** | bool | Optional | Whether to reject the Worker&#39;s pending reservations. This option is only valid if the Worker&#39;s new [Activity](https://www.twilio.com/docs/taskrouter/api/activity) resource has its &#x60;availability&#x60; property set to &#x60;False&#x60;.
 
 ## twilio_taskrouter_workspaces_workflows_v1
 

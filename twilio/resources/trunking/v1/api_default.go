@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.20.3
+ * API version: 1.21.0
  * Contact: support@twilio.com
  */
 
@@ -439,6 +439,7 @@ func ResourceTrunks() *schema.Resource {
 			"domain_name":              AsString(SchemaComputedOptional),
 			"friendly_name":            AsString(SchemaComputedOptional),
 			"secure":                   AsBool(SchemaComputedOptional),
+			"transfer_caller_id":       AsString(SchemaComputedOptional),
 			"transfer_mode":            AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},

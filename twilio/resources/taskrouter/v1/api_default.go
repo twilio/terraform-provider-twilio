@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.20.3
+ * API version: 1.21.0
  * Contact: support@twilio.com
  */
 
@@ -518,6 +518,7 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 			"activity_sid":                AsString(SchemaComputedOptional),
 			"attributes":                  AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
+			"if_match":                    AsString(SchemaComputedOptional),
 			"reject_pending_reservations": AsBool(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
@@ -555,11 +556,15 @@ func createWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m inte
 }
 
 func deleteWorkspacesWorkers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteWorkerParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
 
 	workspaceSid := d.Get("workspace_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorker(workspaceSid, sid)
+	err := m.(*client.Config).Client.TaskrouterV1.DeleteWorker(workspaceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

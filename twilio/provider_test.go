@@ -31,10 +31,10 @@ func TestTwilioResourcesMap(t *testing.T) {
 }
 
 func testAccPreCheck(t *testing.T) {
-	if v := os.Getenv("TWILIO_ACCOUNT_SID"); v == "" {
+	if v := os.Getenv(AccountSid); v == "" {
 		t.Fatal("TWILIO_ACCOUNT_SID must be set for acceptance tests")
 	}
-	if v := os.Getenv("TWILIO_AUTH_TOKEN"); v == "" {
+	if v := os.Getenv(AuthToken); v == "" {
 		t.Fatal("TWILIO_AUTH_TOKEN must be set for acceptance tests")
 	}
 }

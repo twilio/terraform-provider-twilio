@@ -16,6 +16,11 @@ Name | Type | Requirement | Description
 **task_attributes** | string | Optional | The Task attributes to be added for the TaskRouter Task.
 **task_sid** | string | Optional | The SID of the TaskRouter Task. Only valid when integration type is &#x60;task&#x60;. &#x60;null&#x60; for integration types &#x60;studio&#x60; &amp; &#x60;external&#x60;
 **sid** | string | *Computed* | The SID of the Flex chat channel resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource and owns this Workflow
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the Flex chat channel was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the Flex chat channel was last updated
+**url** | string | *Computed* | The absolute URL of the Flex chat channel resource
+**user_sid** | string | *Computed* | The SID of the chat user
 
 ## twilio_flex_flex_flows_v1
 
@@ -41,6 +46,11 @@ Name | Type | Requirement | Description
 **janitor_enabled** | bool | Optional | When enabled, the Messaging Channel Janitor will remove active Proxy sessions if the associated Task is deleted outside of the Flex UI. Defaults to &#x60;false&#x60;.
 **long_lived** | bool | Optional | When enabled, Flex will keep the chat channel active so that it may be used for subsequent interactions with a contact identity. Defaults to &#x60;false&#x60;.
 **sid** | string | *Computed* | The SID of the Flex Flow resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**integration** | string | *Computed* | An object that contains specific parameters for the integration
+**url** | string | *Computed* | The absolute URL of the Flex Flow resource
 
 ## twilio_flex_web_channels_v1
 
@@ -57,4 +67,8 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The SID of the WebChannel resource to update.
 **chat_status** | string | Optional | The chat status. Can only be &#x60;inactive&#x60;.
 **post_engagement_data** | string | Optional | The post-engagement data.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource and owns this Workflow
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the WebChannel resource
 

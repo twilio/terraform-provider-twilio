@@ -41,6 +41,12 @@ func ResourceConversations() *schema.Resource {
 			"timers_inactive":          AsString(SchemaComputedOptional),
 			"unique_name":              AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"bindings":                 AsString(SchemaComputed),
+			"chat_service_sid":         AsString(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"timers":                   AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -162,6 +168,13 @@ func ResourceConversationsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"media_sid":                AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"delivery":                 AsString(SchemaComputed),
+			"index":                    AsInt(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"media":                    AsList(AsString(SchemaComputed), SchemaComputed),
+			"participant_sid":          AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -293,6 +306,9 @@ func ResourceConversationsParticipants() *schema.Resource {
 			"sid":                                 AsString(SchemaComputed),
 			"last_read_message_index":             AsInt(SchemaComputedOptional),
 			"last_read_timestamp":                 AsString(SchemaComputedOptional),
+			"account_sid":                         AsString(SchemaComputed),
+			"messaging_binding":                   AsString(SchemaComputed),
+			"url":                                 AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -416,6 +432,11 @@ func ResourceConversationsWebhooks() *schema.Resource {
 			"configuration_triggers":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_url":          AsString(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
+			"account_sid":                AsString(SchemaComputed),
+			"configuration":              AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"url":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -538,6 +559,10 @@ func ResourceCredentials() *schema.Resource {
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -646,10 +671,16 @@ func ResourceRoles() *schema.Resource {
 		UpdateContext: updateRoles,
 		DeleteContext: deleteRoles,
 		Schema: map[string]*schema.Schema{
-			"friendly_name": AsString(SchemaRequired),
-			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
-			"type":          AsString(SchemaRequired),
-			"sid":           AsString(SchemaComputed),
+			"friendly_name":    AsString(SchemaRequired),
+			"permission":       AsList(AsString(SchemaRequired), SchemaRequired),
+			"type":             AsString(SchemaRequired),
+			"sid":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaComputed),
+			"chat_service_sid": AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"permissions":      AsList(AsString(SchemaComputed), SchemaComputed),
+			"url":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -759,6 +790,11 @@ func ResourceServices() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaForceNewRequired),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"links":         AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -858,6 +894,11 @@ func ResourceServicesConversations() *schema.Resource {
 			"timers_inactive":          AsString(SchemaComputedOptional),
 			"unique_name":              AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"bindings":                 AsString(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"timers":                   AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -986,6 +1027,13 @@ func ResourceServicesConversationsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"media_sid":                AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"delivery":                 AsString(SchemaComputed),
+			"index":                    AsInt(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"media":                    AsList(AsString(SchemaComputed), SchemaComputed),
+			"participant_sid":          AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1123,6 +1171,9 @@ func ResourceServicesConversationsParticipants() *schema.Resource {
 			"sid":                                 AsString(SchemaComputed),
 			"last_read_message_index":             AsInt(SchemaComputedOptional),
 			"last_read_timestamp":                 AsString(SchemaComputedOptional),
+			"account_sid":                         AsString(SchemaComputed),
+			"messaging_binding":                   AsString(SchemaComputed),
+			"url":                                 AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1252,6 +1303,11 @@ func ResourceServicesConversationsWebhooks() *schema.Resource {
 			"configuration_triggers":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_url":          AsString(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
+			"account_sid":                AsString(SchemaComputed),
+			"configuration":              AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"url":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1376,6 +1432,11 @@ func ResourceServicesRoles() *schema.Resource {
 			"permission":       AsList(AsString(SchemaRequired), SchemaRequired),
 			"type":             AsString(SchemaRequired),
 			"sid":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"permissions":      AsList(AsString(SchemaComputed), SchemaComputed),
+			"url":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1497,6 +1558,13 @@ func ResourceServicesUsers() *schema.Resource {
 			"friendly_name":            AsString(SchemaComputedOptional),
 			"role_sid":                 AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"date_created":             AsString(SchemaComputed),
+			"date_updated":             AsString(SchemaComputed),
+			"is_notifiable":            AsBool(SchemaComputed),
+			"is_online":                AsBool(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1621,6 +1689,14 @@ func ResourceUsers() *schema.Resource {
 			"friendly_name":            AsString(SchemaComputedOptional),
 			"role_sid":                 AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
+			"account_sid":              AsString(SchemaComputed),
+			"chat_service_sid":         AsString(SchemaComputed),
+			"date_created":             AsString(SchemaComputed),
+			"date_updated":             AsString(SchemaComputed),
+			"is_notifiable":            AsBool(SchemaComputed),
+			"is_online":                AsBool(SchemaComputed),
+			"links":                    AsString(SchemaComputed),
+			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

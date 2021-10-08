@@ -38,6 +38,12 @@ func ResourceServicesBindings() *schema.Resource {
 			"notification_protocol_version": AsString(SchemaForceNewOptional),
 			"tag":                           AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
 			"sid":                           AsString(SchemaComputed),
+			"account_sid":                   AsString(SchemaComputed),
+			"date_created":                  AsString(SchemaComputed),
+			"date_updated":                  AsString(SchemaComputed),
+			"links":                         AsString(SchemaComputed),
+			"tags":                          AsList(AsString(SchemaComputed), SchemaComputed),
+			"url":                           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -138,6 +144,10 @@ func ResourceCredentials() *schema.Resource {
 			"sandbox":       AsBool(SchemaComputedOptional),
 			"secret":        AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
+			"account_sid":   AsString(SchemaComputed),
+			"date_created":  AsString(SchemaComputed),
+			"date_updated":  AsString(SchemaComputed),
+			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -261,6 +271,11 @@ func ResourceServices() *schema.Resource {
 			"log_enabled":                                 AsBool(SchemaComputedOptional),
 			"messaging_service_sid":                       AsString(SchemaComputedOptional),
 			"sid":                                         AsString(SchemaComputed),
+			"account_sid":                                 AsString(SchemaComputed),
+			"date_created":                                AsString(SchemaComputed),
+			"date_updated":                                AsString(SchemaComputed),
+			"links":                                       AsString(SchemaComputed),
+			"url":                                         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

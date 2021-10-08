@@ -41,6 +41,18 @@ func ResourceFaxes() *schema.Resource {
 			"ttl":               AsInt(SchemaComputedOptional),
 			"sid":               AsString(SchemaComputed),
 			"status":            AsString(SchemaComputedOptional),
+			"account_sid":       AsString(SchemaComputed),
+			"api_version":       AsString(SchemaComputed),
+			"date_created":      AsString(SchemaComputed),
+			"date_updated":      AsString(SchemaComputed),
+			"direction":         AsString(SchemaComputed),
+			"duration":          AsInt(SchemaComputed),
+			"links":             AsString(SchemaComputed),
+			"media_sid":         AsString(SchemaComputed),
+			"num_pages":         AsInt(SchemaComputed),
+			"price":             AsFloat(SchemaComputed),
+			"price_unit":        AsString(SchemaComputed),
+			"url":               AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

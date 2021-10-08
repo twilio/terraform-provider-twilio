@@ -41,6 +41,12 @@ func ResourceAccountsAddresses() *schema.Resource {
 			"emergency_enabled":    AsBool(SchemaComputedOptional),
 			"friendly_name":        AsString(SchemaComputedOptional),
 			"sid":                  AsString(SchemaComputed),
+			"account_sid":          AsString(SchemaComputed),
+			"date_created":         AsString(SchemaComputed),
+			"date_updated":         AsString(SchemaComputed),
+			"uri":                  AsString(SchemaComputed),
+			"validated":            AsBool(SchemaComputed),
+			"verified":             AsBool(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -174,6 +180,10 @@ func ResourceAccountsApplications() *schema.Resource {
 			"voice_method":            AsString(SchemaComputedOptional),
 			"voice_url":               AsString(SchemaComputedOptional),
 			"sid":                     AsString(SchemaComputed),
+			"account_sid":             AsString(SchemaComputed),
+			"date_created":            AsString(SchemaComputed),
+			"date_updated":            AsString(SchemaComputed),
+			"uri":                     AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -328,6 +338,29 @@ func ResourceAccountsCalls() *schema.Resource {
 			"url":                                    AsString(SchemaComputedOptional),
 			"sid":                                    AsString(SchemaComputed),
 			"status":                                 AsString(SchemaComputedOptional),
+			"account_sid":                            AsString(SchemaComputed),
+			"annotation":                             AsString(SchemaComputed),
+			"answered_by":                            AsString(SchemaComputed),
+			"api_version":                            AsString(SchemaComputed),
+			"caller_name":                            AsString(SchemaComputed),
+			"date_created":                           AsString(SchemaComputed),
+			"date_updated":                           AsString(SchemaComputed),
+			"direction":                              AsString(SchemaComputed),
+			"duration":                               AsString(SchemaComputed),
+			"end_time":                               AsString(SchemaComputed),
+			"forwarded_from":                         AsString(SchemaComputed),
+			"from_formatted":                         AsString(SchemaComputed),
+			"group_sid":                              AsString(SchemaComputed),
+			"parent_call_sid":                        AsString(SchemaComputed),
+			"phone_number_sid":                       AsString(SchemaComputed),
+			"price":                                  AsString(SchemaComputed),
+			"price_unit":                             AsString(SchemaComputed),
+			"queue_time":                             AsString(SchemaComputed),
+			"start_time":                             AsString(SchemaComputed),
+			"subresource_uris":                       AsString(SchemaComputed),
+			"to_formatted":                           AsString(SchemaComputed),
+			"trunk_sid":                              AsString(SchemaComputed),
+			"uri":                                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -439,13 +472,23 @@ func ResourceAccountsCallsFeedbackSummary() *schema.Resource {
 		ReadContext:   readAccountsCallsFeedbackSummary,
 		DeleteContext: deleteAccountsCallsFeedbackSummary,
 		Schema: map[string]*schema.Schema{
-			"end_date":               AsString(SchemaForceNewRequired),
-			"start_date":             AsString(SchemaForceNewRequired),
-			"path_account_sid":       AsString(SchemaForceNewOptional),
-			"include_subaccounts":    AsBool(SchemaForceNewOptional),
-			"status_callback":        AsString(SchemaForceNewOptional),
-			"status_callback_method": AsString(SchemaForceNewOptional),
-			"sid":                    AsString(SchemaComputed),
+			"end_date":                         AsString(SchemaForceNewRequired),
+			"start_date":                       AsString(SchemaForceNewRequired),
+			"path_account_sid":                 AsString(SchemaForceNewOptional),
+			"include_subaccounts":              AsBool(SchemaForceNewOptional),
+			"status_callback":                  AsString(SchemaForceNewOptional),
+			"status_callback_method":           AsString(SchemaForceNewOptional),
+			"sid":                              AsString(SchemaComputed),
+			"account_sid":                      AsString(SchemaComputed),
+			"call_count":                       AsInt(SchemaComputed),
+			"call_feedback_count":              AsInt(SchemaComputed),
+			"date_created":                     AsString(SchemaComputed),
+			"date_updated":                     AsString(SchemaComputed),
+			"issues":                           AsList(AsString(SchemaComputed), SchemaComputed),
+			"quality_score_average":            AsFloat(SchemaComputed),
+			"quality_score_median":             AsFloat(SchemaComputed),
+			"quality_score_standard_deviation": AsFloat(SchemaComputed),
+			"status":                           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -552,6 +595,21 @@ func ResourceAccountsCallsRecordings() *schema.Resource {
 			"sid":                              AsString(SchemaComputed),
 			"status":                           AsString(SchemaComputedOptional),
 			"pause_behavior":                   AsString(SchemaComputedOptional),
+			"account_sid":                      AsString(SchemaComputed),
+			"api_version":                      AsString(SchemaComputed),
+			"channels":                         AsInt(SchemaComputed),
+			"conference_sid":                   AsString(SchemaComputed),
+			"date_created":                     AsString(SchemaComputed),
+			"date_updated":                     AsString(SchemaComputed),
+			"duration":                         AsString(SchemaComputed),
+			"encryption_details":               AsString(SchemaComputed),
+			"error_code":                       AsInt(SchemaComputed),
+			"price":                            AsFloat(SchemaComputed),
+			"price_unit":                       AsString(SchemaComputed),
+			"source":                           AsString(SchemaComputed),
+			"start_time":                       AsString(SchemaComputed),
+			"track":                            AsString(SchemaComputed),
+			"uri":                              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -697,6 +755,14 @@ func ResourceAccountsIncomingPhoneNumbers() *schema.Resource {
 			"voice_url":              AsString(SchemaComputedOptional),
 			"sid":                    AsString(SchemaComputed),
 			"account_sid":            AsString(SchemaComputedOptional),
+			"address_requirements":   AsString(SchemaComputed),
+			"beta":                   AsBool(SchemaComputed),
+			"capabilities":           AsString(SchemaComputed),
+			"date_created":           AsString(SchemaComputed),
+			"date_updated":           AsString(SchemaComputed),
+			"origin":                 AsString(SchemaComputed),
+			"status":                 AsString(SchemaComputed),
+			"uri":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -812,6 +878,15 @@ func ResourceAccountsIncomingPhoneNumbersAssignedAddOns() *schema.Resource {
 			"installed_add_on_sid": AsString(SchemaForceNewRequired),
 			"path_account_sid":     AsString(SchemaForceNewOptional),
 			"sid":                  AsString(SchemaComputed),
+			"account_sid":          AsString(SchemaComputed),
+			"configuration":        AsString(SchemaComputed),
+			"date_created":         AsString(SchemaComputed),
+			"date_updated":         AsString(SchemaComputed),
+			"description":          AsString(SchemaComputed),
+			"friendly_name":        AsString(SchemaComputed),
+			"subresource_uris":     AsString(SchemaComputed),
+			"unique_name":          AsString(SchemaComputed),
+			"uri":                  AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -930,6 +1005,21 @@ func ResourceAccountsMessages() *schema.Resource {
 			"status_callback":       AsString(SchemaComputedOptional),
 			"validity_period":       AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
+			"account_sid":           AsString(SchemaComputed),
+			"api_version":           AsString(SchemaComputed),
+			"date_created":          AsString(SchemaComputed),
+			"date_sent":             AsString(SchemaComputed),
+			"date_updated":          AsString(SchemaComputed),
+			"direction":             AsString(SchemaComputed),
+			"error_code":            AsInt(SchemaComputed),
+			"error_message":         AsString(SchemaComputed),
+			"num_media":             AsString(SchemaComputed),
+			"num_segments":          AsString(SchemaComputed),
+			"price":                 AsString(SchemaComputed),
+			"price_unit":            AsString(SchemaComputed),
+			"status":                AsString(SchemaComputed),
+			"subresource_uris":      AsString(SchemaComputed),
+			"uri":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1049,6 +1139,9 @@ func ResourceAccountsKeys() *schema.Resource {
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"friendly_name":    AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"secret":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1168,6 +1261,9 @@ func ResourceAccountsSigningKeys() *schema.Resource {
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"friendly_name":    AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"secret":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1332,6 +1428,11 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"hold":                                        AsBool(SchemaComputedOptional),
 			"hold_method":                                 AsString(SchemaComputedOptional),
 			"hold_url":                                    AsString(SchemaComputedOptional),
+			"account_sid":                                 AsString(SchemaComputed),
+			"date_created":                                AsString(SchemaComputed),
+			"date_updated":                                AsString(SchemaComputed),
+			"status":                                      AsString(SchemaComputed),
+			"uri":                                         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1450,10 +1551,16 @@ func ResourceAccountsQueues() *schema.Resource {
 		UpdateContext: updateAccountsQueues,
 		DeleteContext: deleteAccountsQueues,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":    AsString(SchemaRequired),
-			"path_account_sid": AsString(SchemaComputedOptional),
-			"max_size":         AsInt(SchemaComputedOptional),
-			"sid":              AsString(SchemaComputed),
+			"friendly_name":     AsString(SchemaRequired),
+			"path_account_sid":  AsString(SchemaComputedOptional),
+			"max_size":          AsInt(SchemaComputedOptional),
+			"sid":               AsString(SchemaComputed),
+			"account_sid":       AsString(SchemaComputed),
+			"average_wait_time": AsInt(SchemaComputed),
+			"current_size":      AsInt(SchemaComputed),
+			"date_created":      AsString(SchemaComputed),
+			"date_updated":      AsString(SchemaComputed),
+			"uri":               AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1573,6 +1680,10 @@ func ResourceAccountsSIPDomainsAuthCallsCredentialListMappings() *schema.Resourc
 			"credential_list_sid": AsString(SchemaForceNewRequired),
 			"path_account_sid":    AsString(SchemaForceNewOptional),
 			"sid":                 AsString(SchemaComputed),
+			"account_sid":         AsString(SchemaComputed),
+			"date_created":        AsString(SchemaComputed),
+			"date_updated":        AsString(SchemaComputed),
+			"friendly_name":       AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1676,6 +1787,10 @@ func ResourceAccountsSIPDomainsAuthCallsIpAccessControlListMappings() *schema.Re
 			"ip_access_control_list_sid": AsString(SchemaForceNewRequired),
 			"path_account_sid":           AsString(SchemaForceNewOptional),
 			"sid":                        AsString(SchemaComputed),
+			"account_sid":                AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"friendly_name":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1779,6 +1894,10 @@ func ResourceAccountsSIPDomainsAuthRegistrationsCredentialListMappings() *schema
 			"credential_list_sid": AsString(SchemaForceNewRequired),
 			"path_account_sid":    AsString(SchemaForceNewOptional),
 			"sid":                 AsString(SchemaComputed),
+			"account_sid":         AsString(SchemaComputed),
+			"date_created":        AsString(SchemaComputed),
+			"date_updated":        AsString(SchemaComputed),
+			"friendly_name":       AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -1884,6 +2003,10 @@ func ResourceAccountsSIPCredentialListsCredentials() *schema.Resource {
 			"username":            AsString(SchemaRequired),
 			"path_account_sid":    AsString(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),
+			"account_sid":         AsString(SchemaComputed),
+			"date_created":        AsString(SchemaComputed),
+			"date_updated":        AsString(SchemaComputed),
+			"uri":                 AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2009,6 +2132,11 @@ func ResourceAccountsSIPCredentialLists() *schema.Resource {
 			"friendly_name":    AsString(SchemaRequired),
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"subresource_uris": AsString(SchemaComputed),
+			"uri":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2128,6 +2256,11 @@ func ResourceAccountsSIPDomainsCredentialListMappings() *schema.Resource {
 			"credential_list_sid": AsString(SchemaForceNewRequired),
 			"path_account_sid":    AsString(SchemaForceNewOptional),
 			"sid":                 AsString(SchemaComputed),
+			"account_sid":         AsString(SchemaComputed),
+			"date_created":        AsString(SchemaComputed),
+			"date_updated":        AsString(SchemaComputed),
+			"friendly_name":       AsString(SchemaComputed),
+			"uri":                 AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2243,6 +2376,13 @@ func ResourceAccountsSIPDomains() *schema.Resource {
 			"voice_status_callback_url":    AsString(SchemaComputedOptional),
 			"voice_url":                    AsString(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
+			"account_sid":                  AsString(SchemaComputed),
+			"api_version":                  AsString(SchemaComputed),
+			"auth_type":                    AsString(SchemaComputed),
+			"date_created":                 AsString(SchemaComputed),
+			"date_updated":                 AsString(SchemaComputed),
+			"subresource_uris":             AsString(SchemaComputed),
+			"uri":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2362,6 +2502,11 @@ func ResourceAccountsSIPIpAccessControlLists() *schema.Resource {
 			"friendly_name":    AsString(SchemaRequired),
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"subresource_uris": AsString(SchemaComputed),
+			"uri":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2481,6 +2626,11 @@ func ResourceAccountsSIPDomainsIpAccessControlListMappings() *schema.Resource {
 			"ip_access_control_list_sid": AsString(SchemaForceNewRequired),
 			"path_account_sid":           AsString(SchemaForceNewOptional),
 			"sid":                        AsString(SchemaComputed),
+			"account_sid":                AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"friendly_name":              AsString(SchemaComputed),
+			"uri":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2587,6 +2737,10 @@ func ResourceAccountsSIPIpAccessControlListsIpAddresses() *schema.Resource {
 			"path_account_sid":           AsString(SchemaComputedOptional),
 			"cidr_prefix_length":         AsInt(SchemaComputedOptional),
 			"sid":                        AsString(SchemaComputed),
+			"account_sid":                AsString(SchemaComputed),
+			"date_created":               AsString(SchemaComputed),
+			"date_updated":               AsString(SchemaComputed),
+			"uri":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -2718,6 +2872,14 @@ func ResourceAccountsUsageTriggers() *schema.Resource {
 			"recurring":        AsString(SchemaComputedOptional),
 			"trigger_by":       AsString(SchemaComputedOptional),
 			"sid":              AsString(SchemaComputed),
+			"account_sid":      AsString(SchemaComputed),
+			"api_version":      AsString(SchemaComputed),
+			"current_value":    AsString(SchemaComputed),
+			"date_created":     AsString(SchemaComputed),
+			"date_fired":       AsString(SchemaComputed),
+			"date_updated":     AsString(SchemaComputed),
+			"uri":              AsString(SchemaComputed),
+			"usage_record_uri": AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

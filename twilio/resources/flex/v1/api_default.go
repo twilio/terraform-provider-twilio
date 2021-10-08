@@ -40,6 +40,11 @@ func ResourceChannels() *schema.Resource {
 			"task_attributes":         AsString(SchemaForceNewOptional),
 			"task_sid":                AsString(SchemaForceNewOptional),
 			"sid":                     AsString(SchemaComputed),
+			"account_sid":             AsString(SchemaComputed),
+			"date_created":            AsString(SchemaComputed),
+			"date_updated":            AsString(SchemaComputed),
+			"url":                     AsString(SchemaComputed),
+			"user_sid":                AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -145,6 +150,11 @@ func ResourceFlexFlows() *schema.Resource {
 			"janitor_enabled":                 AsBool(SchemaComputedOptional),
 			"long_lived":                      AsBool(SchemaComputedOptional),
 			"sid":                             AsString(SchemaComputed),
+			"account_sid":                     AsString(SchemaComputed),
+			"date_created":                    AsString(SchemaComputed),
+			"date_updated":                    AsString(SchemaComputed),
+			"integration":                     AsString(SchemaComputed),
+			"url":                             AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -262,6 +272,10 @@ func ResourceWebChannels() *schema.Resource {
 			"sid":                    AsString(SchemaComputed),
 			"chat_status":            AsString(SchemaComputedOptional),
 			"post_engagement_data":   AsString(SchemaComputedOptional),
+			"account_sid":            AsString(SchemaComputed),
+			"date_created":           AsString(SchemaComputed),
+			"date_updated":           AsString(SchemaComputed),
+			"url":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

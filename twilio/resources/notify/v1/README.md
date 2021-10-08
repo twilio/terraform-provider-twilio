@@ -14,6 +14,12 @@ Name | Type | Requirement | Description
 **notification_protocol_version** | string | Optional | The protocol version to use to send the notification. This defaults to the value of &#x60;default_xxxx_notification_protocol_version&#x60; for the protocol in the [Service](https://www.twilio.com/docs/notify/api/service-resource). The current version is &#x60;\\\&quot;3\\\&quot;&#x60; for &#x60;apn&#x60;, &#x60;fcm&#x60;, and &#x60;gcm&#x60; type Bindings. The parameter is not applicable to &#x60;sms&#x60; and &#x60;facebook-messenger&#x60; type Bindings as the data format is fixed.
 **tag** | list(string) | Optional | A tag that can be used to select the Bindings to notify. Repeat this parameter to specify more than one tag, up to a total of 20 tags.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Binding resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of related resources
+**tags** | list(string) | *Computed* | The list of tags associated with this Binding
+**url** | string | *Computed* | The absolute URL of the Binding resource
 
 ## twilio_notify_credentials_v1
 
@@ -29,6 +35,10 @@ Name | Type | Requirement | Description
 **sandbox** | bool | Optional | [APN only] Whether to send the credential to sandbox APNs. Can be &#x60;true&#x60; to send to sandbox APNs or &#x60;false&#x60; to send to production.
 **secret** | string | Optional | [FCM only] The &#x60;Server key&#x60; of your project from Firebase console under Settings / Cloud messaging.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Credential resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the Credential resource
 
 ## twilio_notify_services_v1
 
@@ -51,4 +61,9 @@ Name | Type | Requirement | Description
 **log_enabled** | bool | Optional | Whether to log notifications. Can be: &#x60;true&#x60; or &#x60;false&#x60; and the default is &#x60;true&#x60;.
 **messaging_service_sid** | string | Optional | The SID of the [Messaging Service](https://www.twilio.com/docs/sms/send-messages#messaging-services) to use for SMS Bindings. This parameter must be set in order to send SMS notifications.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Service resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of the resources related to the service
+**url** | string | *Computed* | The absolute URL of the Service resource
 

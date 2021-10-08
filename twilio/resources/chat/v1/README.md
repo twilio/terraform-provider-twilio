@@ -11,6 +11,14 @@ Name | Type | Requirement | Description
 **type** | string | Optional | The visibility of the channel. Can be: &#x60;public&#x60; or &#x60;private&#x60; and defaults to &#x60;public&#x60;.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource&#39;s &#x60;sid&#x60; in the URL. This value must be 64 characters or less in length and be unique within the Service.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Channel resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the User that created the channel
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | Absolute URLs to access the Members, Messages , Invites and, if it exists, the last Message for the Channel
+**members_count** | int | *Computed* | The number of Members in the Channel
+**messages_count** | int | *Computed* | The number of Messages in the Channel
+**url** | string | *Computed* | The absolute URL of the Channel resource
 
 ## twilio_chat_credentials_v1
 
@@ -26,6 +34,10 @@ Name | Type | Requirement | Description
 **sandbox** | bool | Optional | [APN only] Whether to send the credential to sandbox APNs. Can be &#x60;true&#x60; to send to sandbox APNs or &#x60;false&#x60; to send to production.
 **secret** | string | Optional | [FCM only] The **Server key** of your project from the Firebase console, found under Settings / Cloud messaging.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Credential resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the Credential resource
 
 ## twilio_chat_services_channels_invites_v1
 
@@ -38,6 +50,11 @@ Name | Type | Requirement | Description
 **identity** | string | **Required** | The &#x60;identity&#x60; value that uniquely identifies the new resource&#39;s [User](https://www.twilio.com/docs/api/chat/rest/v1/user) within the [Service](https://www.twilio.com/docs/api/chat/rest/v1/service). See [access tokens](https://www.twilio.com/docs/api/chat/guides/create-tokens) for more info.
 **role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/api/chat/rest/roles) assigned to the new member.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Invite resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**created_by** | string | *Computed* | The identity of the User that created the invite
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**url** | string | *Computed* | The absolute URL of the Invite resource
 
 ## twilio_chat_services_channels_members_v1
 
@@ -51,6 +68,11 @@ Name | Type | Requirement | Description
 **role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/api/chat/rest/roles) to assign to the member. The default roles are those specified on the [Service](https://www.twilio.com/docs/chat/api/services).
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Member resource to update.
 **last_consumed_message_index** | int | Optional | The index of the last [Message](https://www.twilio.com/docs/api/chat/rest/messages) that the Member has read within the [Channel](https://www.twilio.com/docs/api/chat/rest/channels).
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**last_consumption_timestamp** | string | *Computed* | The ISO 8601 based timestamp string that represents the date-time of the last Message read event for the Member within the Channel
+**url** | string | *Computed* | The absolute URL of the Member resource
 
 ## twilio_chat_services_channels_messages_v1
 
@@ -64,6 +86,13 @@ Name | Type | Requirement | Description
 **attributes** | string | Optional | A valid JSON string that contains application-specific data.
 **from** | string | Optional | The [identity](https://www.twilio.com/docs/api/chat/guides/identity) of the new message&#39;s author. The default value is &#x60;system&#x60;.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Message resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**index** | int | *Computed* | The index of the message within the Channel
+**to** | string | *Computed* | The SID of the Channel that the message was sent to
+**url** | string | *Computed* | The absolute URL of the Message resource
+**was_edited** | bool | *Computed* | Whether the message has been edited since  it was created
 
 ## twilio_chat_services_roles_v1
 
@@ -76,6 +105,11 @@ Name | Type | Requirement | Description
 **permission** | list(string) | **Required** | A permission that you grant to the new role. Only one permission can be granted per parameter. To assign more than one permission, repeat this parameter for each permission value. The values for this parameter depend on the role&#39;s &#x60;type&#x60; and are described in the documentation.
 **type** | string | **Required** | The type of role. Can be: &#x60;channel&#x60; for [Channel](https://www.twilio.com/docs/chat/api/channels) roles or &#x60;deployment&#x60; for [Service](https://www.twilio.com/docs/chat/api/services) roles.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Role resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**permissions** | list(string) | *Computed* | An array of the permissions the role has been granted
+**url** | string | *Computed* | The absolute URL of the Role resource
 
 ## twilio_chat_services_v1
 
@@ -138,6 +172,14 @@ Name | Type | Requirement | Description
 **webhooks_on_message_update_url** | string | Optional | The URL of the webhook to call in response to the &#x60;on_message_update&#x60; event using the &#x60;webhooks.on_message_update.method&#x60; HTTP method.
 **webhooks_on_message_updated_method** | string | Optional | The HTTP method to use when calling the &#x60;webhooks.on_message_updated.url&#x60;.
 **webhooks_on_message_updated_url** | string | Optional | The URL of the webhook to call in response to the &#x60;on_message_updated&#x60; event using the &#x60;webhooks.on_message_updated.method&#x60; HTTP method.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**limits** | string | *Computed* | An object that describes the limits of the service instance
+**links** | string | *Computed* | The absolute URLs of the Service&#39;s Channels, Roles, and Users
+**notifications** | string | *Computed* | The notification configuration for the Service instance
+**url** | string | *Computed* | The absolute URL of the Service resource
+**webhooks** | string | *Computed* | An object that contains information about the webhooks configured for this service
 
 ## twilio_chat_services_users_v1
 
@@ -151,4 +193,12 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new resource. This value is often used for display purposes.
 **role_sid** | string | Optional | The SID of the [Role](https://www.twilio.com/docs/api/chat/rest/roles) assigned to the new User.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the User resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The RFC 2822 date and time in GMT when the resource was last updated
+**is_notifiable** | bool | *Computed* | Whether the User has a potentially valid Push Notification registration for the Service instance
+**is_online** | bool | *Computed* | Whether the User is actively connected to the Service instance and online
+**joined_channels_count** | int | *Computed* | The number of Channels this User is a Member of
+**links** | string | *Computed* | The absolute URLs of the Channel and Binding resources related to the user
+**url** | string | *Computed* | The absolute URL of the User resource
 

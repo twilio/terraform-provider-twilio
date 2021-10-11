@@ -13,6 +13,12 @@ Name | Type | Requirement | Description
 **proxy_identifier** | string | Optional | The proxy phone number to use for the Participant. If not specified, Proxy will select a number from the pool.
 **proxy_identifier_sid** | string | Optional | The SID of the Proxy Identifier to assign to the Participant.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Participant resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_deleted** | string | *Computed* | The ISO 8601 date the Participant was removed
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs to resources related the participant
+**url** | string | *Computed* | The absolute URL of the Participant resource
 
 ## twilio_proxy_services_phone_numbers_v1
 
@@ -24,6 +30,14 @@ Name | Type | Requirement | Description
 **is_reserved** | bool | Optional | Whether the new phone number should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.
 **phone_number** | string | Optional | The phone number in [E.164](https://www.twilio.com/docs/glossary/what-e164) format.  E.164 phone numbers consist of a + followed by the country code and subscriber number without punctuation characters. For example, +14155551234.
 **sid** | string | Optional | The SID of a Twilio [IncomingPhoneNumber](https://www.twilio.com/docs/phone-numbers/api/incomingphonenumber-resource) resource that represents the Twilio Number you would like to assign to your Proxy Service.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**capabilities** | string | *Computed* | 
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**friendly_name** | string | *Computed* | The string that you assigned to describe the resource
+**in_use** | int | *Computed* | The number of open session assigned to the number.
+**iso_country** | string | *Computed* | The ISO Country Code
+**url** | string | *Computed* | The absolute URL of the PhoneNumber resource
 
 ## twilio_proxy_services_v1
 
@@ -40,6 +54,11 @@ Name | Type | Requirement | Description
 **number_selection_behavior** | string | Optional | The preference for Proxy Number selection in the Service instance. Can be: &#x60;prefer-sticky&#x60; or &#x60;avoid-sticky&#x60; and the default is &#x60;prefer-sticky&#x60;. &#x60;prefer-sticky&#x60; means that we will try and select the same Proxy Number for a given participant if they have previous [Sessions](https://www.twilio.com/docs/proxy/api/session), but we will not fail if that Proxy Number cannot be used.  &#x60;avoid-sticky&#x60; means that we will try to use different Proxy Numbers as long as that is possible within a given pool rather than try and use a previously assigned number.
 **out_of_session_callback_url** | string | Optional | The URL we should call when an inbound call or SMS action occurs on a closed or non-existent Session. If your server (or a Twilio [function](https://www.twilio.com/functions)) responds with valid [TwiML](https://www.twilio.com/docs/voice/twiml), we will process it. This means it is possible, for example, to play a message for a call, send an automated text message response, or redirect a call to another Phone Number. See [Out-of-Session Callback Response Guide](https://www.twilio.com/docs/proxy/out-session-callback-response-guide) for more information.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Service resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of resources related to the Service
+**url** | string | *Computed* | The absolute URL of the Service resource
 
 ## twilio_proxy_services_sessions_v1
 
@@ -56,6 +75,15 @@ Name | Type | Requirement | Description
 **ttl** | int | Optional | The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session&#39;s last Interaction.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Session resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**closed_reason** | string | *Computed* | The reason the Session ended
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_ended** | string | *Computed* | The ISO 8601 date when the Session ended
+**date_last_interaction** | string | *Computed* | The ISO 8601 date when the Session last had an interaction
+**date_started** | string | *Computed* | The ISO 8601 date when the Session started
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**links** | string | *Computed* | The URLs of resources related to the Session
+**url** | string | *Computed* | The absolute URL of the Session resource
 
 ## twilio_proxy_services_short_codes_v1
 
@@ -66,4 +94,11 @@ Name | Type | Requirement | Description
 **service_sid** | string | **Required** | The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.
 **sid** | string | **Required** | The SID of a Twilio [ShortCode](https://www.twilio.com/docs/sms/api/short-code) resource that represents the short code you would like to assign to your Proxy Service.
 **is_reserved** | bool | Optional | Whether the short code should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**capabilities** | string | *Computed* | 
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
+**iso_country** | string | *Computed* | The ISO Country Code
+**short_code** | string | *Computed* | The short code&#39;s number
+**url** | string | *Computed* | The absolute URL of the ShortCode resource
 

@@ -13,6 +13,14 @@ Name | Type | Requirement | Description
 **include_sid** | string | Optional | Whether to include the SID of the command in the message body. Can be: &#x60;none&#x60;, &#x60;start&#x60;, or &#x60;end&#x60;, and the default behavior is &#x60;none&#x60;. When sending a Command to a SIM in text mode, we can automatically include the SID of the Command in the message body, which could be used to ensure that the device does not process the same Command more than once.  A value of &#x60;start&#x60; will prepend the message with the Command SID, and &#x60;end&#x60; will append it to the end, separating the Command SID from the message body with a space. The length of the Command SID is included in the 160 character limit so the SMS body must be 128 characters or less before the Command SID is included.
 **sim** | string | Optional | The &#x60;sid&#x60; or &#x60;unique_name&#x60; of the [SIM](https://www.twilio.com/docs/wireless/api/sim-resource) to send the Command to.
 **sid** | string | *Computed* | The SID of the Command resource to fetch.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
+**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated format
+**direction** | string | *Computed* | The direction of the Command
+**sim_sid** | string | *Computed* | The SID of the Sim resource that the Command was sent to or from
+**status** | string | *Computed* | The status of the Command
+**transport** | string | *Computed* | The type of transport used
+**url** | string | *Computed* | The absolute URL of the resource
 
 ## twilio_wireless_rate_plans_v1
 
@@ -32,4 +40,8 @@ Name | Type | Requirement | Description
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used in place of the resource&#39;s &#x60;sid&#x60; in the URL to address the resource.
 **voice_enabled** | bool | Optional | Whether SIMs can make and receive voice calls.
 **sid** | string | *Computed* | The SID of the RatePlan resource to update.
+**account_sid** | string | *Computed* | The SID of the Account that created the resource
+**date_created** | string | *Computed* | The date when the resource was created, given as GMT in ISO 8601 format
+**date_updated** | string | *Computed* | The date when the resource was last updated, given as GMT in ISO 8601 format
+**url** | string | *Computed* | The absolute URL of the resource
 

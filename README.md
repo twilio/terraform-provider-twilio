@@ -131,3 +131,26 @@ export TF_LOG=TRACE
 ```
 
 then refer to the [Terraform Debugging Documentation](https://www.terraform.io/docs/internals/debugging.html).
+
+### Debugging with Delve / Goland
+
+You can build and debug the provider locally. When using Goland you can set break point and step through code:
+
+```sh
+$ dlv debug main.go -- -debug
+Type 'help' for list of commands.
+(dlv) c
+Provider started, to attach Terraform set the TF_REATTACH_PROVIDERS env var:
+
+	TF_REATTACH_PROVIDERS='{"registry.terraform.io/twilio/twilio":{...}}}'
+```
+
+Copy the `TF_REATTACH_PROVIDERS` and run Terraform with this value set:
+
+```sh
+$ TF_REATTACH_PROVIDERS='...' terraform init
+$ TF_REATTACH_PROVIDERS='...' terraform plan
+...
+```
+
+Terraform will use the binary running under `dlv` instead of the `twilio/twilio` registry version. Happy debugging!

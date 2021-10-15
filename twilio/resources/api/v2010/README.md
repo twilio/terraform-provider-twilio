@@ -381,7 +381,7 @@ Name | Type | Requirement | Description
 **date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that this resource was last updated
 **uri** | string | *Computed* | The URI of this resource, relative to &#x60;https://api.twilio.com&#x60;
 
-## twilio_api_accounts_sipdomains_auth_calls_credential_list_mappings_v2010
+## twilio_api_accounts_domains_auth_calls_credential_list_mappings_v2010
 
 ### Parameters
 
@@ -396,7 +396,7 @@ Name | Type | Requirement | Description
 **date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
 **friendly_name** | string | *Computed* | The string that you assigned to describe the resource
 
-## twilio_api_accounts_sipdomains_auth_calls_ip_access_control_list_mappings_v2010
+## twilio_api_accounts_domains_auth_calls_ip_access_control_list_mappings_v2010
 
 ### Parameters
 
@@ -411,7 +411,7 @@ Name | Type | Requirement | Description
 **date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
 **friendly_name** | string | *Computed* | The string that you assigned to describe the resource
 
-## twilio_api_accounts_sipdomains_auth_registrations_credential_list_mappings_v2010
+## twilio_api_accounts_domains_auth_registrations_credential_list_mappings_v2010
 
 ### Parameters
 
@@ -426,7 +426,7 @@ Name | Type | Requirement | Description
 **date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
 **friendly_name** | string | *Computed* | The string that you assigned to describe the resource
 
-## twilio_api_accounts_sipcredential_lists_credentials_v2010
+## twilio_api_accounts_credential_lists_credentials_v2010
 
 ### Parameters
 
@@ -442,7 +442,7 @@ Name | Type | Requirement | Description
 **date_updated** | string | *Computed* | The date that this resource was last updated, given as GMT in RFC 2822 format.
 **uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
-## twilio_api_accounts_sipcredential_lists_v2010
+## twilio_api_accounts_credential_lists_v2010
 
 ### Parameters
 
@@ -457,7 +457,7 @@ Name | Type | Requirement | Description
 **subresource_uris** | string | *Computed* | The list of credentials associated with this credential list.
 **uri** | string | *Computed* | The URI for this resource
 
-## twilio_api_accounts_sipdomains_credential_list_mappings_v2010
+## twilio_api_accounts_domains_credential_list_mappings_v2010
 
 ### Parameters
 
@@ -473,7 +473,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | *Computed* | A human readable descriptive text for this resource, up to 64 characters long.
 **uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
-## twilio_api_accounts_sipdomains_v2010
+## twilio_api_accounts_domains_v2010
 
 ### Parameters
 
@@ -502,7 +502,7 @@ Name | Type | Requirement | Description
 **subresource_uris** | string | *Computed* | A list mapping resources associated with the SIP Domain resource
 **uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;
 
-## twilio_api_accounts_sipip_access_control_lists_v2010
+## twilio_api_accounts_ip_access_control_lists_v2010
 
 ### Parameters
 
@@ -517,7 +517,7 @@ Name | Type | Requirement | Description
 **subresource_uris** | string | *Computed* | The IP addresses associated with this resource.
 **uri** | string | *Computed* | The URI for this resource
 
-## twilio_api_accounts_sipdomains_ip_access_control_list_mappings_v2010
+## twilio_api_accounts_domains_ip_access_control_list_mappings_v2010
 
 ### Parameters
 
@@ -533,7 +533,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | *Computed* | A human readable descriptive text for this resource, up to 64 characters long.
 **uri** | string | *Computed* | The URI for this resource, relative to https://api.twilio.com
 
-## twilio_api_accounts_sipip_access_control_lists_ip_addresses_v2010
+## twilio_api_accounts_ip_access_control_lists_ip_addresses_v2010
 
 ### Parameters
 

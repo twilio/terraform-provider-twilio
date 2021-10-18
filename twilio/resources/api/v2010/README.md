@@ -214,6 +214,7 @@ Name | Type | Requirement | Description
 **capabilities** | string | *Computed* | 
 **date_created** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was created
 **date_updated** | string | *Computed* | The RFC 2822 date and time in GMT that the resource was last updated
+**emergency_address_status** | string | *Computed* | State of the emergency address configuration for the phone number
 **origin** | string | *Computed* | The phone number&#39;s origin. Can be twilio or hosted.
 **status** | string | *Computed* | 
 **uri** | string | *Computed* | The URI of the resource, relative to &#x60;https://api.twilio.com&#x60;

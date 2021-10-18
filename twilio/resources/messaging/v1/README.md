@@ -51,6 +51,7 @@ Name | Type | Requirement | Description
 **sticky_sender** | bool | Optional | Whether to enable [Sticky Sender](https://www.twilio.com/docs/sms/services#sticky-sender) on the Service instance.
 **synchronous_validation** | bool | Optional | Reserved.
 **use_inbound_webhook_on_number** | bool | Optional | A boolean value that indicates either the webhook url configured on the phone number will be used or &#x60;inbound_request_url&#x60;/&#x60;fallback_url&#x60; url will be called when a message is received from the phone number. If this field is enabled then the webhook url defined on the phone number will override the &#x60;inbound_request_url&#x60;/&#x60;fallback_url&#x60; defined for the Messaging Service.
+**usecase** | string | Optional | A string that describes the scenario in which the Messaging Service will be used. Examples: [notification, marketing, verification, poll ..].
 **validity_period** | int | Optional | How long, in seconds, messages sent from the Service are valid. Can be an integer from &#x60;1&#x60; to &#x60;14,400&#x60;.
 **sid** | string | *Computed* | The SID of the Service resource to update.
 **account_sid** | string | *Computed* | The SID of the Account that created the resource
@@ -58,6 +59,7 @@ Name | Type | Requirement | Description
 **date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
 **links** | string | *Computed* | The absolute URLs of related resources
 **url** | string | *Computed* | The absolute URL of the Service resource
+**us_app_to_person_registered** | bool | *Computed* | Whether US A2P campaign is registered for this Service.
 
 ## twilio_messaging_services_short_codes_v1
 

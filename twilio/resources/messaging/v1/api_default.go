@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.22.0
  * Contact: support@twilio.com
  */
 
@@ -244,6 +244,7 @@ func ResourceServices() *schema.Resource {
 			"sticky_sender":                 AsBool(SchemaComputedOptional),
 			"synchronous_validation":        AsBool(SchemaComputedOptional),
 			"use_inbound_webhook_on_number": AsBool(SchemaComputedOptional),
+			"usecase":                       AsString(SchemaComputedOptional),
 			"validity_period":               AsInt(SchemaComputedOptional),
 			"sid":                           AsString(SchemaComputed),
 			"account_sid":                   AsString(SchemaComputed),
@@ -251,6 +252,7 @@ func ResourceServices() *schema.Resource {
 			"date_updated":                  AsString(SchemaComputed),
 			"links":                         AsString(SchemaComputed),
 			"url":                           AsString(SchemaComputed),
+			"us_app_to_person_registered":   AsBool(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

@@ -1,5 +1,23 @@
 terraform-provider-twilio changelog
 ====================
+[2021-10-18] Version 0.8.0
+--------------------------
+**Library - Feature**
+- [PR #73](https://github.com/twilio/terraform-provider-twilio/pull/73): add computed API response fields. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Api**
+- Corrected enum values for `emergency_address_status` values in `/IncomingPhoneNumbers` response. **(breaking change)**
+- Clarify `emergency_address_status` values in `/IncomingPhoneNumbers` response.
+
+**Messaging**
+- Add PUT and List brand vettings api
+- Removes beta feature flag based visibility for us_app_to_person_registered and usecase field.Updates test cases to add POLITICAL usecase. **(breaking change)**
+- Add brand_feedback as optional field to BrandRegistrations
+
+**Video**
+- Add `AudioOnly` to create room
+
+
 [2021-10-07] Version 0.7.0
 --------------------------
 **Library - Fix**

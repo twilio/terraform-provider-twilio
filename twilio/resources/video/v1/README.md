@@ -15,16 +15,6 @@ Name | Type | Requirement | Description
 **trim** | bool | Optional | Whether to clip the intervals where there is no active media in the composition. The default is &#x60;true&#x60;. Compositions with &#x60;trim&#x60; enabled are shorter when the Room is created and no Participant joins for a while as well as if all the Participants leave the room and join later, because those gaps will be removed. See [Specifying Video Layouts](https://www.twilio.com/docs/video/api/compositions-resource#specifying-video-layouts) for more info.
 **video_layout** | string | Optional | An object that describes the video layout of the composition in terms of regions. See [Specifying Video Layouts](https://www.twilio.com/docs/video/api/compositions-resource#specifying-video-layouts) for more info. Please, be aware that either video_layout or audio_sources have to be provided to get a valid creation request
 **sid** | string | *Computed* | The SID of the Composition resource to fetch.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**bitrate** | int | *Computed* | The average bit rate of the composition&#39;s media
-**date_completed** | string | *Computed* | Date when the media processing task finished
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_deleted** | string | *Computed* | The ISO 8601 date and time in GMT when the composition generated media was deleted
-**duration** | int | *Computed* | The duration of the composition&#39;s media file in seconds
-**links** | string | *Computed* | The URL of the media file associated with the composition
-**size** | int | *Computed* | The size of the composed media file in bytes
-**status** | string | *Computed* | The status of the composition
-**url** | string | *Computed* | The absolute URL of the resource
 
 ## twilio_video_composition_hooks_v1
 
@@ -43,8 +33,4 @@ Name | Type | Requirement | Description
 **trim** | bool | Optional | Whether to clip the intervals where there is no active media in the Compositions triggered by the composition hook. The default is &#x60;true&#x60;. Compositions with &#x60;trim&#x60; enabled are shorter when the Room is created and no Participant joins for a while as well as if all the Participants leave the room and join later, because those gaps will be removed. See [Specifying Video Layouts](https://www.twilio.com/docs/video/api/compositions-resource#specifying-video-layouts) for more info.
 **video_layout** | string | Optional | An object that describes the video layout of the composition hook in terms of regions. See [Specifying Video Layouts](https://www.twilio.com/docs/video/api/compositions-resource#specifying-video-layouts) for more info.
 **sid** | string | *Computed* | The SID of the CompositionHook resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**url** | string | *Computed* | The absolute URL of the resource
 

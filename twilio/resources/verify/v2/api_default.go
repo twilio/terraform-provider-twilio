@@ -35,10 +35,6 @@ func ResourceServicesRateLimitsBuckets() *schema.Resource {
 			"interval":       AsInt(SchemaRequired),
 			"max":            AsInt(SchemaRequired),
 			"sid":            AsString(SchemaComputed),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -157,14 +153,8 @@ func ResourceServicesEntities() *schema.Resource {
 		ReadContext:   readServicesEntities,
 		DeleteContext: deleteServicesEntities,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaForceNewRequired),
-			"identity":     AsString(SchemaForceNewRequired),
-			"account_sid":  AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"sid":          AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"service_sid": AsString(SchemaForceNewRequired),
+			"identity":    AsString(SchemaForceNewRequired),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -260,10 +250,6 @@ func ResourceServicesMessagingConfigurations() *schema.Resource {
 			"service_sid":           AsString(SchemaRequired),
 			"country":               AsString(SchemaRequired),
 			"messaging_service_sid": AsString(SchemaRequired),
-			"account_sid":           AsString(SchemaComputed),
-			"date_created":          AsString(SchemaComputed),
-			"date_updated":          AsString(SchemaComputed),
-			"url":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -395,14 +381,6 @@ func ResourceServicesEntitiesFactors() *schema.Resource {
 			"config_time_step":             AsInt(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
 			"auth_payload":                 AsString(SchemaComputedOptional),
-			"account_sid":                  AsString(SchemaComputed),
-			"binding":                      AsString(SchemaComputed),
-			"config":                       AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"entity_sid":                   AsString(SchemaComputed),
-			"status":                       AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -518,15 +496,10 @@ func ResourceServicesRateLimits() *schema.Resource {
 		UpdateContext: updateServicesRateLimits,
 		DeleteContext: deleteServicesRateLimits,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"unique_name":  AsString(SchemaRequired),
-			"description":  AsString(SchemaComputedOptional),
-			"sid":          AsString(SchemaComputed),
-			"account_sid":  AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"service_sid": AsString(SchemaRequired),
+			"unique_name": AsString(SchemaRequired),
+			"description": AsString(SchemaComputedOptional),
+			"sid":         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -658,13 +631,6 @@ func ResourceServices() *schema.Resource {
 			"totp_time_step":               AsInt(SchemaComputedOptional),
 			"tts_name":                     AsString(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
-			"account_sid":                  AsString(SchemaComputed),
-			"date_created":                 AsString(SchemaComputed),
-			"date_updated":                 AsString(SchemaComputed),
-			"links":                        AsString(SchemaComputed),
-			"push":                         AsString(SchemaComputed),
-			"totp":                         AsString(SchemaComputed),
-			"url":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -773,18 +739,13 @@ func ResourceServicesWebhooks() *schema.Resource {
 		UpdateContext: updateServicesWebhooks,
 		DeleteContext: deleteServicesWebhooks,
 		Schema: map[string]*schema.Schema{
-			"service_sid":    AsString(SchemaRequired),
-			"event_types":    AsList(AsString(SchemaRequired), SchemaRequired),
-			"friendly_name":  AsString(SchemaRequired),
-			"webhook_url":    AsString(SchemaRequired),
-			"status":         AsString(SchemaComputedOptional),
-			"version":        AsString(SchemaComputedOptional),
-			"sid":            AsString(SchemaComputed),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-			"webhook_method": AsString(SchemaComputed),
+			"service_sid":   AsString(SchemaRequired),
+			"event_types":   AsList(AsString(SchemaRequired), SchemaRequired),
+			"friendly_name": AsString(SchemaRequired),
+			"webhook_url":   AsString(SchemaRequired),
+			"status":        AsString(SchemaComputedOptional),
+			"version":       AsString(SchemaComputedOptional),
+			"sid":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

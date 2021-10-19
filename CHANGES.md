@@ -1,5 +1,12 @@
 terraform-provider-twilio changelog
 ====================
+[2021-10-19] Version 0.8.1
+--------------------------
+**Library - Fix**
+- [PR #77](https://github.com/twilio/terraform-provider-twilio/pull/77): tests for revert computed API response fields. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+- [PR #76](https://github.com/twilio/terraform-provider-twilio/pull/76): Revert feat: add computed API response fields (#73). Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+
 [2021-10-18] Version 0.8.0
 --------------------------
 **Library - Feature**

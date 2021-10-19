@@ -34,9 +34,6 @@ func ResourceCredentialsAWS() *schema.Resource {
 			"account_sid":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -149,9 +146,6 @@ func ResourceCredentialsPublicKeys() *schema.Resource {
 			"account_sid":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

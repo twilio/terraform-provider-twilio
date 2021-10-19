@@ -3,7 +3,6 @@ package twilio
 import (
 	"context"
 	"fmt"
-	"os"
 	"testing"
 
 	openapi "github.com/twilio/twilio-go/rest/serverless/v1"
@@ -38,11 +37,8 @@ func TestAccServerlessSetup_basic(t *testing.T) {
 					testAccServerlessServiceEnvironmentExists(serverlessSvcEnvResourceName, &serviceBefore),
 					resource.TestCheckResourceAttr(serverlessSvcResourceName, "friendly_name", "Terraform service"),
 					resource.TestCheckResourceAttr(serverlessSvcResourceName, "unique_name", serviceName),
-					resource.TestCheckResourceAttr(serverlessSvcResourceName, "account_sid", os.Getenv(AccountSid)),
 					resource.TestCheckResourceAttr(serverlessSvcFuncResourceName, "friendly_name", "Serverless func"),
-					resource.TestCheckResourceAttr(serverlessSvcFuncResourceName, "account_sid", os.Getenv(AccountSid)),
 					resource.TestCheckResourceAttr(serverlessSvcEnvResourceName, "unique_name", "environment-dummy"),
-					resource.TestCheckResourceAttr(serverlessSvcEnvResourceName, "account_sid", os.Getenv(AccountSid)),
 				),
 			},
 			{

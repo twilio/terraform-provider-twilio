@@ -153,4 +153,5 @@ $ TF_REATTACH_PROVIDERS='...' terraform plan
 ...
 ```
 
-Terraform will use the binary running under `dlv` instead of the `twilio/twilio` registry version. Happy debugging!
+Terraform will use the binary running under `dlv` instead of the `twilio/twilio` registry version. For further details
+refer to the [Terraform Debugging Providers](https://www.terraform.io/docs/extend/debugging.html) documentation.

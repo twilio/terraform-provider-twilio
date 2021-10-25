@@ -1,0 +1,58 @@
+name: Tests
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run automatically at 8AM PST Monday-Friday
+    - cron: '0 15 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [1.15, 1.16]
+    env:
+      TF_INPUT: false
+    steps:
+      - name: Checkout terraform-provider-twilio
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+        id: go
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Run Unit Tests
+        run: make install test
+
+      - name: Run Cluster Tests
+        if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging') && github.event_name != 'pull_request' }}
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+        run: make testacc
+
+      - name: Slack notify on failure
+        if: ${{ failure() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON_EMOJI: ':github:'
+          SLACK_MESSAGE: ${{ format('Build {2} in {1} failed{3} {0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id, ':') }}
+          SLACK_TITLE: Build Failure
+          SLACK_USERNAME: GitHub Actions
+          SLACK_MSG_AUTHOR: twilio-dx
+          SLACK_FOOTER: Posted automatically using GitHub Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          MSG_MINIMAL: true

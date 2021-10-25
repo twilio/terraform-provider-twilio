@@ -43,9 +43,13 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
         run: make testacc
 
-      - name: Slack notify on failure
-        if: ${{ failure() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
-        uses: rtCamp/action-slack-notify@v2
+  notify-on-failure:
+    name: Slack notify on failure
+    if: ${{ failure() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON_EMOJI: ':github:'

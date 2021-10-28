@@ -1,4 +1,5 @@
 # Twilio Terraform Provider
+[![Tests](https://github.com/twilio/terraform-provider-twilio/actions/workflows/test.yml/badge.svg)](https://github.com/twilio/twilio-ruby/actions/workflows/test.yml)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/twilio/terraform-provider-twilio?)](https://github.com/Twilio/terraform-provider-twilio/releases/latest)
 [![Terraform Registry](https://img.shields.io/badge/registry-twilio-green?logo=terraform&style=flat)](https://registry.terraform.io/providers/twilio/twilio/latest)
 

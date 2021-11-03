@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/hashicorp/hcl/v2 v2.10.1 // indirect
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.8.0
-	github.com/hashicorp/yamux v0.0.0-20210826001029-26ff87cf9493 // indirect
+	github.com/hashicorp/yamux v0.0.0-20211028200310-0bc27b27de87 // indirect
 	github.com/jhump/protoreflect v1.6.1 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/mattn/go-colorable v0.1.11 // indirect
@@ -24,14 +24,14 @@ require (
 	github.com/oklog/run v1.1.0 // indirect
 	github.com/stretchr/testify v1.7.0
 	github.com/twilio/twilio-go v0.17.0
-	github.com/zclconf/go-cty v1.9.1 // indirect
+	github.com/zclconf/go-cty v1.10.0 // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
-	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect
-	golang.org/x/sys v0.0.0-20211019181941-9d821ace8654 // indirect
+	golang.org/x/net v0.0.0-20211101193420-4a448f8816b3 // indirect
+	golang.org/x/sys v0.0.0-20211103184734-ae416a5f93c7 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/tools v0.1.7 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20211019152133-63b7e35f4404 // indirect
-	google.golang.org/grpc v1.41.0 // indirect
+	google.golang.org/genproto v0.0.0-20211102202547-e9cf271f7f2c // indirect
+	google.golang.org/grpc v1.42.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

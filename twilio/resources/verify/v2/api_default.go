@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.22.0
+ * API version: 1.23.0
  * Contact: support@twilio.com
  */
 
@@ -617,6 +617,7 @@ func ResourceServices() *schema.Resource {
 			"friendly_name":                AsString(SchemaRequired),
 			"code_length":                  AsInt(SchemaComputedOptional),
 			"custom_code_enabled":          AsBool(SchemaComputedOptional),
+			"default_template_sid":         AsString(SchemaComputedOptional),
 			"do_not_share_warning_enabled": AsBool(SchemaComputedOptional),
 			"dtmf_input_required":          AsBool(SchemaComputedOptional),
 			"lookup_enabled":               AsBool(SchemaComputedOptional),

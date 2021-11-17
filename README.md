@@ -122,7 +122,7 @@ You can also specify a particular suite to run like so:
 
 An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/main/twilio/resources_flex_test.go).
 
-### Debugging
+## Debugging
 
 First:
 
@@ -132,7 +132,7 @@ export TF_LOG=TRACE
 
 then refer to the [Terraform Debugging Documentation](https://www.terraform.io/docs/internals/debugging.html).
 
-### Debugging with Delve / Goland
+### Debugging with Delve
 
 You can build and debug the provider locally. When using Goland you can set break point and step through code:
 
@@ -155,3 +155,10 @@ $ TF_REATTACH_PROVIDERS='...' terraform plan
 
 Terraform will use the binary running under `dlv` instead of the `twilio/twilio` registry version. For further details
 refer to the [Terraform Debugging Providers](https://www.terraform.io/docs/extend/debugging.html) documentation.
+
+### Debugging with Goland
+
+- Set up GOROOT (initially opening `main.go` should show this option)
+- Select `Modify Run Configuration...` on `main.go` and then add `--debug` as `Program arguments`
+- Select `Debug "go build main.go"` and then copy the `TF_REATTACH_PROVIDERS` to the shell where `terraform` will be run
+- Set breakpoints in Goland as needed and run `terraform`, it will use plugin the process running under the Goland debugger

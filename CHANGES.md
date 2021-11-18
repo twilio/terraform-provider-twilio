@@ -1,5 +1,19 @@
 terraform-provider-twilio changelog
 ====================
+[2021-11-17] Version 0.9.1
+--------------------------
+**Frontline**
+- Added `is_available` to User's resource
+
+**Messaging**
+- Added GET vetting API
+
+**Verify**
+- Add `WHATSAPP` to the attempts API.
+- Allow to update `config.notification_platform` from `none` to `apn` or `fcm` and viceversa for Verify Push
+- Add `none` as a valid `config.notification_platform` value for Verify Push
+
+
 [2021-11-03] Version 0.9.0
 --------------------------
 **Library - Chore**

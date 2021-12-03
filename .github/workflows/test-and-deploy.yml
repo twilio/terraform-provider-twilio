@@ -1,7 +1,8 @@
-name: Tests
+name: Test and Deploy
 on:
   push:
     branches: [ '*' ]
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main ]
   schedule:
@@ -10,13 +11,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests:
-    name: Tests
+  test:
+    name: Test
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       matrix:
-        go: [1.15, 1.16]
+        go: [ 1.15, 1.16 ]
     env:
       TF_INPUT: false
     steps:
@@ -45,18 +46,48 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
         run: make testacc
 
+  deploy:
+    name: Deploy
+    if: success() && github.ref_type == 'tag'
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Unshallow
+        run: git fetch --prune --unshallow
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      - name: Import GPG key
+        id: import_gpg
+        uses: hashicorp/ghaction-import-gpg@v2.1.0
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2.5.0
+        with:
+          version: latest
+          args: release --rm-dist
+        env:
+          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+          # GitHub sets this automatically
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   notify-on-failure:
     name: Slack notify on failure
-    if: ${{ failure() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
-    needs: [tests]
+    if: failure() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref_type == 'tag')
+    needs: [ test, deploy ]
     runs-on: ubuntu-latest
     steps:
       - uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_COLOR: ${{ needs.tests.status }}
+          SLACK_COLOR: failure
           SLACK_ICON_EMOJI: ':github:'
-          SLACK_MESSAGE: ${{ format('Build {2} in {1} failed{3} {0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id, ':') }}
-          SLACK_TITLE: Build Failure
+          SLACK_MESSAGE: ${{ format('Tests *{0}*, Deploy *{1}*, {2}/{3}/actions/runs/{4}', needs.test.result, needs.deploy.result, github.server_url, github.repository, github.run_id) }}
+          SLACK_TITLE: Action Failure - ${{ github.repository }}
           SLACK_USERNAME: GitHub Actions
           SLACK_MSG_AUTHOR: twilio-dx
           SLACK_FOOTER: Posted automatically using GitHub Actions

@@ -13,7 +13,7 @@ default: build
 githooks:
 	ln -sf ../../githooks/pre-commit .git/hooks/pre-commit
 
-build: githooks goimports terrafmt
+build: goimports terrafmt
 	go build -o ${BINARY}
 
 goimports:

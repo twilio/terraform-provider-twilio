@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.23.2
+ * API version: 1.24.0
  * Contact: support@twilio.com
  */
 
@@ -926,6 +926,7 @@ func ResourceAccountsMessages() *schema.Resource {
 			"messaging_service_sid": AsString(SchemaComputedOptional),
 			"persistent_action":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"provide_feedback":      AsBool(SchemaComputedOptional),
+			"send_as_mms":           AsBool(SchemaComputedOptional),
 			"smart_encoded":         AsBool(SchemaComputedOptional),
 			"status_callback":       AsString(SchemaComputedOptional),
 			"validity_period":       AsInt(SchemaComputedOptional),

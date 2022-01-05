@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
@@ -10,6 +13,11 @@ import (
 )
 
 func main() {
+	var debugMode bool
+
+	flag.BoolVar(&debugMode, "debug", false, "set to true to run the provider with support for debuggers like delve")
+	flag.Parse()
+
 	if fileExists("./conf/.env") {
 		err := godotenv.Load(`./conf/.env`)
 		if err != nil {
@@ -17,9 +25,20 @@ func main() {
 			os.Exit(-1)
 		}
 	}
-	plugin.Serve(&plugin.ServeOpts{
+
+	opts := &plugin.ServeOpts{
 		ProviderFunc: twilio.Provider,
-	})
+	}
+
+	if debugMode {
+		err := plugin.Debug(context.Background(), "registry.terraform.io/twilio/twilio", opts)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
+
+	plugin.Serve(opts)
 }
 
 func fileExists(filename string) bool {

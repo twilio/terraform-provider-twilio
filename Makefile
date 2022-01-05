@@ -5,7 +5,7 @@ REGISTRY=local
 NAMESPACE=twilio
 NAME=twilio
 BINARY=terraform-provider-${NAME}
-VERSION=0.9.2
+VERSION=0.10.0
 OS_ARCH=darwin_amd64
 
 default: build
@@ -13,7 +13,7 @@ default: build
 githooks:
 	ln -sf ../../githooks/pre-commit .git/hooks/pre-commit
 
-build: githooks goimports terrafmt
+build: goimports terrafmt
 	go build -o ${BINARY}
 
 goimports:

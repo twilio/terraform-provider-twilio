@@ -32,6 +32,7 @@ Name | Type | Requirement | Description
 **unique_name** | string | **Required** | A user-defined string that uniquely identifies the Environment resource. It can be a maximum of 100 characters.
 **domain_suffix** | string | Optional | A URL-friendly name that represents the environment and forms part of the domain name. It can be a maximum of 16 characters.
 **sid** | string | *Computed* | The SID of the Environment resource to fetch.
+**domain_name** | string | *Computed* | The domain name generated for use by external callers to reach functions running in this environment, e.g. 'myservice-1234-myenvironment.twil.io'.
 
 ## twilio_serverless_services_functions_v1
 

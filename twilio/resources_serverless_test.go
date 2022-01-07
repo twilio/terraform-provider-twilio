@@ -39,6 +39,7 @@ func TestAccServerlessSetup_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(serverlessSvcResourceName, "unique_name", serviceName),
 					resource.TestCheckResourceAttr(serverlessSvcFuncResourceName, "friendly_name", "Serverless func"),
 					resource.TestCheckResourceAttr(serverlessSvcEnvResourceName, "unique_name", "environment-dummy"),
+					resource.TestCheckResourceAttrSet(serverlessSvcEnvResourceName, "domain_name"),
 				),
 			},
 			{
@@ -49,6 +50,7 @@ func TestAccServerlessSetup_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(serverlessSvcResourceName, "unique_name", serviceName),
 					resource.TestCheckResourceAttr(serverlessSvcFuncResourceName, "friendly_name", "Serverless func 2"),
 					resource.TestCheckResourceAttr(serverlessSvcEnvResourceName, "unique_name", "environment-dummy-updated"),
+					resource.TestCheckResourceAttrSet(serverlessSvcEnvResourceName, "domain_name"),
 					testAccEnvResourceWasRecreated(&serviceBefore, &serviceAfter),
 				),
 			},

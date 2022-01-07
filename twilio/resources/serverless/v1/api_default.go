@@ -247,6 +247,7 @@ func ResourceServicesEnvironments() *schema.Resource {
 			"unique_name":   AsString(SchemaForceNewRequired),
 			"domain_suffix": AsString(SchemaForceNewOptional),
 			"sid":           AsString(SchemaComputed),
+			"domain_name":   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

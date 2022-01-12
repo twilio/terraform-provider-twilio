@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.24.0
+ * API version: 1.25.0
  * Contact: support@twilio.com
  */
 
@@ -926,11 +926,14 @@ func ResourceAccountsMessages() *schema.Resource {
 			"messaging_service_sid": AsString(SchemaComputedOptional),
 			"persistent_action":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"provide_feedback":      AsBool(SchemaComputedOptional),
+			"schedule_type":         AsString(SchemaComputedOptional),
 			"send_as_mms":           AsBool(SchemaComputedOptional),
+			"send_at":               AsString(SchemaComputedOptional),
 			"smart_encoded":         AsBool(SchemaComputedOptional),
 			"status_callback":       AsString(SchemaComputedOptional),
 			"validity_period":       AsInt(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
+			"status":                AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -959,13 +962,9 @@ func createAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 	idParts := []string{}
 	idParts = append(idParts, (*r.Sid))
 	d.SetId(strings.Join(idParts, "/"))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateAccountsMessages(ctx, d, m)
 }
 
 func deleteAccountsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

@@ -1,5 +1,27 @@
 terraform-provider-twilio changelog
 ====================
+[2022-01-12] Version 0.11.0
+---------------------------
+**Library - Feature**
+- [PR #86](https://github.com/twilio/terraform-provider-twilio/pull/86): add GitHub release step during deploy. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #74](https://github.com/twilio/terraform-provider-twilio/pull/74): delve / goland debugging support. Thanks to [@loafoe](https://github.com/loafoe)!
+
+**Library - Chore**
+- [PR #83](https://github.com/twilio/terraform-provider-twilio/pull/83): remove githook dependency from make install. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Api**
+- Make fixed time scheduling parameters public **(breaking change)**
+
+**Messaging**
+- Add update brand registration API
+
+**Numbers**
+- Add API endpoint for List Bundle Copies resource
+
+**Video**
+- Enable external storage for all customers
+
+
 [2021-12-15] Version 0.10.0
 ---------------------------
 **Library - Feature**

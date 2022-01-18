@@ -44,6 +44,6 @@ testacc:
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
 
 GO_DIRS = $(shell go list ./... | grep -v /resources/)
-cover:
+test-cover:
 	go test ${GO_DIRS} -coverprofile coverage.out
 	go test ${GO_DIRS} -json > test-report.out

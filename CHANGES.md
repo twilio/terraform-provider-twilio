@@ -1,5 +1,22 @@
 terraform-provider-twilio changelog
 ====================
+[2022-01-26] Version 0.11.1
+---------------------------
+**Library - Chore**
+- [PR #89](https://github.com/twilio/terraform-provider-twilio/pull/89): add sonarcloud coverage analysis. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+**Insights**
+- Added new endpoint to fetch Conference Participant Summary
+- Added new endpoint to fetch Conference Summary
+
+**Messaging**
+- Add government_entity parameter to brand apis
+
+**Verify**
+- Add Access Token fetch endpoint to retrieve a previously created token.
+- Add Access Token payload to the Access Token creation endpoint, including a unique Sid, so it's addressable while it's TTL is valid.
+
+
 [2022-01-12] Version 0.11.0
 ---------------------------
 **Library - Feature**

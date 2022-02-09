@@ -1,4 +1,23 @@
 
+## twilio_conversations_configuration_addresses_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**address** | string | **Required** | The unique address to be configured. The address can be a whatsapp address or phone number
+**type** | string | **Required** | Type of Address. Value can be &#x60;whatsapp&#x60; or &#x60;sms&#x60;.
+**auto_creation_conversation_service_sid** | string | Optional | Conversation Service for the auto-created conversation. If not set, the conversation is created in the default service.
+**auto_creation_enabled** | bool | Optional | Enable/Disable auto-creating conversations for messages to this address
+**auto_creation_studio_flow_sid** | string | Optional | For type &#x60;studio&#x60;, the studio flow SID, where the webhook should be sent to.
+**auto_creation_studio_retry_count** | int | Optional | For type &#x60;studio&#x60;, number of times to retry the webhook request
+**auto_creation_type** | string | Optional | Type of Auto Creation. Value can be one of &#x60;webhook&#x60;, &#x60;studio&#x60;, &#x60;default&#x60;.
+**auto_creation_webhook_filters** | list(string) | Optional | The list of events, firing webhook event for this Conversation.
+**auto_creation_webhook_method** | string | Optional | For type &#x60;webhook&#x60;, the HTTP method to be used when sending a webhook request.
+**auto_creation_webhook_url** | string | Optional | For type &#x60;webhook&#x60;, the url for the webhook request.
+**friendly_name** | string | Optional | The human-readable name of this configuration, limited to 256 characters. Optional.
+**sid** | string | *Computed* | The SID of the Address Configuration resource. This value can be either the &#x60;sid&#x60; or the &#x60;address&#x60; of the configuration
+
 ## twilio_conversations_conversations_v1
 
 ### Parameters

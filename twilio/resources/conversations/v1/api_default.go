@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.25.1
+ * API version: 1.26.0
  * Contact: support@twilio.com
  */
 
@@ -22,6 +22,126 @@ import (
 	. "github.com/twilio/terraform-provider-twilio/core"
 	. "github.com/twilio/twilio-go/rest/conversations/v1"
 )
+
+func ResourceConfigurationAddresses() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createConfigurationAddresses,
+		ReadContext:   readConfigurationAddresses,
+		UpdateContext: updateConfigurationAddresses,
+		DeleteContext: deleteConfigurationAddresses,
+		Schema: map[string]*schema.Schema{
+			"address":                                AsString(SchemaRequired),
+			"type":                                   AsString(SchemaRequired),
+			"auto_creation_conversation_service_sid": AsString(SchemaComputedOptional),
+			"auto_creation_enabled":                  AsBool(SchemaComputedOptional),
+			"auto_creation_studio_flow_sid":          AsString(SchemaComputedOptional),
+			"auto_creation_studio_retry_count":       AsInt(SchemaComputedOptional),
+			"auto_creation_type":                     AsString(SchemaComputedOptional),
+			"auto_creation_webhook_filters":          AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"auto_creation_webhook_method":           AsString(SchemaComputedOptional),
+			"auto_creation_webhook_url":              AsString(SchemaComputedOptional),
+			"friendly_name":                          AsString(SchemaComputedOptional),
+			"sid":                                    AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseConfigurationAddressesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createConfigurationAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateConfigurationAddressParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.ConversationsV1.CreateConfigurationAddress(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteConfigurationAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ConversationsV1.DeleteConfigurationAddress(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readConfigurationAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ConversationsV1.FetchConfigurationAddress(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseConfigurationAddressesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
+func updateConfigurationAddresses(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateConfigurationAddressParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ConversationsV1.UpdateConfigurationAddress(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
 
 func ResourceConversations() *schema.Resource {
 	return &schema.Resource{

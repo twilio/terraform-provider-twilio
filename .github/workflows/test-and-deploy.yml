@@ -43,7 +43,7 @@ jobs:
         run: make install test
 
       - name: Run Cluster Tests
-        if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging') && github.event_name != 'pull_request' }}
+        if: ${{ (github.ref == 'refs/heads/main' || github.ref_type == 'tag') && github.event_name != 'pull_request' }}
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}

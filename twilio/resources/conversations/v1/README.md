@@ -9,10 +9,10 @@ Name | Type | Requirement | Description
 **type** | string | **Required** | Type of Address. Value can be &#x60;whatsapp&#x60; or &#x60;sms&#x60;.
 **auto_creation_conversation_service_sid** | string | Optional | Conversation Service for the auto-created conversation. If not set, the conversation is created in the default service.
 **auto_creation_enabled** | bool | Optional | Enable/Disable auto-creating conversations for messages to this address
-**auto_creation_studio_flow_sid** | string | Optional | For type &#x60;studio&#x60;, the studio flow SID, where the webhook should be sent to.
+**auto_creation_studio_flow_sid** | string | Optional | For type &#x60;studio&#x60;, the studio flow SID where the webhook should be sent to.
 **auto_creation_studio_retry_count** | int | Optional | For type &#x60;studio&#x60;, number of times to retry the webhook request
-**auto_creation_type** | string | Optional | Type of Auto Creation. Value can be one of &#x60;webhook&#x60;, &#x60;studio&#x60;, &#x60;default&#x60;.
-**auto_creation_webhook_filters** | list(string) | Optional | The list of events, firing webhook event for this Conversation.
+**auto_creation_type** | string | Optional | Type of Auto Creation. Value can be one of &#x60;webhook&#x60;, &#x60;studio&#x60; or &#x60;default&#x60;.
+**auto_creation_webhook_filters** | list(string) | Optional | The list of events, firing webhook event for this Conversation. Values can be any of the following: &#x60;onMessageAdded&#x60;, &#x60;onMessageUpdated&#x60;, &#x60;onMessageRemoved&#x60;, &#x60;onConversationUpdated&#x60;, &#x60;onConversationStateUpdated&#x60;, &#x60;onConversationRemoved&#x60;, &#x60;onParticipantAdded&#x60;, &#x60;onParticipantUpdated&#x60;, &#x60;onParticipantRemoved&#x60;, &#x60;onDeliveryUpdated&#x60;
 **auto_creation_webhook_method** | string | Optional | For type &#x60;webhook&#x60;, the HTTP method to be used when sending a webhook request.
 **auto_creation_webhook_url** | string | Optional | For type &#x60;webhook&#x60;, the url for the webhook request.
 **friendly_name** | string | Optional | The human-readable name of this configuration, limited to 256 characters. Optional.

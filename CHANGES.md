@@ -1,5 +1,32 @@
 terraform-provider-twilio changelog
 ====================
+[2022-02-17] Version 0.13.0
+---------------------------
+**Library - Fix**
+- [PR #94](https://github.com/twilio/terraform-provider-twilio/pull/94): run cluster tests before deployment. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Library - Chore**
+- [PR #93](https://github.com/twilio/terraform-provider-twilio/pull/93): update the sonar exclusions. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Detected a bug and removed optional boolean include_soft_deleted parameter to retrieve soft deleted recordings. **(breaking change)**
+- Add optional boolean include_soft_deleted parameter to retrieve soft deleted recordings.
+
+**Numbers**
+- Unrevert valid_until and sort filter params added to List Bundles resource
+- Revert valid_until and sort filter params added to List Bundles resource
+- Update sorting params added to List Bundles resource in the previous release
+
+**Preview**
+- Moved `web_channels` from preview to beta under `flex-api` **(breaking change)**
+
+**Taskrouter**
+- Add `ETag` as Response Header to List of Task, Reservation & Worker
+
+**Verify**
+- Add optional `metadata` to factors.
+
+
 [2022-02-09] Version 0.12.0
 ---------------------------
 **Library - Chore**

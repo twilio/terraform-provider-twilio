@@ -1,5 +1,5 @@
 /*
- * Twilio - Messaging
+ * Twilio - Proxy
  *
  * This is the public Twilio REST API.
  *
@@ -20,22 +20,27 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/twilio/terraform-provider-twilio/client"
 	. "github.com/twilio/terraform-provider-twilio/core"
-	. "github.com/twilio/twilio-go/rest/messaging/v1"
+	. "github.com/twilio/twilio-go/rest/proxy/v1"
 )
 
-func ResourceServicesAlphaSenders() *schema.Resource {
+func ResourceServicesSessionsParticipants() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createServicesAlphaSenders,
-		ReadContext:   readServicesAlphaSenders,
-		DeleteContext: deleteServicesAlphaSenders,
+		CreateContext: createServicesSessionsParticipants,
+		ReadContext:   readServicesSessionsParticipants,
+		DeleteContext: deleteServicesSessionsParticipants,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaForceNewRequired),
-			"alpha_sender": AsString(SchemaForceNewRequired),
-			"sid":          AsString(SchemaComputed),
+			"service_sid":                  AsString(SchemaForceNewRequired),
+			"session_sid":                  AsString(SchemaForceNewRequired),
+			"identifier":                   AsString(SchemaForceNewRequired),
+			"fail_on_participant_conflict": AsBool(SchemaForceNewOptional),
+			"friendly_name":                AsString(SchemaForceNewOptional),
+			"proxy_identifier":             AsString(SchemaForceNewOptional),
+			"proxy_identifier_sid":         AsString(SchemaForceNewOptional),
+			"sid":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesAlphaSendersImportId(d.Id(), d)
+				err := parseServicesSessionsParticipantsImportId(d.Id(), d)
 				if err != nil {
 					return nil, err
 				}
@@ -46,20 +51,21 @@ func ResourceServicesAlphaSenders() *schema.Resource {
 	}
 }
 
-func createServicesAlphaSenders(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateAlphaSenderParams{}
+func createServicesSessionsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateParticipantParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
 	serviceSid := d.Get("service_sid").(string)
+	sessionSid := d.Get("session_sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.CreateAlphaSender(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreateParticipant(serviceSid, sessionSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	idParts := []string{serviceSid}
+	idParts := []string{serviceSid, sessionSid}
 	idParts = append(idParts, (*r.Sid))
 	d.SetId(strings.Join(idParts, "/"))
 
@@ -71,12 +77,13 @@ func createServicesAlphaSenders(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func deleteServicesAlphaSenders(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteServicesSessionsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	serviceSid := d.Get("service_sid").(string)
+	sessionSid := d.Get("session_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.MessagingV1.DeleteAlphaSender(serviceSid, sid)
+	err := m.(*client.Config).Client.ProxyV1.DeleteParticipant(serviceSid, sessionSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -86,12 +93,13 @@ func deleteServicesAlphaSenders(ctx context.Context, d *schema.ResourceData, m i
 	return nil
 }
 
-func readServicesAlphaSenders(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readServicesSessionsParticipants(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	serviceSid := d.Get("service_sid").(string)
+	sessionSid := d.Get("session_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.FetchAlphaSender(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchParticipant(serviceSid, sessionSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -104,16 +112,17 @@ func readServicesAlphaSenders(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
-func parseServicesAlphaSendersImportId(importId string, d *schema.ResourceData) error {
+func parseServicesSessionsParticipantsImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/sid"
+	errStr := "invalid import ID (%q), expected service_sid/session_sid/sid"
 
-	if len(importParts) != 2 {
+	if len(importParts) != 3 {
 		return fmt.Errorf(errStr, importId)
 	}
 
 	d.Set("service_sid", importParts[0])
-	d.Set("sid", importParts[1])
+	d.Set("session_sid", importParts[1])
+	d.Set("sid", importParts[2])
 
 	return nil
 }
@@ -121,11 +130,13 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesPhoneNumbers,
 		ReadContext:   readServicesPhoneNumbers,
+		UpdateContext: updateServicesPhoneNumbers,
 		DeleteContext: deleteServicesPhoneNumbers,
 		Schema: map[string]*schema.Schema{
-			"service_sid":      AsString(SchemaForceNewRequired),
-			"phone_number_sid": AsString(SchemaForceNewRequired),
-			"sid":              AsString(SchemaComputed),
+			"service_sid":  AsString(SchemaRequired),
+			"is_reserved":  AsBool(SchemaComputedOptional),
+			"phone_number": AsString(SchemaComputedOptional),
+			"sid":          AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -148,7 +159,7 @@ func createServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.CreatePhoneNumber(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreatePhoneNumber(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -170,7 +181,7 @@ func deleteServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m i
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.MessagingV1.DeletePhoneNumber(serviceSid, sid)
+	err := m.(*client.Config).Client.ProxyV1.DeletePhoneNumber(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -185,7 +196,7 @@ func readServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.FetchPhoneNumber(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchPhoneNumber(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -211,6 +222,28 @@ func parseServicesPhoneNumbersImportId(importId string, d *schema.ResourceData) 
 
 	return nil
 }
+func updateServicesPhoneNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdatePhoneNumberParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.UpdatePhoneNumber(serviceSid, sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
 func ResourceServices() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServices,
@@ -218,23 +251,15 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":                 AsString(SchemaRequired),
-			"area_code_geomatch":            AsBool(SchemaComputedOptional),
-			"fallback_method":               AsString(SchemaComputedOptional),
-			"fallback_to_long_code":         AsBool(SchemaComputedOptional),
-			"fallback_url":                  AsString(SchemaComputedOptional),
-			"inbound_method":                AsString(SchemaComputedOptional),
-			"inbound_request_url":           AsString(SchemaComputedOptional),
-			"mms_converter":                 AsBool(SchemaComputedOptional),
-			"scan_message_content":          AsString(SchemaComputedOptional),
-			"smart_encoding":                AsBool(SchemaComputedOptional),
-			"status_callback":               AsString(SchemaComputedOptional),
-			"sticky_sender":                 AsBool(SchemaComputedOptional),
-			"synchronous_validation":        AsBool(SchemaComputedOptional),
-			"use_inbound_webhook_on_number": AsBool(SchemaComputedOptional),
-			"usecase":                       AsString(SchemaComputedOptional),
-			"validity_period":               AsInt(SchemaComputedOptional),
-			"sid":                           AsString(SchemaComputed),
+			"unique_name":                 AsString(SchemaRequired),
+			"callback_url":                AsString(SchemaComputedOptional),
+			"chat_instance_sid":           AsString(SchemaComputedOptional),
+			"default_ttl":                 AsInt(SchemaComputedOptional),
+			"geo_match_level":             AsString(SchemaComputedOptional),
+			"intercept_callback_url":      AsString(SchemaComputedOptional),
+			"number_selection_behavior":   AsString(SchemaComputedOptional),
+			"out_of_session_callback_url": AsString(SchemaComputedOptional),
+			"sid":                         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -255,7 +280,7 @@ func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.MessagingV1.CreateService(&params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreateService(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -276,7 +301,7 @@ func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.MessagingV1.DeleteService(sid)
+	err := m.(*client.Config).Client.ProxyV1.DeleteService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -290,7 +315,7 @@ func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) di
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.FetchService(sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchService(sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -323,7 +348,130 @@ func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.UpdateService(sid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateService(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func ResourceServicesSessions() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesSessions,
+		ReadContext:   readServicesSessions,
+		UpdateContext: updateServicesSessions,
+		DeleteContext: deleteServicesSessions,
+		Schema: map[string]*schema.Schema{
+			"service_sid":                  AsString(SchemaRequired),
+			"date_expiry":                  AsString(SchemaComputedOptional),
+			"fail_on_participant_conflict": AsBool(SchemaComputedOptional),
+			"mode":                         AsString(SchemaComputedOptional),
+			"participants":                 AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"status":                       AsString(SchemaComputedOptional),
+			"ttl":                          AsInt(SchemaComputedOptional),
+			"unique_name":                  AsString(SchemaComputedOptional),
+			"sid":                          AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesSessionsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createServicesSessions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSessionParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.CreateSession(serviceSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{serviceSid}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteServicesSessions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.ProxyV1.DeleteSession(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readServicesSessions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.FetchSession(serviceSid, sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseServicesSessionsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid/sid"
+
+	if len(importParts) != 2 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+	d.Set("sid", importParts[1])
+
+	return nil
+}
+func updateServicesSessions(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateSessionParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	serviceSid := d.Get("service_sid").(string)
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateSession(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -340,11 +488,12 @@ func ResourceServicesShortCodes() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServicesShortCodes,
 		ReadContext:   readServicesShortCodes,
+		UpdateContext: updateServicesShortCodes,
 		DeleteContext: deleteServicesShortCodes,
 		Schema: map[string]*schema.Schema{
-			"service_sid":    AsString(SchemaForceNewRequired),
-			"short_code_sid": AsString(SchemaForceNewRequired),
-			"sid":            AsString(SchemaComputed),
+			"service_sid": AsString(SchemaRequired),
+			"sid":         AsString(SchemaRequired),
+			"is_reserved": AsBool(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -367,7 +516,7 @@ func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 
 	serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.CreateShortCode(serviceSid, &params)
+	r, err := m.(*client.Config).Client.ProxyV1.CreateShortCode(serviceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -375,13 +524,9 @@ func createServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 	idParts := []string{serviceSid}
 	idParts = append(idParts, (*r.Sid))
 	d.SetId(strings.Join(idParts, "/"))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateServicesShortCodes(ctx, d, m)
 }
 
 func deleteServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -389,7 +534,7 @@ func deleteServicesShortCodes(ctx context.Context, d *schema.ResourceData, m int
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.MessagingV1.DeleteShortCode(serviceSid, sid)
+	err := m.(*client.Config).Client.ProxyV1.DeleteShortCode(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -404,7 +549,7 @@ func readServicesShortCodes(ctx context.Context, d *schema.ResourceData, m inter
 	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.MessagingV1.FetchShortCode(serviceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.FetchShortCode(serviceSid, sid)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -430,80 +575,16 @@ func parseServicesShortCodesImportId(importId string, d *schema.ResourceData) er
 
 	return nil
 }
-func ResourceServicesComplianceUsa2p() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesComplianceUsa2p,
-		ReadContext:   readServicesComplianceUsa2p,
-		DeleteContext: deleteServicesComplianceUsa2p,
-		Schema: map[string]*schema.Schema{
-			"messaging_service_sid":    AsString(SchemaForceNewRequired),
-			"brand_registration_sid":   AsString(SchemaForceNewRequired),
-			"description":              AsString(SchemaForceNewRequired),
-			"has_embedded_links":       AsBool(SchemaForceNewRequired),
-			"has_embedded_phone":       AsBool(SchemaForceNewRequired),
-			"message_samples":          AsList(AsString(SchemaForceNewRequired), SchemaForceNewRequired),
-			"us_app_to_person_usecase": AsString(SchemaForceNewRequired),
-			"sid":                      AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesComplianceUsa2pImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
-
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
-}
-
-func createServicesComplianceUsa2p(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateUsAppToPersonParams{}
+func updateServicesShortCodes(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateShortCodeParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	messagingServiceSid := d.Get("messaging_service_sid").(string)
-
-	r, err := m.(*client.Config).Client.MessagingV1.CreateUsAppToPerson(messagingServiceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	idParts := []string{messagingServiceSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
-
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
-}
-
-func deleteServicesComplianceUsa2p(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	messagingServiceSid := d.Get("messaging_service_sid").(string)
+	serviceSid := d.Get("service_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.MessagingV1.DeleteUsAppToPerson(messagingServiceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId("")
-
-	return nil
-}
-
-func readServicesComplianceUsa2p(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
-	messagingServiceSid := d.Get("messaging_service_sid").(string)
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.MessagingV1.FetchUsAppToPerson(messagingServiceSid, sid)
+	r, err := m.(*client.Config).Client.ProxyV1.UpdateShortCode(serviceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -512,20 +593,6 @@ func readServicesComplianceUsa2p(ctx context.Context, d *schema.ResourceData, m 
 	if err != nil {
 		return diag.FromErr(err)
 	}
-
-	return nil
-}
-
-func parseServicesComplianceUsa2pImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected messaging_service_sid/sid"
-
-	if len(importParts) != 2 {
-		return fmt.Errorf(errStr, importId)
-	}
-
-	d.Set("messaging_service_sid", importParts[0])
-	d.Set("sid", importParts[1])
 
 	return nil
 }

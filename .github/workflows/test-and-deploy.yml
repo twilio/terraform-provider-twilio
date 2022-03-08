@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
+      max-parallel: 1
       matrix:
         go: [ '1.15', '1.16', '1.17' ]
     env:

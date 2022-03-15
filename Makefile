@@ -19,11 +19,11 @@ build: goimports terrafmt
 gotidy:
 	go mod tidy
 
-goimports: gotidy
+goimports:
 	go get golang.org/x/tools/cmd/goimports
 	goimports -w .
 
-govet: goimports
+govet: gotidy goimports
 	go vet ./...
 
 golint: govet

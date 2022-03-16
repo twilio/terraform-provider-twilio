@@ -1,4 +1,4 @@
-.PHONY: default githooks build goimports govet golint terrafmt install test testacc cover
+.PHONY: default githooks build gotidy goimports govet golint terrafmt install test testacc cover
 
 TEST?=$$(go list ./... |grep -v 'vendor')
 REGISTRY=local

@@ -1,4 +1,4 @@
-.PHONY: default githooks build gotidy goimports govet golint terrafmt install test testacc cover
+.PHONY: default githooks build goimports govet golint terrafmt install test testacc
 
 TEST?=$$(go list ./... |grep -v 'vendor')
 REGISTRY=local
@@ -16,12 +16,10 @@ githooks:
 build: goimports terrafmt
 	go build -o ${BINARY}
 
-gotidy:
-	go mod tidy
-
-goimports: gotidy
+goimports:
 	go get golang.org/x/tools/cmd/goimports
 	goimports -w .
+	go mod tidy
 
 govet: goimports
 	go vet ./...
@@ -29,6 +27,7 @@ govet: goimports
 golint: govet
 	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.39.0
 	golangci-lint run
+	go mod tidy
 
 terrafmt:
 	terraform fmt -recursive

@@ -41,7 +41,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Run tests
-        run: make install golint test
+        run: make install test
 
       - name: Run Cluster Tests
         if: ${{ (github.ref == 'refs/heads/main' || github.ref_type == 'tag') && github.event_name != 'pull_request' }}

@@ -10,7 +10,7 @@
 ## Requirements
 
 - [Terraform](https://www.terraform.io/downloads.html) v0.15.x
-- [Go](https://golang.org/doc/install) 1.15+ (to build the provider plugin)
+- [Go](https://golang.org/doc/install) 1.16+ (to build the provider plugin)
 
 ## Resource Documentation
 
@@ -95,7 +95,7 @@ The boilerplate includes the following:
 - `examples` contains sample Terraform configuration that can be used to test the Twilio provider
 - `twilio` contains the main provider code. This will be where the provider's resources and data source implementations will be defined.
 
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.15+ is _required_).
+If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.16+ is _required_).
 
 To compile the provider, run `make build`. This will build the provider and put the provider binary in the `$GOPATH/bin` directory.
 

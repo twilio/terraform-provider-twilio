@@ -16,17 +16,19 @@ githooks:
 build: goimports terrafmt
 	go build -o ${BINARY}
 
+gotidy:
+	go mod tidy
+
 goimports:
 	go get golang.org/x/tools/cmd/goimports
 	goimports -w .
 
-govet: goimports
+govet: gotidy goimports
 	go vet ./...
 
 golint: govet
 	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.39.0
 	golangci-lint run
-	go mod tidy
 
 terrafmt:
 	terraform fmt -recursive

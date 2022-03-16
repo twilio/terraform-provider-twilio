@@ -18,7 +18,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        go: [ '1.15', '1.16', '1.17' ]
+        go: [ '1.16', '1.17' ]
     env:
       TF_INPUT: false
     steps:
@@ -40,8 +40,8 @@ jobs:
           terraform_version: 1.0.0
           terraform_wrapper: false
 
-      - name: Run Unit Tests
-        run: make install test
+      - name: Run tests
+        run: make install golint test
 
       - name: Run Cluster Tests
         if: ${{ (github.ref == 'refs/heads/main' || github.ref_type == 'tag') && github.event_name != 'pull_request' }}

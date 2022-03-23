@@ -1,5 +1,38 @@
 terraform-provider-twilio changelog
 ====================
+[2022-03-23] Version 0.14.0
+---------------------------
+**Library - Fix**
+- [PR #100](https://github.com/twilio/terraform-provider-twilio/pull/100): renaming RestClientParams to ClientParams. Thanks to [@rakatyal](https://github.com/rakatyal)!
+- [PR #98](https://github.com/twilio/terraform-provider-twilio/pull/98): goimports -> tidy -> test. Thanks to [@beebzz](https://github.com/beebzz)!
+- [PR #97](https://github.com/twilio/terraform-provider-twilio/pull/97): run go mod tidy before go vet. Thanks to [@beebzz](https://github.com/beebzz)!
+
+**Api**
+- Change `stream` url parameter to non optional
+- Add `verify-totp` and `verify-whatsapp-conversations-business-initiated` categories to `usage_record` API
+
+**Chat**
+- Added v3 Channel update endpoint to support Public to Private channel migration
+
+**Flex**
+- Private Beta release of the Interactions API to support the upcoming release of Flex Conversations at the end of Q1 2022.
+- Adding `channel_configs` object to Flex Configuration
+
+**Media**
+- Add max_duration param to PlayerStreamer
+
+**Supersim**
+- Remove Commands resource, use SmsCommands resource instead **(breaking change)**
+
+**Taskrouter**
+- Add limits to `split_by_wait_time` for Cumulative Statistics Endpoint
+
+**Video**
+- Change recording `status_callback_method` type from `enum` to `http_method` **(breaking change)**
+- Add `status_callback` and `status_callback_method` to composition
+- Add `status_callback` and `status_callback_method` to recording
+
+
 [2022-03-09] Version 0.13.2
 ---------------------------
 **Library - Chore**

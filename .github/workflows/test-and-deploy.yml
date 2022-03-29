@@ -47,7 +47,8 @@ jobs:
         if: ${{ (github.ref == 'refs/heads/main' || github.ref_type == 'tag') && github.event_name != 'pull_request' }}
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          TWILIO_API_SECRET: ${{ secrets.TWILIO_CLUSTER_TEST_API_KEY_SECRET }}
+          TWILIO_API_KEY: ${{ secrets.TWILIO_CLUSTER_TEST_API_KEY }}
         run: make testacc
 
       - name: Run Test Coverage

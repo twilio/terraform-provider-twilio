@@ -17,9 +17,9 @@ build: goimports terrafmt
 	go build -o ${BINARY}
 
 goimports:
-	go mod tidy
 	go install golang.org/x/tools/cmd/goimports@latest
 	goimports -w .
+	go mod tidy
 
 govet: goimports
 	go vet ./...

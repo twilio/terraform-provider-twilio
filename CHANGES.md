@@ -1,5 +1,24 @@
 terraform-provider-twilio changelog
 ====================
+[2022-04-06] Version 0.15.0
+---------------------------
+**Library - Fix**
+- [PR #102](https://github.com/twilio/terraform-provider-twilio/pull/102): use go install instead of go get. Thanks to [@beebzz](https://github.com/beebzz)!
+
+**Library - Feature**
+- [PR #101](https://github.com/twilio/terraform-provider-twilio/pull/101): update cluster tests authentication. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Api**
+- Updated `provider_sid` visibility to private
+
+**Verify**
+- Verify List Attempts API summary endpoint added.
+- Update PII documentation for `AccessTokens` `factor_friendly_name` property.
+
+**Voice**
+- make annotation parameter from /Calls API private
+
+
 [2022-03-23] Version 0.14.0
 ---------------------------
 **Library - Fix**

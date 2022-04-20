@@ -1,5 +1,11 @@
 terraform-provider-twilio changelog
 ====================
+[2022-04-20] Version 0.15.1
+---------------------------
+**Library - Test**
+- [PR #103](https://github.com/twilio/terraform-provider-twilio/pull/103): add testing for go-1.18. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+
 [2022-04-06] Version 0.15.0
 ---------------------------
 **Library - Fix**

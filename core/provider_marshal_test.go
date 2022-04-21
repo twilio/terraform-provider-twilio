@@ -998,8 +998,7 @@ func TestImplicitNestedMarshal(t *testing.T) {
 		Notifications *map[string]interface{} `json:"notifications"`
 	}
 
-	var recipient interface{}
-	recipient = map[string]interface{}{
+	var recipient interface{} = map[string]interface{}{
 		"first_name": "Turk",
 		"last_name":  "Andjaydee",
 		"email":      nil,

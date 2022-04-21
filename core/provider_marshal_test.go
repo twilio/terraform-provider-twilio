@@ -998,6 +998,13 @@ func TestImplicitNestedMarshal(t *testing.T) {
 		Notifications *map[string]interface{} `json:"notifications"`
 	}
 
+	var recipient interface{}
+	recipient = map[string]interface{}{
+		"first_name": "Turk",
+		"last_name":  "Andjaydee",
+		"email":      nil,
+	}
+
 	testStruct := innerStruct{
 		Limits: &map[string]interface{}{
 			"channel_members": 10,
@@ -1005,11 +1012,7 @@ func TestImplicitNestedMarshal(t *testing.T) {
 		Notifications: &map[string]interface{}{
 			"log_enabled":       true,
 			"new_message_sound": "LOUD NOISES!",
-			"recipient": &map[string]interface{}{
-				"first_name": "Turk",
-				"last_name":  "Andjaydee",
-				"email":      nil,
-			},
+			"recipient":         &recipient,
 		},
 	}
 	if err := MarshalSchema(resourceData, &testStruct); err != nil {

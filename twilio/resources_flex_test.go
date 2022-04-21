@@ -28,7 +28,7 @@ func TestAccFlexSetup_basic(t *testing.T) {
 		CheckDestroy:              testAccFlexInstanceDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "false"),
+				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "sms"),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(chatResourceName, "friendly_name", chatServiceName),
 					resource.TestCheckResourceAttr(chatResourceName, "reachability_enabled", "false"),
@@ -38,18 +38,16 @@ func TestAccFlexSetup_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(flexResourceName, "friendly_name", flexName),
 					resource.TestCheckResourceAttr(flexResourceName, "channel_type", "sms"),
 					resource.TestCheckResourceAttr(flexResourceName, "contact_identity", "true"),
-					resource.TestCheckResourceAttr(flexResourceName, "enabled", "false"),
 				),
 			},
 			{
-				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "true"),
+				Config: testAccTwilioFlexConfig(chatServiceName, studioFlowName, flexName, "custom"),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(chatResourceName, "friendly_name", chatServiceName),
 					resource.TestCheckResourceAttr(studioResourceName, "friendly_name", studioFlowName),
 					resource.TestCheckResourceAttr(flexResourceName, "friendly_name", flexName),
-					resource.TestCheckResourceAttr(flexResourceName, "channel_type", "sms"),
+					resource.TestCheckResourceAttr(flexResourceName, "channel_type", "custom"),
 					resource.TestCheckResourceAttr(flexResourceName, "contact_identity", "true"),
-					resource.TestCheckResourceAttr(flexResourceName, "enabled", "true"),
 				),
 			},
 			{
@@ -107,7 +105,7 @@ func testAccFlexInstanceDestroy(state *terraform.State) error {
 	return nil
 }
 
-func testAccTwilioFlexConfig(chatResourceName string, studioResourceName string, rName string, enabled string) string {
+func testAccTwilioFlexConfig(chatServiceName string, studioFlowName string, flexName string, channelType string) string {
 	return fmt.Sprintf(`
 
 	resource "twilio_chat_services_v2" "chat_service" {
@@ -141,10 +139,9 @@ func testAccTwilioFlexConfig(chatResourceName string, studioResourceName string,
 	resource "twilio_flex_flex_flows_v1" "flows" {
 	  friendly_name        = "%s"
 	  chat_service_sid     = twilio_chat_services_v2.chat_service.id
-	  channel_type         = "sms"
+	  channel_type         = "%s"
 	  integration_flow_sid = twilio_studio_flows_v2.studio_flow.id
 	  contact_identity     = "true"
-	  enabled              = %s
 }
-`, chatResourceName, studioResourceName, rName, enabled)
+`, chatServiceName, studioFlowName, flexName, channelType)
 }

@@ -23,7 +23,7 @@ require (
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/oklog/run v1.1.0 // indirect
 	github.com/stretchr/testify v1.7.0
-	github.com/twilio/twilio-go v0.24.1
+	github.com/twilio/twilio-go v0.25.0
 	github.com/zclconf/go-cty v1.10.0 // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/net v0.0.0-20220111093109-d55c255bac03 // indirect

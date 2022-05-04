@@ -1,5 +1,24 @@
 terraform-provider-twilio changelog
 ====================
+[2022-05-04] Version 0.16.0
+---------------------------
+**Library - Test**
+- [PR #106](https://github.com/twilio/terraform-provider-twilio/pull/106): update cluster tests to allow for parallel execution. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Fix**
+- [PR #105](https://github.com/twilio/terraform-provider-twilio/pull/105): unpack the interface type when marshaling response schemas. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Conversations**
+- Expose query parameter `type` in list operation on Address Configurations resource
+
+**Supersim**
+- Add `data_total_billed` and `billed_units` fields to Super SIM UsageRecords API response.
+- Change ESimProfiles `Eid` parameter to optional to enable Activation Code download method support **(breaking change)**
+
+**Verify**
+- Deprecate `push.include_date` parameter in create and update service.
+
+
 [2022-04-20] Version 0.15.1
 ---------------------------
 **Library - Test**

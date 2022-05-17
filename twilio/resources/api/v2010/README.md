@@ -1,5 +1,5 @@
 
-## twilio_api_accounts_addresses_v2010
+## twilio_api_accounts_addresses
 
 ### Parameters
 
@@ -17,7 +17,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new address. It can be up to 64 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Address resource to update.
 
-## twilio_api_accounts_applications_v2010
+## twilio_api_accounts_applications
 
 ### Parameters
 
@@ -41,7 +41,7 @@ Name | Type | Requirement | Description
 **voice_url** | string | Optional | The URL we should call when the phone number assigned to this application receives a call.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Application resource to update.
 
-## twilio_api_accounts_calls_v2010
+## twilio_api_accounts_calls
 
 ### Parameters
 
@@ -86,7 +86,7 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Call resource to update
 **status** | string | Optional | The new status of the resource. Can be: &#x60;canceled&#x60; or &#x60;completed&#x60;. Specifying &#x60;canceled&#x60; will attempt to hang up calls that are queued or ringing; however, it will not affect calls already in progress. Specifying &#x60;completed&#x60; will attempt to hang up a call even if it&#39;s already in progress.
 
-## twilio_api_accounts_calls_feedback_summary_v2010
+## twilio_api_accounts_calls_feedback_summary
 
 ### Parameters
 
@@ -100,7 +100,7 @@ Name | Type | Requirement | Description
 **status_callback_method** | string | Optional | The HTTP method (&#x60;GET&#x60; or &#x60;POST&#x60;) we use to make the request to the &#x60;StatusCallback&#x60; URL.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 
-## twilio_api_accounts_calls_recordings_v2010
+## twilio_api_accounts_calls_recordings
 
 ### Parameters
 
@@ -118,7 +118,7 @@ Name | Type | Requirement | Description
 **status** | string | Optional | The new status of the recording. Can be: &#x60;stopped&#x60;, &#x60;paused&#x60;, &#x60;in-progress&#x60;.
 **pause_behavior** | string | Optional | Whether to record during a pause. Can be: &#x60;skip&#x60; or &#x60;silence&#x60; and the default is &#x60;silence&#x60;. &#x60;skip&#x60; does not record during the pause period, while &#x60;silence&#x60; will replace the actual audio of the call with silence during the pause period. This parameter only applies when setting &#x60;status&#x60; is set to &#x60;paused&#x60;.
 
-## twilio_api_accounts_incoming_phone_numbers_v2010
+## twilio_api_accounts_incoming_phone_numbers
 
 ### Parameters
 
@@ -152,7 +152,7 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the IncomingPhoneNumber resource to update.
 **account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the IncomingPhoneNumber resource to update.  For more information, see [Exchanging Numbers Between Subaccounts](https://www.twilio.com/docs/iam/api/subaccounts#exchanging-numbers).
 
-## twilio_api_accounts_incoming_phone_numbers_assigned_add_ons_v2010
+## twilio_api_accounts_incoming_phone_numbers_assigned_add_ons
 
 ### Parameters
 
@@ -163,7 +163,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the resource to fetch.
 
-## twilio_api_accounts_messages_v2010
+## twilio_api_accounts_messages
 
 ### Parameters
 
@@ -192,7 +192,7 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Message resource to update.
 **status** | string | Optional | When set as &#x60;canceled&#x60;, allows a message cancelation request if a message has not yet been sent.
 
-## twilio_api_accounts_keys_v2010
+## twilio_api_accounts_keys
 
 ### Parameters
 
@@ -202,7 +202,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | A descriptive string that you create to describe the resource. It can be up to 64 characters long.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Key resource to update.
 
-## twilio_api_accounts_signing_keys_v2010
+## twilio_api_accounts_signing_keys
 
 ### Parameters
 
@@ -212,7 +212,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | A descriptive string that you create to describe the resource. It can be up to 64 characters long.
 **sid** | string | *Computed* | 
 
-## twilio_api_accounts_conferences_participants_v2010
+## twilio_api_accounts_conferences_participants
 
 ### Parameters
 
@@ -267,7 +267,7 @@ Name | Type | Requirement | Description
 **hold_method** | string | Optional | The HTTP method we should use to call &#x60;hold_url&#x60;. Can be: &#x60;GET&#x60; or &#x60;POST&#x60; and the default is &#x60;GET&#x60;.
 **hold_url** | string | Optional | The URL we call using the &#x60;hold_method&#x60; for  music that plays when the participant is on hold. The URL may return an MP3 file, a WAV file, or a TwiML document that contains the &#x60;&lt;Play&gt;&#x60;, &#x60;&lt;Say&gt;&#x60; or &#x60;&lt;Redirect&gt;&#x60; commands.
 
-## twilio_api_accounts_queues_v2010
+## twilio_api_accounts_queues
 
 ### Parameters
 
@@ -278,7 +278,7 @@ Name | Type | Requirement | Description
 **max_size** | int | Optional | The maximum number of calls allowed to be in the queue. The default is 100. The maximum is 5000.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Queue resource to update
 
-## twilio_api_accounts_sipdomains_auth_calls_credential_list_mappings_v2010
+## twilio_api_accounts_sipdomains_auth_calls_credential_list_mappings
 
 ### Parameters
 
@@ -289,7 +289,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the CredentialListMapping resource to fetch.
 
-## twilio_api_accounts_sipdomains_auth_calls_ip_access_control_list_mappings_v2010
+## twilio_api_accounts_sipdomains_auth_calls_ip_access_control_list_mappings
 
 ### Parameters
 
@@ -300,7 +300,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the IpAccessControlListMapping resource to fetch.
 
-## twilio_api_accounts_sipdomains_auth_registrations_credential_list_mappings_v2010
+## twilio_api_accounts_sipdomains_auth_registrations_credential_list_mappings
 
 ### Parameters
 
@@ -311,7 +311,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the CredentialListMapping resource to fetch.
 
-## twilio_api_accounts_sipcredential_lists_credentials_v2010
+## twilio_api_accounts_sipcredential_lists_credentials
 
 ### Parameters
 
@@ -323,7 +323,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | The unique id that identifies the resource to update.
 
-## twilio_api_accounts_sipcredential_lists_v2010
+## twilio_api_accounts_sipcredential_lists
 
 ### Parameters
 
@@ -333,7 +333,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | The credential list Sid that uniquely identifies this resource
 
-## twilio_api_accounts_sipdomains_credential_list_mappings_v2010
+## twilio_api_accounts_sipdomains_credential_list_mappings
 
 ### Parameters
 
@@ -344,7 +344,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to fetch.
 
-## twilio_api_accounts_sipdomains_v2010
+## twilio_api_accounts_sipdomains
 
 ### Parameters
 
@@ -366,7 +366,7 @@ Name | Type | Requirement | Description
 **voice_url** | string | Optional | The URL we should when the domain receives a call.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the SipDomain resource to update.
 
-## twilio_api_accounts_sipip_access_control_lists_v2010
+## twilio_api_accounts_sipip_access_control_lists
 
 ### Parameters
 
@@ -376,7 +376,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to udpate.
 
-## twilio_api_accounts_sipdomains_ip_access_control_list_mappings_v2010
+## twilio_api_accounts_sipdomains_ip_access_control_list_mappings
 
 ### Parameters
 
@@ -387,7 +387,7 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The unique id of the Account that is responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to fetch.
 
-## twilio_api_accounts_sipip_access_control_lists_ip_addresses_v2010
+## twilio_api_accounts_sipip_access_control_lists_ip_addresses
 
 ### Parameters
 
@@ -400,7 +400,7 @@ Name | Type | Requirement | Description
 **cidr_prefix_length** | int | Optional | An integer representing the length of the CIDR prefix to use with this IP address when accepting traffic. By default the entire IP address is used.
 **sid** | string | *Computed* | A 34 character string that identifies the IpAddress resource to update.
 
-## twilio_api_accounts_usage_triggers_v2010
+## twilio_api_accounts_usage_triggers
 
 ### Parameters
 

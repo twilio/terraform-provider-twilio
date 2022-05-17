@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 
 func TestTwilioResourcesMap(t *testing.T) {
 	twilioResources := resources.NewTwilioResources()
-	assert.NotNil(t, twilioResources.Map["twilio_api_accounts_messages_v2010"])
+	assert.NotNil(t, twilioResources.Map["twilio_api_accounts_messages"])
 }
 
 func testAccPreCheck(t *testing.T) {

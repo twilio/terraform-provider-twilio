@@ -13,33 +13,33 @@ provider "twilio" {
 }
 
 # Step 1: Purchase 2 phone numbers -- these are going to be the participants
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "alice_phone" {
+resource "twilio_api_accounts_incoming_phone_numbers" "alice_phone" {
   area_code     = "415"
   friendly_name = "Alice's Phone"
 }
 
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "bob_phone" {
+resource "twilio_api_accounts_incoming_phone_numbers" "bob_phone" {
   area_code     = "908"
   friendly_name = "Bob's Phone"
 }
 
 # Create some proxy phone numbers to be added into the service/session pool
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "proxy_phone_dev_1" {
+resource "twilio_api_accounts_incoming_phone_numbers" "proxy_phone_dev_1" {
   area_code     = "908"
   friendly_name = "Proxy Phone Dev 1"
 }
 
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "proxy_phone_dev_2" {
+resource "twilio_api_accounts_incoming_phone_numbers" "proxy_phone_dev_2" {
   area_code     = "908"
   friendly_name = "Proxy Phone Dev 2"
 }
 
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "proxy_phone_stage_1" {
+resource "twilio_api_accounts_incoming_phone_numbers" "proxy_phone_stage_1" {
   area_code     = "415"
   friendly_name = "Proxy Phone Stage 1"
 }
 
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "proxy_phone_stage_2" {
+resource "twilio_api_accounts_incoming_phone_numbers" "proxy_phone_stage_2" {
   area_code     = "415"
   friendly_name = "Proxy Phone Stage 2"
 }
@@ -96,25 +96,25 @@ resource "twilio_proxy_services_v1" "stage_proxy_service" {
 # Add the proxy phone numbers to the service
 resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_dev_service_1" {
   service_sid  = twilio_proxy_services_v1.dev_proxy_service.sid
-  phone_number = twilio_api_accounts_incoming_phone_numbers_v2010.proxy_phone_dev_1.phone_number
+  phone_number = twilio_api_accounts_incoming_phone_numbers.proxy_phone_dev_1.phone_number
   is_reserved  = false
 }
 
 resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_dev_service_2" {
   service_sid  = twilio_proxy_services_v1.dev_proxy_service.sid
-  phone_number = twilio_api_accounts_incoming_phone_numbers_v2010.proxy_phone_dev_2.phone_number
+  phone_number = twilio_api_accounts_incoming_phone_numbers.proxy_phone_dev_2.phone_number
   is_reserved  = false
 }
 
 resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_stage_service_1" {
   service_sid  = twilio_proxy_services_v1.stage_proxy_service.sid
-  phone_number = twilio_api_accounts_incoming_phone_numbers_v2010.proxy_phone_stage_1.phone_number
+  phone_number = twilio_api_accounts_incoming_phone_numbers.proxy_phone_stage_1.phone_number
   is_reserved  = false
 }
 
 resource "twilio_proxy_services_phone_numbers_v1" "proxy_phone_stage_service_2" {
   service_sid  = twilio_proxy_services_v1.stage_proxy_service.sid
-  phone_number = twilio_api_accounts_incoming_phone_numbers_v2010.proxy_phone_stage_2.phone_number
+  phone_number = twilio_api_accounts_incoming_phone_numbers.proxy_phone_stage_2.phone_number
   is_reserved  = false
 }
 
@@ -129,11 +129,11 @@ resource "twilio_proxy_services_sessions_v1" "dev_session" {
   participants = [
     jsonencode({
       friendly_name : "Alice"
-      identifier : twilio_api_accounts_incoming_phone_numbers_v2010.alice_phone.phone_number
+      identifier : twilio_api_accounts_incoming_phone_numbers.alice_phone.phone_number
     }),
     jsonencode({
       friendly_name : "Bob"
-      identifier : twilio_api_accounts_incoming_phone_numbers_v2010.bob_phone.phone_number
+      identifier : twilio_api_accounts_incoming_phone_numbers.bob_phone.phone_number
     }),
   ]
 }
@@ -148,11 +148,11 @@ resource "twilio_proxy_services_sessions_v1" "stage_session" {
   participants = [
     jsonencode({
       friendly_name : "Alice"
-      identifier : twilio_api_accounts_incoming_phone_numbers_v2010.alice_phone.phone_number
+      identifier : twilio_api_accounts_incoming_phone_numbers.alice_phone.phone_number
     }),
     jsonencode({
       friendly_name : "Bob"
-      identifier : twilio_api_accounts_incoming_phone_numbers_v2010.bob_phone.phone_number
+      identifier : twilio_api_accounts_incoming_phone_numbers.bob_phone.phone_number
     }),
   ]
 }

@@ -45,12 +45,12 @@ provider "twilio" {
 }
 
 # Create a new API key resource
-resource "twilio_api_accounts_keys_v2010" "key_name" {
+resource "twilio_api_accounts_keys" "key_name" {
   friendly_name = "terraform key"
 }
 
 output "messages" {
-  value = twilio_api_accounts_keys_v2010.key_name
+  value = twilio_api_accounts_keys.key_name
 }
 ```
 
@@ -103,7 +103,7 @@ provider "twilio" {
 Alternatively, you can specify the subaccount to use at the resource level:
 
 ```terraform
-resource "twilio_api_accounts_keys_v2010" "key_name" {
+resource "twilio_api_accounts_keys" "key_name" {
   path_account_sid = "AC00112233445566778899aabbccddeeff"
   friendly_name    = "subaccount key"
 }
@@ -114,22 +114,22 @@ resource "twilio_api_accounts_keys_v2010" "key_name" {
 ### Create and Delete API Keys
 
 ```terraform
-resource "twilio_api_accounts_keys_v2010" "key_name" {
+resource "twilio_api_accounts_keys" "key_name" {
   friendly_name = "terraform key"
 }
 
 output "messages" {
-  value = twilio_api_accounts_keys_v2010.key_name
+  value = twilio_api_accounts_keys.key_name
 }
 ```
 
 To delete a specific key in your terraform infrastructure you can use the command:
 
-`terraform destroy -target twilio_api_keys_v2010.<resource name>`
+`terraform destroy -target twilio_api_keys.<resource name>`
 
 To delete the terraform key created in this example, use:
 
-`terraform destroy -target twilio_api_keys_v2010.key_name`
+`terraform destroy -target twilio_api_keys.key_name`
 
 #### API Key Attributes
 
@@ -141,7 +141,7 @@ For more information see [the API Key documentation](https://www.twilio.com/docs
 ### Buy and configure a Phone Number
 
 ```terraform
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "phone_number" {
+resource "twilio_api_accounts_incoming_phone_numbers" "phone_number" {
   area_code     = "415"
   friendly_name = "terraform phone number"
   sms_url       = "https://demo.twilio.com/welcome/sms/reply"
@@ -152,7 +152,7 @@ resource "twilio_api_accounts_incoming_phone_numbers_v2010" "phone_number" {
 ### Import a Twilio Phone Number
 
 ```terraform
-resource "twilio_api_accounts_incoming_phone_numbers_v2010" "imported_phone_number" {
+resource "twilio_api_accounts_incoming_phone_numbers" "imported_phone_number" {
   phone_number = "+14444444444"
 }
 ```

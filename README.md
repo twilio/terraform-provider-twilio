@@ -54,12 +54,12 @@ provider "twilio" {
   //  password  defaults to TWILIO_API_SECRET with TWILIO_AUTH_TOKEN as the fallback env var
 }
 
-resource "twilio_api_accounts_keys_v2010" "key_name" {
+resource "twilio_api_accounts_keys" "key_name" {
   friendly_name = "terraform key"
 }
 
 output "messages" {
-  value = twilio_api_accounts_keys_v2010.key_name
+  value = twilio_api_accounts_keys.key_name
 }
 ```
 

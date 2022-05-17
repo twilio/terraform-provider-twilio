@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -30,19 +30,12 @@ func ResourceFlowsExecutions() *schema.Resource {
 		UpdateContext: updateFlowsExecutions,
 		DeleteContext: deleteFlowsExecutions,
 		Schema: map[string]*schema.Schema{
-			"flow_sid":                AsString(SchemaRequired),
-			"from":                    AsString(SchemaRequired),
-			"to":                      AsString(SchemaRequired),
-			"parameters":              AsString(SchemaComputedOptional),
-			"sid":                     AsString(SchemaComputed),
-			"status":                  AsString(SchemaComputedOptional),
-			"account_sid":             AsString(SchemaComputed),
-			"contact_channel_address": AsString(SchemaComputed),
-			"context":                 AsString(SchemaComputed),
-			"date_created":            AsString(SchemaComputed),
-			"date_updated":            AsString(SchemaComputed),
-			"links":                   AsString(SchemaComputed),
-			"url":                     AsString(SchemaComputed),
+			"flow_sid":   AsString(SchemaRequired),
+			"from":       AsString(SchemaRequired),
+			"to":         AsString(SchemaRequired),
+			"parameters": AsString(SchemaComputedOptional),
+			"sid":        AsString(SchemaComputed),
+			"status":     AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -158,16 +151,6 @@ func ResourceFlows() *schema.Resource {
 			"status":         AsString(SchemaRequired),
 			"commit_message": AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
-			"account_sid":    AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"errors":         AsList(AsString(SchemaComputed), SchemaComputed),
-			"links":          AsString(SchemaComputed),
-			"revision":       AsInt(SchemaComputed),
-			"url":            AsString(SchemaComputed),
-			"valid":          AsBool(SchemaComputed),
-			"warnings":       AsList(AsString(SchemaComputed), SchemaComputed),
-			"webhook_url":    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

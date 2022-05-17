@@ -11,7 +11,6 @@ import (
 	chatV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v2"
 	conversationsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/conversations/v1"
 	eventsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/events/v1"
-	faxV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/fax/v1"
 	flexV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/flex/v1"
 	ip_messagingV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/ip_messaging/v1"
 	ip_messagingV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/ip_messaging/v2"
@@ -92,6 +91,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_chat_services_roles_v2":                                                 chatV2.ResourceServicesRoles(),
 			"twilio_chat_services_v2":                                                       chatV2.ResourceServices(),
 			"twilio_chat_services_users_v2":                                                 chatV2.ResourceServicesUsers(),
+			"twilio_conversations_configuration_addresses_v1":                               conversationsV1.ResourceConfigurationAddresses(),
 			"twilio_conversations_conversations_v1":                                         conversationsV1.ResourceConversations(),
 			"twilio_conversations_conversations_messages_v1":                                conversationsV1.ResourceConversationsMessages(),
 			"twilio_conversations_conversations_participants_v1":                            conversationsV1.ResourceConversationsParticipants(),
@@ -109,7 +109,6 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_events_sinks_v1":                                                        eventsV1.ResourceSinks(),
 			"twilio_events_subscriptions_subscribed_events_v1":                              eventsV1.ResourceSubscriptionsSubscribedEvents(),
 			"twilio_events_subscriptions_v1":                                                eventsV1.ResourceSubscriptions(),
-			"twilio_fax_faxes_v1":                                                           faxV1.ResourceFaxes(),
 			"twilio_flex_channels_v1":                                                       flexV1.ResourceChannels(),
 			"twilio_flex_flex_flows_v1":                                                     flexV1.ResourceFlexFlows(),
 			"twilio_flex_web_channels_v1":                                                   flexV1.ResourceWebChannels(),

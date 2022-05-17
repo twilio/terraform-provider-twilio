@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -30,20 +30,12 @@ func ResourceServicesDocuments() *schema.Resource {
 		UpdateContext: updateServicesDocuments,
 		DeleteContext: deleteServicesDocuments,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"data":         AsString(SchemaComputedOptional),
-			"ttl":          AsInt(SchemaComputedOptional),
-			"unique_name":  AsString(SchemaComputedOptional),
-			"sid":          AsString(SchemaComputed),
-			"if_match":     AsString(SchemaComputedOptional),
-			"account_sid":  AsString(SchemaComputed),
-			"created_by":   AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_expires": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"revision":     AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"service_sid": AsString(SchemaRequired),
+			"data":        AsString(SchemaComputedOptional),
+			"ttl":         AsInt(SchemaComputedOptional),
+			"unique_name": AsString(SchemaComputedOptional),
+			"sid":         AsString(SchemaComputed),
+			"if_match":    AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -166,12 +158,6 @@ func ResourceServices() *schema.Resource {
 			"webhook_url":                     AsString(SchemaComputedOptional),
 			"webhooks_from_rest_enabled":      AsBool(SchemaComputedOptional),
 			"sid":                             AsString(SchemaComputed),
-			"account_sid":                     AsString(SchemaComputed),
-			"date_created":                    AsString(SchemaComputed),
-			"date_updated":                    AsString(SchemaComputed),
-			"links":                           AsString(SchemaComputed),
-			"unique_name":                     AsString(SchemaComputed),
-			"url":                             AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -285,14 +271,6 @@ func ResourceServicesLists() *schema.Resource {
 			"ttl":            AsInt(SchemaComputedOptional),
 			"unique_name":    AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"links":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -415,13 +393,6 @@ func ResourceServicesListsItems() *schema.Resource {
 			"ttl":            AsInt(SchemaComputedOptional),
 			"index":          AsInt(SchemaComputed),
 			"if_match":       AsString(SchemaComputedOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -554,14 +525,6 @@ func ResourceServicesMaps() *schema.Resource {
 			"ttl":            AsInt(SchemaComputedOptional),
 			"unique_name":    AsString(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"links":          AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -684,13 +647,6 @@ func ResourceServicesMapsItems() *schema.Resource {
 			"item_ttl":       AsInt(SchemaComputedOptional),
 			"ttl":            AsInt(SchemaComputedOptional),
 			"if_match":       AsString(SchemaComputedOptional),
-			"account_sid":    AsString(SchemaComputed),
-			"created_by":     AsString(SchemaComputed),
-			"date_created":   AsString(SchemaComputed),
-			"date_expires":   AsString(SchemaComputed),
-			"date_updated":   AsString(SchemaComputed),
-			"revision":       AsString(SchemaComputed),
-			"url":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -814,17 +770,10 @@ func ResourceServicesStreams() *schema.Resource {
 		UpdateContext: updateServicesStreams,
 		DeleteContext: deleteServicesStreams,
 		Schema: map[string]*schema.Schema{
-			"service_sid":  AsString(SchemaRequired),
-			"ttl":          AsInt(SchemaComputedOptional),
-			"unique_name":  AsString(SchemaComputedOptional),
-			"sid":          AsString(SchemaComputed),
-			"account_sid":  AsString(SchemaComputed),
-			"created_by":   AsString(SchemaComputed),
-			"date_created": AsString(SchemaComputed),
-			"date_expires": AsString(SchemaComputed),
-			"date_updated": AsString(SchemaComputed),
-			"links":        AsString(SchemaComputed),
-			"url":          AsString(SchemaComputed),
+			"service_sid": AsString(SchemaRequired),
+			"ttl":         AsInt(SchemaComputedOptional),
+			"unique_name": AsString(SchemaComputedOptional),
+			"sid":         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

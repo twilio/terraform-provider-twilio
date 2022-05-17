@@ -72,6 +72,7 @@
 
 ## conversations v1
 
+* [twilio_conversations_configuration_addresses_v1](conversations/v1/README.md#twilio_conversations_configuration_addresses_v1)
 * [twilio_conversations_conversations_v1](conversations/v1/README.md#twilio_conversations_conversations_v1)
 * [twilio_conversations_conversations_messages_v1](conversations/v1/README.md#twilio_conversations_conversations_messages_v1)
 * [twilio_conversations_conversations_participants_v1](conversations/v1/README.md#twilio_conversations_conversations_participants_v1)
@@ -92,10 +93,6 @@
 * [twilio_events_sinks_v1](events/v1/README.md#twilio_events_sinks_v1)
 * [twilio_events_subscriptions_subscribed_events_v1](events/v1/README.md#twilio_events_subscriptions_subscribed_events_v1)
 * [twilio_events_subscriptions_v1](events/v1/README.md#twilio_events_subscriptions_v1)
-
-## fax v1
-
-* [twilio_fax_faxes_v1](fax/v1/README.md#twilio_fax_faxes_v1)
 
 ## flex v1
 

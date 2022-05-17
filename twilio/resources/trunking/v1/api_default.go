@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -32,11 +32,6 @@ func ResourceTrunksCredentialLists() *schema.Resource {
 			"trunk_sid":           AsString(SchemaForceNewRequired),
 			"credential_list_sid": AsString(SchemaForceNewRequired),
 			"sid":                 AsString(SchemaComputed),
-			"account_sid":         AsString(SchemaComputed),
-			"date_created":        AsString(SchemaComputed),
-			"date_updated":        AsString(SchemaComputed),
-			"friendly_name":       AsString(SchemaComputed),
-			"url":                 AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -131,11 +126,6 @@ func ResourceTrunksIpAccessControlLists() *schema.Resource {
 			"trunk_sid":                  AsString(SchemaForceNewRequired),
 			"ip_access_control_list_sid": AsString(SchemaForceNewRequired),
 			"sid":                        AsString(SchemaComputed),
-			"account_sid":                AsString(SchemaComputed),
-			"date_created":               AsString(SchemaComputed),
-			"date_updated":               AsString(SchemaComputed),
-			"friendly_name":              AsString(SchemaComputed),
-			"url":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -235,10 +225,6 @@ func ResourceTrunksOriginationUrls() *schema.Resource {
 			"sip_url":       AsString(SchemaRequired),
 			"weight":        AsInt(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -352,33 +338,9 @@ func ResourceTrunksPhoneNumbers() *schema.Resource {
 		ReadContext:   readTrunksPhoneNumbers,
 		DeleteContext: deleteTrunksPhoneNumbers,
 		Schema: map[string]*schema.Schema{
-			"trunk_sid":              AsString(SchemaForceNewRequired),
-			"phone_number_sid":       AsString(SchemaForceNewRequired),
-			"sid":                    AsString(SchemaComputed),
-			"account_sid":            AsString(SchemaComputed),
-			"address_requirements":   AsString(SchemaComputed),
-			"api_version":            AsString(SchemaComputed),
-			"beta":                   AsBool(SchemaComputed),
-			"capabilities":           AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"friendly_name":          AsString(SchemaComputed),
-			"links":                  AsString(SchemaComputed),
-			"phone_number":           AsString(SchemaComputed),
-			"sms_application_sid":    AsString(SchemaComputed),
-			"sms_fallback_method":    AsString(SchemaComputed),
-			"sms_fallback_url":       AsString(SchemaComputed),
-			"sms_method":             AsString(SchemaComputed),
-			"sms_url":                AsString(SchemaComputed),
-			"status_callback":        AsString(SchemaComputed),
-			"status_callback_method": AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
-			"voice_application_sid":  AsString(SchemaComputed),
-			"voice_caller_id_lookup": AsBool(SchemaComputed),
-			"voice_fallback_method":  AsString(SchemaComputed),
-			"voice_fallback_url":     AsString(SchemaComputed),
-			"voice_method":           AsString(SchemaComputed),
-			"voice_url":              AsString(SchemaComputed),
+			"trunk_sid":        AsString(SchemaForceNewRequired),
+			"phone_number_sid": AsString(SchemaForceNewRequired),
+			"sid":              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -480,14 +442,6 @@ func ResourceTrunks() *schema.Resource {
 			"transfer_caller_id":       AsString(SchemaComputedOptional),
 			"transfer_mode":            AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
-			"account_sid":              AsString(SchemaComputed),
-			"auth_type":                AsString(SchemaComputed),
-			"auth_type_set":            AsList(AsString(SchemaComputed), SchemaComputed),
-			"date_created":             AsString(SchemaComputed),
-			"date_updated":             AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"recording":                AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

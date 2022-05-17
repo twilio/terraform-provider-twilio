@@ -1,5 +1,319 @@
 terraform-provider-twilio changelog
 ====================
+[2022-05-04] Version 0.16.0
+---------------------------
+**Library - Test**
+- [PR #106](https://github.com/twilio/terraform-provider-twilio/pull/106): update cluster tests to allow for parallel execution. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Fix**
+- [PR #105](https://github.com/twilio/terraform-provider-twilio/pull/105): unpack the interface type when marshaling response schemas. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Conversations**
+- Expose query parameter `type` in list operation on Address Configurations resource
+
+**Supersim**
+- Add `data_total_billed` and `billed_units` fields to Super SIM UsageRecords API response.
+- Change ESimProfiles `Eid` parameter to optional to enable Activation Code download method support **(breaking change)**
+
+**Verify**
+- Deprecate `push.include_date` parameter in create and update service.
+
+
+[2022-04-20] Version 0.15.1
+---------------------------
+**Library - Test**
+- [PR #103](https://github.com/twilio/terraform-provider-twilio/pull/103): add testing for go-1.18. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+
+[2022-04-06] Version 0.15.0
+---------------------------
+**Library - Fix**
+- [PR #102](https://github.com/twilio/terraform-provider-twilio/pull/102): use go install instead of go get. Thanks to [@beebzz](https://github.com/beebzz)!
+
+**Library - Feature**
+- [PR #101](https://github.com/twilio/terraform-provider-twilio/pull/101): update cluster tests authentication. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Api**
+- Updated `provider_sid` visibility to private
+
+**Verify**
+- Verify List Attempts API summary endpoint added.
+- Update PII documentation for `AccessTokens` `factor_friendly_name` property.
+
+**Voice**
+- make annotation parameter from /Calls API private
+
+
+[2022-03-23] Version 0.14.0
+---------------------------
+**Library - Fix**
+- [PR #100](https://github.com/twilio/terraform-provider-twilio/pull/100): renaming RestClientParams to ClientParams. Thanks to [@rakatyal](https://github.com/rakatyal)!
+- [PR #98](https://github.com/twilio/terraform-provider-twilio/pull/98): goimports -> tidy -> test. Thanks to [@beebzz](https://github.com/beebzz)!
+- [PR #97](https://github.com/twilio/terraform-provider-twilio/pull/97): run go mod tidy before go vet. Thanks to [@beebzz](https://github.com/beebzz)!
+
+**Api**
+- Change `stream` url parameter to non optional
+- Add `verify-totp` and `verify-whatsapp-conversations-business-initiated` categories to `usage_record` API
+
+**Chat**
+- Added v3 Channel update endpoint to support Public to Private channel migration
+
+**Flex**
+- Private Beta release of the Interactions API to support the upcoming release of Flex Conversations at the end of Q1 2022.
+- Adding `channel_configs` object to Flex Configuration
+
+**Media**
+- Add max_duration param to PlayerStreamer
+
+**Supersim**
+- Remove Commands resource, use SmsCommands resource instead **(breaking change)**
+
+**Taskrouter**
+- Add limits to `split_by_wait_time` for Cumulative Statistics Endpoint
+
+**Video**
+- Change recording `status_callback_method` type from `enum` to `http_method` **(breaking change)**
+- Add `status_callback` and `status_callback_method` to composition
+- Add `status_callback` and `status_callback_method` to recording
+
+
+[2022-03-09] Version 0.13.2
+---------------------------
+**Library - Chore**
+- [PR #95](https://github.com/twilio/terraform-provider-twilio/pull/95): push Datadog Release Metric upon deploy success. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Api**
+- Add optional boolean include_soft_deleted parameter to retrieve soft deleted recordings
+
+**Chat**
+- Add `X-Twilio-Wehook-Enabled` header to `delete` method in UserChannel resource
+
+**Numbers**
+- Expose `failure_reason` in the Supporting Documents resources
+
+**Verify**
+- Add optional `metadata` parameter to "verify challenge" endpoint, so the SDK/App can attach relevant information from the device when responding to challenges.
+- remove beta feature flag to list atempt api operations.
+- Add `ttl` and `date_created` properties to `AccessTokens`.
+
+
+[2022-02-23] Version 0.13.1
+---------------------------
+**Api**
+- Add `uri` to `stream` resource
+- Add A2P Registration Fee category (`a2p-registration-fee`) to usage records
+
+**Verify**
+- Remove outdated documentation commentary to contact sales. Product is already in public beta.
+
+
+[2022-02-17] Version 0.13.0
+---------------------------
+**Library - Fix**
+- [PR #94](https://github.com/twilio/terraform-provider-twilio/pull/94): run cluster tests before deployment. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Library - Chore**
+- [PR #93](https://github.com/twilio/terraform-provider-twilio/pull/93): update the sonar exclusions. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Detected a bug and removed optional boolean include_soft_deleted parameter to retrieve soft deleted recordings. **(breaking change)**
+- Add optional boolean include_soft_deleted parameter to retrieve soft deleted recordings.
+
+**Numbers**
+- Unrevert valid_until and sort filter params added to List Bundles resource
+- Revert valid_until and sort filter params added to List Bundles resource
+- Update sorting params added to List Bundles resource in the previous release
+
+**Preview**
+- Moved `web_channels` from preview to beta under `flex-api` **(breaking change)**
+
+**Taskrouter**
+- Add `ETag` as Response Header to List of Task, Reservation & Worker
+
+**Verify**
+- Add optional `metadata` to factors.
+
+
+[2022-02-09] Version 0.12.0
+---------------------------
+**Library - Chore**
+- [PR #91](https://github.com/twilio/terraform-provider-twilio/pull/91): upgrade supported language versions. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #90](https://github.com/twilio/terraform-provider-twilio/pull/90): upgrade twilio-go and downgrade indirect dependencies. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Api**
+- Add `stream` resource
+
+**Conversations**
+- Fixed DELETE request to accept "sid_like" params in Address Configuration resources **(breaking change)**
+- Expose Address Configuration resource for `sms` and `whatsapp`
+
+**Fax**
+- Removed deprecated Programmable Fax Create and Update methods **(breaking change)**
+
+**Insights**
+- Rename `call_state` to `call_status` and remove `whisper` in conference participant summary **(breaking change)**
+
+**Numbers**
+- Expose valid_until filters as part of provisionally-approved compliance feature on the List Bundles resource
+
+**Supersim**
+- Fix typo in Fleet resource docs
+- Updated documentation for the Fleet resource indicating that fields related to commands have been deprecated and to use sms_command fields instead.
+- Add support for setting and reading `ip_commands_url` and `ip_commands_method` on Fleets resource for helper libraries
+- Changed `sim` property in requests to create an SMS Command made to the /SmsCommands to accept SIM UniqueNames in addition to SIDs
+
+**Verify**
+- Update list attempts API to include new filters and response fields.
+
+
+[2022-01-26] Version 0.11.1
+---------------------------
+**Library - Chore**
+- [PR #89](https://github.com/twilio/terraform-provider-twilio/pull/89): add sonarcloud coverage analysis. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+**Insights**
+- Added new endpoint to fetch Conference Participant Summary
+- Added new endpoint to fetch Conference Summary
+
+**Messaging**
+- Add government_entity parameter to brand apis
+
+**Verify**
+- Add Access Token fetch endpoint to retrieve a previously created token.
+- Add Access Token payload to the Access Token creation endpoint, including a unique Sid, so it's addressable while it's TTL is valid.
+
+
+[2022-01-12] Version 0.11.0
+---------------------------
+**Library - Feature**
+- [PR #86](https://github.com/twilio/terraform-provider-twilio/pull/86): add GitHub release step during deploy. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #74](https://github.com/twilio/terraform-provider-twilio/pull/74): delve / goland debugging support. Thanks to [@loafoe](https://github.com/loafoe)!
+
+**Library - Chore**
+- [PR #83](https://github.com/twilio/terraform-provider-twilio/pull/83): remove githook dependency from make install. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Api**
+- Make fixed time scheduling parameters public **(breaking change)**
+
+**Messaging**
+- Add update brand registration API
+
+**Numbers**
+- Add API endpoint for List Bundle Copies resource
+
+**Video**
+- Enable external storage for all customers
+
+
+[2021-12-15] Version 0.10.0
+---------------------------
+**Library - Feature**
+- [PR #81](https://github.com/twilio/terraform-provider-twilio/pull/81): run tests before deploying. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Add optional boolean send_as_mms parameter to the create action of Message resource **(breaking change)**
+- Change team ownership for `call` delete
+
+**Conversations**
+- Change wording for `Service Webhook Configuration` resource fields
+
+**Insights**
+- Added new APIs for updating and getting voice insights flags by accountSid.
+
+**Media**
+- Add max_duration param to MediaProcessor
+
+**Video**
+- Add `EmptyRoomTimeout` and `UnusedRoomTimeout` properties to a room; add corresponding parameters to room creation
+
+**Voice**
+- Add endpoint to delete archived Calls
+
+
+[2021-12-01] Version 0.9.2
+--------------------------
+**Conversations**
+- Add `Service Webhook Configuration` resource
+
+**Flex**
+- Adding `flex_insights_drilldown` and `flex_url` objects to Flex Configuration
+
+**Messaging**
+- Update us_app_to_person endpoints to remove beta feature flag based access
+
+**Supersim**
+- Add IP Commands resource
+
+**Verify**
+- Add optional `factor_friendly_name` parameter to the create access token endpoint.
+
+**Video**
+- Add maxParticipantDuration param to Rooms
+
+
+[2021-11-17] Version 0.9.1
+--------------------------
+**Frontline**
+- Added `is_available` to User's resource
+
+**Messaging**
+- Added GET vetting API
+
+**Verify**
+- Add `WHATSAPP` to the attempts API.
+- Allow to update `config.notification_platform` from `none` to `apn` or `fcm` and viceversa for Verify Push
+- Add `none` as a valid `config.notification_platform` value for Verify Push
+
+
+[2021-11-03] Version 0.9.0
+--------------------------
+**Library - Chore**
+- [PR #80](https://github.com/twilio/terraform-provider-twilio/pull/80): add ci job timeout. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+- [PR #79](https://github.com/twilio/terraform-provider-twilio/pull/79): only notify once on workflow failure. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+- [PR #78](https://github.com/twilio/terraform-provider-twilio/pull/78): update GitHub Actions test runner. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Api**
+- Updated `media_url` property to be treated as PII
+
+**Messaging**
+- Added a new enum for brand registration status named DELETED **(breaking change)**
+- Add a new K12_EDUCATION use case in us_app_to_person_usecase api transaction
+- Added a new enum for brand registration status named IN_REVIEW
+
+**Serverless**
+- Add node14 as a valid Build runtime
+
+**Verify**
+- Fix typos in Verify Push Factor documentation for the `config.notification_token` parameter.
+- Added `TemplateCustomSubstitutions` on verification creation
+- Make `TemplateSid` parameter public for Verification resource and `DefaultTemplateSid` parameter public for Service resource. **(breaking change)**
+
+
+[2021-10-19] Version 0.8.1
+--------------------------
+**Library - Fix**
+- [PR #77](https://github.com/twilio/terraform-provider-twilio/pull/77): tests for revert computed API response fields. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+- [PR #76](https://github.com/twilio/terraform-provider-twilio/pull/76): Revert feat: add computed API response fields (#73). Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+
+[2021-10-18] Version 0.8.0
+--------------------------
+**Library - Feature**
+- [PR #73](https://github.com/twilio/terraform-provider-twilio/pull/73): add computed API response fields. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+**Api**
+- Corrected enum values for `emergency_address_status` values in `/IncomingPhoneNumbers` response. **(breaking change)**
+- Clarify `emergency_address_status` values in `/IncomingPhoneNumbers` response.
+
+**Messaging**
+- Add PUT and List brand vettings api
+- Removes beta feature flag based visibility for us_app_to_person_registered and usecase field.Updates test cases to add POLITICAL usecase. **(breaking change)**
+- Add brand_feedback as optional field to BrandRegistrations
+
+**Video**
+- Add `AudioOnly` to create room
+
+
 [2021-10-07] Version 0.7.0
 --------------------------
 **Library - Fix**

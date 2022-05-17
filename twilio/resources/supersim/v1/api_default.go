@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -32,10 +32,6 @@ func ResourceNetworkAccessProfilesNetworks() *schema.Resource {
 			"network_access_profile_sid": AsString(SchemaForceNewRequired),
 			"network":                    AsString(SchemaForceNewRequired),
 			"sid":                        AsString(SchemaComputed),
-			"friendly_name":              AsString(SchemaComputed),
-			"identifiers":                AsList(AsString(SchemaComputed), SchemaComputed),
-			"iso_country":                AsString(SchemaComputed),
-			"url":                        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

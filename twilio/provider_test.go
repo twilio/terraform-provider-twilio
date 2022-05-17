@@ -34,7 +34,10 @@ func testAccPreCheck(t *testing.T) {
 	if v := os.Getenv(AccountSid); v == "" {
 		t.Fatal("TWILIO_ACCOUNT_SID must be set for acceptance tests")
 	}
-	if v := os.Getenv(AuthToken); v == "" {
-		t.Fatal("TWILIO_AUTH_TOKEN must be set for acceptance tests")
+	if v := os.Getenv(ApiKey); v == "" {
+		t.Fatal("TWILIO_API_KEY must be set for acceptance tests")
+	}
+	if v := os.Getenv(ApiSecret); v == "" {
+		t.Fatal("TWILIO_API_SECRET must be set for acceptance tests")
 	}
 }

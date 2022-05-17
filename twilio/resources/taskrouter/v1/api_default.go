@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -34,11 +34,6 @@ func ResourceWorkspacesActivities() *schema.Resource {
 			"friendly_name": AsString(SchemaRequired),
 			"available":     AsBool(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -153,29 +148,16 @@ func ResourceWorkspacesTasks() *schema.Resource {
 		UpdateContext: updateWorkspacesTasks,
 		DeleteContext: deleteWorkspacesTasks,
 		Schema: map[string]*schema.Schema{
-			"workspace_sid":            AsString(SchemaRequired),
-			"attributes":               AsString(SchemaComputedOptional),
-			"priority":                 AsInt(SchemaComputedOptional),
-			"task_channel":             AsString(SchemaComputedOptional),
-			"timeout":                  AsInt(SchemaComputedOptional),
-			"workflow_sid":             AsString(SchemaComputedOptional),
-			"sid":                      AsString(SchemaComputed),
-			"if_match":                 AsString(SchemaComputedOptional),
-			"assignment_status":        AsString(SchemaComputedOptional),
-			"reason":                   AsString(SchemaComputedOptional),
-			"account_sid":              AsString(SchemaComputed),
-			"addons":                   AsString(SchemaComputed),
-			"age":                      AsInt(SchemaComputed),
-			"date_created":             AsString(SchemaComputed),
-			"date_updated":             AsString(SchemaComputed),
-			"links":                    AsString(SchemaComputed),
-			"task_channel_sid":         AsString(SchemaComputed),
-			"task_channel_unique_name": AsString(SchemaComputed),
-			"task_queue_entered_date":  AsString(SchemaComputed),
-			"task_queue_friendly_name": AsString(SchemaComputed),
-			"task_queue_sid":           AsString(SchemaComputed),
-			"url":                      AsString(SchemaComputed),
-			"workflow_friendly_name":   AsString(SchemaComputed),
+			"workspace_sid":     AsString(SchemaRequired),
+			"attributes":        AsString(SchemaComputedOptional),
+			"priority":          AsInt(SchemaComputedOptional),
+			"task_channel":      AsString(SchemaComputedOptional),
+			"timeout":           AsInt(SchemaComputedOptional),
+			"workflow_sid":      AsString(SchemaComputedOptional),
+			"sid":               AsString(SchemaComputed),
+			"if_match":          AsString(SchemaComputedOptional),
+			"assignment_status": AsString(SchemaComputedOptional),
+			"reason":            AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -295,11 +277,6 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 			"unique_name":               AsString(SchemaRequired),
 			"channel_optimized_routing": AsBool(SchemaComputedOptional),
 			"sid":                       AsString(SchemaComputed),
-			"account_sid":               AsString(SchemaComputed),
-			"date_created":              AsString(SchemaComputed),
-			"date_updated":              AsString(SchemaComputed),
-			"links":                     AsString(SchemaComputed),
-			"url":                       AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -414,21 +391,14 @@ func ResourceWorkspacesTaskQueues() *schema.Resource {
 		UpdateContext: updateWorkspacesTaskQueues,
 		DeleteContext: deleteWorkspacesTaskQueues,
 		Schema: map[string]*schema.Schema{
-			"workspace_sid":             AsString(SchemaRequired),
-			"friendly_name":             AsString(SchemaRequired),
-			"assignment_activity_sid":   AsString(SchemaComputedOptional),
-			"max_reserved_workers":      AsInt(SchemaComputedOptional),
-			"reservation_activity_sid":  AsString(SchemaComputedOptional),
-			"target_workers":            AsString(SchemaComputedOptional),
-			"task_order":                AsString(SchemaComputedOptional),
-			"sid":                       AsString(SchemaComputed),
-			"account_sid":               AsString(SchemaComputed),
-			"assignment_activity_name":  AsString(SchemaComputed),
-			"date_created":              AsString(SchemaComputed),
-			"date_updated":              AsString(SchemaComputed),
-			"links":                     AsString(SchemaComputed),
-			"reservation_activity_name": AsString(SchemaComputed),
-			"url":                       AsString(SchemaComputed),
+			"workspace_sid":            AsString(SchemaRequired),
+			"friendly_name":            AsString(SchemaRequired),
+			"assignment_activity_sid":  AsString(SchemaComputedOptional),
+			"max_reserved_workers":     AsInt(SchemaComputedOptional),
+			"reservation_activity_sid": AsString(SchemaComputedOptional),
+			"target_workers":           AsString(SchemaComputedOptional),
+			"task_order":               AsString(SchemaComputedOptional),
+			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -550,14 +520,6 @@ func ResourceWorkspacesWorkers() *schema.Resource {
 			"sid":                         AsString(SchemaComputed),
 			"if_match":                    AsString(SchemaComputedOptional),
 			"reject_pending_reservations": AsBool(SchemaComputedOptional),
-			"account_sid":                 AsString(SchemaComputed),
-			"activity_name":               AsString(SchemaComputed),
-			"available":                   AsBool(SchemaComputed),
-			"date_created":                AsString(SchemaComputed),
-			"date_status_changed":         AsString(SchemaComputed),
-			"date_updated":                AsString(SchemaComputed),
-			"links":                       AsString(SchemaComputed),
-			"url":                         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -680,12 +642,6 @@ func ResourceWorkspacesWorkflows() *schema.Resource {
 			"task_reservation_timeout":         AsInt(SchemaComputedOptional),
 			"sid":                              AsString(SchemaComputed),
 			"re_evaluate_tasks":                AsString(SchemaComputedOptional),
-			"account_sid":                      AsString(SchemaComputed),
-			"date_created":                     AsString(SchemaComputed),
-			"date_updated":                     AsString(SchemaComputed),
-			"document_content_type":            AsString(SchemaComputed),
-			"links":                            AsString(SchemaComputed),
-			"url":                              AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -805,13 +761,6 @@ func ResourceWorkspaces() *schema.Resource {
 			"sid":                    AsString(SchemaComputed),
 			"default_activity_sid":   AsString(SchemaComputedOptional),
 			"timeout_activity_sid":   AsString(SchemaComputedOptional),
-			"account_sid":            AsString(SchemaComputed),
-			"date_created":           AsString(SchemaComputed),
-			"date_updated":           AsString(SchemaComputed),
-			"default_activity_name":  AsString(SchemaComputed),
-			"links":                  AsString(SchemaComputed),
-			"timeout_activity_name":  AsString(SchemaComputed),
-			"url":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

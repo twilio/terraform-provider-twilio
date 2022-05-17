@@ -1,4 +1,23 @@
 
+## twilio_conversations_configuration_addresses_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**address** | string | **Required** | The unique address to be configured. The address can be a whatsapp address or phone number
+**type** | string | **Required** | Type of Address. Value can be &#x60;whatsapp&#x60; or &#x60;sms&#x60;.
+**auto_creation_conversation_service_sid** | string | Optional | Conversation Service for the auto-created conversation. If not set, the conversation is created in the default service.
+**auto_creation_enabled** | bool | Optional | Enable/Disable auto-creating conversations for messages to this address
+**auto_creation_studio_flow_sid** | string | Optional | For type &#x60;studio&#x60;, the studio flow SID where the webhook should be sent to.
+**auto_creation_studio_retry_count** | int | Optional | For type &#x60;studio&#x60;, number of times to retry the webhook request
+**auto_creation_type** | string | Optional | Type of Auto Creation. Value can be one of &#x60;webhook&#x60;, &#x60;studio&#x60; or &#x60;default&#x60;.
+**auto_creation_webhook_filters** | list(string) | Optional | The list of events, firing webhook event for this Conversation. Values can be any of the following: &#x60;onMessageAdded&#x60;, &#x60;onMessageUpdated&#x60;, &#x60;onMessageRemoved&#x60;, &#x60;onConversationUpdated&#x60;, &#x60;onConversationStateUpdated&#x60;, &#x60;onConversationRemoved&#x60;, &#x60;onParticipantAdded&#x60;, &#x60;onParticipantUpdated&#x60;, &#x60;onParticipantRemoved&#x60;, &#x60;onDeliveryUpdated&#x60;
+**auto_creation_webhook_method** | string | Optional | For type &#x60;webhook&#x60;, the HTTP method to be used when sending a webhook request.
+**auto_creation_webhook_url** | string | Optional | For type &#x60;webhook&#x60;, the url for the webhook request.
+**friendly_name** | string | Optional | The human-readable name of this configuration, limited to 256 characters. Optional.
+**sid** | string | *Computed* | The SID of the Address Configuration resource. This value can be either the &#x60;sid&#x60; or the &#x60;address&#x60; of the configuration
+
 ## twilio_conversations_conversations_v1
 
 ### Parameters
@@ -16,12 +35,6 @@ Name | Type | Requirement | Description
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to &#x60;inactive&#x60; state. Minimum value for this timer is 1 minute.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource&#39;s &#x60;sid&#x60; in the URL.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource. Can also be the &#x60;unique_name&#x60; of the Conversation.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this conversation.
-**bindings** | string | *Computed* | 
-**chat_service_sid** | string | *Computed* | The unique ID of the Conversation Service this conversation belongs to.
-**links** | string | *Computed* | Absolute URLs to access the participants, messages and webhooks of this conversation.
-**timers** | string | *Computed* | Timer date values for this conversation.
-**url** | string | *Computed* | An absolute URL for this conversation.
 
 ## twilio_conversations_conversations_messages_v1
 
@@ -38,13 +51,6 @@ Name | Type | Requirement | Description
 **date_updated** | string | Optional | The date that this resource was last updated. &#x60;null&#x60; if the message has not been edited.
 **media_sid** | string | Optional | The Media SID to be attached to the new Message.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this message.
-**delivery** | string | *Computed* | An object that contains the summary of delivery statuses for the message to non-chat participants.
-**index** | int | *Computed* | The index of the message within the Conversation.
-**links** | string | *Computed* | Absolute URL to access the receipts of this message.
-**media** | list(string) | *Computed* | An array of objects that describe the Message&#39;s media if attached, otherwise, null.
-**participant_sid** | string | *Computed* | The unique ID of messages&#39;s author participant.
-**url** | string | *Computed* | An absolute API URL for this message.
 
 ## twilio_conversations_conversations_participants_v1
 
@@ -65,9 +71,6 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 **last_read_message_index** | int | Optional | Index of last “read” message in the [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) for the Participant.
 **last_read_timestamp** | string | Optional | Timestamp of last “read” message in the [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) for the Participant.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this participant.
-**messaging_binding** | string | *Computed* | Information about how this participant exchanges messages with the conversation.
-**url** | string | *Computed* | An absolute URL for this participant.
 
 ## twilio_conversations_conversations_webhooks_v1
 
@@ -84,11 +87,6 @@ Name | Type | Requirement | Description
 **configuration_triggers** | list(string) | Optional | The list of keywords, firing webhook event for this Conversation.
 **configuration_url** | string | Optional | The absolute url the webhook request should be sent to.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this conversation.
-**configuration** | string | *Computed* | The configuration of this webhook.
-**date_created** | string | *Computed* | The date that this resource was created.
-**date_updated** | string | *Computed* | The date that this resource was last updated.
-**url** | string | *Computed* | An absolute URL for this webhook.
 
 ## twilio_conversations_credentials_v1
 
@@ -104,10 +102,6 @@ Name | Type | Requirement | Description
 **sandbox** | bool | Optional | [APN only] Whether to send the credential to sandbox APNs. Can be &#x60;true&#x60; to send to sandbox APNs or &#x60;false&#x60; to send to production.
 **secret** | string | Optional | [FCM only] The **Server key** of your project from the Firebase console, found under Settings / Cloud messaging.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this credential.
-**date_created** | string | *Computed* | The date that this resource was created.
-**date_updated** | string | *Computed* | The date that this resource was last updated.
-**url** | string | *Computed* | An absolute URL for this credential.
 
 ## twilio_conversations_roles_v1
 
@@ -119,12 +113,6 @@ Name | Type | Requirement | Description
 **permission** | list(string) | **Required** | A permission that you grant to the new role. Only one permission can be granted per parameter. To assign more than one permission, repeat this parameter for each permission value. The values for this parameter depend on the role&#39;s &#x60;type&#x60;.
 **type** | string | **Required** | The type of role. Can be: &#x60;conversation&#x60; for [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) roles or &#x60;service&#x60; for [Conversation Service](https://www.twilio.com/docs/conversations/api/service-resource) roles.
 **sid** | string | *Computed* | The SID of the Role resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**chat_service_sid** | string | *Computed* | The SID of the Conversation Service that the resource is associated with
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**permissions** | list(string) | *Computed* | An array of the permissions the role has been granted
-**url** | string | *Computed* | An absolute URL for this user role.
 
 ## twilio_conversations_services_v1
 
@@ -134,11 +122,6 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **friendly_name** | string | **Required** | The human-readable name of this service, limited to 256 characters. Optional.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this service.
-**date_created** | string | *Computed* | The date that this resource was created.
-**date_updated** | string | *Computed* | The date that this resource was last updated.
-**links** | string | *Computed* | Absolute URLs to access the conversations, users, roles, bindings and configuration of this service.
-**url** | string | *Computed* | An absolute URL for this service.
 
 ## twilio_conversations_services_conversations_v1
 
@@ -158,11 +141,6 @@ Name | Type | Requirement | Description
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to &#x60;inactive&#x60; state. Minimum value for this timer is 1 minute.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource&#39;s &#x60;sid&#x60; in the URL.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource. Can also be the &#x60;unique_name&#x60; of the Conversation.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this conversation.
-**bindings** | string | *Computed* | 
-**links** | string | *Computed* | Absolute URLs to access the participants, messages and webhooks of this conversation.
-**timers** | string | *Computed* | Timer date values for this conversation.
-**url** | string | *Computed* | An absolute URL for this conversation.
 
 ## twilio_conversations_services_conversations_messages_v1
 
@@ -180,13 +158,6 @@ Name | Type | Requirement | Description
 **date_updated** | string | Optional | The date that this resource was last updated. &#x60;null&#x60; if the message has not been edited.
 **media_sid** | string | Optional | The Media SID to be attached to the new Message.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this message.
-**delivery** | string | *Computed* | An object that contains the summary of delivery statuses for the message to non-chat participants.
-**index** | int | *Computed* | The index of the message within the Conversation.
-**links** | string | *Computed* | Absolute URL to access the receipts of this message.
-**media** | list(string) | *Computed* | An array of objects that describe the Message&#39;s media if attached, otherwise, null.
-**participant_sid** | string | *Computed* | The unique ID of messages&#39;s author participant.
-**url** | string | *Computed* | An absolute URL for this message.
 
 ## twilio_conversations_services_conversations_participants_v1
 
@@ -208,9 +179,6 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 **last_read_message_index** | int | Optional | Index of last “read” message in the [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) for the Participant.
 **last_read_timestamp** | string | Optional | Timestamp of last “read” message in the [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) for the Participant.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this participant.
-**messaging_binding** | string | *Computed* | Information about how this participant exchanges messages with the conversation.
-**url** | string | *Computed* | An absolute URL for this participant.
 
 ## twilio_conversations_services_conversations_webhooks_v1
 
@@ -228,11 +196,6 @@ Name | Type | Requirement | Description
 **configuration_triggers** | list(string) | Optional | The list of keywords, firing webhook event for this Conversation.
 **configuration_url** | string | Optional | The absolute url the webhook request should be sent to.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-**account_sid** | string | *Computed* | The unique ID of the Account responsible for this conversation.
-**configuration** | string | *Computed* | The configuration of this webhook.
-**date_created** | string | *Computed* | The date that this resource was created.
-**date_updated** | string | *Computed* | The date that this resource was last updated.
-**url** | string | *Computed* | An absolute URL for this webhook.
 
 ## twilio_conversations_services_roles_v1
 
@@ -245,11 +208,6 @@ Name | Type | Requirement | Description
 **permission** | list(string) | **Required** | A permission that you grant to the new role. Only one permission can be granted per parameter. To assign more than one permission, repeat this parameter for each permission value. The values for this parameter depend on the role&#39;s &#x60;type&#x60;.
 **type** | string | **Required** | The type of role. Can be: &#x60;conversation&#x60; for [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) roles or &#x60;service&#x60; for [Conversation Service](https://www.twilio.com/docs/conversations/api/service-resource) roles.
 **sid** | string | *Computed* | The SID of the Role resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**permissions** | list(string) | *Computed* | An array of the permissions the role has been granted
-**url** | string | *Computed* | An absolute URL for this user role.
 
 ## twilio_conversations_services_users_v1
 
@@ -264,13 +222,6 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | The string that you assigned to describe the resource.
 **role_sid** | string | Optional | The SID of a service-level [Role](https://www.twilio.com/docs/conversations/api/role-resource) to assign to the user.
 **sid** | string | *Computed* | The SID of the User resource to update. This value can be either the &#x60;sid&#x60; or the &#x60;identity&#x60; of the User resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**is_notifiable** | bool | *Computed* | Whether the User has a potentially valid Push Notification registration for this Conversations Service
-**is_online** | bool | *Computed* | Whether the User is actively connected to this Conversations Service and online
-**links** | string | *Computed* | 
-**url** | string | *Computed* | An absolute URL for this user.
 
 ## twilio_conversations_users_v1
 
@@ -284,12 +235,4 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | The string that you assigned to describe the resource.
 **role_sid** | string | Optional | The SID of a service-level [Role](https://www.twilio.com/docs/conversations/api/role-resource) to assign to the user.
 **sid** | string | *Computed* | The SID of the User resource to update. This value can be either the &#x60;sid&#x60; or the &#x60;identity&#x60; of the User resource to update.
-**account_sid** | string | *Computed* | The SID of the Account that created the resource
-**chat_service_sid** | string | *Computed* | The SID of the Conversation Service that the resource is associated with
-**date_created** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was created
-**date_updated** | string | *Computed* | The ISO 8601 date and time in GMT when the resource was last updated
-**is_notifiable** | bool | *Computed* | Whether the User has a potentially valid Push Notification registration for this Conversations Service
-**is_online** | bool | *Computed* | Whether the User is actively connected to this Conversations Service and online
-**links** | string | *Computed* | 
-**url** | string | *Computed* | An absolute URL for this user.
 

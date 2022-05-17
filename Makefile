@@ -1,11 +1,11 @@
-.PHONY: default githooks build goimports govet golint terrafmt install test testacc cover
+.PHONY: default githooks build goimports govet golint terrafmt install test testacc
 
 TEST?=$$(go list ./... |grep -v 'vendor')
 REGISTRY=local
 NAMESPACE=twilio
 NAME=twilio
 BINARY=terraform-provider-${NAME}
-VERSION=0.6.3
+VERSION=0.16.0
 OS_ARCH=darwin_amd64
 
 default: build
@@ -13,18 +13,19 @@ default: build
 githooks:
 	ln -sf ../../githooks/pre-commit .git/hooks/pre-commit
 
-build: githooks goimports terrafmt
+build: goimports terrafmt
 	go build -o ${BINARY}
 
 goimports:
-	go get golang.org/x/tools/cmd/goimports
+	go install golang.org/x/tools/cmd/goimports@latest
 	goimports -w .
+	go mod tidy
 
 govet: goimports
 	go vet ./...
 
 golint: govet
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.39.0
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.39.0
 	golangci-lint run
 
 terrafmt:
@@ -43,6 +44,6 @@ testacc:
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
 
 GO_DIRS = $(shell go list ./... | grep -v /resources/)
-cover:
+test-cover:
 	go test ${GO_DIRS} -coverprofile coverage.out
 	go test ${GO_DIRS} -json > test-report.out

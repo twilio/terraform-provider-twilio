@@ -446,12 +446,9 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 		if fieldValue.IsNil() {
 			return setter(fieldName, nil)
 		}
-		// free form json
-		byteValue, err := json.Marshal(fieldValue.Interface().(map[string]interface{}))
-		if err != nil {
-			return WrapErrorGeneric(err, "Json marshaling failed for field "+fieldName)
-		}
-		if err := setter(fieldName, string(byteValue)); err != nil {
+
+		value := fieldValue.Interface()
+		if err := marshallNode(setter, fieldName, reflect.TypeOf(value), reflect.ValueOf(value), flatten); err != nil {
 			return err
 		}
 

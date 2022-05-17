@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -29,20 +29,11 @@ func ResourceFlowsEngagements() *schema.Resource {
 		ReadContext:   readFlowsEngagements,
 		DeleteContext: deleteFlowsEngagements,
 		Schema: map[string]*schema.Schema{
-			"flow_sid":                AsString(SchemaForceNewRequired),
-			"from":                    AsString(SchemaForceNewRequired),
-			"to":                      AsString(SchemaForceNewRequired),
-			"parameters":              AsString(SchemaForceNewOptional),
-			"sid":                     AsString(SchemaComputed),
-			"account_sid":             AsString(SchemaComputed),
-			"contact_channel_address": AsString(SchemaComputed),
-			"contact_sid":             AsString(SchemaComputed),
-			"context":                 AsString(SchemaComputed),
-			"date_created":            AsString(SchemaComputed),
-			"date_updated":            AsString(SchemaComputed),
-			"links":                   AsString(SchemaComputed),
-			"status":                  AsString(SchemaComputed),
-			"url":                     AsString(SchemaComputed),
+			"flow_sid":   AsString(SchemaForceNewRequired),
+			"from":       AsString(SchemaForceNewRequired),
+			"to":         AsString(SchemaForceNewRequired),
+			"parameters": AsString(SchemaForceNewOptional),
+			"sid":        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -135,20 +126,12 @@ func ResourceFlowsExecutions() *schema.Resource {
 		UpdateContext: updateFlowsExecutions,
 		DeleteContext: deleteFlowsExecutions,
 		Schema: map[string]*schema.Schema{
-			"flow_sid":                AsString(SchemaRequired),
-			"from":                    AsString(SchemaRequired),
-			"to":                      AsString(SchemaRequired),
-			"parameters":              AsString(SchemaComputedOptional),
-			"sid":                     AsString(SchemaComputed),
-			"status":                  AsString(SchemaComputedOptional),
-			"account_sid":             AsString(SchemaComputed),
-			"contact_channel_address": AsString(SchemaComputed),
-			"contact_sid":             AsString(SchemaComputed),
-			"context":                 AsString(SchemaComputed),
-			"date_created":            AsString(SchemaComputed),
-			"date_updated":            AsString(SchemaComputed),
-			"links":                   AsString(SchemaComputed),
-			"url":                     AsString(SchemaComputed),
+			"flow_sid":   AsString(SchemaRequired),
+			"from":       AsString(SchemaRequired),
+			"to":         AsString(SchemaRequired),
+			"parameters": AsString(SchemaComputedOptional),
+			"sid":        AsString(SchemaComputed),
+			"status":     AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

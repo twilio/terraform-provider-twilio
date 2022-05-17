@@ -3,7 +3,7 @@
  *
  * This is the public Twilio REST API.
  *
- * API version: 1.21.0
+ * API version: 1.29.0
  * Contact: support@twilio.com
  */
 
@@ -33,11 +33,6 @@ func ResourceServicesAssets() *schema.Resource {
 			"service_sid":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -157,12 +152,6 @@ func ResourceServicesBuilds() *schema.Resource {
 			"function_versions": AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
 			"runtime":           AsString(SchemaForceNewOptional),
 			"sid":               AsString(SchemaComputed),
-			"account_sid":       AsString(SchemaComputed),
-			"date_created":      AsString(SchemaComputed),
-			"date_updated":      AsString(SchemaComputed),
-			"links":             AsString(SchemaComputed),
-			"status":            AsString(SchemaComputed),
-			"url":               AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -258,13 +247,6 @@ func ResourceServicesEnvironments() *schema.Resource {
 			"unique_name":   AsString(SchemaForceNewRequired),
 			"domain_suffix": AsString(SchemaForceNewOptional),
 			"sid":           AsString(SchemaComputed),
-			"account_sid":   AsString(SchemaComputed),
-			"build_sid":     AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"domain_name":   AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -360,11 +342,6 @@ func ResourceServicesFunctions() *schema.Resource {
 			"service_sid":   AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaRequired),
 			"sid":           AsString(SchemaComputed),
-			"account_sid":   AsString(SchemaComputed),
-			"date_created":  AsString(SchemaComputed),
-			"date_updated":  AsString(SchemaComputed),
-			"links":         AsString(SchemaComputed),
-			"url":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -484,12 +461,6 @@ func ResourceServices() *schema.Resource {
 			"include_credentials": AsBool(SchemaComputedOptional),
 			"ui_editable":         AsBool(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),
-			"account_sid":         AsString(SchemaComputed),
-			"date_created":        AsString(SchemaComputed),
-			"date_updated":        AsString(SchemaComputed),
-			"domain_base":         AsString(SchemaComputed),
-			"links":               AsString(SchemaComputed),
-			"url":                 AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -603,10 +574,6 @@ func ResourceServicesEnvironmentsVariables() *schema.Resource {
 			"key":             AsString(SchemaRequired),
 			"value":           AsString(SchemaRequired),
 			"sid":             AsString(SchemaComputed),
-			"account_sid":     AsString(SchemaComputed),
-			"date_created":    AsString(SchemaComputed),
-			"date_updated":    AsString(SchemaComputed),
-			"url":             AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

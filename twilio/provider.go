@@ -75,7 +75,7 @@ func providerClient(p *schema.Provider) schema.ConfigureContextFunc {
 		region := d.Get("region").(string)
 		edge := d.Get("edge").(string)
 
-		params := client.RestClientParams{
+		params := client.ClientParams{
 			Username: username,
 			Password: password,
 		}

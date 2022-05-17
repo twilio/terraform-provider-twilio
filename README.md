@@ -1,4 +1,5 @@
 # Twilio Terraform Provider
+[![Tests](https://github.com/twilio/terraform-provider-twilio/actions/workflows/test-and-deploy.yml/badge.svg)](https://github.com/twilio/terraform-provider-twilio/actions/workflows/test-and-deploy.yml)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/twilio/terraform-provider-twilio?)](https://github.com/Twilio/terraform-provider-twilio/releases/latest)
 [![Terraform Registry](https://img.shields.io/badge/registry-twilio-green?logo=terraform&style=flat)](https://registry.terraform.io/providers/twilio/twilio/latest)
 
@@ -9,7 +10,7 @@
 ## Requirements
 
 - [Terraform](https://www.terraform.io/downloads.html) v0.15.x
-- [Go](https://golang.org/doc/install) 1.15+ (to build the provider plugin)
+- [Go](https://golang.org/doc/install) 1.16+ (to build the provider plugin)
 
 ## Resource Documentation
 
@@ -42,7 +43,7 @@ terraform {
   required_providers {
     twilio = {
       source  = "twilio/twilio"
-      version = "0.6.3"
+      version = "0.16.0"
     }
   }
 }
@@ -94,7 +95,7 @@ The boilerplate includes the following:
 - `examples` contains sample Terraform configuration that can be used to test the Twilio provider
 - `twilio` contains the main provider code. This will be where the provider's resources and data source implementations will be defined.
 
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.15+ is _required_).
+If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.16+ is _required_).
 
 To compile the provider, run `make build`. This will build the provider and put the provider binary in the `$GOPATH/bin` directory.
 
@@ -121,7 +122,7 @@ You can also specify a particular suite to run like so:
 
 An example test file can be found [here](https://github.com/twilio/terraform-provider-twilio/blob/main/twilio/resources_flex_test.go).
 
-### Debugging
+## Debugging
 
 First:
 
@@ -130,3 +131,34 @@ export TF_LOG=TRACE
 ```
 
 then refer to the [Terraform Debugging Documentation](https://www.terraform.io/docs/internals/debugging.html).
+
+### Debugging with Delve
+
+You can build and debug the provider locally. When using Goland you can set break point and step through code:
+
+```sh
+$ dlv debug main.go -- -debug
+Type 'help' for list of commands.
+(dlv) c
+Provider started, to attach Terraform set the TF_REATTACH_PROVIDERS env var:
+
+	TF_REATTACH_PROVIDERS='{"registry.terraform.io/twilio/twilio":{...}}}'
+```
+
+Copy the `TF_REATTACH_PROVIDERS` and run Terraform with this value set:
+
+```sh
+$ TF_REATTACH_PROVIDERS='...' terraform init
+$ TF_REATTACH_PROVIDERS='...' terraform plan
+...
+```
+
+Terraform will use the binary running under `dlv` instead of the `twilio/twilio` registry version. For further details
+refer to the [Terraform Debugging Providers](https://www.terraform.io/docs/extend/debugging.html) documentation.
+
+### Debugging with Goland
+
+- Set up GOROOT (initially opening `main.go` should show this option)
+- Select `Modify Run Configuration...` on `main.go` and then add `--debug` as `Program arguments`
+- Select `Debug "go build main.go"` and then copy the `TF_REATTACH_PROVIDERS` to the shell where `terraform` will be run
+- Set breakpoints in Goland as needed and run `terraform`, it will use plugin the process running under the Goland debugger

@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	accountsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/accounts/v1"
-	api "github.com/twilio/terraform-provider-twilio/twilio/resources/api/"
+	api "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
 	autopilotV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/autopilot/v1"
 	bulkexportsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/bulkexports/v1"
 	chatV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v1"

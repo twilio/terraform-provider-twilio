@@ -5,7 +5,7 @@
 
 ## Project Status
 
-:warning: This project is currently in **PILOT** and under active development. If you would like to participate in the pilot, please sign up for [Twilio Insiders](https://twil.io/insiders).
+:warning: This project is currently in **PILOT** and under active development.
 
 ## Requirements
 

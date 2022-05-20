@@ -61,7 +61,7 @@ func createAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateAddress(&params)
+	r, err := m.(*client.Config).Client.Api.CreateAddress(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -86,7 +86,7 @@ func deleteAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteAddress(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteAddress(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -104,7 +104,7 @@ func readAccountsAddresses(ctx context.Context, d *schema.ResourceData, m interf
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchAddress(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchAddress(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -137,7 +137,7 @@ func updateAccountsAddresses(ctx context.Context, d *schema.ResourceData, m inte
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateAddress(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateAddress(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -194,7 +194,7 @@ func createAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateApplication(&params)
+	r, err := m.(*client.Config).Client.Api.CreateApplication(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -219,7 +219,7 @@ func deleteAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteApplication(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteApplication(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -237,7 +237,7 @@ func readAccountsApplications(ctx context.Context, d *schema.ResourceData, m int
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchApplication(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchApplication(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -270,7 +270,7 @@ func updateAccountsApplications(ctx context.Context, d *schema.ResourceData, m i
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateApplication(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateApplication(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -348,7 +348,7 @@ func createAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateCall(&params)
+	r, err := m.(*client.Config).Client.Api.CreateCall(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -369,7 +369,7 @@ func deleteAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteCall(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteCall(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -387,7 +387,7 @@ func readAccountsCalls(ctx context.Context, d *schema.ResourceData, m interface{
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchCall(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchCall(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -420,7 +420,7 @@ func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateCall(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateCall(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -466,7 +466,7 @@ func createAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateCallFeedbackSummary(&params)
+	r, err := m.(*client.Config).Client.Api.CreateCallFeedbackSummary(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -491,7 +491,7 @@ func deleteAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceD
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteCallFeedbackSummary(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteCallFeedbackSummary(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -509,7 +509,7 @@ func readAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceDat
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchCallFeedbackSummary(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchCallFeedbackSummary(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -574,7 +574,7 @@ func createAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 
 	callSid := d.Get("call_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateCallRecording(callSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateCallRecording(callSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -596,7 +596,7 @@ func deleteAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteCallRecording(callSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteCallRecording(callSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -615,7 +615,7 @@ func readAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, m 
 	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchCallRecording(callSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchCallRecording(callSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -650,7 +650,7 @@ func updateAccountsCallsRecordings(ctx context.Context, d *schema.ResourceData, 
 	callSid := d.Get("call_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateCallRecording(callSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateCallRecording(callSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -717,7 +717,7 @@ func createAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateIncomingPhoneNumber(&params)
+	r, err := m.(*client.Config).Client.Api.CreateIncomingPhoneNumber(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -738,7 +738,7 @@ func deleteAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteIncomingPhoneNumber(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteIncomingPhoneNumber(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -756,7 +756,7 @@ func readAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceDat
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchIncomingPhoneNumber(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchIncomingPhoneNumber(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -789,7 +789,7 @@ func updateAccountsIncomingPhoneNumbers(ctx context.Context, d *schema.ResourceD
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateIncomingPhoneNumber(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateIncomingPhoneNumber(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -834,7 +834,7 @@ func createAccountsIncomingPhoneNumbersAssignedAddOns(ctx context.Context, d *sc
 
 	resourceSid := d.Get("resource_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateIncomingPhoneNumberAssignedAddOn(resourceSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateIncomingPhoneNumberAssignedAddOn(resourceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -860,7 +860,7 @@ func deleteAccountsIncomingPhoneNumbersAssignedAddOns(ctx context.Context, d *sc
 	resourceSid := d.Get("resource_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteIncomingPhoneNumberAssignedAddOn(resourceSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteIncomingPhoneNumberAssignedAddOn(resourceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -879,7 +879,7 @@ func readAccountsIncomingPhoneNumbersAssignedAddOns(ctx context.Context, d *sche
 	resourceSid := d.Get("resource_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchIncomingPhoneNumberAssignedAddOn(resourceSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchIncomingPhoneNumberAssignedAddOn(resourceSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -954,7 +954,7 @@ func createAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateMessage(&params)
+	r, err := m.(*client.Config).Client.Api.CreateMessage(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -975,7 +975,7 @@ func deleteAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteMessage(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteMessage(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -993,7 +993,7 @@ func readAccountsMessages(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchMessage(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchMessage(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1026,7 +1026,7 @@ func updateAccountsMessages(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateMessage(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateMessage(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1069,7 +1069,7 @@ func createAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateNewKey(&params)
+	r, err := m.(*client.Config).Client.Api.CreateNewKey(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1094,7 +1094,7 @@ func deleteAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteKey(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1112,7 +1112,7 @@ func readAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface{}
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchKey(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1145,7 +1145,7 @@ func updateAccountsKeys(ctx context.Context, d *schema.ResourceData, m interface
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateKey(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1188,7 +1188,7 @@ func createAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateNewSigningKey(&params)
+	r, err := m.(*client.Config).Client.Api.CreateNewSigningKey(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1213,7 +1213,7 @@ func deleteAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSigningKey(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSigningKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1231,7 +1231,7 @@ func readAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m inte
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSigningKey(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSigningKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1264,7 +1264,7 @@ func updateAccountsSigningKeys(ctx context.Context, d *schema.ResourceData, m in
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSigningKey(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateSigningKey(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1354,7 +1354,7 @@ func createAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 
 	conferenceSid := d.Get("conference_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateParticipant(conferenceSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateParticipant(conferenceSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1376,7 +1376,7 @@ func deleteAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 	conferenceSid := d.Get("conference_sid").(string)
 	callSid := d.Get("call_sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteParticipant(conferenceSid, callSid, &params)
+	err := m.(*client.Config).Client.Api.DeleteParticipant(conferenceSid, callSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1395,7 +1395,7 @@ func readAccountsConferencesParticipants(ctx context.Context, d *schema.Resource
 	conferenceSid := d.Get("conference_sid").(string)
 	callSid := d.Get("call_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchParticipant(conferenceSid, callSid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchParticipant(conferenceSid, callSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1430,7 +1430,7 @@ func updateAccountsConferencesParticipants(ctx context.Context, d *schema.Resour
 	conferenceSid := d.Get("conference_sid").(string)
 	callSid := d.Get("call_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateParticipant(conferenceSid, callSid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateParticipant(conferenceSid, callSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1474,7 +1474,7 @@ func createAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateQueue(&params)
+	r, err := m.(*client.Config).Client.Api.CreateQueue(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1499,7 +1499,7 @@ func deleteAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteQueue(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteQueue(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1517,7 +1517,7 @@ func readAccountsQueues(ctx context.Context, d *schema.ResourceData, m interface
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchQueue(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchQueue(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1550,7 +1550,7 @@ func updateAccountsQueues(ctx context.Context, d *schema.ResourceData, m interfa
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateQueue(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateQueue(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1595,7 +1595,7 @@ func createAccountsSIPDomainsAuthCallsCredentialListMappings(ctx context.Context
 
 	domainSid := d.Get("domain_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipAuthCallsCredentialListMapping(domainSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipAuthCallsCredentialListMapping(domainSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1621,7 +1621,7 @@ func deleteAccountsSIPDomainsAuthCallsCredentialListMappings(ctx context.Context
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipAuthCallsCredentialListMapping(domainSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipAuthCallsCredentialListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1640,7 +1640,7 @@ func readAccountsSIPDomainsAuthCallsCredentialListMappings(ctx context.Context, 
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipAuthCallsCredentialListMapping(domainSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipAuthCallsCredentialListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1698,7 +1698,7 @@ func createAccountsSIPDomainsAuthCallsIpAccessControlListMappings(ctx context.Co
 
 	domainSid := d.Get("domain_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipAuthCallsIpAccessControlListMapping(domainSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipAuthCallsIpAccessControlListMapping(domainSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1724,7 +1724,7 @@ func deleteAccountsSIPDomainsAuthCallsIpAccessControlListMappings(ctx context.Co
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipAuthCallsIpAccessControlListMapping(domainSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipAuthCallsIpAccessControlListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1743,7 +1743,7 @@ func readAccountsSIPDomainsAuthCallsIpAccessControlListMappings(ctx context.Cont
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipAuthCallsIpAccessControlListMapping(domainSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipAuthCallsIpAccessControlListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1801,7 +1801,7 @@ func createAccountsSIPDomainsAuthRegistrationsCredentialListMappings(ctx context
 
 	domainSid := d.Get("domain_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipAuthRegistrationsCredentialListMapping(domainSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipAuthRegistrationsCredentialListMapping(domainSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1827,7 +1827,7 @@ func deleteAccountsSIPDomainsAuthRegistrationsCredentialListMappings(ctx context
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipAuthRegistrationsCredentialListMapping(domainSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipAuthRegistrationsCredentialListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1846,7 +1846,7 @@ func readAccountsSIPDomainsAuthRegistrationsCredentialListMappings(ctx context.C
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipAuthRegistrationsCredentialListMapping(domainSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipAuthRegistrationsCredentialListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1906,7 +1906,7 @@ func createAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 
 	credentialListSid := d.Get("credential_list_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipCredential(credentialListSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipCredential(credentialListSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1932,7 +1932,7 @@ func deleteAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	credentialListSid := d.Get("credential_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredential(credentialListSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipCredential(credentialListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1951,7 +1951,7 @@ func readAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.Re
 	credentialListSid := d.Get("credential_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipCredential(credentialListSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipCredential(credentialListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -1986,7 +1986,7 @@ func updateAccountsSIPCredentialListsCredentials(ctx context.Context, d *schema.
 	credentialListSid := d.Get("credential_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipCredential(credentialListSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateSipCredential(credentialListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2029,7 +2029,7 @@ func createAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipCredentialList(&params)
+	r, err := m.(*client.Config).Client.Api.CreateSipCredentialList(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2054,7 +2054,7 @@ func deleteAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredentialList(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipCredentialList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2072,7 +2072,7 @@ func readAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceData,
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipCredentialList(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipCredentialList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2105,7 +2105,7 @@ func updateAccountsSIPCredentialLists(ctx context.Context, d *schema.ResourceDat
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipCredentialList(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateSipCredentialList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2150,7 +2150,7 @@ func createAccountsSIPDomainsCredentialListMappings(ctx context.Context, d *sche
 
 	domainSid := d.Get("domain_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipCredentialListMapping(domainSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipCredentialListMapping(domainSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2176,7 +2176,7 @@ func deleteAccountsSIPDomainsCredentialListMappings(ctx context.Context, d *sche
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipCredentialListMapping(domainSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipCredentialListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2195,7 +2195,7 @@ func readAccountsSIPDomainsCredentialListMappings(ctx context.Context, d *schema
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipCredentialListMapping(domainSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipCredentialListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2263,7 +2263,7 @@ func createAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipDomain(&params)
+	r, err := m.(*client.Config).Client.Api.CreateSipDomain(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2288,7 +2288,7 @@ func deleteAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipDomain(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipDomain(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2306,7 +2306,7 @@ func readAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m inter
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipDomain(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipDomain(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2339,7 +2339,7 @@ func updateAccountsSIPDomains(ctx context.Context, d *schema.ResourceData, m int
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipDomain(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateSipDomain(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2382,7 +2382,7 @@ func createAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAccessControlList(&params)
+	r, err := m.(*client.Config).Client.Api.CreateSipIpAccessControlList(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2407,7 +2407,7 @@ func deleteAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAccessControlList(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipIpAccessControlList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2425,7 +2425,7 @@ func readAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resource
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAccessControlList(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipIpAccessControlList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2458,7 +2458,7 @@ func updateAccountsSIPIpAccessControlLists(ctx context.Context, d *schema.Resour
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipIpAccessControlList(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateSipIpAccessControlList(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2503,7 +2503,7 @@ func createAccountsSIPDomainsIpAccessControlListMappings(ctx context.Context, d 
 
 	domainSid := d.Get("domain_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAccessControlListMapping(domainSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipIpAccessControlListMapping(domainSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2529,7 +2529,7 @@ func deleteAccountsSIPDomainsIpAccessControlListMappings(ctx context.Context, d 
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAccessControlListMapping(domainSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipIpAccessControlListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2548,7 +2548,7 @@ func readAccountsSIPDomainsIpAccessControlListMappings(ctx context.Context, d *s
 	domainSid := d.Get("domain_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAccessControlListMapping(domainSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipIpAccessControlListMapping(domainSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2609,7 +2609,7 @@ func createAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 
 	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateSipIpAddress(ipAccessControlListSid, &params)
+	r, err := m.(*client.Config).Client.Api.CreateSipIpAddress(ipAccessControlListSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2635,7 +2635,7 @@ func deleteAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteSipIpAddress(ipAccessControlListSid, sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteSipIpAddress(ipAccessControlListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2654,7 +2654,7 @@ func readAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sche
 	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchSipIpAddress(ipAccessControlListSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchSipIpAddress(ipAccessControlListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2689,7 +2689,7 @@ func updateAccountsSIPIpAccessControlListsIpAddresses(ctx context.Context, d *sc
 	ipAccessControlListSid := d.Get("ip_access_control_list_sid").(string)
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateSipIpAddress(ipAccessControlListSid, sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateSipIpAddress(ipAccessControlListSid, sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2738,7 +2738,7 @@ func createAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	r, err := m.(*client.Config).Client.ApiV2010.CreateUsageTrigger(&params)
+	r, err := m.(*client.Config).Client.Api.CreateUsageTrigger(&params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2763,7 +2763,7 @@ func deleteAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 
 	sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ApiV2010.DeleteUsageTrigger(sid, &params)
+	err := m.(*client.Config).Client.Api.DeleteUsageTrigger(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2781,7 +2781,7 @@ func readAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m in
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.FetchUsageTrigger(sid, &params)
+	r, err := m.(*client.Config).Client.Api.FetchUsageTrigger(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -2814,7 +2814,7 @@ func updateAccountsUsageTriggers(ctx context.Context, d *schema.ResourceData, m 
 
 	sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ApiV2010.UpdateUsageTrigger(sid, &params)
+	r, err := m.(*client.Config).Client.Api.UpdateUsageTrigger(sid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

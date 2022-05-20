@@ -1,6 +1,6 @@
 # Upgrade guide
 
-[2022-05-18] 0.16.x to 0.17.x
+[2022-05-20] 0.16.x to 0.17.x
 ------------------------------
 ### CHANGED - Renamed ApiV2010 to Api.
 ApiV2010 has now been renamed to Api. This has caused a breaking change for all endpoints located under `rest/api/2010`.

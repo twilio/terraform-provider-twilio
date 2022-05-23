@@ -1,5 +1,26 @@
 terraform-provider-twilio changelog
 ====================
+[2022-05-20] Version 0.17.0
+---------------------------
+**Note:** This release contains breaking changes, check our [upgrade guide](./UPGRADE.md#2022-05-20-016x-to-017x) for detailed migration notes.
+
+**Library - Fix**
+- [PR #110](https://github.com/twilio/terraform-provider-twilio/pull/110): Removing prefix for v2010 apis. Thanks to [@rakatyal](https://github.com/rakatyal)!
+
+**Library - Docs**
+- [PR #109](https://github.com/twilio/terraform-provider-twilio/pull/109): remove Twilio insiders program note. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+- [PR #108](https://github.com/twilio/terraform-provider-twilio/pull/108): Adding upgrade guide. Thanks to [@rakatyal](https://github.com/rakatyal)!
+
+**Library - Chore**
+- [PR #107](https://github.com/twilio/terraform-provider-twilio/pull/107): Removing v2010 prefix for terraform. Thanks to [@rakatyal](https://github.com/rakatyal)! **(breaking change)**
+
+**Api**
+- Add property `media_url` to the recording resources
+
+**Verify**
+- Include `silent` as a channel type in the verifications API.
+
+
 [2022-05-04] Version 0.16.0
 ---------------------------
 **Library - Test**

@@ -2,7 +2,7 @@
 
 ## accounts v1
 
-* [twilio_accounts_credentials_v1](accounts/v1/README.md#twilio_accounts_credentials_v1)
+* [twilio_accounts_credentials_aws_v1](accounts/v1/README.md#twilio_accounts_credentials_aws_v1)
 * [twilio_accounts_credentials_public_keys_v1](accounts/v1/README.md#twilio_accounts_credentials_public_keys_v1)
 
 ## api v2010
@@ -19,16 +19,16 @@
 * [twilio_api_accounts_signing_keys](api/v2010/README.md#twilio_api_accounts_signing_keys)
 * [twilio_api_accounts_conferences_participants](api/v2010/README.md#twilio_api_accounts_conferences_participants)
 * [twilio_api_accounts_queues](api/v2010/README.md#twilio_api_accounts_queues)
-* [twilio_api_accounts_domains_auth_calls_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_domains_auth_calls_credential_list_mappings)
-* [twilio_api_accounts_domains_auth_calls_ip_access_control_list_mappings](api/v2010/README.md#twilio_api_accounts_domains_auth_calls_ip_access_control_list_mappings)
-* [twilio_api_accounts_domains_auth_registrations_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_domains_auth_registrations_credential_list_mappings)
-* [twilio_api_accounts_credential_lists_credentials](api/v2010/README.md#twilio_api_accounts_credential_lists_credentials)
-* [twilio_api_accounts_credential_lists](api/v2010/README.md#twilio_api_accounts_credential_lists)
-* [twilio_api_accounts_domains_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_domains_credential_list_mappings)
-* [twilio_api_accounts_domains](api/v2010/README.md#twilio_api_accounts_domains)
-* [twilio_api_accounts_ip_access_control_lists](api/v2010/README.md#twilio_api_accounts_ip_access_control_lists)
-* [twilio_api_accounts_domains_ip_access_control_list_mappings](api/v2010/README.md#twilio_api_accounts_domains_ip_access_control_list_mappings)
-* [twilio_api_accounts_ip_access_control_lists_ip_addresses](api/v2010/README.md#twilio_api_accounts_ip_access_control_lists_ip_addresses)
+* [twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings)
+* [twilio_api_accounts_sip_domains_auth_calls_ip_access_control_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_auth_calls_ip_access_control_list_mappings)
+* [twilio_api_accounts_sip_domains_auth_registrations_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_auth_registrations_credential_list_mappings)
+* [twilio_api_accounts_sip_credential_lists_credentials](api/v2010/README.md#twilio_api_accounts_sip_credential_lists_credentials)
+* [twilio_api_accounts_sip_credential_lists](api/v2010/README.md#twilio_api_accounts_sip_credential_lists)
+* [twilio_api_accounts_sip_domains_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_credential_list_mappings)
+* [twilio_api_accounts_sip_domains](api/v2010/README.md#twilio_api_accounts_sip_domains)
+* [twilio_api_accounts_sip_ip_access_control_lists](api/v2010/README.md#twilio_api_accounts_sip_ip_access_control_lists)
+* [twilio_api_accounts_sip_domains_ip_access_control_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_ip_access_control_list_mappings)
+* [twilio_api_accounts_sip_ip_access_control_lists_ip_addresses](api/v2010/README.md#twilio_api_accounts_sip_ip_access_control_lists_ip_addresses)
 * [twilio_api_accounts_usage_triggers](api/v2010/README.md#twilio_api_accounts_usage_triggers)
 
 ## autopilot v1
@@ -129,7 +129,7 @@
 * [twilio_messaging_services_phone_numbers_v1](messaging/v1/README.md#twilio_messaging_services_phone_numbers_v1)
 * [twilio_messaging_services_v1](messaging/v1/README.md#twilio_messaging_services_v1)
 * [twilio_messaging_services_short_codes_v1](messaging/v1/README.md#twilio_messaging_services_short_codes_v1)
-* [twilio_messaging_services_compliance_usa_v1](messaging/v1/README.md#twilio_messaging_services_compliance_usa_v1)
+* [twilio_messaging_services_compliance_usa2p_v1](messaging/v1/README.md#twilio_messaging_services_compliance_usa2p_v1)
 
 ## notify v1
 
@@ -241,4 +241,3 @@
 
 * [twilio_wireless_commands_v1](wireless/v1/README.md#twilio_wireless_commands_v1)
 * [twilio_wireless_rate_plans_v1](wireless/v1/README.md#twilio_wireless_rate_plans_v1)
-

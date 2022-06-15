@@ -5,7 +5,7 @@ REGISTRY=local
 NAMESPACE=twilio
 NAME=twilio
 BINARY=terraform-provider-${NAME}
-VERSION=0.17.0
+VERSION=0.18.0
 OS_ARCH=darwin_amd64
 
 default: build

@@ -1,5 +1,19 @@
 terraform-provider-twilio changelog
 ====================
+[2022-06-15] Version 0.18.0
+---------------------------
+**Note:** This release contains breaking changes, check our [upgrade guide](./UPGRADE.md#2022-06-01-017x-to-018x) for detailed migration notes.
+
+**Library - Fix**
+- [PR #111](https://github.com/twilio/terraform-provider-twilio/pull/111): correct the resource name for certain AWS, SIP, and Usa2p resources. Thanks to [@childish-sambino](https://github.com/childish-sambino)! **(breaking change)**
+
+**Lookups**
+- Adding support for Lookup V2 API
+
+**Studio**
+- Corrected PII labels to be 30 days and added context to be PII
+
+
 [2022-05-20] Version 0.17.0
 ---------------------------
 **Note:** This release contains breaking changes, check our [upgrade guide](./UPGRADE.md#2022-05-20-016x-to-017x) for detailed migration notes.

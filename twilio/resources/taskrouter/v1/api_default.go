@@ -35,7 +35,7 @@ func ResourceWorkspacesActivities() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"workspace_sid": AsString(SchemaRequired),
 			"friendly_name": AsString(SchemaRequired),
-			"available":     AsBool(SchemaComputedOptional),
+			"available":     AsBool(SchemaForceNewOptional),
 			"sid":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -155,8 +155,8 @@ func ResourceWorkspacesTasks() *schema.Resource {
 			"attributes":        AsString(SchemaComputedOptional),
 			"priority":          AsInt(SchemaComputedOptional),
 			"task_channel":      AsString(SchemaComputedOptional),
-			"timeout":           AsInt(SchemaComputedOptional),
-			"workflow_sid":      AsString(SchemaComputedOptional),
+			"timeout":           AsInt(SchemaForceNewOptional),
+			"workflow_sid":      AsString(SchemaForceNewOptional),
 			"sid":               AsString(SchemaComputed),
 			"if_match":          AsString(SchemaComputedOptional),
 			"assignment_status": AsString(SchemaComputedOptional),
@@ -277,7 +277,7 @@ func ResourceWorkspacesTaskChannels() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"workspace_sid":             AsString(SchemaRequired),
 			"friendly_name":             AsString(SchemaRequired),
-			"unique_name":               AsString(SchemaRequired),
+			"unique_name":               AsString(SchemaForceNewRequired),
 			"channel_optimized_routing": AsBool(SchemaComputedOptional),
 			"sid":                       AsString(SchemaComputed),
 		},
@@ -760,7 +760,7 @@ func ResourceWorkspaces() *schema.Resource {
 			"events_filter":          AsString(SchemaComputedOptional),
 			"multi_task_enabled":     AsBool(SchemaComputedOptional),
 			"prioritize_queue_order": AsString(SchemaComputedOptional),
-			"template":               AsString(SchemaComputedOptional),
+			"template":               AsString(SchemaForceNewOptional),
 			"sid":                    AsString(SchemaComputed),
 			"default_activity_sid":   AsString(SchemaComputedOptional),
 			"timeout_activity_sid":   AsString(SchemaComputedOptional),

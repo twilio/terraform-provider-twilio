@@ -33,8 +33,8 @@ func ResourceCredentialsAWS() *schema.Resource {
 		UpdateContext: updateCredentialsAWS,
 		DeleteContext: deleteCredentialsAWS,
 		Schema: map[string]*schema.Schema{
-			"credentials":   AsString(SchemaRequired),
-			"account_sid":   AsString(SchemaComputedOptional),
+			"credentials":   AsString(SchemaForceNewRequired),
+			"account_sid":   AsString(SchemaForceNewOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
@@ -145,8 +145,8 @@ func ResourceCredentialsPublicKeys() *schema.Resource {
 		UpdateContext: updateCredentialsPublicKeys,
 		DeleteContext: deleteCredentialsPublicKeys,
 		Schema: map[string]*schema.Schema{
-			"public_key":    AsString(SchemaRequired),
-			"account_sid":   AsString(SchemaComputedOptional),
+			"public_key":    AsString(SchemaForceNewRequired),
+			"account_sid":   AsString(SchemaForceNewOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},

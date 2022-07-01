@@ -383,8 +383,8 @@ func ResourceIpRecords() *schema.Resource {
 		UpdateContext: updateIpRecords,
 		DeleteContext: deleteIpRecords,
 		Schema: map[string]*schema.Schema{
-			"ip_address":         AsString(SchemaRequired),
-			"cidr_prefix_length": AsInt(SchemaComputedOptional),
+			"ip_address":         AsString(SchemaForceNewRequired),
+			"cidr_prefix_length": AsInt(SchemaForceNewOptional),
 			"friendly_name":      AsString(SchemaComputedOptional),
 			"sid":                AsString(SchemaComputed),
 		},
@@ -495,7 +495,7 @@ func ResourceSourceIpMappings() *schema.Resource {
 		UpdateContext: updateSourceIpMappings,
 		DeleteContext: deleteSourceIpMappings,
 		Schema: map[string]*schema.Schema{
-			"ip_record_sid":  AsString(SchemaRequired),
+			"ip_record_sid":  AsString(SchemaForceNewRequired),
 			"sip_domain_sid": AsString(SchemaRequired),
 			"sid":            AsString(SchemaComputed),
 		},

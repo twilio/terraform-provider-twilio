@@ -36,7 +36,7 @@ func ResourceServicesChannels() *schema.Resource {
 			"service_sid":   AsString(SchemaRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
-			"type":          AsString(SchemaComputedOptional),
+			"type":          AsString(SchemaForceNewOptional),
 			"unique_name":   AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
@@ -153,7 +153,7 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
@@ -371,7 +371,7 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
-			"identity":                    AsString(SchemaRequired),
+			"identity":                    AsString(SchemaForceNewRequired),
 			"role_sid":                    AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
 			"last_consumed_message_index": AsInt(SchemaComputedOptional),
@@ -494,7 +494,7 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 			"channel_sid": AsString(SchemaRequired),
 			"body":        AsString(SchemaRequired),
 			"attributes":  AsString(SchemaComputedOptional),
-			"from":        AsString(SchemaComputedOptional),
+			"from":        AsString(SchemaForceNewOptional),
 			"sid":         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -616,9 +616,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaForceNewRequired),
 			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -894,7 +894,7 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"identity":      AsString(SchemaRequired),
+			"identity":      AsString(SchemaForceNewRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
 			"role_sid":      AsString(SchemaComputedOptional),

@@ -34,8 +34,8 @@ func ResourceSinks() *schema.Resource {
 		DeleteContext: deleteSinks,
 		Schema: map[string]*schema.Schema{
 			"description":        AsString(SchemaRequired),
-			"sink_configuration": AsString(SchemaRequired),
-			"sink_type":          AsString(SchemaRequired),
+			"sink_configuration": AsString(SchemaForceNewRequired),
+			"sink_type":          AsString(SchemaForceNewRequired),
 			"sid":                AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -264,7 +264,7 @@ func ResourceSubscriptions() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"description": AsString(SchemaRequired),
 			"sink_sid":    AsString(SchemaRequired),
-			"types":       AsList(AsString(SchemaRequired), SchemaRequired),
+			"types":       AsList(AsString(SchemaForceNewRequired), SchemaForceNewRequired),
 			"sid":         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

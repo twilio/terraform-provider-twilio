@@ -138,7 +138,7 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
 			"is_reserved":  AsBool(SchemaComputedOptional),
-			"phone_number": AsString(SchemaComputedOptional),
+			"phone_number": AsString(SchemaForceNewOptional),
 			"sid":          AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
@@ -374,11 +374,11 @@ func ResourceServicesSessions() *schema.Resource {
 			"service_sid":                  AsString(SchemaRequired),
 			"date_expiry":                  AsString(SchemaComputedOptional),
 			"fail_on_participant_conflict": AsBool(SchemaComputedOptional),
-			"mode":                         AsString(SchemaComputedOptional),
-			"participants":                 AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"mode":                         AsString(SchemaForceNewOptional),
+			"participants":                 AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
 			"status":                       AsString(SchemaComputedOptional),
 			"ttl":                          AsInt(SchemaComputedOptional),
-			"unique_name":                  AsString(SchemaComputedOptional),
+			"unique_name":                  AsString(SchemaForceNewOptional),
 			"sid":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

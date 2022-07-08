@@ -36,7 +36,7 @@ func ResourceServicesDocuments() *schema.Resource {
 			"service_sid": AsString(SchemaRequired),
 			"data":        AsString(SchemaComputedOptional),
 			"ttl":         AsInt(SchemaComputedOptional),
-			"unique_name": AsString(SchemaComputedOptional),
+			"unique_name": AsString(SchemaForceNewOptional),
 			"sid":         AsString(SchemaComputed),
 			"if_match":    AsString(SchemaComputedOptional),
 		},
@@ -272,7 +272,7 @@ func ResourceServicesLists() *schema.Resource {
 			"service_sid":    AsString(SchemaRequired),
 			"collection_ttl": AsInt(SchemaComputedOptional),
 			"ttl":            AsInt(SchemaComputedOptional),
-			"unique_name":    AsString(SchemaComputedOptional),
+			"unique_name":    AsString(SchemaForceNewOptional),
 			"sid":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -526,7 +526,7 @@ func ResourceServicesMaps() *schema.Resource {
 			"service_sid":    AsString(SchemaRequired),
 			"collection_ttl": AsInt(SchemaComputedOptional),
 			"ttl":            AsInt(SchemaComputedOptional),
-			"unique_name":    AsString(SchemaComputedOptional),
+			"unique_name":    AsString(SchemaForceNewOptional),
 			"sid":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -775,7 +775,7 @@ func ResourceServicesStreams() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid": AsString(SchemaRequired),
 			"ttl":         AsInt(SchemaComputedOptional),
-			"unique_name": AsString(SchemaComputedOptional),
+			"unique_name": AsString(SchemaForceNewOptional),
 			"sid":         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

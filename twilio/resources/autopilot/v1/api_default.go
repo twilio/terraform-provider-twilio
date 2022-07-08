@@ -466,7 +466,7 @@ func ResourceAssistantsModelBuilds() *schema.Resource {
 		DeleteContext: deleteAssistantsModelBuilds,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid":   AsString(SchemaRequired),
-			"status_callback": AsString(SchemaComputedOptional),
+			"status_callback": AsString(SchemaForceNewOptional),
 			"unique_name":     AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 		},
@@ -584,10 +584,10 @@ func ResourceAssistantsQueries() *schema.Resource {
 		DeleteContext: deleteAssistantsQueries,
 		Schema: map[string]*schema.Schema{
 			"assistant_sid": AsString(SchemaRequired),
-			"language":      AsString(SchemaRequired),
-			"query":         AsString(SchemaRequired),
-			"model_build":   AsString(SchemaComputedOptional),
-			"tasks":         AsString(SchemaComputedOptional),
+			"language":      AsString(SchemaForceNewRequired),
+			"query":         AsString(SchemaForceNewRequired),
+			"model_build":   AsString(SchemaForceNewOptional),
+			"tasks":         AsString(SchemaForceNewOptional),
 			"sid":           AsString(SchemaComputed),
 			"sample_sid":    AsString(SchemaComputedOptional),
 			"status":        AsString(SchemaComputedOptional),

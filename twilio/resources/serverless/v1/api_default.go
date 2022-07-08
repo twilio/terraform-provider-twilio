@@ -460,7 +460,7 @@ func ResourceServices() *schema.Resource {
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
 			"friendly_name":       AsString(SchemaRequired),
-			"unique_name":         AsString(SchemaRequired),
+			"unique_name":         AsString(SchemaForceNewRequired),
 			"include_credentials": AsBool(SchemaComputedOptional),
 			"ui_editable":         AsBool(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),

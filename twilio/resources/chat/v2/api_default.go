@@ -40,7 +40,7 @@ func ResourceServicesChannels() *schema.Resource {
 			"date_created":             AsString(SchemaComputedOptional),
 			"date_updated":             AsString(SchemaComputedOptional),
 			"friendly_name":            AsString(SchemaComputedOptional),
-			"type":                     AsString(SchemaComputedOptional),
+			"type":                     AsString(SchemaForceNewOptional),
 			"unique_name":              AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
@@ -163,7 +163,7 @@ func ResourceServicesChannelsWebhooks() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":               AsString(SchemaRequired),
 			"channel_sid":               AsString(SchemaRequired),
-			"type":                      AsString(SchemaRequired),
+			"type":                      AsString(SchemaForceNewRequired),
 			"configuration_filters":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"configuration_flow_sid":    AsString(SchemaComputedOptional),
 			"configuration_method":      AsString(SchemaComputedOptional),
@@ -290,7 +290,7 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),
@@ -508,7 +508,7 @@ func ResourceServicesChannelsMembers() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":                 AsString(SchemaRequired),
 			"channel_sid":                 AsString(SchemaRequired),
-			"identity":                    AsString(SchemaRequired),
+			"identity":                    AsString(SchemaForceNewRequired),
 			"x_twilio_webhook_enabled":    AsString(SchemaComputedOptional),
 			"attributes":                  AsString(SchemaComputedOptional),
 			"date_created":                AsString(SchemaComputedOptional),
@@ -649,7 +649,7 @@ func ResourceServicesChannelsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"from":                     AsString(SchemaComputedOptional),
 			"last_updated_by":          AsString(SchemaComputedOptional),
-			"media_sid":                AsString(SchemaComputedOptional),
+			"media_sid":                AsString(SchemaForceNewOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -775,9 +775,9 @@ func ResourceServicesRoles() *schema.Resource {
 		DeleteContext: deleteServicesRoles,
 		Schema: map[string]*schema.Schema{
 			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaRequired),
+			"friendly_name": AsString(SchemaForceNewRequired),
 			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"sid":           AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -1030,7 +1030,7 @@ func ResourceServicesUsers() *schema.Resource {
 		DeleteContext: deleteServicesUsers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":              AsString(SchemaRequired),
-			"identity":                 AsString(SchemaRequired),
+			"identity":                 AsString(SchemaForceNewRequired),
 			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"friendly_name":            AsString(SchemaComputedOptional),

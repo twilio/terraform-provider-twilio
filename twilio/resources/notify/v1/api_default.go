@@ -133,7 +133,7 @@ func ResourceCredentials() *schema.Resource {
 		UpdateContext: updateCredentials,
 		DeleteContext: deleteCredentials,
 		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"api_key":       AsString(SchemaComputedOptional),
 			"certificate":   AsString(SchemaComputedOptional),
 			"friendly_name": AsString(SchemaComputedOptional),

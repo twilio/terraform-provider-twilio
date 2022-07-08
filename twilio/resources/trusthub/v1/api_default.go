@@ -35,7 +35,7 @@ func ResourceCustomerProfiles() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"email":           AsString(SchemaRequired),
 			"friendly_name":   AsString(SchemaRequired),
-			"policy_sid":      AsString(SchemaRequired),
+			"policy_sid":      AsString(SchemaForceNewRequired),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
@@ -333,7 +333,7 @@ func ResourceEndUsers() *schema.Resource {
 		DeleteContext: deleteEndUsers,
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
@@ -445,7 +445,7 @@ func ResourceSupportingDocuments() *schema.Resource {
 		DeleteContext: deleteSupportingDocuments,
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
@@ -558,7 +558,7 @@ func ResourceTrustProducts() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"email":           AsString(SchemaRequired),
 			"friendly_name":   AsString(SchemaRequired),
-			"policy_sid":      AsString(SchemaRequired),
+			"policy_sid":      AsString(SchemaForceNewRequired),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),

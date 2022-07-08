@@ -35,10 +35,10 @@ func ResourceRegulatoryComplianceBundles() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"email":           AsString(SchemaRequired),
 			"friendly_name":   AsString(SchemaRequired),
-			"end_user_type":   AsString(SchemaComputedOptional),
-			"iso_country":     AsString(SchemaComputedOptional),
-			"number_type":     AsString(SchemaComputedOptional),
-			"regulation_sid":  AsString(SchemaComputedOptional),
+			"end_user_type":   AsString(SchemaForceNewOptional),
+			"iso_country":     AsString(SchemaForceNewOptional),
+			"number_type":     AsString(SchemaForceNewOptional),
+			"regulation_sid":  AsString(SchemaForceNewOptional),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
 			"status":          AsString(SchemaComputedOptional),
@@ -147,7 +147,7 @@ func ResourceRegulatoryComplianceEndUsers() *schema.Resource {
 		DeleteContext: deleteRegulatoryComplianceEndUsers,
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},
@@ -353,7 +353,7 @@ func ResourceRegulatoryComplianceSupportingDocuments() *schema.Resource {
 		DeleteContext: deleteRegulatoryComplianceSupportingDocuments,
 		Schema: map[string]*schema.Schema{
 			"friendly_name": AsString(SchemaRequired),
-			"type":          AsString(SchemaRequired),
+			"type":          AsString(SchemaForceNewRequired),
 			"attributes":    AsString(SchemaComputedOptional),
 			"sid":           AsString(SchemaComputed),
 		},

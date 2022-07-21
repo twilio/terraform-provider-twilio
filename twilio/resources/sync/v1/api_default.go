@@ -34,9 +34,9 @@ func ResourceServicesDocuments() *schema.Resource {
 		DeleteContext: deleteServicesDocuments,
 		Schema: map[string]*schema.Schema{
 			"service_sid": AsString(SchemaRequired),
+			"unique_name": AsString(SchemaForceNewOptional),
 			"data":        AsString(SchemaComputedOptional),
 			"ttl":         AsInt(SchemaComputedOptional),
-			"unique_name": AsString(SchemaForceNewOptional),
 			"sid":         AsString(SchemaComputed),
 			"if_match":    AsString(SchemaComputedOptional),
 		},
@@ -153,12 +153,12 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"acl_enabled":                     AsBool(SchemaComputedOptional),
 			"friendly_name":                   AsString(SchemaComputedOptional),
+			"webhook_url":                     AsString(SchemaComputedOptional),
+			"reachability_webhooks_enabled":   AsBool(SchemaComputedOptional),
+			"acl_enabled":                     AsBool(SchemaComputedOptional),
 			"reachability_debouncing_enabled": AsBool(SchemaComputedOptional),
 			"reachability_debouncing_window":  AsInt(SchemaComputedOptional),
-			"reachability_webhooks_enabled":   AsBool(SchemaComputedOptional),
-			"webhook_url":                     AsString(SchemaComputedOptional),
 			"webhooks_from_rest_enabled":      AsBool(SchemaComputedOptional),
 			"sid":                             AsString(SchemaComputed),
 		},
@@ -270,9 +270,9 @@ func ResourceServicesLists() *schema.Resource {
 		DeleteContext: deleteServicesLists,
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
-			"collection_ttl": AsInt(SchemaComputedOptional),
-			"ttl":            AsInt(SchemaComputedOptional),
 			"unique_name":    AsString(SchemaForceNewOptional),
+			"ttl":            AsInt(SchemaComputedOptional),
+			"collection_ttl": AsInt(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -391,9 +391,9 @@ func ResourceServicesListsItems() *schema.Resource {
 			"service_sid":    AsString(SchemaRequired),
 			"list_sid":       AsString(SchemaRequired),
 			"data":           AsString(SchemaRequired),
-			"collection_ttl": AsInt(SchemaComputedOptional),
-			"item_ttl":       AsInt(SchemaComputedOptional),
 			"ttl":            AsInt(SchemaComputedOptional),
+			"item_ttl":       AsInt(SchemaComputedOptional),
+			"collection_ttl": AsInt(SchemaComputedOptional),
 			"index":          AsInt(SchemaComputed),
 			"if_match":       AsString(SchemaComputedOptional),
 		},
@@ -524,9 +524,9 @@ func ResourceServicesMaps() *schema.Resource {
 		DeleteContext: deleteServicesMaps,
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
-			"collection_ttl": AsInt(SchemaComputedOptional),
-			"ttl":            AsInt(SchemaComputedOptional),
 			"unique_name":    AsString(SchemaForceNewOptional),
+			"ttl":            AsInt(SchemaComputedOptional),
+			"collection_ttl": AsInt(SchemaComputedOptional),
 			"sid":            AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -644,11 +644,11 @@ func ResourceServicesMapsItems() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":    AsString(SchemaRequired),
 			"map_sid":        AsString(SchemaRequired),
-			"data":           AsString(SchemaRequired),
 			"key":            AsString(SchemaRequired),
-			"collection_ttl": AsInt(SchemaComputedOptional),
-			"item_ttl":       AsInt(SchemaComputedOptional),
+			"data":           AsString(SchemaRequired),
 			"ttl":            AsInt(SchemaComputedOptional),
+			"item_ttl":       AsInt(SchemaComputedOptional),
+			"collection_ttl": AsInt(SchemaComputedOptional),
 			"if_match":       AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
@@ -774,8 +774,8 @@ func ResourceServicesStreams() *schema.Resource {
 		DeleteContext: deleteServicesStreams,
 		Schema: map[string]*schema.Schema{
 			"service_sid": AsString(SchemaRequired),
-			"ttl":         AsInt(SchemaComputedOptional),
 			"unique_name": AsString(SchemaForceNewOptional),
+			"ttl":         AsInt(SchemaComputedOptional),
 			"sid":         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

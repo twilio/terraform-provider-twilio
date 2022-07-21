@@ -33,8 +33,8 @@ func ResourceFlowsEngagements() *schema.Resource {
 		DeleteContext: deleteFlowsEngagements,
 		Schema: map[string]*schema.Schema{
 			"flow_sid":   AsString(SchemaForceNewRequired),
-			"from":       AsString(SchemaForceNewRequired),
 			"to":         AsString(SchemaForceNewRequired),
+			"from":       AsString(SchemaForceNewRequired),
 			"parameters": AsString(SchemaForceNewOptional),
 			"sid":        AsString(SchemaComputed),
 		},
@@ -130,8 +130,8 @@ func ResourceFlowsExecutions() *schema.Resource {
 		DeleteContext: deleteFlowsExecutions,
 		Schema: map[string]*schema.Schema{
 			"flow_sid":   AsString(SchemaRequired),
-			"from":       AsString(SchemaForceNewRequired),
 			"to":         AsString(SchemaForceNewRequired),
+			"from":       AsString(SchemaForceNewRequired),
 			"parameters": AsString(SchemaForceNewOptional),
 			"sid":        AsString(SchemaComputed),
 			"status":     AsString(SchemaComputedOptional),

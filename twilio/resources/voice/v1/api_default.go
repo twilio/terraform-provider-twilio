@@ -33,16 +33,16 @@ func ResourceByocTrunks() *schema.Resource {
 		UpdateContext: updateByocTrunks,
 		DeleteContext: deleteByocTrunks,
 		Schema: map[string]*schema.Schema{
+			"friendly_name":          AsString(SchemaComputedOptional),
+			"voice_url":              AsString(SchemaComputedOptional),
+			"voice_method":           AsString(SchemaComputedOptional),
+			"voice_fallback_url":     AsString(SchemaComputedOptional),
+			"voice_fallback_method":  AsString(SchemaComputedOptional),
+			"status_callback_url":    AsString(SchemaComputedOptional),
+			"status_callback_method": AsString(SchemaComputedOptional),
 			"cnam_lookup_enabled":    AsBool(SchemaComputedOptional),
 			"connection_policy_sid":  AsString(SchemaComputedOptional),
-			"friendly_name":          AsString(SchemaComputedOptional),
 			"from_domain_sid":        AsString(SchemaComputedOptional),
-			"status_callback_method": AsString(SchemaComputedOptional),
-			"status_callback_url":    AsString(SchemaComputedOptional),
-			"voice_fallback_method":  AsString(SchemaComputedOptional),
-			"voice_fallback_url":     AsString(SchemaComputedOptional),
-			"voice_method":           AsString(SchemaComputedOptional),
-			"voice_url":              AsString(SchemaComputedOptional),
 			"sid":                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -264,10 +264,10 @@ func ResourceConnectionPoliciesTargets() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"connection_policy_sid": AsString(SchemaRequired),
 			"target":                AsString(SchemaRequired),
-			"enabled":               AsBool(SchemaComputedOptional),
 			"friendly_name":         AsString(SchemaComputedOptional),
 			"priority":              AsInt(SchemaComputedOptional),
 			"weight":                AsInt(SchemaComputedOptional),
+			"enabled":               AsBool(SchemaComputedOptional),
 			"sid":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -384,8 +384,8 @@ func ResourceIpRecords() *schema.Resource {
 		DeleteContext: deleteIpRecords,
 		Schema: map[string]*schema.Schema{
 			"ip_address":         AsString(SchemaForceNewRequired),
-			"cidr_prefix_length": AsInt(SchemaForceNewOptional),
 			"friendly_name":      AsString(SchemaComputedOptional),
+			"cidr_prefix_length": AsInt(SchemaForceNewOptional),
 			"sid":                AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

@@ -151,8 +151,8 @@ func ResourceServicesBuilds() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"service_sid":       AsString(SchemaForceNewRequired),
 			"asset_versions":    AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
-			"dependencies":      AsString(SchemaForceNewOptional),
 			"function_versions": AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"dependencies":      AsString(SchemaForceNewOptional),
 			"runtime":           AsString(SchemaForceNewOptional),
 			"sid":               AsString(SchemaComputed),
 		},
@@ -459,8 +459,8 @@ func ResourceServices() *schema.Resource {
 		UpdateContext: updateServices,
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
-			"friendly_name":       AsString(SchemaRequired),
 			"unique_name":         AsString(SchemaForceNewRequired),
+			"friendly_name":       AsString(SchemaRequired),
 			"include_credentials": AsBool(SchemaComputedOptional),
 			"ui_editable":         AsBool(SchemaComputedOptional),
 			"sid":                 AsString(SchemaComputed),

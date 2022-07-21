@@ -1,5 +1,39 @@
 terraform-provider-twilio changelog
 ====================
+[2022-07-21] Version 0.18.2
+---------------------------
+**Library - Miscellaneous**
+- [PR #115](https://github.com/twilio/terraform-provider-twilio/pull/115): migrate to crazy-max/ghaction-import-gpg. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Fix**
+- [PR #113](https://github.com/twilio/terraform-provider-twilio/pull/113): mark Terraform params as ForceNew when not part of update operation. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Test**
+- [PR #114](https://github.com/twilio/terraform-provider-twilio/pull/114): Adding misc as PR type. Thanks to [@rakatyal](https://github.com/rakatyal)!
+
+**Conversations**
+- Allowed to use `identity` as part of Participant's resource **(breaking change)**
+
+**Flex**
+- Add `status`, `error_code`, and `error_message` fields to Interaction `Channel`
+- Adding `messenger` and `gbm` as supported channels for Interactions API
+
+**Lookups**
+- Remove `enhanced_line_type` from the lookup response **(breaking change)**
+
+**Messaging**
+- Update alpha_sender docs with new valid characters
+
+**Supersim**
+- Add support for `sim_ip_addresses` resource to helper libraries
+
+**Verify**
+- Reorder Verification Check parameters so `code` stays as the first parameter **(breaking change)**
+- Rollback List Attempts API V2 back to pilot stage.
+- Changed summary param `service_sid` to `verify_service_sid` to be consistent with list attempts API **(breaking change)**
+- Make `code` optional on Verification check to support `sna` attempts.
+
+
 [2022-06-29] Version 0.18.1
 ---------------------------
 **Api**

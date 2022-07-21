@@ -7,7 +7,7 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **description** | string | **Required** | A human readable description for the Sink **This value should not contain PII.**
 **sink_configuration** | string | **Required** | The information required for Twilio to connect to the provided Sink encoded as JSON.
-**sink_type** | string | **Required** | The Sink type. Can only be \\\&quot;kinesis\\\&quot; or \\\&quot;webhook\\\&quot; currently.
+**sink_type** | string | **Required** | 
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this Sink.
 
 ## twilio_events_subscriptions_subscribed_events_v1

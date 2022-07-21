@@ -35,10 +35,10 @@ func ResourceServicesSessionsParticipants() *schema.Resource {
 			"service_sid":                  AsString(SchemaForceNewRequired),
 			"session_sid":                  AsString(SchemaForceNewRequired),
 			"identifier":                   AsString(SchemaForceNewRequired),
-			"fail_on_participant_conflict": AsBool(SchemaForceNewOptional),
 			"friendly_name":                AsString(SchemaForceNewOptional),
 			"proxy_identifier":             AsString(SchemaForceNewOptional),
 			"proxy_identifier_sid":         AsString(SchemaForceNewOptional),
+			"fail_on_participant_conflict": AsBool(SchemaForceNewOptional),
 			"sid":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -137,9 +137,9 @@ func ResourceServicesPhoneNumbers() *schema.Resource {
 		DeleteContext: deleteServicesPhoneNumbers,
 		Schema: map[string]*schema.Schema{
 			"service_sid":  AsString(SchemaRequired),
-			"is_reserved":  AsBool(SchemaComputedOptional),
-			"phone_number": AsString(SchemaForceNewOptional),
 			"sid":          AsString(SchemaComputedOptional),
+			"phone_number": AsString(SchemaForceNewOptional),
+			"is_reserved":  AsBool(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -255,13 +255,13 @@ func ResourceServices() *schema.Resource {
 		DeleteContext: deleteServices,
 		Schema: map[string]*schema.Schema{
 			"unique_name":                 AsString(SchemaRequired),
-			"callback_url":                AsString(SchemaComputedOptional),
-			"chat_instance_sid":           AsString(SchemaComputedOptional),
 			"default_ttl":                 AsInt(SchemaComputedOptional),
+			"callback_url":                AsString(SchemaComputedOptional),
 			"geo_match_level":             AsString(SchemaComputedOptional),
-			"intercept_callback_url":      AsString(SchemaComputedOptional),
 			"number_selection_behavior":   AsString(SchemaComputedOptional),
+			"intercept_callback_url":      AsString(SchemaComputedOptional),
 			"out_of_session_callback_url": AsString(SchemaComputedOptional),
+			"chat_instance_sid":           AsString(SchemaComputedOptional),
 			"sid":                         AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -372,13 +372,13 @@ func ResourceServicesSessions() *schema.Resource {
 		DeleteContext: deleteServicesSessions,
 		Schema: map[string]*schema.Schema{
 			"service_sid":                  AsString(SchemaRequired),
-			"date_expiry":                  AsString(SchemaComputedOptional),
-			"fail_on_participant_conflict": AsBool(SchemaComputedOptional),
-			"mode":                         AsString(SchemaForceNewOptional),
-			"participants":                 AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
-			"status":                       AsString(SchemaComputedOptional),
-			"ttl":                          AsInt(SchemaComputedOptional),
 			"unique_name":                  AsString(SchemaForceNewOptional),
+			"date_expiry":                  AsString(SchemaComputedOptional),
+			"ttl":                          AsInt(SchemaComputedOptional),
+			"mode":                         AsString(SchemaForceNewOptional),
+			"status":                       AsString(SchemaComputedOptional),
+			"participants":                 AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"fail_on_participant_conflict": AsBool(SchemaComputedOptional),
 			"sid":                          AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

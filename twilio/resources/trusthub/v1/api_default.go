@@ -33,8 +33,8 @@ func ResourceCustomerProfiles() *schema.Resource {
 		UpdateContext: updateCustomerProfiles,
 		DeleteContext: deleteCustomerProfiles,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaRequired),
 			"friendly_name":   AsString(SchemaRequired),
+			"email":           AsString(SchemaRequired),
 			"policy_sid":      AsString(SchemaForceNewRequired),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
@@ -143,8 +143,8 @@ func ResourceCustomerProfilesChannelEndpointAssignments() *schema.Resource {
 		DeleteContext: deleteCustomerProfilesChannelEndpointAssignments,
 		Schema: map[string]*schema.Schema{
 			"customer_profile_sid":  AsString(SchemaForceNewRequired),
-			"channel_endpoint_sid":  AsString(SchemaForceNewRequired),
 			"channel_endpoint_type": AsString(SchemaForceNewRequired),
+			"channel_endpoint_sid":  AsString(SchemaForceNewRequired),
 			"sid":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -556,8 +556,8 @@ func ResourceTrustProducts() *schema.Resource {
 		UpdateContext: updateTrustProducts,
 		DeleteContext: deleteTrustProducts,
 		Schema: map[string]*schema.Schema{
-			"email":           AsString(SchemaRequired),
 			"friendly_name":   AsString(SchemaRequired),
+			"email":           AsString(SchemaRequired),
 			"policy_sid":      AsString(SchemaForceNewRequired),
 			"status_callback": AsString(SchemaComputedOptional),
 			"sid":             AsString(SchemaComputed),
@@ -666,8 +666,8 @@ func ResourceTrustProductsChannelEndpointAssignments() *schema.Resource {
 		DeleteContext: deleteTrustProductsChannelEndpointAssignments,
 		Schema: map[string]*schema.Schema{
 			"trust_product_sid":     AsString(SchemaForceNewRequired),
-			"channel_endpoint_sid":  AsString(SchemaForceNewRequired),
 			"channel_endpoint_type": AsString(SchemaForceNewRequired),
+			"channel_endpoint_sid":  AsString(SchemaForceNewRequired),
 			"sid":                   AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

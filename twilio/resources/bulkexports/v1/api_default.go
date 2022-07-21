@@ -33,12 +33,12 @@ func ResourceExportsJobs() *schema.Resource {
 		DeleteContext: deleteExportsJobs,
 		Schema: map[string]*schema.Schema{
 			"resource_type":  AsString(SchemaForceNewRequired),
+			"start_day":      AsString(SchemaForceNewRequired),
 			"end_day":        AsString(SchemaForceNewRequired),
 			"friendly_name":  AsString(SchemaForceNewRequired),
-			"start_day":      AsString(SchemaForceNewRequired),
-			"email":          AsString(SchemaForceNewOptional),
-			"webhook_method": AsString(SchemaForceNewOptional),
 			"webhook_url":    AsString(SchemaForceNewOptional),
+			"webhook_method": AsString(SchemaForceNewOptional),
+			"email":          AsString(SchemaForceNewOptional),
 			"job_sid":        AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

@@ -5,12 +5,12 @@
 
 Name | Type | Requirement | Description
 --- | --- | --- | ---
-**email** | string | **Required** | The email address that will receive updates when the Customer-Profile resource changes status.
 **friendly_name** | string | **Required** | The string that you assigned to describe the resource.
+**email** | string | **Required** | The email address that will receive updates when the Customer-Profile resource changes status.
 **policy_sid** | string | **Required** | The unique string of a policy that is associated to the Customer-Profile resource.
 **status_callback** | string | Optional | The URL we call to inform your application of status changes.
 **sid** | string | *Computed* | The unique string that we created to identify the Customer-Profile resource.
-**status** | string | Optional | The verification status of the Customer-Profile resource.
+**status** | string | Optional | 
 
 ## twilio_trusthub_customer_profiles_channel_endpoint_assignments_v1
 
@@ -19,8 +19,8 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **customer_profile_sid** | string | **Required** | The unique string that we created to identify the CustomerProfile resource.
-**channel_endpoint_sid** | string | **Required** | The SID of an channel endpoint
 **channel_endpoint_type** | string | **Required** | The type of channel endpoint. eg: phone-number
+**channel_endpoint_sid** | string | **Required** | The SID of an channel endpoint
 **sid** | string | *Computed* | The unique string that we created to identify the resource.
 
 ## twilio_trusthub_customer_profiles_entity_assignments_v1
@@ -61,12 +61,12 @@ Name | Type | Requirement | Description
 
 Name | Type | Requirement | Description
 --- | --- | --- | ---
-**email** | string | **Required** | The email address that will receive updates when the Customer-Profile resource changes status.
 **friendly_name** | string | **Required** | The string that you assigned to describe the resource.
+**email** | string | **Required** | The email address that will receive updates when the Customer-Profile resource changes status.
 **policy_sid** | string | **Required** | The unique string of a policy that is associated to the Customer-Profile resource.
 **status_callback** | string | Optional | The URL we call to inform your application of status changes.
 **sid** | string | *Computed* | The unique string that we created to identify the Customer-Profile resource.
-**status** | string | Optional | The verification status of the Customer-Profile resource.
+**status** | string | Optional | 
 
 ## twilio_trusthub_trust_products_channel_endpoint_assignments_v1
 
@@ -75,8 +75,8 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **trust_product_sid** | string | **Required** | The unique string that we created to identify the CustomerProfile resource.
-**channel_endpoint_sid** | string | **Required** | The SID of an channel endpoint
 **channel_endpoint_type** | string | **Required** | The type of channel endpoint. eg: phone-number
+**channel_endpoint_sid** | string | **Required** | The SID of an channel endpoint
 **sid** | string | *Computed* | The unique string that we created to identify the resource.
 
 ## twilio_trusthub_trust_products_entity_assignments_v1

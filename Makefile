@@ -1,4 +1,4 @@
-.PHONY: default githooks build goimports govet golint terrafmt install test testacc
+.PHONY: default githooks build goimports govet golint terrafmt install test test-docker testacc
 
 TEST?=$$(go list ./... |grep -v 'vendor')
 REGISTRY=local
@@ -37,6 +37,12 @@ install: build
 
 test: build
 	go test $(TEST) || exit 1
+	echo $(TEST) | \
+		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
+
+test-docker:
+	docker build -t terraform-provider-${NAME} .
+	docker run twilio/terraform-provider-twilio go test $(TEST) || exit 1
 	echo $(TEST) | \
 		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
 

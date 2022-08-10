@@ -372,7 +372,7 @@ Name | Type | Requirement | Description
 
 Name | Type | Requirement | Description
 --- | --- | --- | ---
-**friendly_name** | string | **Required** | A human readable descriptive text that describes the IpAccessControlList, up to 64 characters long.
+**friendly_name** | string | **Required** | A human readable descriptive text that describes the IpAccessControlList, up to 255 characters long.
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies the resource to udpate.
 
@@ -394,7 +394,7 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **ip_access_control_list_sid** | string | **Required** | The IpAccessControlList Sid with which to associate the created IpAddress resource.
-**friendly_name** | string | **Required** | A human readable descriptive text for this resource, up to 64 characters long.
+**friendly_name** | string | **Required** | A human readable descriptive text for this resource, up to 255 characters long.
 **ip_address** | string | **Required** | An IP address in dotted decimal notation from which you want to accept traffic. Any SIP requests from this IP address will be allowed by Twilio. IPv4 only supported today.
 **path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
 **cidr_prefix_length** | int | Optional | An integer representing the length of the CIDR prefix to use with this IP address when accepting traffic. By default the entire IP address is used.

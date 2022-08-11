@@ -1,5 +1,14 @@
 terraform-provider-twilio changelog
 ====================
+[2022-08-10] Version 0.18.3
+---------------------------
+**Routes**
+- Inbound Proccessing Region API - Public GA
+
+**Supersim**
+- Allow updating `DataLimit` on a Fleet
+
+
 [2022-07-21] Version 0.18.2
 ---------------------------
 **Library - Miscellaneous**

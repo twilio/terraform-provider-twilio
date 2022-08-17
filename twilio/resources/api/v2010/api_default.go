@@ -1051,7 +1051,8 @@ func ResourceAccountsKeys() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"path_account_sid": AsString(SchemaComputedOptional),
 			"friendly_name":    AsString(SchemaComputedOptional),
-			"sid":              AsString(SchemaComputed),
+			"sid":              AsString(SchemaComputed),			
+			"secret":           AsString(SchemaComputedSensitive),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

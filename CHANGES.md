@@ -1,5 +1,17 @@
 terraform-provider-twilio changelog
 ====================
+[2022-08-24] Version 0.18.4
+---------------------------
+**Library - Test**
+- [PR #116](https://github.com/twilio/terraform-provider-twilio/pull/116): add test-docker rule & Dockerfile. Thanks to [@beebzz](https://github.com/beebzz)!
+
+**Api**
+- Remove `beta feature` from scheduling params and remove optimize parameters. **(breaking change)**
+
+**Routes**
+- Remove Duplicate Create Method - Update Method will work even if Inbound Processing Region is currently empty/404. **(breaking change)**
+
+
 [2022-08-10] Version 0.18.3
 ---------------------------
 **Routes**

@@ -199,6 +199,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_verify_services_messaging_configurations_v2":                          verifyV2.ResourceServicesMessagingConfigurations(),
 			"twilio_verify_services_entities_factors_v2":                                  verifyV2.ResourceServicesEntitiesFactors(),
 			"twilio_verify_services_rate_limits_v2":                                       verifyV2.ResourceServicesRateLimits(),
+			"twilio_verify_safe_list_numbers_v2":                                          verifyV2.ResourceSafeListNumbers(),
 			"twilio_verify_services_v2":                                                   verifyV2.ResourceServices(),
 			"twilio_verify_services_webhooks_v2":                                          verifyV2.ResourceServicesWebhooks(),
 			"twilio_video_compositions_v1":                                                videoV1.ResourceCompositions(),

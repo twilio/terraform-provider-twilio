@@ -66,6 +66,14 @@ Name | Type | Requirement | Description
 **description** | string | Optional | Description of this Rate Limit
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Rate Limit resource to fetch.
 
+## twilio_verify_safe_list_numbers_v2
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**phone_number** | string | **Required** | The phone number to be added in SafeList. Phone numbers must be in [E.164 format](https://www.twilio.com/docs/glossary/what-e164).
+
 ## twilio_verify_services_v2
 
 ### Parameters

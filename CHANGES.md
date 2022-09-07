@@ -1,5 +1,21 @@
 terraform-provider-twilio changelog
 ====================
+[2022-09-07] Version 0.18.5
+---------------------------
+**Flex**
+- Removed redundant `close` status from Flex Interactions flow **(breaking change)**
+- Adding `debugger_integration` and `flex_ui_status_report` to Flex Configuration
+
+**Messaging**
+- Add create, list and get tollfree verification API
+
+**Verify**
+- Verify SafeList API endpoints added.
+
+**Video**
+- Add `Anonymize` API
+
+
 [2022-08-24] Version 0.18.4
 ---------------------------
 **Library - Test**

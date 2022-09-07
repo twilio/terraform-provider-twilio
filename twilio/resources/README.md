@@ -221,6 +221,7 @@
 * [twilio_verify_services_messaging_configurations_v2](verify/v2/README.md#twilio_verify_services_messaging_configurations_v2)
 * [twilio_verify_services_entities_factors_v2](verify/v2/README.md#twilio_verify_services_entities_factors_v2)
 * [twilio_verify_services_rate_limits_v2](verify/v2/README.md#twilio_verify_services_rate_limits_v2)
+* [twilio_verify_safe_list_numbers_v2](verify/v2/README.md#twilio_verify_safe_list_numbers_v2)
 * [twilio_verify_services_v2](verify/v2/README.md#twilio_verify_services_v2)
 * [twilio_verify_services_webhooks_v2](verify/v2/README.md#twilio_verify_services_webhooks_v2)
 

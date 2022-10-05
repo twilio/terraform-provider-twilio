@@ -1,5 +1,12 @@
 terraform-provider-twilio changelog
 ====================
+[2022-10-05] Version 0.18.6
+---------------------------
+**Api**
+- Added `virtual-agent` to `usage_record` API.
+- Add AMD attributes to participant create request
+
+
 [2022-09-07] Version 0.18.5
 ---------------------------
 **Flex**

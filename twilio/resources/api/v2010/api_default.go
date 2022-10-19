@@ -928,6 +928,7 @@ func ResourceAccountsMessages() *schema.Resource {
 			"address_retention":     AsString(SchemaForceNewOptional),
 			"smart_encoded":         AsBool(SchemaForceNewOptional),
 			"persistent_action":     AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"shorten_urls":          AsBool(SchemaForceNewOptional),
 			"schedule_type":         AsString(SchemaForceNewOptional),
 			"send_at":               AsString(SchemaForceNewOptional),
 			"send_as_mms":           AsBool(SchemaForceNewOptional),

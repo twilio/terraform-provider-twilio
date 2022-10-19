@@ -1,5 +1,24 @@
 terraform-provider-twilio changelog
 ====================
+[2022-10-19] Version 0.18.7
+---------------------------
+**Api**
+- Make link shortening parameters public **(breaking change)**
+
+**Oauth**
+- added oauth JWKS endpoint
+- Get userinfo resource
+- OpenID discovery resource
+- Add new API for token endpoint
+
+**Supersim**
+- Add SettingsUpdates resource
+
+**Verify**
+- Update Verify Push endpoints to `ga` maturity
+- Verify BYOT add Channels property to the Get Templates response
+
+
 [2022-10-05] Version 0.18.6
 ---------------------------
 **Api**

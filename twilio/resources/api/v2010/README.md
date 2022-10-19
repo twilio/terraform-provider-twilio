@@ -182,6 +182,7 @@ Name | Type | Requirement | Description
 **address_retention** | string | Optional | 
 **smart_encoded** | bool | Optional | Whether to detect Unicode characters that have a similar GSM-7 character and replace them. Can be: &#x60;true&#x60; or &#x60;false&#x60;.
 **persistent_action** | list(string) | Optional | Rich actions for Channels Messages.
+**shorten_urls** | bool | Optional | Determines the usage of Click Tracking. Setting it to &#x60;true&#x60; will instruct Twilio to replace all links in the Message with a shortened version based on the associated Domain Sid and track clicks on them. If this parameter is not set on an API call, we will use the value set on the Messaging Service. If this parameter is not set and the value is not configured on the Messaging Service used this will default to &#x60;false&#x60;.
 **schedule_type** | string | Optional | 
 **send_at** | string | Optional | The time that Twilio will send the message. Must be in ISO 8601 format.
 **send_as_mms** | bool | Optional | If set to True, Twilio will deliver the message as a single MMS message, regardless of the presence of media.
@@ -268,9 +269,9 @@ Name | Type | Requirement | Description
 **amd_status_callback_method** | string | Optional | The HTTP method we should use when calling the &#x60;amd_status_callback&#x60; URL. Can be: &#x60;GET&#x60; or &#x60;POST&#x60; and the default is &#x60;POST&#x60;.
 **call_sid** | string | *Computed* | The [Call](https://www.twilio.com/docs/voice/api/call-resource) SID or label of the participant to update. Non URL safe characters in a label must be percent encoded, for example, a space character is represented as %20.
 **hold** | bool | Optional | Whether the participant should be on hold. Can be: &#x60;true&#x60; or &#x60;false&#x60;. &#x60;true&#x60; puts the participant on hold, and &#x60;false&#x60; lets them rejoin the conference.
-**hold_url** | string | Optional | The URL we call using the &#x60;hold_method&#x60; for  music that plays when the participant is on hold. The URL may return an MP3 file, a WAV file, or a TwiML document that contains the &#x60;&lt;Play&gt;&#x60;, &#x60;&lt;Say&gt;&#x60; or &#x60;&lt;Redirect&gt;&#x60; commands.
+**hold_url** | string | Optional | The URL we call using the &#x60;hold_method&#x60; for music that plays when the participant is on hold. The URL may return an MP3 file, a WAV file, or a TwiML document that contains &#x60;&lt;Play&gt;&#x60;, &#x60;&lt;Say&gt;&#x60;, &#x60;&lt;Pause&gt;&#x60;, or &#x60;&lt;Redirect&gt;&#x60; verbs.
 **hold_method** | string | Optional | The HTTP method we should use to call &#x60;hold_url&#x60;. Can be: &#x60;GET&#x60; or &#x60;POST&#x60; and the default is &#x60;GET&#x60;.
-**announce_url** | string | Optional | The URL we call using the &#x60;announce_method&#x60; for an announcement to the participant. The URL must return an MP3 file, a WAV file, or a TwiML document that contains &#x60;&lt;Play&gt;&#x60; or &#x60;&lt;Say&gt;&#x60; commands.
+**announce_url** | string | Optional | The URL we call using the &#x60;announce_method&#x60; for an announcement to the participant. The URL may return an MP3 file, a WAV file, or a TwiML document that contains &#x60;&lt;Play&gt;&#x60;, &#x60;&lt;Say&gt;&#x60;, &#x60;&lt;Pause&gt;&#x60;, or &#x60;&lt;Redirect&gt;&#x60; verbs.
 **announce_method** | string | Optional | The HTTP method we should use to call &#x60;announce_url&#x60;. Can be: &#x60;GET&#x60; or &#x60;POST&#x60; and defaults to &#x60;POST&#x60;.
 **beep_on_exit** | bool | Optional | Whether to play a notification beep to the conference when the participant exits. Can be: &#x60;true&#x60; or &#x60;false&#x60;.
 

@@ -1,5 +1,14 @@
 terraform-provider-twilio changelog
 ====================
+[2022-11-10] Version 0.18.9
+---------------------------
+**Flex**
+- Adding two new authorization API 'user_roles' and 'gooddata' in version `v1`
+
+**Messaging**
+- Add new Campaign properties (MessageFlow, OptInMessage, OptInKeywords, OptOutMessage, OptOutKeywords, HelpMessage, HelpKeywords)
+
+
 [2022-10-31] Version 0.18.8
 ---------------------------
 **Api**

@@ -446,6 +446,13 @@ func ResourceServicesComplianceUsa2p() *schema.Resource {
 			"us_app_to_person_usecase": AsString(SchemaForceNewRequired),
 			"has_embedded_links":       AsBool(SchemaForceNewRequired),
 			"has_embedded_phone":       AsBool(SchemaForceNewRequired),
+			"message_flow":             AsString(SchemaForceNewOptional),
+			"opt_in_message":           AsString(SchemaForceNewOptional),
+			"opt_out_message":          AsString(SchemaForceNewOptional),
+			"help_message":             AsString(SchemaForceNewOptional),
+			"opt_in_keywords":          AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"opt_out_keywords":         AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"help_keywords":            AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

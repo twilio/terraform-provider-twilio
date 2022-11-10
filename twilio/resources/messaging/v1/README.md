@@ -66,5 +66,12 @@ Name | Type | Requirement | Description
 **us_app_to_person_usecase** | string | **Required** | A2P Campaign Use Case. Examples: [ 2FA, EMERGENCY, MARKETING..]
 **has_embedded_links** | bool | **Required** | Indicates that this SMS campaign will send messages that contain links.
 **has_embedded_phone** | bool | **Required** | Indicates that this SMS campaign will send messages that contain phone numbers.
+**message_flow** | string | Optional | Description of how end users opt-in to the SMS campaign, therefore giving consent to receive messages.
+**opt_in_message** | string | Optional | The message that will be sent to the user when they opt in to the SMS campaign.
+**opt_out_message** | string | Optional | The message that will be sent to the user when they opt out of the SMS campaign.
+**help_message** | string | Optional | The message that will be sent to the user when they request help for the SMS campaign.
+**opt_in_keywords** | list(string) | Optional | The keywords that will be used to opt in to the SMS campaign.
+**opt_out_keywords** | list(string) | Optional | The keywords that will be used to opt out of the SMS campaign.
+**help_keywords** | list(string) | Optional | The keywords that will be used to request help for the SMS campaign.
 **sid** | string | *Computed* | The SID of the US A2P Compliance resource to fetch &#x60;QE2c6890da8086d771620e9b13fadeba0b&#x60;.
 

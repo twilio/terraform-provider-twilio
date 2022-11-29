@@ -9,9 +9,9 @@ Name | Type | Requirement | Description
 **email** | string | **Required** | The email address that will receive updates when the Bundle resource changes status.
 **status_callback** | string | Optional | The URL we call to inform your application of status changes.
 **regulation_sid** | string | Optional | The unique string of a regulation that is associated to the Bundle resource.
-**iso_country** | string | Optional | The [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the Bundle&#39;s phone number country ownership request.
+**iso_country** | string | Optional | The [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the Bundle's phone number country ownership request.
 **end_user_type** | string | Optional | 
-**number_type** | string | Optional | The type of phone number of the Bundle&#39;s ownership request. Can be &#x60;local&#x60;, &#x60;mobile&#x60;, &#x60;national&#x60;, or &#x60;toll free&#x60;.
+**number_type** | string | Optional | The type of phone number of the Bundle's ownership request. Can be `local`, `mobile`, `national`, or `toll free`.
 **sid** | string | *Computed* | The unique string that we created to identify the Bundle resource.
 **status** | string | Optional | 
 

@@ -31,7 +31,7 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **unique_name** | string | **Required** | An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**
-**default_ttl** | int | Optional | The default &#x60;ttl&#x60; value to set for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session&#39;s last create or last Interaction. The default value of &#x60;0&#x60; indicates an unlimited Session length. You can override a Session&#39;s default TTL value by setting its &#x60;ttl&#x60; value.
+**default_ttl** | int | Optional | The default `ttl` value to set for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session's last create or last Interaction. The default value of `0` indicates an unlimited Session length. You can override a Session's default TTL value by setting its `ttl` value.
 **callback_url** | string | Optional | The URL we should call when the interaction status changes.
 **geo_match_level** | string | Optional | 
 **number_selection_behavior** | string | Optional | 
@@ -48,8 +48,8 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **service_sid** | string | **Required** | The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**
-**date_expiry** | string | Optional | The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the &#x60;ttl&#x60; value.
-**ttl** | int | Optional | The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session&#39;s last Interaction.
+**date_expiry** | string | Optional | The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.
+**ttl** | int | Optional | The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.
 **mode** | string | Optional | 
 **status** | string | Optional | 
 **participants** | list(string) | Optional | The Participant objects to include in the new session.

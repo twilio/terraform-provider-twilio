@@ -40,7 +40,7 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **friendly_name** | string | **Required** | The string that you assigned to describe the resource.
-**type** | string | **Required** | The type of end user of the Bundle resource - can be &#x60;individual&#x60; or &#x60;business&#x60;.
+**type** | string | **Required** | The type of end user of the Bundle resource - can be `individual` or `business`.
 **attributes** | string | Optional | The set of parameters that are the attributes of the End User resource which are derived End User Types.
 **sid** | string | *Computed* | The unique string created by Twilio to identify the End User resource.
 

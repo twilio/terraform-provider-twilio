@@ -1,5 +1,21 @@
 terraform-provider-twilio changelog
 ====================
+[2022-11-30] Version 0.18.11
+----------------------------
+**Flex**
+- Adding new `assessments` api in version `v1`
+
+**Lookups**
+- Add `identity_match` package to the lookup response
+
+**Messaging**
+- Added `validated` parameter to Link Shortening API
+
+**Serverless**
+- Add node16 as a valid Build runtime
+- Add ie1 and au1 as supported regions for all endpoints.
+
+
 [2022-11-16] Version 0.18.10
 ----------------------------
 **Library - Chore**

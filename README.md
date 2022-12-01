@@ -162,3 +162,4 @@ refer to the [Terraform Debugging Providers](https://www.terraform.io/docs/exten
 - Select `Modify Run Configuration...` on `main.go` and then add `--debug` as `Program arguments`
 - Select `Debug "go build main.go"` and then copy the `TF_REATTACH_PROVIDERS` to the shell where `terraform` will be run
 - Set breakpoints in Goland as needed and run `terraform`, it will use plugin the process running under the Goland debugger
+one

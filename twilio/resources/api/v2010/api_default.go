@@ -43,6 +43,7 @@ func ResourceAccountsAddresses() *schema.Resource {
 			"friendly_name":        AsString(SchemaComputedOptional),
 			"emergency_enabled":    AsBool(SchemaComputedOptional),
 			"auto_correct_address": AsBool(SchemaComputedOptional),
+			"street_secondary":     AsString(SchemaComputedOptional),
 			"sid":                  AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

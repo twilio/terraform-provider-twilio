@@ -1,5 +1,31 @@
 terraform-provider-twilio changelog
 ====================
+[2022-12-14] Version 0.18.12
+----------------------------
+**Api**
+- Add `street_secondary` param to address create and update
+- Make `method` optional for user defined message subscription **(breaking change)**
+
+**Flex**
+- Flex Conversations is now Generally Available
+- Adding the ie1 mapping for authorization api, updating service base uri and base url response attribute **(breaking change)**
+- Change web channels to GA and library visibility to public
+- Changing the uri for authorization api from using Accounts to Insights **(breaking change)**
+
+**Media**
+- Gate Twilio Live endpoints behind beta_feature for EOS
+
+**Messaging**
+- Mark `MessageFlow` as a required field for Campaign Creation **(breaking change)**
+
+**Oauth**
+- updated openid discovery endpoint uri **(breaking change)**
+- Added device code authorization endpoint
+
+**Supersim**
+- Allow filtering the SettingsUpdates resource by `status`
+
+
 [2022-11-30] Version 0.18.11
 ----------------------------
 **Flex**

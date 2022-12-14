@@ -61,17 +61,17 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **messaging_service_sid** | string | **Required** | The SID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) to create the resources from.
 **brand_registration_sid** | string | **Required** | A2P Brand Registration SID
-**description** | string | **Required** | A short description of what this SMS campaign does.
-**message_samples** | list(string) | **Required** | Message samples, at least 2 and up to 5 sample messages, <=1024 chars each.
+**description** | string | **Required** | A short description of what this SMS campaign does. Min length: 40 characters. Max length: 4096 characters.
+**message_flow** | string | **Required** | Required for all Campaigns. Details around how a consumer opts-in to their campaign, therefore giving consent to receive their messages. If multiple opt-in methods can be used for the same campaign, they must all be listed. 40 character minimum. 2048 character maximum.
+**message_samples** | list(string) | **Required** | Message samples, at least 1 and up to 5 sample messages (at least 2 for sole proprietor), >=20 chars, <=1024 chars each.
 **us_app_to_person_usecase** | string | **Required** | A2P Campaign Use Case. Examples: [ 2FA, EMERGENCY, MARKETING..]
 **has_embedded_links** | bool | **Required** | Indicates that this SMS campaign will send messages that contain links.
 **has_embedded_phone** | bool | **Required** | Indicates that this SMS campaign will send messages that contain phone numbers.
-**message_flow** | string | Optional | Description of how end users opt-in to the SMS campaign, therefore giving consent to receive messages.
-**opt_in_message** | string | Optional | The message that will be sent to the user when they opt in to the SMS campaign.
-**opt_out_message** | string | Optional | The message that will be sent to the user when they opt out of the SMS campaign.
-**help_message** | string | Optional | The message that will be sent to the user when they request help for the SMS campaign.
-**opt_in_keywords** | list(string) | Optional | The keywords that will be used to opt in to the SMS campaign.
-**opt_out_keywords** | list(string) | Optional | The keywords that will be used to opt out of the SMS campaign.
-**help_keywords** | list(string) | Optional | The keywords that will be used to request help for the SMS campaign.
+**opt_in_message** | string | Optional | If end users can text in a keyword to start receiving messages from this campaign, the auto-reply messages sent to the end users must be provided. The opt-in response should include the Brand name, confirmation of opt-in enrollment to a recurring message campaign, how to get help, and clear description of how to opt-out. This field is required if end users can text in a keyword to start receiving messages from this campaign. 20 character minimum. 320 character maximum.
+**opt_out_message** | string | Optional | Upon receiving the opt-out keywords from the end users, Twilio customers are expected to send back an auto-generated response, which must provide acknowledgment of the opt-out request and confirmation that no further messages will be sent. It is also recommended that these opt-out messages include the brand name. This field is required if managing opt out keywords yourself (i.e. not using Twilio's Default or Advanced Opt Out features). 20 character minimum. 320 character maximum.
+**help_message** | string | Optional | When customers receive the help keywords from their end users, Twilio customers are expected to send back an auto-generated response; this may include the brand name and additional support contact information. This field is required if managing help keywords yourself (i.e. not using Twilio's Default or Advanced Opt Out features). 20 character minimum. 320 character maximum.
+**opt_in_keywords** | list(string) | Optional | If end users can text in a keyword to start receiving messages from this campaign, those keywords must be provided. This field is required if end users can text in a keyword to start receiving messages from this campaign. Values must be alphanumeric. 255 character maximum.
+**opt_out_keywords** | list(string) | Optional | End users should be able to text in a keyword to stop receiving messages from this campaign. Those keywords must be provided. This field is required if managing opt out keywords yourself (i.e. not using Twilio's Default or Advanced Opt Out features). Values must be alphanumeric. 255 character maximum.
+**help_keywords** | list(string) | Optional | End users should be able to text in a keyword to receive help. Those keywords must be provided as part of the campaign registration request. This field is required if managing help keywords yourself (i.e. not using Twilio's Default or Advanced Opt Out features). Values must be alphanumeric. 255 character maximum.
 **sid** | string | *Computed* | The SID of the US A2P Compliance resource to fetch `QE2c6890da8086d771620e9b13fadeba0b`.
 

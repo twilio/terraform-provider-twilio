@@ -15,6 +15,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new address. It can be up to 64 characters long.
 **emergency_enabled** | bool | Optional | Whether to enable emergency calling on the new address. Can be: `true` or `false`.
 **auto_correct_address** | bool | Optional | Whether we should automatically correct the address. Can be: `true` or `false` and the default is `true`. If empty or `true`, we will correct the address you provide if necessary. If `false`, we won't alter the address you provide.
+**street_secondary** | string | Optional | The additional number and street address of the address.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Address resource to update.
 
 ## twilio_api_accounts_applications

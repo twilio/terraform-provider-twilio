@@ -284,6 +284,8 @@ func ResourceConversationsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"media_sid":                AsString(SchemaForceNewOptional),
+			"content_sid":              AsString(SchemaForceNewOptional),
+			"content_variables":        AsString(SchemaForceNewOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -1108,6 +1110,8 @@ func ResourceServicesConversationsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"media_sid":                AsString(SchemaForceNewOptional),
+			"content_sid":              AsString(SchemaForceNewOptional),
+			"content_variables":        AsString(SchemaForceNewOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

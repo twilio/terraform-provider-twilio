@@ -40,6 +40,7 @@ Name | Type | Requirement | Description
 **sms_status_callback** | string | Optional | The URL we should call using a POST method to send status information about SMS messages sent by the application.
 **message_status_callback** | string | Optional | The URL we should call using a POST method to send message status information to your application.
 **friendly_name** | string | Optional | A descriptive string that you create to describe the new application. It can be up to 64 characters long.
+**public_application_connect_enabled** | bool | Optional | Whether to allow other Twilio accounts to dial this applicaton using Dial verb. Can be: `true` or `false`.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Application resource to update.
 
 ## twilio_api_accounts_calls

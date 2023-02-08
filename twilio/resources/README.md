@@ -98,6 +98,7 @@
 
 * [twilio_flex_channels_v1](flex/v1/README.md#twilio_flex_channels_v1)
 * [twilio_flex_flex_flows_v1](flex/v1/README.md#twilio_flex_flex_flows_v1)
+* [twilio_flex_insights_qm_questionnaires_v1](flex/v1/README.md#twilio_flex_insights_qm_questionnaires_v1)
 * [twilio_flex_web_channels_v1](flex/v1/README.md#twilio_flex_web_channels_v1)
 
 ## ip_messaging v1
@@ -130,6 +131,13 @@
 * [twilio_messaging_services_v1](messaging/v1/README.md#twilio_messaging_services_v1)
 * [twilio_messaging_services_short_codes_v1](messaging/v1/README.md#twilio_messaging_services_short_codes_v1)
 * [twilio_messaging_services_compliance_usa2p_v1](messaging/v1/README.md#twilio_messaging_services_compliance_usa2p_v1)
+
+## microvisor v1
+
+* [twilio_microvisor_configs_v1](microvisor/v1/README.md#twilio_microvisor_configs_v1)
+* [twilio_microvisor_secrets_v1](microvisor/v1/README.md#twilio_microvisor_secrets_v1)
+* [twilio_microvisor_devices_configs_v1](microvisor/v1/README.md#twilio_microvisor_devices_configs_v1)
+* [twilio_microvisor_devices_secrets_v1](microvisor/v1/README.md#twilio_microvisor_devices_secrets_v1)
 
 ## notify v1
 

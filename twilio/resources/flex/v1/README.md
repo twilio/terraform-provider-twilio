@@ -42,6 +42,19 @@ Name | Type | Requirement | Description
 **integration_retry_count** | int | Optional | The number of times to retry the Studio Flow or webhook in case of failure. Takes integer values from 0 to 3 with the default being 3. Optional when `integrationType` is `studio` or `external`, not applicable otherwise.
 **sid** | string | *Computed* | The SID of the Flex Flow resource to update.
 
+## twilio_flex_insights_qm_questionnaires_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**name** | string | **Required** | The name of this questionnaire
+**token** | string | Optional | The Token HTTP request header
+**description** | string | Optional | The description of this questionnaire
+**active** | bool | Optional | The flag to enable or disable questionnaire
+**question_ids** | list(string) | Optional | The list of questions ids under a questionnaire
+**id** | string | *Computed* | The unique ID of the questionnaire
+
 ## twilio_flex_web_channels_v1
 
 ### Parameters

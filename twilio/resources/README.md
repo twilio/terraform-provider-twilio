@@ -43,10 +43,6 @@
 * [twilio_autopilot_assistants_tasks_v1](autopilot/v1/README.md#twilio_autopilot_assistants_tasks_v1)
 * [twilio_autopilot_assistants_webhooks_v1](autopilot/v1/README.md#twilio_autopilot_assistants_webhooks_v1)
 
-## bulkexports v1
-
-* [twilio_bulkexports_exports_jobs_v1](bulkexports/v1/README.md#twilio_bulkexports_exports_jobs_v1)
-
 ## chat v1
 
 * [twilio_chat_services_channels_v1](chat/v1/README.md#twilio_chat_services_channels_v1)

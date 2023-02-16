@@ -16,7 +16,6 @@ import (
 	accountsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/accounts/v1"
 	api "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
 	autopilotV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/autopilot/v1"
-	bulkexportsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/bulkexports/v1"
 	chatV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v1"
 	chatV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v2"
 	conversationsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/conversations/v1"
@@ -84,7 +83,6 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_autopilot_assistants_tasks_samples_v1":                                autopilotV1.ResourceAssistantsTasksSamples(),
 			"twilio_autopilot_assistants_tasks_v1":                                        autopilotV1.ResourceAssistantsTasks(),
 			"twilio_autopilot_assistants_webhooks_v1":                                     autopilotV1.ResourceAssistantsWebhooks(),
-			"twilio_bulkexports_exports_jobs_v1":                                          bulkexportsV1.ResourceExportsJobs(),
 			"twilio_chat_services_channels_v1":                                            chatV1.ResourceServicesChannels(),
 			"twilio_chat_credentials_v1":                                                  chatV1.ResourceCredentials(),
 			"twilio_chat_services_channels_invites_v1":                                    chatV1.ResourceServicesChannelsInvites(),

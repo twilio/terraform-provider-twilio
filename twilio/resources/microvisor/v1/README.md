@@ -6,7 +6,7 @@
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **key** | string | **Required** | The config key; up to 100 characters.
-**value** | string | **Required** | The config value;  up to 4096 characters.
+**value** | string | **Required** | The config value; up to 4096 characters.
 
 ## twilio_microvisor_secrets_v1
 

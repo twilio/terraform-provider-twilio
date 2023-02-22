@@ -1,5 +1,15 @@
 terraform-provider-twilio changelog
 ====================
+[2023-02-22] Version 0.18.16
+----------------------------
+**Library - Fix**
+- [PR #125](https://github.com/twilio/terraform-provider-twilio/pull/125): drop bulk exports resource. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Remove `scheduled_for` property from message resource
+- Add `scheduled_for` property to message resource
+
+
 [2023-02-08] Version 0.18.15
 ----------------------------
 **Lookups**

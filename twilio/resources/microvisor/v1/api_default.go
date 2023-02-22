@@ -30,10 +30,11 @@ func ResourceConfigs() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createConfigs,
 		ReadContext:   readConfigs,
+		UpdateContext: updateConfigs,
 		DeleteContext: deleteConfigs,
 		Schema: map[string]*schema.Schema{
-			"key":   AsString(SchemaForceNewRequired),
-			"value": AsString(SchemaForceNewRequired),
+			"key":   AsString(SchemaRequired),
+			"value": AsString(SchemaRequired),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -114,14 +115,36 @@ func parseConfigsImportId(importId string, d *schema.ResourceData) error {
 
 	return nil
 }
+func updateConfigs(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateAccountConfigParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	key := d.Get("key").(string)
+
+	r, err := m.(*client.Config).Client.MicrovisorV1.UpdateAccountConfig(key, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
 func ResourceSecrets() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createSecrets,
 		ReadContext:   readSecrets,
+		UpdateContext: updateSecrets,
 		DeleteContext: deleteSecrets,
 		Schema: map[string]*schema.Schema{
-			"key":   AsString(SchemaForceNewRequired),
-			"value": AsString(SchemaForceNewRequired),
+			"key":   AsString(SchemaRequired),
+			"value": AsString(SchemaRequired),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -202,15 +225,37 @@ func parseSecretsImportId(importId string, d *schema.ResourceData) error {
 
 	return nil
 }
+func updateSecrets(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateAccountSecretParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	key := d.Get("key").(string)
+
+	r, err := m.(*client.Config).Client.MicrovisorV1.UpdateAccountSecret(key, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
 func ResourceDevicesConfigs() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createDevicesConfigs,
 		ReadContext:   readDevicesConfigs,
+		UpdateContext: updateDevicesConfigs,
 		DeleteContext: deleteDevicesConfigs,
 		Schema: map[string]*schema.Schema{
-			"device_sid": AsString(SchemaForceNewRequired),
-			"key":        AsString(SchemaForceNewRequired),
-			"value":      AsString(SchemaForceNewRequired),
+			"device_sid": AsString(SchemaRequired),
+			"key":        AsString(SchemaRequired),
+			"value":      AsString(SchemaRequired),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -296,15 +341,38 @@ func parseDevicesConfigsImportId(importId string, d *schema.ResourceData) error 
 
 	return nil
 }
+func updateDevicesConfigs(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateDeviceConfigParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	deviceSid := d.Get("device_sid").(string)
+	key := d.Get("key").(string)
+
+	r, err := m.(*client.Config).Client.MicrovisorV1.UpdateDeviceConfig(deviceSid, key, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
 func ResourceDevicesSecrets() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createDevicesSecrets,
 		ReadContext:   readDevicesSecrets,
+		UpdateContext: updateDevicesSecrets,
 		DeleteContext: deleteDevicesSecrets,
 		Schema: map[string]*schema.Schema{
-			"device_sid": AsString(SchemaForceNewRequired),
-			"key":        AsString(SchemaForceNewRequired),
-			"value":      AsString(SchemaForceNewRequired),
+			"device_sid": AsString(SchemaRequired),
+			"key":        AsString(SchemaRequired),
+			"value":      AsString(SchemaRequired),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -387,6 +455,27 @@ func parseDevicesSecretsImportId(importId string, d *schema.ResourceData) error 
 
 	d.Set("device_sid", importParts[0])
 	d.Set("key", importParts[1])
+
+	return nil
+}
+func updateDevicesSecrets(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateDeviceSecretParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	deviceSid := d.Get("device_sid").(string)
+	key := d.Get("key").(string)
+
+	r, err := m.(*client.Config).Client.MicrovisorV1.UpdateDeviceSecret(deviceSid, key, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
 
 	return nil
 }

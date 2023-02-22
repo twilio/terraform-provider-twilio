@@ -42,9 +42,7 @@ test: build
 
 test-docker:
 	docker build -t terraform-provider-${NAME} .
-	docker run twilio/terraform-provider-twilio go test $(TEST) || exit 1
-	docker run twilio/terraform-provider-twilio echo $(TEST) | \
-		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
+	docker run terraform-provider-twilio make test -o build
 
 testacc:
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m

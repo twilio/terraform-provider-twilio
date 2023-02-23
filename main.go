@@ -1,10 +1,8 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
@@ -31,11 +29,8 @@ func main() {
 	}
 
 	if debugMode {
-		err := plugin.Debug(context.Background(), "registry.terraform.io/twilio/twilio", opts)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		return
+		opts.Debug = debugMode
+		opts.ProviderAddr = "registry.terraform.io/twilio/twilio"
 	}
 
 	plugin.Serve(opts)

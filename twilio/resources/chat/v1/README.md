@@ -106,36 +106,52 @@ Name | Type | Requirement | Description
 **webhook_filters** | list(string) | Optional | The list of WebHook events that are enabled for this Service instance. See [Webhook Events](https://www.twilio.com/docs/chat/webhook-events) for more details.
 **webhooks_on_message_send_url** | string | Optional | The URL of the webhook to call in response to the `on_message_send` event using the `webhooks.on_message_send.method` HTTP method.
 **webhooks_on_message_send_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_message_send.url`.
+**webhooks_on_message_send_format** | string | Optional | 
 **webhooks_on_message_update_url** | string | Optional | The URL of the webhook to call in response to the `on_message_update` event using the `webhooks.on_message_update.method` HTTP method.
 **webhooks_on_message_update_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_message_update.url`.
+**webhooks_on_message_update_format** | string | Optional | 
 **webhooks_on_message_remove_url** | string | Optional | The URL of the webhook to call in response to the `on_message_remove` event using the `webhooks.on_message_remove.method` HTTP method.
 **webhooks_on_message_remove_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_message_remove.url`.
+**webhooks_on_message_remove_format** | string | Optional | 
 **webhooks_on_channel_add_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_add` event using the `webhooks.on_channel_add.method` HTTP method.
 **webhooks_on_channel_add_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_channel_add.url`.
+**webhooks_on_channel_add_format** | string | Optional | 
 **webhooks_on_channel_destroy_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_destroy` event using the `webhooks.on_channel_destroy.method` HTTP method.
 **webhooks_on_channel_destroy_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_channel_destroy.url`.
+**webhooks_on_channel_destroy_format** | string | Optional | 
 **webhooks_on_channel_update_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_update` event using the `webhooks.on_channel_update.method` HTTP method.
 **webhooks_on_channel_update_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_channel_update.url`.
+**webhooks_on_channel_update_format** | string | Optional | 
 **webhooks_on_member_add_url** | string | Optional | The URL of the webhook to call in response to the `on_member_add` event using the `webhooks.on_member_add.method` HTTP method.
 **webhooks_on_member_add_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_member_add.url`.
+**webhooks_on_member_add_format** | string | Optional | 
 **webhooks_on_member_remove_url** | string | Optional | The URL of the webhook to call in response to the `on_member_remove` event using the `webhooks.on_member_remove.method` HTTP method.
 **webhooks_on_member_remove_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_member_remove.url`.
+**webhooks_on_member_remove_format** | string | Optional | 
 **webhooks_on_message_sent_url** | string | Optional | The URL of the webhook to call in response to the `on_message_sent` event using the `webhooks.on_message_sent.method` HTTP method.
 **webhooks_on_message_sent_method** | string | Optional | The URL of the webhook to call in response to the `on_message_sent` event`.
+**webhooks_on_message_sent_format** | string | Optional | 
 **webhooks_on_message_updated_url** | string | Optional | The URL of the webhook to call in response to the `on_message_updated` event using the `webhooks.on_message_updated.method` HTTP method.
 **webhooks_on_message_updated_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_message_updated.url`.
+**webhooks_on_message_updated_format** | string | Optional | 
 **webhooks_on_message_removed_url** | string | Optional | The URL of the webhook to call in response to the `on_message_removed` event using the `webhooks.on_message_removed.method` HTTP method.
 **webhooks_on_message_removed_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_message_removed.url`.
+**webhooks_on_message_removed_format** | string | Optional | 
 **webhooks_on_channel_added_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_added` event using the `webhooks.on_channel_added.method` HTTP method.
 **webhooks_on_channel_added_method** | string | Optional | The URL of the webhook to call in response to the `on_channel_added` event`.
+**webhooks_on_channel_added_format** | string | Optional | 
 **webhooks_on_channel_destroyed_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_added` event using the `webhooks.on_channel_destroyed.method` HTTP method.
 **webhooks_on_channel_destroyed_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_channel_destroyed.url`.
+**webhooks_on_channel_destroyed_format** | string | Optional | 
 **webhooks_on_channel_updated_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_updated` event using the `webhooks.on_channel_updated.method` HTTP method.
 **webhooks_on_channel_updated_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_channel_updated.url`.
+**webhooks_on_channel_updated_format** | string | Optional | 
 **webhooks_on_member_added_url** | string | Optional | The URL of the webhook to call in response to the `on_channel_updated` event using the `webhooks.on_channel_updated.method` HTTP method.
 **webhooks_on_member_added_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_channel_updated.url`.
+**webhooks_on_member_added_format** | string | Optional | 
 **webhooks_on_member_removed_url** | string | Optional | The URL of the webhook to call in response to the `on_member_removed` event using the `webhooks.on_member_removed.method` HTTP method.
 **webhooks_on_member_removed_method** | string | Optional | The HTTP method to use when calling the `webhooks.on_member_removed.url`.
+**webhooks_on_member_removed_format** | string | Optional | 
 **limits_channel_members** | int | Optional | The maximum number of Members that can be added to Channels within this Service. Can be up to 1,000.
 **limits_user_channels** | int | Optional | The maximum number of Channels Users can be a Member of within this Service. Can be up to 1,000.
 

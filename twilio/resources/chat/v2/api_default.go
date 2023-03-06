@@ -12,1133 +12,1134 @@
  * Do not edit the class manually.
  */
 
+
 package openapi
 
 import (
-	"context"
-	"fmt"
-	"strings"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/twilio/terraform-provider-twilio/client"
-	. "github.com/twilio/terraform-provider-twilio/core"
-	. "github.com/twilio/twilio-go/rest/chat/v2"
+    "context"
+    "github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+    "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+    "github.com/twilio/terraform-provider-twilio/client"
+    . "github.com/twilio/terraform-provider-twilio/core"
+    . "github.com/twilio/twilio-go/rest/chat/v2"
 )
 
 func ResourceServicesChannels() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesChannels,
-		ReadContext:   readServicesChannels,
-		UpdateContext: updateServicesChannels,
-		DeleteContext: deleteServicesChannels,
-		Schema: map[string]*schema.Schema{
-			"service_sid":              AsString(SchemaRequired),
-			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
-			"friendly_name":            AsString(SchemaComputedOptional),
-			"unique_name":              AsString(SchemaComputedOptional),
-			"attributes":               AsString(SchemaComputedOptional),
-			"type":                     AsString(SchemaForceNewOptional),
-			"date_created":             AsString(SchemaComputedOptional),
-			"date_updated":             AsString(SchemaComputedOptional),
-			"created_by":               AsString(SchemaComputedOptional),
-			"sid":                      AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesChannelsImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesChannels,
+        ReadContext: readServicesChannels,
+        UpdateContext: updateServicesChannels,
+        DeleteContext: deleteServicesChannels,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaRequired),
+            "x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
+            "friendly_name": AsString(SchemaComputedOptional),
+            "unique_name": AsString(SchemaComputedOptional),
+            "attributes": AsString(SchemaComputedOptional),
+            "type": AsString(SchemaForceNewOptional),
+            "date_created": AsString(SchemaComputedOptional),
+            "date_updated": AsString(SchemaComputedOptional),
+            "created_by": AsString(SchemaComputedOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesChannelsImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateChannelParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateChannelParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateChannel(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateChannel(serviceSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteChannelParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := DeleteChannelParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteChannel(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteChannel(serviceSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchChannel(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchChannel(serviceSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesChannelsImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/sid"
 
-	if len(importParts) != 2 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 2 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("sid", importParts[1])
+        d.Set("service_sid", importParts[0])
+        d.Set("sid", importParts[1])
 
-	return nil
+    return nil
 }
 func updateServicesChannels(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateChannelParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateChannelParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateChannel(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateChannel(serviceSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceServicesChannelsWebhooks() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesChannelsWebhooks,
-		ReadContext:   readServicesChannelsWebhooks,
-		UpdateContext: updateServicesChannelsWebhooks,
-		DeleteContext: deleteServicesChannelsWebhooks,
-		Schema: map[string]*schema.Schema{
-			"service_sid":               AsString(SchemaRequired),
-			"channel_sid":               AsString(SchemaRequired),
-			"type":                      AsString(SchemaForceNewRequired),
-			"configuration_url":         AsString(SchemaComputedOptional),
-			"configuration_method":      AsString(SchemaComputedOptional),
-			"configuration_filters":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"configuration_triggers":    AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"configuration_flow_sid":    AsString(SchemaComputedOptional),
-			"configuration_retry_count": AsInt(SchemaComputedOptional),
-			"sid":                       AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesChannelsWebhooksImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesChannelsWebhooks,
+        ReadContext: readServicesChannelsWebhooks,
+        UpdateContext: updateServicesChannelsWebhooks,
+        DeleteContext: deleteServicesChannelsWebhooks,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaRequired),
+            "channel_sid": AsString(SchemaRequired),
+            "type": AsString(SchemaForceNewRequired),
+            "configuration_url": AsString(SchemaComputedOptional),
+            "configuration_method": AsString(SchemaComputedOptional),
+            "configuration_filters": AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+            "configuration_triggers": AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+            "configuration_flow_sid": AsString(SchemaComputedOptional),
+            "configuration_retry_count": AsInt(SchemaComputedOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesChannelsWebhooksImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateChannelWebhookParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateChannelWebhookParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateChannelWebhook(serviceSid, channelSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateChannelWebhook(serviceSid, channelSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid, channelSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid, channelSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteChannelWebhook(serviceSid, channelSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteChannelWebhook(serviceSid, channelSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchChannelWebhook(serviceSid, channelSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchChannelWebhook(serviceSid, channelSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesChannelsWebhooksImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
 
-	if len(importParts) != 3 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 3 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("channel_sid", importParts[1])
-	d.Set("sid", importParts[2])
+        d.Set("service_sid", importParts[0])
+        d.Set("channel_sid", importParts[1])
+        d.Set("sid", importParts[2])
 
-	return nil
+    return nil
 }
 func updateServicesChannelsWebhooks(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateChannelWebhookParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateChannelWebhookParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateChannelWebhook(serviceSid, channelSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateChannelWebhook(serviceSid, channelSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceCredentials() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createCredentials,
-		ReadContext:   readCredentials,
-		UpdateContext: updateCredentials,
-		DeleteContext: deleteCredentials,
-		Schema: map[string]*schema.Schema{
-			"type":          AsString(SchemaForceNewRequired),
-			"friendly_name": AsString(SchemaComputedOptional),
-			"certificate":   AsString(SchemaComputedOptional),
-			"private_key":   AsString(SchemaComputedOptional),
-			"sandbox":       AsBool(SchemaComputedOptional),
-			"api_key":       AsString(SchemaComputedOptional),
-			"secret":        AsString(SchemaComputedOptional),
-			"sid":           AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseCredentialsImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createCredentials,
+        ReadContext: readCredentials,
+        UpdateContext: updateCredentials,
+        DeleteContext: deleteCredentials,
+        Schema: map[string]*schema.Schema{
+            "type": AsString(SchemaForceNewRequired),
+            "friendly_name": AsString(SchemaComputedOptional),
+            "certificate": AsString(SchemaComputedOptional),
+            "private_key": AsString(SchemaComputedOptional),
+            "sandbox": AsBool(SchemaComputedOptional),
+            "api_key": AsString(SchemaComputedOptional),
+            "secret": AsString(SchemaComputedOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseCredentialsImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCredentialParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateCredentialParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateCredential(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
 
-	idParts := []string{}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        r, err := m.(*client.Config).Client.ChatV2.CreateCredential(&params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        idParts := []string{  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	return nil
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
+
+            return nil
 }
 
 func deleteCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	sid := d.Get("sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteCredential(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteCredential(sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	sid := d.Get("sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchCredential(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchCredential(sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseCredentialsImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected sid"
 
-	if len(importParts) != 1 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 1 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("sid", importParts[0])
+        d.Set("sid", importParts[0])
 
-	return nil
+    return nil
 }
 func updateCredentials(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateCredentialParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateCredentialParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	sid := d.Get("sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateCredential(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateCredential(sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceServicesChannelsInvites() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesChannelsInvites,
-		ReadContext:   readServicesChannelsInvites,
-		DeleteContext: deleteServicesChannelsInvites,
-		Schema: map[string]*schema.Schema{
-			"service_sid": AsString(SchemaForceNewRequired),
-			"channel_sid": AsString(SchemaForceNewRequired),
-			"identity":    AsString(SchemaForceNewRequired),
-			"role_sid":    AsString(SchemaForceNewOptional),
-			"sid":         AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesChannelsInvitesImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesChannelsInvites,
+        ReadContext: readServicesChannelsInvites,
+        DeleteContext: deleteServicesChannelsInvites,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaForceNewRequired),
+            "channel_sid": AsString(SchemaForceNewRequired),
+            "identity": AsString(SchemaForceNewRequired),
+            "role_sid": AsString(SchemaForceNewOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesChannelsInvitesImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesChannelsInvites(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateInviteParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateInviteParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateInvite(serviceSid, channelSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateInvite(serviceSid, channelSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid, channelSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid, channelSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesChannelsInvites(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteInvite(serviceSid, channelSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteInvite(serviceSid, channelSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesChannelsInvites(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchInvite(serviceSid, channelSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchInvite(serviceSid, channelSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesChannelsInvitesImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
 
-	if len(importParts) != 3 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 3 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("channel_sid", importParts[1])
-	d.Set("sid", importParts[2])
+        d.Set("service_sid", importParts[0])
+        d.Set("channel_sid", importParts[1])
+        d.Set("sid", importParts[2])
 
-	return nil
+    return nil
 }
 func ResourceServicesChannelsMembers() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesChannelsMembers,
-		ReadContext:   readServicesChannelsMembers,
-		UpdateContext: updateServicesChannelsMembers,
-		DeleteContext: deleteServicesChannelsMembers,
-		Schema: map[string]*schema.Schema{
-			"service_sid":                 AsString(SchemaRequired),
-			"channel_sid":                 AsString(SchemaRequired),
-			"identity":                    AsString(SchemaForceNewRequired),
-			"x_twilio_webhook_enabled":    AsString(SchemaComputedOptional),
-			"role_sid":                    AsString(SchemaComputedOptional),
-			"last_consumed_message_index": AsInt(SchemaComputedOptional),
-			"last_consumption_timestamp":  AsString(SchemaComputedOptional),
-			"date_created":                AsString(SchemaComputedOptional),
-			"date_updated":                AsString(SchemaComputedOptional),
-			"attributes":                  AsString(SchemaComputedOptional),
-			"sid":                         AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesChannelsMembersImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesChannelsMembers,
+        ReadContext: readServicesChannelsMembers,
+        UpdateContext: updateServicesChannelsMembers,
+        DeleteContext: deleteServicesChannelsMembers,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaRequired),
+            "channel_sid": AsString(SchemaRequired),
+            "identity": AsString(SchemaForceNewRequired),
+            "x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
+            "role_sid": AsString(SchemaComputedOptional),
+            "last_consumed_message_index": AsInt(SchemaComputedOptional),
+            "last_consumption_timestamp": AsString(SchemaComputedOptional),
+            "date_created": AsString(SchemaComputedOptional),
+            "date_updated": AsString(SchemaComputedOptional),
+            "attributes": AsString(SchemaComputedOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesChannelsMembersImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateMemberParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateMemberParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateMember(serviceSid, channelSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateMember(serviceSid, channelSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid, channelSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid, channelSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteMemberParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := DeleteMemberParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteMember(serviceSid, channelSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteMember(serviceSid, channelSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchMember(serviceSid, channelSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchMember(serviceSid, channelSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesChannelsMembersImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
 
-	if len(importParts) != 3 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 3 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("channel_sid", importParts[1])
-	d.Set("sid", importParts[2])
+        d.Set("service_sid", importParts[0])
+        d.Set("channel_sid", importParts[1])
+        d.Set("sid", importParts[2])
 
-	return nil
+    return nil
 }
 func updateServicesChannelsMembers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateMemberParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateMemberParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateMember(serviceSid, channelSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateMember(serviceSid, channelSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceServicesChannelsMessages() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesChannelsMessages,
-		ReadContext:   readServicesChannelsMessages,
-		UpdateContext: updateServicesChannelsMessages,
-		DeleteContext: deleteServicesChannelsMessages,
-		Schema: map[string]*schema.Schema{
-			"service_sid":              AsString(SchemaRequired),
-			"channel_sid":              AsString(SchemaRequired),
-			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
-			"from":                     AsString(SchemaComputedOptional),
-			"attributes":               AsString(SchemaComputedOptional),
-			"date_created":             AsString(SchemaComputedOptional),
-			"date_updated":             AsString(SchemaComputedOptional),
-			"last_updated_by":          AsString(SchemaComputedOptional),
-			"body":                     AsString(SchemaComputedOptional),
-			"media_sid":                AsString(SchemaForceNewOptional),
-			"sid":                      AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesChannelsMessagesImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesChannelsMessages,
+        ReadContext: readServicesChannelsMessages,
+        UpdateContext: updateServicesChannelsMessages,
+        DeleteContext: deleteServicesChannelsMessages,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaRequired),
+            "channel_sid": AsString(SchemaRequired),
+            "x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
+            "from": AsString(SchemaComputedOptional),
+            "attributes": AsString(SchemaComputedOptional),
+            "date_created": AsString(SchemaComputedOptional),
+            "date_updated": AsString(SchemaComputedOptional),
+            "last_updated_by": AsString(SchemaComputedOptional),
+            "body": AsString(SchemaComputedOptional),
+            "media_sid": AsString(SchemaForceNewOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesChannelsMessagesImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateMessageParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateMessageParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateMessage(serviceSid, channelSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateMessage(serviceSid, channelSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid, channelSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid, channelSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteMessageParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := DeleteMessageParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteMessage(serviceSid, channelSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteMessage(serviceSid, channelSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchMessage(serviceSid, channelSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchMessage(serviceSid, channelSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesChannelsMessagesImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/channel_sid/sid"
 
-	if len(importParts) != 3 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 3 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("channel_sid", importParts[1])
-	d.Set("sid", importParts[2])
+        d.Set("service_sid", importParts[0])
+        d.Set("channel_sid", importParts[1])
+        d.Set("sid", importParts[2])
 
-	return nil
+    return nil
 }
 func updateServicesChannelsMessages(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateMessageParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateMessageParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	channelSid := d.Get("channel_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    channelSid := d.Get("channel_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateMessage(serviceSid, channelSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateMessage(serviceSid, channelSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceServicesRoles() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesRoles,
-		ReadContext:   readServicesRoles,
-		UpdateContext: updateServicesRoles,
-		DeleteContext: deleteServicesRoles,
-		Schema: map[string]*schema.Schema{
-			"service_sid":   AsString(SchemaRequired),
-			"friendly_name": AsString(SchemaForceNewRequired),
-			"type":          AsString(SchemaForceNewRequired),
-			"permission":    AsList(AsString(SchemaRequired), SchemaRequired),
-			"sid":           AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesRolesImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesRoles,
+        ReadContext: readServicesRoles,
+        UpdateContext: updateServicesRoles,
+        DeleteContext: deleteServicesRoles,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaRequired),
+            "friendly_name": AsString(SchemaForceNewRequired),
+            "type": AsString(SchemaForceNewRequired),
+            "permission": AsList(AsString(SchemaRequired), SchemaRequired),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesRolesImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateRoleParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateRoleParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateRole(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateRole(serviceSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteRole(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteRole(serviceSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchRole(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchRole(serviceSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesRolesImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/sid"
 
-	if len(importParts) != 2 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 2 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("sid", importParts[1])
+        d.Set("service_sid", importParts[0])
+        d.Set("sid", importParts[1])
 
-	return nil
+    return nil
 }
 func updateServicesRoles(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateRoleParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateRoleParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateRole(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateRole(serviceSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceServices() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServices,
-		ReadContext:   readServices,
-		UpdateContext: updateServices,
-		DeleteContext: deleteServices,
-		Schema: map[string]*schema.Schema{
-			"friendly_name":                                 AsString(SchemaRequired),
-			"sid":                                           AsString(SchemaComputed),
-			"default_service_role_sid":                      AsString(SchemaComputedOptional),
-			"default_channel_role_sid":                      AsString(SchemaComputedOptional),
-			"default_channel_creator_role_sid":              AsString(SchemaComputedOptional),
-			"read_status_enabled":                           AsBool(SchemaComputedOptional),
-			"reachability_enabled":                          AsBool(SchemaComputedOptional),
-			"typing_indicator_timeout":                      AsInt(SchemaComputedOptional),
-			"consumption_report_interval":                   AsInt(SchemaComputedOptional),
-			"notifications_new_message_enabled":             AsBool(SchemaComputedOptional),
-			"notifications_new_message_template":            AsString(SchemaComputedOptional),
-			"notifications_new_message_sound":               AsString(SchemaComputedOptional),
-			"notifications_new_message_badge_count_enabled": AsBool(SchemaComputedOptional),
-			"notifications_added_to_channel_enabled":        AsBool(SchemaComputedOptional),
-			"notifications_added_to_channel_template":       AsString(SchemaComputedOptional),
-			"notifications_added_to_channel_sound":          AsString(SchemaComputedOptional),
-			"notifications_removed_from_channel_enabled":    AsBool(SchemaComputedOptional),
-			"notifications_removed_from_channel_template":   AsString(SchemaComputedOptional),
-			"notifications_removed_from_channel_sound":      AsString(SchemaComputedOptional),
-			"notifications_invited_to_channel_enabled":      AsBool(SchemaComputedOptional),
-			"notifications_invited_to_channel_template":     AsString(SchemaComputedOptional),
-			"notifications_invited_to_channel_sound":        AsString(SchemaComputedOptional),
-			"pre_webhook_url":                               AsString(SchemaComputedOptional),
-			"post_webhook_url":                              AsString(SchemaComputedOptional),
-			"webhook_method":                                AsString(SchemaComputedOptional),
-			"webhook_filters":                               AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"limits_channel_members":                        AsInt(SchemaComputedOptional),
-			"limits_user_channels":                          AsInt(SchemaComputedOptional),
-			"media_compatibility_message":                   AsString(SchemaComputedOptional),
-			"pre_webhook_retry_count":                       AsInt(SchemaComputedOptional),
-			"post_webhook_retry_count":                      AsInt(SchemaComputedOptional),
-			"notifications_log_enabled":                     AsBool(SchemaComputedOptional),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServices,
+        ReadContext: readServices,
+        UpdateContext: updateServices,
+        DeleteContext: deleteServices,
+        Schema: map[string]*schema.Schema{
+            "friendly_name": AsString(SchemaRequired),
+            "sid": AsString(SchemaComputed),
+            "default_service_role_sid": AsString(SchemaComputedOptional),
+            "default_channel_role_sid": AsString(SchemaComputedOptional),
+            "default_channel_creator_role_sid": AsString(SchemaComputedOptional),
+            "read_status_enabled": AsBool(SchemaComputedOptional),
+            "reachability_enabled": AsBool(SchemaComputedOptional),
+            "typing_indicator_timeout": AsInt(SchemaComputedOptional),
+            "consumption_report_interval": AsInt(SchemaComputedOptional),
+            "notifications_new_message_enabled": AsBool(SchemaComputedOptional),
+            "notifications_new_message_template": AsString(SchemaComputedOptional),
+            "notifications_new_message_sound": AsString(SchemaComputedOptional),
+            "notifications_new_message_badge_count_enabled": AsBool(SchemaComputedOptional),
+            "notifications_added_to_channel_enabled": AsBool(SchemaComputedOptional),
+            "notifications_added_to_channel_template": AsString(SchemaComputedOptional),
+            "notifications_added_to_channel_sound": AsString(SchemaComputedOptional),
+            "notifications_removed_from_channel_enabled": AsBool(SchemaComputedOptional),
+            "notifications_removed_from_channel_template": AsString(SchemaComputedOptional),
+            "notifications_removed_from_channel_sound": AsString(SchemaComputedOptional),
+            "notifications_invited_to_channel_enabled": AsBool(SchemaComputedOptional),
+            "notifications_invited_to_channel_template": AsString(SchemaComputedOptional),
+            "notifications_invited_to_channel_sound": AsString(SchemaComputedOptional),
+            "pre_webhook_url": AsString(SchemaComputedOptional),
+            "post_webhook_url": AsString(SchemaComputedOptional),
+            "webhook_method": AsString(SchemaComputedOptional),
+            "webhook_filters": AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+            "limits_channel_members": AsInt(SchemaComputedOptional),
+            "limits_user_channels": AsInt(SchemaComputedOptional),
+            "media_compatibility_message": AsString(SchemaComputedOptional),
+            "pre_webhook_retry_count": AsInt(SchemaComputedOptional),
+            "post_webhook_retry_count": AsInt(SchemaComputedOptional),
+            "notifications_log_enabled": AsBool(SchemaComputedOptional),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateServiceParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateService(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
 
-	idParts := []string{}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
-	d.Set("sid", *r.Sid)
+        r, err := m.(*client.Config).Client.ChatV2.CreateService(&params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return updateServices(ctx, d, m)
+        idParts := []string{  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
+            d.Set("sid", *r.Sid)
+
+            return updateServices(ctx, d, m)
 }
 
 func deleteServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	sid := d.Get("sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteService(sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	sid := d.Get("sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchService(sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchService(sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected sid"
 
-	if len(importParts) != 1 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 1 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("sid", importParts[0])
+        d.Set("sid", importParts[0])
 
-	return nil
+    return nil
 }
 func updateServices(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateServiceParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateServiceParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	sid := d.Get("sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateService(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateService(sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func ResourceServicesUsers() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createServicesUsers,
-		ReadContext:   readServicesUsers,
-		UpdateContext: updateServicesUsers,
-		DeleteContext: deleteServicesUsers,
-		Schema: map[string]*schema.Schema{
-			"service_sid":              AsString(SchemaRequired),
-			"identity":                 AsString(SchemaForceNewRequired),
-			"x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
-			"role_sid":                 AsString(SchemaComputedOptional),
-			"attributes":               AsString(SchemaComputedOptional),
-			"friendly_name":            AsString(SchemaComputedOptional),
-			"sid":                      AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseServicesUsersImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
+    return &schema.Resource{
+        CreateContext: createServicesUsers,
+        ReadContext: readServicesUsers,
+        UpdateContext: updateServicesUsers,
+        DeleteContext: deleteServicesUsers,
+        Schema: map[string]*schema.Schema{
+            "service_sid": AsString(SchemaRequired),
+            "identity": AsString(SchemaForceNewRequired),
+            "x_twilio_webhook_enabled": AsString(SchemaComputedOptional),
+            "role_sid": AsString(SchemaComputedOptional),
+            "attributes": AsString(SchemaComputedOptional),
+            "friendly_name": AsString(SchemaComputedOptional),
+            "sid": AsString(SchemaComputed),
+        },
+        Importer: &schema.ResourceImporter{
+            StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+                err := parseServicesUsersImportId(d.Id(), d)
+                if err != nil {
+                    return nil, err
+                }
 
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
+                return []*schema.ResourceData{d}, nil
+            },
+        },
+    }
 }
 
 func createServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateUserParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := CreateUserParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
+    serviceSid := d.Get("service_sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.CreateUser(serviceSid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.CreateUser(serviceSid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	idParts := []string{serviceSid}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
+        idParts := []string{ serviceSid,  }
+        idParts = append(idParts, (*r.Sid))
+        d.SetId(strings.Join(idParts, "/"))
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+            err = MarshalSchema(d, r)
+            if err != nil {
+                return diag.FromErr(err)
+            }
 
-	return nil
+            return nil
 }
 
 func deleteServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	err := m.(*client.Config).Client.ChatV2.DeleteUser(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err := m.(*client.Config).Client.ChatV2.DeleteUser(serviceSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	d.SetId("")
+        d.SetId("")
 
-	return nil
+        return nil
 }
 
 func readServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.FetchUser(serviceSid, sid)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.FetchUser(serviceSid, sid)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
 
 func parseServicesUsersImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected service_sid/sid"
+    importParts := strings.Split(importId, "/")
+    errStr := "invalid import ID (%q), expected service_sid/sid"
 
-	if len(importParts) != 2 {
-		return fmt.Errorf(errStr, importId)
-	}
+    if len(importParts) != 2 {
+        return fmt.Errorf(errStr, importId)
+    }
 
-	d.Set("service_sid", importParts[0])
-	d.Set("sid", importParts[1])
+        d.Set("service_sid", importParts[0])
+        d.Set("sid", importParts[1])
 
-	return nil
+    return nil
 }
 func updateServicesUsers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := UpdateUserParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
+    params := UpdateUserParams{}
+    if err := UnmarshalSchema(&params, d); err != nil {
+        return diag.FromErr(err)
+    }
 
-	serviceSid := d.Get("service_sid").(string)
-	sid := d.Get("sid").(string)
+    serviceSid := d.Get("service_sid").(string)
+    sid := d.Get("sid").(string)
 
-	r, err := m.(*client.Config).Client.ChatV2.UpdateUser(serviceSid, sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        r, err := m.(*client.Config).Client.ChatV2.UpdateUser(serviceSid, sid, &params)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
+        err = MarshalSchema(d, r)
+        if err != nil {
+            return diag.FromErr(err)
+        }
 
-	return nil
+        return nil
 }
+

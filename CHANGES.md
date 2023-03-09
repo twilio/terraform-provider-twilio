@@ -1,5 +1,21 @@
 terraform-provider-twilio changelog
 ====================
+[2023-03-09] Version 0.18.17
+----------------------------
+**Library - Chore**
+- [PR #127](https://github.com/twilio/terraform-provider-twilio/pull/127): upgrade dependencies. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #126](https://github.com/twilio/terraform-provider-twilio/pull/126): update minimum go version for development to 1.18. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Add new categories for whatsapp template
+
+**Lookups**
+- Remove `validation_results` from the `default_output_properties`
+
+**Supersim**
+- Add ESimProfile's `matching_id` and `activation_code` parameters to libraries
+
+
 [2023-02-22] Version 0.18.16
 ----------------------------
 **Library - Fix**

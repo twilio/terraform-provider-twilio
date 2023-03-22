@@ -287,7 +287,7 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **friendly_name** | string | **Required** | A descriptive string that you created to describe this resource. It can be up to 64 characters long.
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
-**max_size** | int | Optional | The maximum number of calls allowed to be in the queue. The default is 100. The maximum is 5000.
+**max_size** | int | Optional | The maximum number of calls allowed to be in the queue. The default is 1000. The maximum is 5000.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Queue resource to update
 
 ## twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings

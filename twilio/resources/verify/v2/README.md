@@ -80,7 +80,7 @@ Name | Type | Requirement | Description
 
 Name | Type | Requirement | Description
 --- | --- | --- | ---
-**friendly_name** | string | **Required** | A descriptive string that you create to describe the verification service. It can be up to 30 characters long. **This value should not contain PII.**
+**friendly_name** | string | **Required** | A descriptive string that you create to describe the verification service. It can be up to 32 characters long. **This value should not contain PII.**
 **code_length** | int | Optional | The length of the verification code to generate. Must be an integer value between 4 and 10, inclusive.
 **lookup_enabled** | bool | Optional | Whether to perform a lookup with each verification started and return info about the phone number.
 **skip_sms_to_landlines** | bool | Optional | Whether to skip sending SMS verifications to landlines. Requires `lookup_enabled`.

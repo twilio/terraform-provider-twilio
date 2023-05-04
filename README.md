@@ -43,7 +43,7 @@ terraform {
   required_providers {
     twilio = {
       source  = "twilio/twilio"
-      version = "0.18.20"
+      version = "0.18.21"
     }
   }
 }

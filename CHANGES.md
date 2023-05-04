@@ -1,5 +1,11 @@
 terraform-provider-twilio changelog
 ====================
+[2023-05-04] Version 0.18.21
+----------------------------
+**Conversations**
+- Remove `start_date`, `end_date` and `state` query parameters from list operation on Conversations resource **(breaking change)**
+
+
 [2023-04-19] Version 0.18.20
 ----------------------------
 **Messaging**

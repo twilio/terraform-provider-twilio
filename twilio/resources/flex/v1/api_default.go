@@ -249,23 +249,23 @@ func updateFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 	return nil
 }
 
-func ResourceInsightsQMQuestionnaires() *schema.Resource {
+func ResourceInsightsQualityManagementQuestionnaires() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: createInsightsQMQuestionnaires,
-		ReadContext:   readInsightsQMQuestionnaires,
-		UpdateContext: updateInsightsQMQuestionnaires,
-		DeleteContext: deleteInsightsQMQuestionnaires,
+		CreateContext: createInsightsQualityManagementQuestionnaires,
+		ReadContext:   readInsightsQualityManagementQuestionnaires,
+		UpdateContext: updateInsightsQualityManagementQuestionnaires,
+		DeleteContext: deleteInsightsQualityManagementQuestionnaires,
 		Schema: map[string]*schema.Schema{
-			"name":         AsString(SchemaRequired),
-			"token":        AsString(SchemaComputedOptional),
-			"description":  AsString(SchemaComputedOptional),
-			"active":       AsBool(SchemaComputedOptional),
-			"question_ids": AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
-			"id":           AsString(SchemaComputed),
+			"name":              AsString(SchemaRequired),
+			"token":             AsString(SchemaComputedOptional),
+			"description":       AsString(SchemaComputedOptional),
+			"active":            AsBool(SchemaComputedOptional),
+			"question_sids":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"questionnaire_sid": AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseInsightsQMQuestionnairesImportId(d.Id(), d)
+				err := parseInsightsQualityManagementQuestionnairesImportId(d.Id(), d)
 				if err != nil {
 					return nil, err
 				}
@@ -276,7 +276,7 @@ func ResourceInsightsQMQuestionnaires() *schema.Resource {
 	}
 }
 
-func createInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := CreateInsightsQuestionnairesParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
@@ -288,7 +288,7 @@ func createInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData,
 	}
 
 	idParts := []string{}
-	idParts = append(idParts, (*r.Id))
+	idParts = append(idParts, (*r.QuestionnaireSid))
 	d.SetId(strings.Join(idParts, "/"))
 
 	err = MarshalSchema(d, r)
@@ -299,15 +299,15 @@ func createInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func deleteInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := DeleteInsightsQuestionnairesParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	id := d.Get("id").(string)
+	questionnaireSid := d.Get("questionnaire_sid").(string)
 
-	err := m.(*client.Config).Client.FlexV1.DeleteInsightsQuestionnaires(id, &params)
+	err := m.(*client.Config).Client.FlexV1.DeleteInsightsQuestionnaires(questionnaireSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -317,15 +317,15 @@ func deleteInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func readInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := FetchInsightsQuestionnairesParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	id := d.Get("id").(string)
+	questionnaireSid := d.Get("questionnaire_sid").(string)
 
-	r, err := m.(*client.Config).Client.FlexV1.FetchInsightsQuestionnaires(id, &params)
+	r, err := m.(*client.Config).Client.FlexV1.FetchInsightsQuestionnaires(questionnaireSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -338,27 +338,27 @@ func readInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func parseInsightsQMQuestionnairesImportId(importId string, d *schema.ResourceData) error {
+func parseInsightsQualityManagementQuestionnairesImportId(importId string, d *schema.ResourceData) error {
 	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected id"
+	errStr := "invalid import ID (%q), expected questionnaire_sid"
 
 	if len(importParts) != 1 {
 		return fmt.Errorf(errStr, importId)
 	}
 
-	d.Set("id", importParts[0])
+	d.Set("questionnaire_sid", importParts[0])
 
 	return nil
 }
-func updateInsightsQMQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	params := UpdateInsightsQuestionnairesParams{}
 	if err := UnmarshalSchema(&params, d); err != nil {
 		return diag.FromErr(err)
 	}
 
-	id := d.Get("id").(string)
+	questionnaireSid := d.Get("questionnaire_sid").(string)
 
-	r, err := m.(*client.Config).Client.FlexV1.UpdateInsightsQuestionnaires(id, &params)
+	r, err := m.(*client.Config).Client.FlexV1.UpdateInsightsQuestionnaires(questionnaireSid, &params)
 	if err != nil {
 		return diag.FromErr(err)
 	}

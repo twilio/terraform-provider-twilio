@@ -120,7 +120,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_events_subscriptions_v1":                                              eventsV1.ResourceSubscriptions(),
 			"twilio_flex_channels_v1":                                                     flexV1.ResourceChannels(),
 			"twilio_flex_flex_flows_v1":                                                   flexV1.ResourceFlexFlows(),
-			"twilio_flex_insights_qm_questionnaires_v1":                                   flexV1.ResourceInsightsQMQuestionnaires(),
+			"twilio_flex_insights_quality_management_questionnaires_v1":                   flexV1.ResourceInsightsQualityManagementQuestionnaires(),
 			"twilio_flex_web_channels_v1":                                                 flexV1.ResourceWebChannels(),
 			"twilio_ip_messaging_services_channels_v1":                                    ip_messagingV1.ResourceServicesChannels(),
 			"twilio_ip_messaging_credentials_v1":                                          ip_messagingV1.ResourceCredentials(),

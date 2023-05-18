@@ -44,6 +44,7 @@ func ResourceConfigurationAddresses() *schema.Resource {
 			"auto_creation_webhook_filters":          AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"auto_creation_studio_flow_sid":          AsString(SchemaComputedOptional),
 			"auto_creation_studio_retry_count":       AsInt(SchemaComputedOptional),
+			"address_country":                        AsString(SchemaForceNewOptional),
 			"sid":                                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

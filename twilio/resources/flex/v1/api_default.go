@@ -257,7 +257,7 @@ func ResourceInsightsQualityManagementQuestionnaires() *schema.Resource {
 		DeleteContext: deleteInsightsQualityManagementQuestionnaires,
 		Schema: map[string]*schema.Schema{
 			"name":              AsString(SchemaRequired),
-			"token":             AsString(SchemaComputedOptional),
+			"authorization":     AsString(SchemaComputedOptional),
 			"description":       AsString(SchemaComputedOptional),
 			"active":            AsBool(SchemaComputedOptional),
 			"question_sids":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),

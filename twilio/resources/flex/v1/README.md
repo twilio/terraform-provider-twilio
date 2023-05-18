@@ -49,7 +49,7 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **name** | string | **Required** | The name of this questionnaire
-**token** | string | Optional | The Token HTTP request header
+**authorization** | string | Optional | The Authorization HTTP request header
 **description** | string | Optional | The description of this questionnaire
 **active** | bool | Optional | The flag to enable or disable questionnaire
 **question_sids** | list(string) | Optional | The list of questions sids under a questionnaire

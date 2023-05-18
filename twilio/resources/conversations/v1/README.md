@@ -16,6 +16,7 @@ Name | Type | Requirement | Description
 **auto_creation_webhook_filters** | list(string) | Optional | The list of events, firing webhook event for this Conversation. Values can be any of the following: `onMessageAdded`, `onMessageUpdated`, `onMessageRemoved`, `onConversationUpdated`, `onConversationStateUpdated`, `onConversationRemoved`, `onParticipantAdded`, `onParticipantUpdated`, `onParticipantRemoved`, `onDeliveryUpdated`
 **auto_creation_studio_flow_sid** | string | Optional | For type `studio`, the studio flow SID where the webhook should be sent to.
 **auto_creation_studio_retry_count** | int | Optional | For type `studio`, number of times to retry the webhook request
+**address_country** | string | Optional | An ISO 3166-1 alpha-2n country code which the address belongs to. This is currently only applicable to short code addresses.
 **sid** | string | *Computed* | The SID of the Address Configuration resource. This value can be either the `sid` or the `address` of the configuration
 
 ## twilio_conversations_conversations_v1

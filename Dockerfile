@@ -7,6 +7,7 @@ COPY client ./client
 COPY core ./core
 COPY twilio ./twilio
 COPY main.go .
+COPY Makefile .
 
 # Fetch dependencies
 COPY go.mod .

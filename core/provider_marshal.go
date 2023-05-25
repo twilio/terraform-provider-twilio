@@ -459,7 +459,7 @@ func marshallNode(setter func(string, interface{}) error, fieldName string, fiel
 	return nil
 }
 
-//From provider (resourceData) to structure (client) presentation
+// From provider (resourceData) to structure (client) presentation
 func MarshalSchema(resourceData *schema.ResourceData, src interface{}) error {
 	srcType := reflect.TypeOf(src).Elem()
 	srcValue := reflect.Indirect(reflect.ValueOf(src))

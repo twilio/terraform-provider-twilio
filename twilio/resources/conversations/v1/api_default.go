@@ -44,6 +44,7 @@ func ResourceConfigurationAddresses() *schema.Resource {
 			"auto_creation_webhook_filters":          AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
 			"auto_creation_studio_flow_sid":          AsString(SchemaComputedOptional),
 			"auto_creation_studio_retry_count":       AsInt(SchemaComputedOptional),
+			"address_country":                        AsString(SchemaForceNewOptional),
 			"sid":                                    AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -284,6 +285,8 @@ func ResourceConversationsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"media_sid":                AsString(SchemaForceNewOptional),
+			"content_sid":              AsString(SchemaForceNewOptional),
+			"content_variables":        AsString(SchemaForceNewOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -1108,6 +1111,8 @@ func ResourceServicesConversationsMessages() *schema.Resource {
 			"date_updated":             AsString(SchemaComputedOptional),
 			"attributes":               AsString(SchemaComputedOptional),
 			"media_sid":                AsString(SchemaForceNewOptional),
+			"content_sid":              AsString(SchemaForceNewOptional),
+			"content_variables":        AsString(SchemaForceNewOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

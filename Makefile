@@ -5,7 +5,7 @@ REGISTRY=local
 NAMESPACE=twilio
 NAME=twilio
 BINARY=terraform-provider-${NAME}
-VERSION=0.18.3
+VERSION=0.18.22
 OS_ARCH=darwin_amd64
 
 default: build
@@ -25,7 +25,7 @@ govet: goimports
 	go vet ./...
 
 golint: govet
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.39.0
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	golangci-lint run
 
 terrafmt:
@@ -42,9 +42,7 @@ test: build
 
 test-docker:
 	docker build -t terraform-provider-${NAME} .
-	docker run twilio/terraform-provider-twilio go test $(TEST) || exit 1
-	docker run twilio/terraform-provider-twilio echo $(TEST) | \
-		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
+	docker run terraform-provider-twilio make test -o build
 
 testacc:
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m

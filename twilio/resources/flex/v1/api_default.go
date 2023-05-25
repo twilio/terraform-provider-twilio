@@ -249,6 +249,128 @@ func updateFlexFlows(ctx context.Context, d *schema.ResourceData, m interface{})
 	return nil
 }
 
+func ResourceInsightsQualityManagementQuestionnaires() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createInsightsQualityManagementQuestionnaires,
+		ReadContext:   readInsightsQualityManagementQuestionnaires,
+		UpdateContext: updateInsightsQualityManagementQuestionnaires,
+		DeleteContext: deleteInsightsQualityManagementQuestionnaires,
+		Schema: map[string]*schema.Schema{
+			"name":              AsString(SchemaRequired),
+			"authorization":     AsString(SchemaComputedOptional),
+			"description":       AsString(SchemaComputedOptional),
+			"active":            AsBool(SchemaComputedOptional),
+			"question_sids":     AsList(AsString(SchemaComputedOptional), SchemaComputedOptional),
+			"questionnaire_sid": AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseInsightsQualityManagementQuestionnairesImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateInsightsQuestionnairesParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.FlexV1.CreateInsightsQuestionnaires(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.QuestionnaireSid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteInsightsQuestionnairesParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	questionnaireSid := d.Get("questionnaire_sid").(string)
+
+	err := m.(*client.Config).Client.FlexV1.DeleteInsightsQuestionnaires(questionnaireSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchInsightsQuestionnairesParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	questionnaireSid := d.Get("questionnaire_sid").(string)
+
+	r, err := m.(*client.Config).Client.FlexV1.FetchInsightsQuestionnaires(questionnaireSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseInsightsQualityManagementQuestionnairesImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected questionnaire_sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("questionnaire_sid", importParts[0])
+
+	return nil
+}
+func updateInsightsQualityManagementQuestionnaires(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateInsightsQuestionnairesParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	questionnaireSid := d.Get("questionnaire_sid").(string)
+
+	r, err := m.(*client.Config).Client.FlexV1.UpdateInsightsQuestionnaires(questionnaireSid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
 func ResourceWebChannels() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createWebChannels,

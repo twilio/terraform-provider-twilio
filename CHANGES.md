@@ -1,5 +1,263 @@
 terraform-provider-twilio changelog
 ====================
+[2023-05-18] Version 0.18.22
+----------------------------
+**Conversations**
+- Added  `AddressCountry` parameter to Address Configuration endpoint, to support regional short code addresses
+- Added query parameters `start_date`, `end_date` and `state` in list Conversations resource for filtering
+
+**Insights**
+- Added annotations parameters to list summary api
+
+**Messaging**
+- Add GET domainByMessagingService endpoint to linkShortening service
+- Add `disable_https` to link shortening domain_config properties
+
+**Numbers**
+- Add bulk_eligibility api under version `/v1`.
+
+
+[2023-05-04] Version 0.18.21
+----------------------------
+**Conversations**
+- Remove `start_date`, `end_date` and `state` query parameters from list operation on Conversations resource **(breaking change)**
+
+
+[2023-04-19] Version 0.18.20
+----------------------------
+**Messaging**
+- Remove `messaging_service_sids` and `messaging_service_sid_action` from domain config endpoint **(breaking change)**
+- Add error_code and rejection_reason properties to tollfree verification API response
+
+**Numbers**
+- Added the new Eligibility API under version `/v1`.
+
+
+[2023-04-05] Version 0.18.19
+----------------------------
+**Conversations**
+- Expose query parameters `start_date`, `end_date` and `state` in list operation on Conversations resource for sorting and filtering
+
+**Insights**
+- Added answered by filter in Call Summaries
+
+**Lookups**
+- Remove `disposable_phone_number_risk` package **(breaking change)**
+
+**Messaging**
+- Add support for `SOLE_PROPRIETOR` brand type and `SOLE_PROPRIETOR` campaign use case.
+- New Sole Proprietor Brands should be created with `SOLE_PROPRIETOR` brand type. Brand registration requests with `STARTER` brand type will be rejected.
+- New Sole Proprietor Campaigns should be created with `SOLE_PROPRIETOR` campaign use case. Campaign registration requests with `STARTER` campaign use case will be rejected.
+- Add Brand Registrations OTP API
+
+
+[2023-03-22] Version 0.18.18
+----------------------------
+**Api**
+- Revert Corrected the data type for `friendly_name` in Available Phone Number Local, Mobile and TollFree resources
+- Corrected the data type for `friendly_name` in Available Phone Number Local, Mobile and TollFree resources **(breaking change)**
+
+**Messaging**
+- Add `linkshortening_messaging_service` resource
+- Add new endpoint for GetDomainConfigByMessagingServiceSid
+- Remove `validated` parameter and add `cert_in_validation` parameter to Link Shortening API **(breaking change)**
+
+
+[2023-03-09] Version 0.18.17
+----------------------------
+**Library - Chore**
+- [PR #127](https://github.com/twilio/terraform-provider-twilio/pull/127): upgrade dependencies. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #126](https://github.com/twilio/terraform-provider-twilio/pull/126): update minimum go version for development to 1.18. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Add new categories for whatsapp template
+
+**Lookups**
+- Remove `validation_results` from the `default_output_properties`
+
+**Supersim**
+- Add ESimProfile's `matching_id` and `activation_code` parameters to libraries
+
+
+[2023-02-22] Version 0.18.16
+----------------------------
+**Library - Fix**
+- [PR #125](https://github.com/twilio/terraform-provider-twilio/pull/125): drop bulk exports resource. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Remove `scheduled_for` property from message resource
+- Add `scheduled_for` property to message resource
+
+
+[2023-02-08] Version 0.18.15
+----------------------------
+**Lookups**
+- Add `disposable_phone_number_risk` package to the lookup response
+- Add `sms_pumping_risk` package to the lookup response
+
+
+[2023-01-25] Version 0.18.14
+----------------------------
+**Api**
+- Add `public_application_connect_enabled` param to Application resource
+
+**Messaging**
+- Add new tollfree verification API property (ExternalReferenceId)]
+
+**Verify**
+- Add `device_ip` parameter and channel `auto` for sna/sms orchestration
+
+
+[2023-01-11] Version 0.18.13
+----------------------------
+**Conversations**
+- Add support for creating Multi-Channel Rich Content Messages
+
+**Lookups**
+- Changed the no data message for match postal code from `no_data` to `data_not_available` in identity match package
+
+**Messaging**
+- Add update/edit tollfree verification API
+
+
+[2022-12-14] Version 0.18.12
+----------------------------
+**Api**
+- Add `street_secondary` param to address create and update
+- Make `method` optional for user defined message subscription **(breaking change)**
+
+**Flex**
+- Flex Conversations is now Generally Available
+- Adding the ie1 mapping for authorization api, updating service base uri and base url response attribute **(breaking change)**
+- Change web channels to GA and library visibility to public
+- Changing the uri for authorization api from using Accounts to Insights **(breaking change)**
+
+**Media**
+- Gate Twilio Live endpoints behind beta_feature for EOS
+
+**Messaging**
+- Mark `MessageFlow` as a required field for Campaign Creation **(breaking change)**
+
+**Oauth**
+- updated openid discovery endpoint uri **(breaking change)**
+- Added device code authorization endpoint
+
+**Supersim**
+- Allow filtering the SettingsUpdates resource by `status`
+
+
+[2022-11-30] Version 0.18.11
+----------------------------
+**Flex**
+- Adding new `assessments` api in version `v1`
+
+**Lookups**
+- Add `identity_match` package to the lookup response
+
+**Messaging**
+- Added `validated` parameter to Link Shortening API
+
+**Serverless**
+- Add node16 as a valid Build runtime
+- Add ie1 and au1 as supported regions for all endpoints.
+
+
+[2022-11-16] Version 0.18.10
+----------------------------
+**Library - Chore**
+- [PR #119](https://github.com/twilio/terraform-provider-twilio/pull/119): upgrade GitHub Actions dependencies. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Api**
+- Set the Content resource to have public visibility as Preview
+
+**Flex**
+- Adding new parameter `base_url` to 'gooddata' response in version `v1`
+
+**Insights**
+- Added `answered_by` field in List Call Summary
+- Added `answered_by` field in call summary
+
+
+[2022-11-10] Version 0.18.9
+---------------------------
+**Flex**
+- Adding two new authorization API 'user_roles' and 'gooddata' in version `v1`
+
+**Messaging**
+- Add new Campaign properties (MessageFlow, OptInMessage, OptInKeywords, OptOutMessage, OptOutKeywords, HelpMessage, HelpKeywords)
+
+
+[2022-10-31] Version 0.18.8
+---------------------------
+**Api**
+- Added `contentSid` and `contentVariables` to Message resource with public visibility as Beta
+- Add `UserDefinedMessageSubscription` and `UserDefinedMessage` resource
+
+**Proxy**
+- Remove FailOnParticipantConflict param from Proxy Session create and update and Proxy Participant create
+
+**Supersim**
+- Update SettingsUpdates resource to remove PackageSid
+
+**Taskrouter**
+- Add `Ordering` query parameter to Workers and TaskQueues for sorting by
+- Add `worker_sid` query param for list reservations endpoint
+
+
+[2022-10-19] Version 0.18.7
+---------------------------
+**Api**
+- Make link shortening parameters public **(breaking change)**
+
+**Oauth**
+- added oauth JWKS endpoint
+- Get userinfo resource
+- OpenID discovery resource
+- Add new API for token endpoint
+
+**Supersim**
+- Add SettingsUpdates resource
+
+**Verify**
+- Update Verify Push endpoints to `ga` maturity
+- Verify BYOT add Channels property to the Get Templates response
+
+
+[2022-10-05] Version 0.18.6
+---------------------------
+**Api**
+- Added `virtual-agent` to `usage_record` API.
+- Add AMD attributes to participant create request
+
+
+[2022-09-07] Version 0.18.5
+---------------------------
+**Flex**
+- Removed redundant `close` status from Flex Interactions flow **(breaking change)**
+- Adding `debugger_integration` and `flex_ui_status_report` to Flex Configuration
+
+**Messaging**
+- Add create, list and get tollfree verification API
+
+**Verify**
+- Verify SafeList API endpoints added.
+
+**Video**
+- Add `Anonymize` API
+
+
+[2022-08-24] Version 0.18.4
+---------------------------
+**Library - Test**
+- [PR #116](https://github.com/twilio/terraform-provider-twilio/pull/116): add test-docker rule & Dockerfile. Thanks to [@beebzz](https://github.com/beebzz)!
+
+**Api**
+- Remove `beta feature` from scheduling params and remove optimize parameters. **(breaking change)**
+
+**Routes**
+- Remove Duplicate Create Method - Update Method will work even if Inbound Processing Region is currently empty/404. **(breaking change)**
+
+
 [2022-08-10] Version 0.18.3
 ---------------------------
 **Routes**

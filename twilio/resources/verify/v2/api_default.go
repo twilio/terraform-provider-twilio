@@ -611,6 +611,93 @@ func updateServicesRateLimits(ctx context.Context, d *schema.ResourceData, m int
 	return nil
 }
 
+func ResourceSafeListNumbers() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createSafeListNumbers,
+		ReadContext:   readSafeListNumbers,
+		DeleteContext: deleteSafeListNumbers,
+		Schema: map[string]*schema.Schema{
+			"phone_number": AsString(SchemaForceNewRequired),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseSafeListNumbersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createSafeListNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSafelistParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.VerifyV2.CreateSafelist(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.PhoneNumber))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteSafeListNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	phoneNumber := d.Get("phone_number").(string)
+
+	err := m.(*client.Config).Client.VerifyV2.DeleteSafelist(phoneNumber)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readSafeListNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	phoneNumber := d.Get("phone_number").(string)
+
+	r, err := m.(*client.Config).Client.VerifyV2.FetchSafelist(phoneNumber)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseSafeListNumbersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected phone_number"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("phone_number", importParts[0])
+
+	return nil
+}
 func ResourceServices() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServices,

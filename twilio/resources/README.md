@@ -43,10 +43,6 @@
 * [twilio_autopilot_assistants_tasks_v1](autopilot/v1/README.md#twilio_autopilot_assistants_tasks_v1)
 * [twilio_autopilot_assistants_webhooks_v1](autopilot/v1/README.md#twilio_autopilot_assistants_webhooks_v1)
 
-## bulkexports v1
-
-* [twilio_bulkexports_exports_jobs_v1](bulkexports/v1/README.md#twilio_bulkexports_exports_jobs_v1)
-
 ## chat v1
 
 * [twilio_chat_services_channels_v1](chat/v1/README.md#twilio_chat_services_channels_v1)
@@ -98,6 +94,7 @@
 
 * [twilio_flex_channels_v1](flex/v1/README.md#twilio_flex_channels_v1)
 * [twilio_flex_flex_flows_v1](flex/v1/README.md#twilio_flex_flex_flows_v1)
+* [twilio_flex_insights_quality_management_questionnaires_v1](flex/v1/README.md#twilio_flex_insights_quality_management_questionnaires_v1)
 * [twilio_flex_web_channels_v1](flex/v1/README.md#twilio_flex_web_channels_v1)
 
 ## ip_messaging v1
@@ -130,6 +127,13 @@
 * [twilio_messaging_services_v1](messaging/v1/README.md#twilio_messaging_services_v1)
 * [twilio_messaging_services_short_codes_v1](messaging/v1/README.md#twilio_messaging_services_short_codes_v1)
 * [twilio_messaging_services_compliance_usa2p_v1](messaging/v1/README.md#twilio_messaging_services_compliance_usa2p_v1)
+
+## microvisor v1
+
+* [twilio_microvisor_configs_v1](microvisor/v1/README.md#twilio_microvisor_configs_v1)
+* [twilio_microvisor_secrets_v1](microvisor/v1/README.md#twilio_microvisor_secrets_v1)
+* [twilio_microvisor_devices_configs_v1](microvisor/v1/README.md#twilio_microvisor_devices_configs_v1)
+* [twilio_microvisor_devices_secrets_v1](microvisor/v1/README.md#twilio_microvisor_devices_secrets_v1)
 
 ## notify v1
 
@@ -221,6 +225,7 @@
 * [twilio_verify_services_messaging_configurations_v2](verify/v2/README.md#twilio_verify_services_messaging_configurations_v2)
 * [twilio_verify_services_entities_factors_v2](verify/v2/README.md#twilio_verify_services_entities_factors_v2)
 * [twilio_verify_services_rate_limits_v2](verify/v2/README.md#twilio_verify_services_rate_limits_v2)
+* [twilio_verify_safe_list_numbers_v2](verify/v2/README.md#twilio_verify_safe_list_numbers_v2)
 * [twilio_verify_services_v2](verify/v2/README.md#twilio_verify_services_v2)
 * [twilio_verify_services_webhooks_v2](verify/v2/README.md#twilio_verify_services_webhooks_v2)
 

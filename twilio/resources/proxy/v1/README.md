@@ -11,7 +11,6 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | The string that you assigned to describe the participant. This value must be 255 characters or fewer. **This value should not have PII.**
 **proxy_identifier** | string | Optional | The proxy phone number to use for the Participant. If not specified, Proxy will select a number from the pool.
 **proxy_identifier_sid** | string | Optional | The SID of the Proxy Identifier to assign to the Participant.
-**fail_on_participant_conflict** | bool | Optional | [Experimental] For accounts with the ProxyAllowParticipantConflict account flag, setting to true enables per-request opt-in to allowing Proxy to reject a Participant create request that could cause the same Identifier/ProxyIdentifier pair to be active in multiple Sessions. Depending on the context, this could be a 409 error (Twilio error code 80623) or a 400 error (Twilio error code 80604). If not provided, requests will be allowed to succeed and a Debugger notification (80802) will be emitted. Having multiple, active Participants with the same Identifier/ProxyIdentifier pair causes calls and messages from affected Participants to be routed incorrectly. Please note, the default behavior for accounts without the ProxyAllowParticipantConflict flag is to reject the request as described.  This will eventually be the default for all accounts.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Participant resource to fetch.
 
 ## twilio_proxy_services_phone_numbers_v1
@@ -32,7 +31,7 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **unique_name** | string | **Required** | An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**
-**default_ttl** | int | Optional | The default &#x60;ttl&#x60; value to set for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session&#39;s last create or last Interaction. The default value of &#x60;0&#x60; indicates an unlimited Session length. You can override a Session&#39;s default TTL value by setting its &#x60;ttl&#x60; value.
+**default_ttl** | int | Optional | The default `ttl` value to set for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session's last create or last Interaction. The default value of `0` indicates an unlimited Session length. You can override a Session's default TTL value by setting its `ttl` value.
 **callback_url** | string | Optional | The URL we should call when the interaction status changes.
 **geo_match_level** | string | Optional | 
 **number_selection_behavior** | string | Optional | 
@@ -49,12 +48,11 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **service_sid** | string | **Required** | The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**
-**date_expiry** | string | Optional | The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the &#x60;ttl&#x60; value.
-**ttl** | int | Optional | The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session&#39;s last Interaction.
+**date_expiry** | string | Optional | The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.
+**ttl** | int | Optional | The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.
 **mode** | string | Optional | 
 **status** | string | Optional | 
 **participants** | list(string) | Optional | The Participant objects to include in the new session.
-**fail_on_participant_conflict** | bool | Optional | [Experimental] For accounts with the ProxyAllowParticipantConflict account flag, setting to true enables per-request opt-in to allowing Proxy to reject a Session create (with Participants) request that could cause the same Identifier/ProxyIdentifier pair to be active in multiple Sessions. Depending on the context, this could be a 409 error (Twilio error code 80623) or a 400 error (Twilio error code 80604). If not provided, requests will be allowed to succeed and a Debugger notification (80802) will be emitted. Having multiple, active Participants with the same Identifier/ProxyIdentifier pair causes calls and messages from affected Participants to be routed incorrectly. Please note, the default behavior for accounts without the ProxyAllowParticipantConflict flag is to reject the request as described.  This will eventually be the default for all accounts.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Session resource to update.
 
 ## twilio_proxy_services_short_codes_v1

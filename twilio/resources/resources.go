@@ -16,7 +16,6 @@ import (
 	accountsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/accounts/v1"
 	api "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
 	autopilotV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/autopilot/v1"
-	bulkexportsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/bulkexports/v1"
 	chatV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v1"
 	chatV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v2"
 	conversationsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/conversations/v1"
@@ -25,6 +24,7 @@ import (
 	ip_messagingV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/ip_messaging/v1"
 	ip_messagingV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/ip_messaging/v2"
 	messagingV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/messaging/v1"
+	microvisorV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/microvisor/v1"
 	notifyV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/notify/v1"
 	numbersV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/numbers/v2"
 	proxyV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/proxy/v1"
@@ -83,7 +83,6 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_autopilot_assistants_tasks_samples_v1":                                autopilotV1.ResourceAssistantsTasksSamples(),
 			"twilio_autopilot_assistants_tasks_v1":                                        autopilotV1.ResourceAssistantsTasks(),
 			"twilio_autopilot_assistants_webhooks_v1":                                     autopilotV1.ResourceAssistantsWebhooks(),
-			"twilio_bulkexports_exports_jobs_v1":                                          bulkexportsV1.ResourceExportsJobs(),
 			"twilio_chat_services_channels_v1":                                            chatV1.ResourceServicesChannels(),
 			"twilio_chat_credentials_v1":                                                  chatV1.ResourceCredentials(),
 			"twilio_chat_services_channels_invites_v1":                                    chatV1.ResourceServicesChannelsInvites(),
@@ -121,6 +120,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_events_subscriptions_v1":                                              eventsV1.ResourceSubscriptions(),
 			"twilio_flex_channels_v1":                                                     flexV1.ResourceChannels(),
 			"twilio_flex_flex_flows_v1":                                                   flexV1.ResourceFlexFlows(),
+			"twilio_flex_insights_quality_management_questionnaires_v1":                   flexV1.ResourceInsightsQualityManagementQuestionnaires(),
 			"twilio_flex_web_channels_v1":                                                 flexV1.ResourceWebChannels(),
 			"twilio_ip_messaging_services_channels_v1":                                    ip_messagingV1.ResourceServicesChannels(),
 			"twilio_ip_messaging_credentials_v1":                                          ip_messagingV1.ResourceCredentials(),
@@ -144,6 +144,10 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_messaging_services_v1":                                                messagingV1.ResourceServices(),
 			"twilio_messaging_services_short_codes_v1":                                    messagingV1.ResourceServicesShortCodes(),
 			"twilio_messaging_services_compliance_usa2p_v1":                               messagingV1.ResourceServicesComplianceUsa2p(),
+			"twilio_microvisor_configs_v1":                                                microvisorV1.ResourceConfigs(),
+			"twilio_microvisor_secrets_v1":                                                microvisorV1.ResourceSecrets(),
+			"twilio_microvisor_devices_configs_v1":                                        microvisorV1.ResourceDevicesConfigs(),
+			"twilio_microvisor_devices_secrets_v1":                                        microvisorV1.ResourceDevicesSecrets(),
 			"twilio_notify_services_bindings_v1":                                          notifyV1.ResourceServicesBindings(),
 			"twilio_notify_credentials_v1":                                                notifyV1.ResourceCredentials(),
 			"twilio_notify_services_v1":                                                   notifyV1.ResourceServices(),
@@ -199,6 +203,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_verify_services_messaging_configurations_v2":                          verifyV2.ResourceServicesMessagingConfigurations(),
 			"twilio_verify_services_entities_factors_v2":                                  verifyV2.ResourceServicesEntitiesFactors(),
 			"twilio_verify_services_rate_limits_v2":                                       verifyV2.ResourceServicesRateLimits(),
+			"twilio_verify_safe_list_numbers_v2":                                          verifyV2.ResourceSafeListNumbers(),
 			"twilio_verify_services_v2":                                                   verifyV2.ResourceServices(),
 			"twilio_verify_services_webhooks_v2":                                          verifyV2.ResourceServicesWebhooks(),
 			"twilio_video_compositions_v1":                                                videoV1.ResourceCompositions(),

@@ -5,7 +5,7 @@
 
 ## Project Status
 
-:warning: This project is currently in **PILOT** and under active development.
+:warning: This project is currently in **PILOT** and NOT under active development.
 
 ## Requirements
 

@@ -242,7 +242,7 @@ Name | Type | Requirement | Description
 **early_media** | bool | Optional | Whether to allow an agent to hear the state of the outbound call, including ringing or disconnect messages. Can be: `true` or `false` and defaults to `true`.
 **max_participants** | int | Optional | The maximum number of participants in the conference. Can be a positive integer from `2` to `250`. The default value is `250`.
 **conference_record** | string | Optional | Whether to record the conference the participant is joining. Can be: `true`, `false`, `record-from-start`, and `do-not-record`. The default value is `false`.
-**conference_trim** | string | Optional | Whether to trim leading and trailing silence from your recorded conference audio files. Can be: `trim-silence` or `do-not-trim` and defaults to `trim-silence`.
+**conference_trim** | string | Optional | Whether to trim leading and trailing silence from the conference recording. Can be: `trim-silence` or `do-not-trim` and defaults to `trim-silence`.
 **conference_status_callback** | string | Optional | The URL we should call using the `conference_status_callback_method` when the conference events in `conference_status_callback_event` occur. Only the value set by the first participant to join the conference is used. Subsequent `conference_status_callback` values are ignored.
 **conference_status_callback_method** | string | Optional | The HTTP method we should use to call `conference_status_callback`. Can be: `GET` or `POST` and defaults to `POST`.
 **conference_status_callback_event** | list(string) | Optional | The conference state changes that should generate a call to `conference_status_callback`. Can be: `start`, `end`, `join`, `leave`, `mute`, `hold`, `modify`, `speaker`, and `announcement`. Separate multiple values with a space. Defaults to `start end`.
@@ -271,6 +271,7 @@ Name | Type | Requirement | Description
 **machine_detection_silence_timeout** | int | Optional | The number of milliseconds of initial silence after which an `unknown` AnsweredBy result will be returned. Possible Values: 2000-10000. Default: 5000.
 **amd_status_callback** | string | Optional | The URL that we should call using the `amd_status_callback_method` to notify customer application whether the call was answered by human, machine or fax.
 **amd_status_callback_method** | string | Optional | The HTTP method we should use when calling the `amd_status_callback` URL. Can be: `GET` or `POST` and the default is `POST`.
+**trim** | string | Optional | Whether to trim any leading and trailing silence from the participant recording. Can be: `trim-silence` or `do-not-trim` and the default is `trim-silence`.
 **call_sid** | string | *Computed* | The [Call](https://www.twilio.com/docs/voice/api/call-resource) SID or label of the participant to update. Non URL safe characters in a label must be percent encoded, for example, a space character is represented as %20.
 **hold** | bool | Optional | Whether the participant should be on hold. Can be: `true` or `false`. `true` puts the participant on hold, and `false` lets them rejoin the conference.
 **hold_url** | string | Optional | The URL we call using the `hold_method` for music that plays when the participant is on hold. The URL may return an MP3 file, a WAV file, or a TwiML document that contains `<Play>`, `<Say>`, `<Pause>`, or `<Redirect>` verbs.

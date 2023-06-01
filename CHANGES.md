@@ -1,5 +1,17 @@
 terraform-provider-twilio changelog
 ====================
+[2023-06-01] Version 0.18.23
+----------------------------
+**Api**
+- Add `Trim` to create Conference Participant API
+
+**Intelligence**
+- First public beta release for Voice Intelligence APIs with client libraries
+
+**Messaging**
+- Add new `errors` attribute to us_app_to_person resource. This attribute will provide additional information about campaign registration errors.
+
+
 [2023-05-18] Version 0.18.22
 ----------------------------
 **Conversations**

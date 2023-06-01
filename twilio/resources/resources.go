@@ -21,6 +21,7 @@ import (
 	conversationsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/conversations/v1"
 	eventsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/events/v1"
 	flexV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/flex/v1"
+	intelligenceV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/intelligence/v2"
 	ip_messagingV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/ip_messaging/v1"
 	ip_messagingV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/ip_messaging/v2"
 	messagingV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/messaging/v1"
@@ -122,6 +123,8 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_flex_flex_flows_v1":                                                   flexV1.ResourceFlexFlows(),
 			"twilio_flex_insights_quality_management_questionnaires_v1":                   flexV1.ResourceInsightsQualityManagementQuestionnaires(),
 			"twilio_flex_web_channels_v1":                                                 flexV1.ResourceWebChannels(),
+			"twilio_intelligence_services_v2":                                             intelligenceV2.ResourceServices(),
+			"twilio_intelligence_transcripts_v2":                                          intelligenceV2.ResourceTranscripts(),
 			"twilio_ip_messaging_services_channels_v1":                                    ip_messagingV1.ResourceServicesChannels(),
 			"twilio_ip_messaging_credentials_v1":                                          ip_messagingV1.ResourceCredentials(),
 			"twilio_ip_messaging_services_channels_invites_v1":                            ip_messagingV1.ResourceServicesChannelsInvites(),

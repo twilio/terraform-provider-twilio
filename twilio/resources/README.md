@@ -97,6 +97,11 @@
 * [twilio_flex_insights_quality_management_questionnaires_v1](flex/v1/README.md#twilio_flex_insights_quality_management_questionnaires_v1)
 * [twilio_flex_web_channels_v1](flex/v1/README.md#twilio_flex_web_channels_v1)
 
+## intelligence v2
+
+* [twilio_intelligence_services_v2](intelligence/v2/README.md#twilio_intelligence_services_v2)
+* [twilio_intelligence_transcripts_v2](intelligence/v2/README.md#twilio_intelligence_transcripts_v2)
+
 ## ip_messaging v1
 
 * [twilio_ip_messaging_services_channels_v1](ip_messaging/v1/README.md#twilio_ip_messaging_services_channels_v1)

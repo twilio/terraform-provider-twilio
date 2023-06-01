@@ -1340,6 +1340,7 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"machine_detection_silence_timeout":      AsInt(SchemaForceNewOptional),
 			"amd_status_callback":                    AsString(SchemaForceNewOptional),
 			"amd_status_callback_method":             AsString(SchemaForceNewOptional),
+			"trim":                                   AsString(SchemaForceNewOptional),
 			"call_sid":                               AsString(SchemaComputed),
 			"hold":                                   AsBool(SchemaComputedOptional),
 			"hold_url":                               AsString(SchemaComputedOptional),

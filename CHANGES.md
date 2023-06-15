@@ -1,5 +1,15 @@
 terraform-provider-twilio changelog
 ====================
+[2023-06-15] Version 0.18.24
+----------------------------
+**Api**
+- Added `content_sid` as conditional parameter
+- Removed `content_sid` as optional field **(breaking change)**
+
+**Insights**
+- Added `annotation` to list summary output
+
+
 [2023-06-01] Version 0.18.23
 ----------------------------
 **Api**

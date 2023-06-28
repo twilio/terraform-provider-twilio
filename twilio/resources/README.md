@@ -148,8 +148,10 @@
 
 ## numbers v2
 
+* [twilio_numbers_hosted_number_authorization_documents_v2](numbers/v2/README.md#twilio_numbers_hosted_number_authorization_documents_v2)
 * [twilio_numbers_regulatory_compliance_bundles_v2](numbers/v2/README.md#twilio_numbers_regulatory_compliance_bundles_v2)
 * [twilio_numbers_regulatory_compliance_end_users_v2](numbers/v2/README.md#twilio_numbers_regulatory_compliance_end_users_v2)
+* [twilio_numbers_hosted_number_orders_v2](numbers/v2/README.md#twilio_numbers_hosted_number_orders_v2)
 * [twilio_numbers_regulatory_compliance_bundles_item_assignments_v2](numbers/v2/README.md#twilio_numbers_regulatory_compliance_bundles_item_assignments_v2)
 * [twilio_numbers_regulatory_compliance_supporting_documents_v2](numbers/v2/README.md#twilio_numbers_regulatory_compliance_supporting_documents_v2)
 

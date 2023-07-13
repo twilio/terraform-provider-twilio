@@ -8,6 +8,7 @@ Name | Type | Requirement | Description
 **address_sid** | string | **Required** | A 34 character string that uniquely identifies the Address resource that is associated with this AuthorizationDocument.
 **email** | string | **Required** | Email that this AuthorizationDocument will be sent to for signing.
 **contact_phone_number** | string | **Required** | The contact phone number of the person authorized to sign the Authorization Document.
+**hosted_number_order_sids** | list(string) | **Required** | A list of HostedNumberOrder sids that this AuthorizationDocument will authorize for hosting phone number capabilities on Twilio's platform.
 **contact_title** | string | Optional | The title of the person authorized to sign the Authorization Document for this phone number.
 **cc_emails** | list(string) | Optional | Email recipients who will be informed when an Authorization Document has been sent and signed.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this AuthorizationDocument.

@@ -32,12 +32,13 @@ func ResourceHostedNumberAuthorizationDocuments() *schema.Resource {
 		ReadContext:   readHostedNumberAuthorizationDocuments,
 		DeleteContext: deleteHostedNumberAuthorizationDocuments,
 		Schema: map[string]*schema.Schema{
-			"address_sid":          AsString(SchemaForceNewRequired),
-			"email":                AsString(SchemaForceNewRequired),
-			"contact_phone_number": AsString(SchemaForceNewRequired),
-			"contact_title":        AsString(SchemaForceNewOptional),
-			"cc_emails":            AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
-			"sid":                  AsString(SchemaComputed),
+			"address_sid":              AsString(SchemaForceNewRequired),
+			"email":                    AsString(SchemaForceNewRequired),
+			"contact_phone_number":     AsString(SchemaForceNewRequired),
+			"hosted_number_order_sids": AsList(AsString(SchemaForceNewRequired), SchemaForceNewRequired),
+			"contact_title":            AsString(SchemaForceNewOptional),
+			"cc_emails":                AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {

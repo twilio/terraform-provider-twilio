@@ -51,7 +51,7 @@ Name | Type | Requirement | Description
 **address_sid** | string | **Required** | Optional. A 34 character string that uniquely identifies the Address resource that represents the address of the owner of this phone number.
 **email** | string | **Required** | Optional. Email of the owner of this phone number that is being hosted.
 **account_sid** | string | Optional | This defaults to the AccountSid of the authorization the user is using. This can be provided to specify a subaccount to add the HostedNumberOrder to.
-**friendly_name** | string | Optional | A 64 character string that is a human readable text that describes this resource.
+**friendly_name** | string | Optional | A 128 character string that is a human readable text that describes this resource.
 **cc_emails** | list(string) | Optional | Optional. A list of emails that the LOA document for this HostedNumberOrder will be carbon copied to.
 **sms_url** | string | Optional | The URL that Twilio should request when somebody sends an SMS to the phone number. This will be copied onto the IncomingPhoneNumber resource.
 **sms_method** | string | Optional | The HTTP method that should be used to request the SmsUrl. Must be either `GET` or `POST`.  This will be copied onto the IncomingPhoneNumber resource.

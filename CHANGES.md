@@ -1,5 +1,20 @@
 terraform-provider-twilio changelog
 ====================
+[2023-07-27] Version 0.18.27
+----------------------------
+**Api**
+- Added `voice-intelligence`, `voice-intelligence-transcription` and `voice-intelligence-operators` to `usage_record` API.
+- Added `tts-google` to `usage_record` API.
+
+**Lookups**
+- Add new `disposable_phone_number_risk` package to the lookup response
+
+**Verify**
+- Documentation of list attempts API was improved by correcting `date_created_after` and `date_created_before` expected date format.
+- Documentation was improved by correcting `date_created_after` and `date_created_before` expected date format parameter on attempts summary API.
+- Documentation was improved by adding `WHATSAPP` as optional valid parameter on attempts summary API.
+
+
 [2023-07-13] Version 0.18.26
 ----------------------------
 **Flex**

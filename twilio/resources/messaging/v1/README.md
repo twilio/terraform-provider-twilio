@@ -31,12 +31,12 @@ Name | Type | Requirement | Description
 **fallback_url** | string | Optional | The URL that we call using `fallback_method` if an error occurs while retrieving or executing the TwiML from the Inbound Request URL. If the `use_inbound_webhook_on_number` field is enabled then the webhook url defined on the phone number will override the `fallback_url` defined for the Messaging Service.
 **fallback_method** | string | Optional | The HTTP method we should use to call `fallback_url`. Can be: `GET` or `POST`.
 **status_callback** | string | Optional | The URL we should call to [pass status updates](https://www.twilio.com/docs/sms/api/message-resource#message-status-values) about message delivery.
-**sticky_sender** | bool | Optional | Whether to enable [Sticky Sender](https://www.twilio.com/docs/sms/services#sticky-sender) on the Service instance.
-**mms_converter** | bool | Optional | Whether to enable the [MMS Converter](https://www.twilio.com/docs/sms/services#mms-converter) for messages sent through the Service instance.
-**smart_encoding** | bool | Optional | Whether to enable [Smart Encoding](https://www.twilio.com/docs/sms/services#smart-encoding) for messages sent through the Service instance.
+**sticky_sender** | bool | Optional | Whether to enable [Sticky Sender](https://www.twilio.com/docs/messaging/services#sticky-sender) on the Service instance.
+**mms_converter** | bool | Optional | Whether to enable the [MMS Converter](https://www.twilio.com/docs/messaging/services#mms-converter) for messages sent through the Service instance.
+**smart_encoding** | bool | Optional | Whether to enable [Smart Encoding](https://www.twilio.com/docs/messaging/services#smart-encoding) for messages sent through the Service instance.
 **scan_message_content** | string | Optional | 
-**fallback_to_long_code** | bool | Optional | Whether to enable [Fallback to Long Code](https://www.twilio.com/docs/sms/services#fallback-to-long-code) for messages sent through the Service instance.
-**area_code_geomatch** | bool | Optional | Whether to enable [Area Code Geomatch](https://www.twilio.com/docs/sms/services#area-code-geomatch) on the Service Instance.
+**fallback_to_long_code** | bool | Optional | Whether to enable [Fallback to Long Code](https://www.twilio.com/docs/messaging/services#fallback-to-long-code) for messages sent through the Service instance.
+**area_code_geomatch** | bool | Optional | Whether to enable [Area Code Geomatch](https://www.twilio.com/docs/messaging/services#area-code-geomatch) on the Service Instance.
 **validity_period** | int | Optional | How long, in seconds, messages sent from the Service are valid. Can be an integer from `1` to `14,400`.
 **synchronous_validation** | bool | Optional | Reserved.
 **usecase** | string | Optional | A string that describes the scenario in which the Messaging Service will be used. Examples: [notification, marketing, verification, poll ..].

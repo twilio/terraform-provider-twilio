@@ -30,7 +30,7 @@ Name | Type | Requirement | Description
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource's `sid` in the URL.
 **date_created** | string | Optional | The date that this resource was created.
 **date_updated** | string | Optional | The date that this resource was last updated.
-**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/sms/services/api) this conversation belongs to.
+**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) this conversation belongs to.
 **attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
 **state** | string | Optional | 
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to `inactive` state. Minimum value for this timer is 1 minute.
@@ -137,7 +137,7 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | The human-readable name of this conversation, limited to 256 characters. Optional.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource's `sid` in the URL.
 **attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
-**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/sms/services/api) this conversation belongs to.
+**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) this conversation belongs to.
 **date_created** | string | Optional | The date that this resource was created.
 **date_updated** | string | Optional | The date that this resource was last updated.
 **state** | string | Optional | 

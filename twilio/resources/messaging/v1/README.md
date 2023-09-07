@@ -35,7 +35,7 @@ Name | Type | Requirement | Description
 **mms_converter** | bool | Optional | Whether to enable the [MMS Converter](https://www.twilio.com/docs/messaging/services#mms-converter) for messages sent through the Service instance.
 **smart_encoding** | bool | Optional | Whether to enable [Smart Encoding](https://www.twilio.com/docs/messaging/services#smart-encoding) for messages sent through the Service instance.
 **scan_message_content** | string | Optional | 
-**fallback_to_long_code** | bool | Optional | Whether to enable [Fallback to Long Code](https://www.twilio.com/docs/messaging/services#fallback-to-long-code) for messages sent through the Service instance.
+**fallback_to_long_code** | bool | Optional | [OBSOLETE] Former feature used to fallback to long code sender after certain short code message failures.
 **area_code_geomatch** | bool | Optional | Whether to enable [Area Code Geomatch](https://www.twilio.com/docs/messaging/services#area-code-geomatch) on the Service Instance.
 **validity_period** | int | Optional | How long, in seconds, messages sent from the Service are valid. Can be an integer from `1` to `14,400`.
 **synchronous_validation** | bool | Optional | Reserved.

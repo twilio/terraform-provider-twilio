@@ -935,6 +935,7 @@ func ResourceAccountsMessages() *schema.Resource {
 			"send_at":               AsString(SchemaForceNewOptional),
 			"send_as_mms":           AsBool(SchemaForceNewOptional),
 			"content_variables":     AsString(SchemaForceNewOptional),
+			"tags":                  AsString(SchemaForceNewOptional),
 			"risk_check":            AsString(SchemaForceNewOptional),
 			"from":                  AsString(SchemaForceNewOptional),
 			"messaging_service_sid": AsString(SchemaForceNewOptional),

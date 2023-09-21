@@ -39,7 +39,7 @@ Name | Type | Requirement | Description
 **area_code_geomatch** | bool | Optional | Whether to enable [Area Code Geomatch](https://www.twilio.com/docs/messaging/services#area-code-geomatch) on the Service Instance.
 **validity_period** | int | Optional | How long, in seconds, messages sent from the Service are valid. Can be an integer from `1` to `14,400`.
 **synchronous_validation** | bool | Optional | Reserved.
-**usecase** | string | Optional | A string that describes the scenario in which the Messaging Service will be used. Examples: [notification, marketing, verification, poll ..].
+**usecase** | string | Optional | A string that describes the scenario in which the Messaging Service will be used. Possible values are `notifications`, `marketing`, `verification`, `discussion`, `poll`, `undeclared`.
 **use_inbound_webhook_on_number** | bool | Optional | A boolean value that indicates either the webhook url configured on the phone number will be used or `inbound_request_url`/`fallback_url` url will be called when a message is received from the phone number. If this field is enabled then the webhook url defined on the phone number will override the `inbound_request_url`/`fallback_url` defined for the Messaging Service.
 **sid** | string | *Computed* | The SID of the Service resource to update.
 
@@ -59,7 +59,7 @@ Name | Type | Requirement | Description
 
 Name | Type | Requirement | Description
 --- | --- | --- | ---
-**messaging_service_sid** | string | **Required** | The SID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) to create the resources from.
+**messaging_service_sid** | string | **Required** | The SID of the [Messaging Service](https://www.twilio.com/docs/messaging/api/service-resource) to create the resources from.
 **brand_registration_sid** | string | **Required** | A2P Brand Registration SID
 **description** | string | **Required** | A short description of what this SMS campaign does. Min length: 40 characters. Max length: 4096 characters.
 **message_flow** | string | **Required** | Required for all Campaigns. Details around how a consumer opts-in to their campaign, therefore giving consent to receive their messages. If multiple opt-in methods can be used for the same campaign, they must all be listed. 40 character minimum. 2048 character maximum.

@@ -30,11 +30,13 @@ Name | Type | Requirement | Description
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource's `sid` in the URL.
 **date_created** | string | Optional | The date that this resource was created.
 **date_updated** | string | Optional | The date that this resource was last updated.
-**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) this conversation belongs to.
+**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/api/service-resource) this conversation belongs to.
 **attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
 **state** | string | Optional | 
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to `inactive` state. Minimum value for this timer is 1 minute.
 **timers_closed** | string | Optional | ISO8601 duration when conversation will be switched to `closed` state. Minimum value for this timer is 10 minutes.
+**bindings_email_address** | string | Optional | The default email address that will be used when sending outbound emails in this conversation.
+**bindings_email_name** | string | Optional | The default name that will be used when sending outbound emails in this conversation.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource. Can also be the `unique_name` of the Conversation.
 
 ## twilio_conversations_conversations_messages_v1
@@ -53,6 +55,7 @@ Name | Type | Requirement | Description
 **media_sid** | string | Optional | The Media SID to be attached to the new Message.
 **content_sid** | string | Optional | The unique ID of the multi-channel [Rich Content](https://www.twilio.com/docs/content-api) template, required for template-generated messages.  **Note** that if this field is set, `Body` and `MediaSid` parameters are ignored.
 **content_variables** | string | Optional | A structurally valid JSON string that contains values to resolve Rich Content template variables.
+**subject** | string | Optional | The subject of the message, can be up to 256 characters long.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 
 ## twilio_conversations_conversations_participants_v1
@@ -137,12 +140,14 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | The human-readable name of this conversation, limited to 256 characters. Optional.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource's `sid` in the URL.
 **attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
-**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/services/api) this conversation belongs to.
+**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/api/service-resource) this conversation belongs to.
 **date_created** | string | Optional | The date that this resource was created.
 **date_updated** | string | Optional | The date that this resource was last updated.
 **state** | string | Optional | 
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to `inactive` state. Minimum value for this timer is 1 minute.
 **timers_closed** | string | Optional | ISO8601 duration when conversation will be switched to `closed` state. Minimum value for this timer is 10 minutes.
+**bindings_email_address** | string | Optional | The default email address that will be used when sending outbound emails in this conversation.
+**bindings_email_name** | string | Optional | The default name that will be used when sending outbound emails in this conversation.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource. Can also be the `unique_name` of the Conversation.
 
 ## twilio_conversations_services_conversations_messages_v1
@@ -162,6 +167,7 @@ Name | Type | Requirement | Description
 **media_sid** | string | Optional | The Media SID to be attached to the new Message.
 **content_sid** | string | Optional | The unique ID of the multi-channel [Rich Content](https://www.twilio.com/docs/content-api) template, required for template-generated messages.  **Note** that if this field is set, `Body` and `MediaSid` parameters are ignored.
 **content_variables** | string | Optional | A structurally valid JSON string that contains values to resolve Rich Content template variables.
+**subject** | string | Optional | The subject of the message, can be up to 256 characters long.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 
 ## twilio_conversations_services_conversations_participants_v1

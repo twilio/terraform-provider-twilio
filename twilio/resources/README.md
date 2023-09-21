@@ -19,6 +19,7 @@
 * [twilio_api_accounts_signing_keys](api/v2010/README.md#twilio_api_accounts_signing_keys)
 * [twilio_api_accounts_conferences_participants](api/v2010/README.md#twilio_api_accounts_conferences_participants)
 * [twilio_api_accounts_queues](api/v2010/README.md#twilio_api_accounts_queues)
+* [twilio_api_safe_list_numbers](api/v2010/README.md#twilio_api_safe_list_numbers)
 * [twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings)
 * [twilio_api_accounts_sip_domains_auth_calls_ip_access_control_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_auth_calls_ip_access_control_list_mappings)
 * [twilio_api_accounts_sip_domains_auth_registrations_credential_list_mappings](api/v2010/README.md#twilio_api_accounts_sip_domains_auth_registrations_credential_list_mappings)

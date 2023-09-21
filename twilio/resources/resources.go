@@ -64,6 +64,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_api_accounts_signing_keys":                                            api.ResourceAccountsSigningKeys(),
 			"twilio_api_accounts_conferences_participants":                                api.ResourceAccountsConferencesParticipants(),
 			"twilio_api_accounts_queues":                                                  api.ResourceAccountsQueues(),
+			"twilio_api_safe_list_numbers":                                                api.ResourceSafeListNumbers(),
 			"twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings":         api.ResourceAccountsSIPDomainsAuthCallsCredentialListMappings(),
 			"twilio_api_accounts_sip_domains_auth_calls_ip_access_control_list_mappings":  api.ResourceAccountsSIPDomainsAuthCallsIpAccessControlListMappings(),
 			"twilio_api_accounts_sip_domains_auth_registrations_credential_list_mappings": api.ResourceAccountsSIPDomainsAuthRegistrationsCredentialListMappings(),

@@ -117,6 +117,7 @@ func parseServicesAlphaSendersImportId(importId string, d *schema.ResourceData) 
 
 	d.Set("service_sid", importParts[0])
 	d.Set("sid", importParts[1])
+	d.Set("phone_number_sid", importParts[1])
 
 	return nil
 }

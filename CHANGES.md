@@ -1,5 +1,11 @@
 terraform-provider-twilio changelog
 ====================
+[2023-10-05] Version 0.18.32
+----------------------------
+**Lookups**
+- Add test api support for Lookup v2
+
+
 [2023-09-21] Version 0.18.31
 ----------------------------
 **Conversations**

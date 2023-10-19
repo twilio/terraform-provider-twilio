@@ -273,6 +273,7 @@ Name | Type | Requirement | Description
 **amd_status_callback** | string | Optional | The URL that we should call using the `amd_status_callback_method` to notify customer application whether the call was answered by human, machine or fax.
 **amd_status_callback_method** | string | Optional | The HTTP method we should use when calling the `amd_status_callback` URL. Can be: `GET` or `POST` and the default is `POST`.
 **trim** | string | Optional | Whether to trim any leading and trailing silence from the participant recording. Can be: `trim-silence` or `do-not-trim` and the default is `trim-silence`.
+**call_token** | string | Optional | A token string needed to invoke a forwarded call. A call_token is generated when an incoming call is received on a Twilio number. Pass an incoming call's call_token value to a forwarded call via the call_token parameter when creating a new call. A forwarded call should bear the same CallerID of the original incoming call.
 **call_sid** | string | *Computed* | The [Call](https://www.twilio.com/docs/voice/api/call-resource) SID or label of the participant to update. Non URL safe characters in a label must be percent encoded, for example, a space character is represented as %20.
 **hold** | bool | Optional | Whether the participant should be on hold. Can be: `true` or `false`. `true` puts the participant on hold, and `false` lets them rejoin the conference.
 **hold_url** | string | Optional | The URL we call using the `hold_method` for music that plays when the participant is on hold. The URL may return an MP3 file, a WAV file, or a TwiML document that contains `<Play>`, `<Say>`, `<Pause>`, or `<Redirect>` verbs.
@@ -291,14 +292,6 @@ Name | Type | Requirement | Description
 **path_account_sid** | string | Optional | The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
 **max_size** | int | Optional | The maximum number of calls allowed to be in the queue. The default is 1000. The maximum is 5000.
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Queue resource to update
-
-## twilio_api_safe_list_numbers
-
-### Parameters
-
-Name | Type | Requirement | Description
---- | --- | --- | ---
-**phone_number** | string | **Required** | The phone number to be added in SafeList. Phone numbers must be in [E.164 format](https://www.twilio.com/docs/glossary/what-e164).
 
 ## twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings
 

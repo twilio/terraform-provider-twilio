@@ -63,7 +63,7 @@ Name | Type | Requirement | Description
 **brand_registration_sid** | string | **Required** | A2P Brand Registration SID
 **description** | string | **Required** | A short description of what this SMS campaign does. Min length: 40 characters. Max length: 4096 characters.
 **message_flow** | string | **Required** | Required for all Campaigns. Details around how a consumer opts-in to their campaign, therefore giving consent to receive their messages. If multiple opt-in methods can be used for the same campaign, they must all be listed. 40 character minimum. 2048 character maximum.
-**message_samples** | list(string) | **Required** | Message samples, at least 1 and up to 5 sample messages (at least 2 for sole proprietor), >=20 chars, <=1024 chars each.
+**message_samples** | list(string) | **Required** | An array of sample message strings, min two and max five. Min length for each sample: 20 chars. Max length for each sample: 1024 chars.
 **us_app_to_person_usecase** | string | **Required** | A2P Campaign Use Case. Examples: [ 2FA, EMERGENCY, MARKETING..]
 **has_embedded_links** | bool | **Required** | Indicates that this SMS campaign will send messages that contain links.
 **has_embedded_phone** | bool | **Required** | Indicates that this SMS campaign will send messages that contain phone numbers.

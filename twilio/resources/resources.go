@@ -52,6 +52,7 @@ func NewTwilioResources() *TwilioResources {
 		map[string]*schema.Resource{
 			"twilio_accounts_credentials_aws_v1":                                          accountsV1.ResourceCredentialsAWS(),
 			"twilio_accounts_credentials_public_keys_v1":                                  accountsV1.ResourceCredentialsPublicKeys(),
+			"twilio_accounts_safe_list_numbers_v1":                                        accountsV1.ResourceSafeListNumbers(),
 			"twilio_api_accounts_addresses":                                               api.ResourceAccountsAddresses(),
 			"twilio_api_accounts_applications":                                            api.ResourceAccountsApplications(),
 			"twilio_api_accounts_calls":                                                   api.ResourceAccountsCalls(),
@@ -64,7 +65,6 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_api_accounts_signing_keys":                                            api.ResourceAccountsSigningKeys(),
 			"twilio_api_accounts_conferences_participants":                                api.ResourceAccountsConferencesParticipants(),
 			"twilio_api_accounts_queues":                                                  api.ResourceAccountsQueues(),
-			"twilio_api_safe_list_numbers":                                                api.ResourceSafeListNumbers(),
 			"twilio_api_accounts_sip_domains_auth_calls_credential_list_mappings":         api.ResourceAccountsSIPDomainsAuthCallsCredentialListMappings(),
 			"twilio_api_accounts_sip_domains_auth_calls_ip_access_control_list_mappings":  api.ResourceAccountsSIPDomainsAuthCallsIpAccessControlListMappings(),
 			"twilio_api_accounts_sip_domains_auth_registrations_credential_list_mappings": api.ResourceAccountsSIPDomainsAuthRegistrationsCredentialListMappings(),

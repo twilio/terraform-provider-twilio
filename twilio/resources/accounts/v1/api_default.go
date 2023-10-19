@@ -249,3 +249,78 @@ func updateCredentialsPublicKeys(ctx context.Context, d *schema.ResourceData, m 
 
 	return nil
 }
+
+func ResourceSafeListNumbers() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createSafeListNumbers,
+		ReadContext:   readSafeListNumbers,
+		DeleteContext: deleteSafeListNumbers,
+		Schema: map[string]*schema.Schema{
+			"phone_number": AsString(SchemaForceNewRequired),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createSafeListNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateSafelistParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.AccountsV1.CreateSafelist(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.PhoneNumber))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteSafeListNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := DeleteSafelistParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	err := m.(*client.Config).Client.AccountsV1.DeleteSafelist(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readSafeListNumbers(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := FetchSafelistParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.AccountsV1.FetchSafelist(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}

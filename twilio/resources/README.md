@@ -132,6 +132,7 @@
 * [twilio_messaging_services_phone_numbers_v1](messaging/v1/README.md#twilio_messaging_services_phone_numbers_v1)
 * [twilio_messaging_services_v1](messaging/v1/README.md#twilio_messaging_services_v1)
 * [twilio_messaging_services_short_codes_v1](messaging/v1/README.md#twilio_messaging_services_short_codes_v1)
+* [twilio_messaging_tollfree_verifications_v1](messaging/v1/README.md#twilio_messaging_tollfree_verifications_v1)
 * [twilio_messaging_services_compliance_usa2p_v1](messaging/v1/README.md#twilio_messaging_services_compliance_usa2p_v1)
 
 ## microvisor v1

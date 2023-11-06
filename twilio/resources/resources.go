@@ -147,6 +147,7 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_messaging_services_phone_numbers_v1":                                  messagingV1.ResourceServicesPhoneNumbers(),
 			"twilio_messaging_services_v1":                                                messagingV1.ResourceServices(),
 			"twilio_messaging_services_short_codes_v1":                                    messagingV1.ResourceServicesShortCodes(),
+			"twilio_messaging_tollfree_verifications_v1":                                  messagingV1.ResourceTollfreeVerifications(),
 			"twilio_messaging_services_compliance_usa2p_v1":                               messagingV1.ResourceServicesComplianceUsa2p(),
 			"twilio_microvisor_configs_v1":                                                microvisorV1.ResourceConfigs(),
 			"twilio_microvisor_secrets_v1":                                                microvisorV1.ResourceSecrets(),

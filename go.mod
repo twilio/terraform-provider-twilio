@@ -1,6 +1,6 @@
 module github.com/twilio/terraform-provider-twilio
 
-go 1.18
+go 1.20
 
 require (
 	github.com/hashicorp/go-cty v1.4.1-0.20200723130312-85980079f637

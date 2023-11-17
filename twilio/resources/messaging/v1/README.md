@@ -83,6 +83,7 @@ Name | Type | Requirement | Description
 **business_contact_phone** | string | Optional | The phone number of the contact for the business or organization using the Tollfree number.
 **external_reference_id** | string | Optional | An optional external reference ID supplied by customer and echoed back on status retrieval.
 **sid** | string | *Computed* | The unique string to identify Tollfree Verification.
+**edit_reason** | string | Optional | Describe why the verification is being edited. If the verification was rejected because of a technical issue, such as the website being down, and the issue has been resolved this parameter should be set to something similar to 'Website fixed'.
 
 ## twilio_messaging_services_compliance_usa2p_v1
 

@@ -464,6 +464,7 @@ func ResourceTollfreeVerifications() *schema.Resource {
 			"business_contact_phone":         AsString(SchemaComputedOptional),
 			"external_reference_id":          AsString(SchemaForceNewOptional),
 			"sid":                            AsString(SchemaComputed),
+			"edit_reason":                    AsString(SchemaComputedOptional),
 		},
 		Importer: &schema.ResourceImporter{
 			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
@@ -492,13 +493,9 @@ func createTollfreeVerifications(ctx context.Context, d *schema.ResourceData, m 
 	idParts := []string{}
 	idParts = append(idParts, (*r.Sid))
 	d.SetId(strings.Join(idParts, "/"))
+	d.Set("sid", *r.Sid)
 
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
+	return updateTollfreeVerifications(ctx, d, m)
 }
 
 func deleteTollfreeVerifications(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

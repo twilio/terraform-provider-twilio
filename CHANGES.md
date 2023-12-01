@@ -1,5 +1,11 @@
 terraform-provider-twilio changelog
 ====================
+[2023-12-01] Version 0.18.36
+----------------------------
+**Verify**
+- Add `VerifyEventSubscriptionEnabled` parameter to service create and update endpoints.
+
+
 [2023-11-17] Version 0.18.35
 ----------------------------
 **Api**

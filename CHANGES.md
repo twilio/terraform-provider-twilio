@@ -1,5 +1,11 @@
 terraform-provider-twilio changelog
 ====================
+[2024-01-14] Version 0.18.38
+----------------------------
+**Push**
+- Migrated to new Push API V4 with Resilient Notification Delivery.
+
+
 [2023-12-14] Version 0.18.37
 ----------------------------
 **Api**

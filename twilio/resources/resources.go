@@ -15,7 +15,6 @@ import (
 
 	accountsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/accounts/v1"
 	api "github.com/twilio/terraform-provider-twilio/twilio/resources/api/v2010"
-	autopilotV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/autopilot/v1"
 	chatV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v1"
 	chatV2 "github.com/twilio/terraform-provider-twilio/twilio/resources/chat/v2"
 	conversationsV1 "github.com/twilio/terraform-provider-twilio/twilio/resources/conversations/v1"
@@ -76,15 +75,6 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_api_accounts_sip_domains_ip_access_control_list_mappings":             api.ResourceAccountsSIPDomainsIpAccessControlListMappings(),
 			"twilio_api_accounts_sip_ip_access_control_lists_ip_addresses":                api.ResourceAccountsSIPIpAccessControlListsIpAddresses(),
 			"twilio_api_accounts_usage_triggers":                                          api.ResourceAccountsUsageTriggers(),
-			"twilio_autopilot_assistants_v1":                                              autopilotV1.ResourceAssistants(),
-			"twilio_autopilot_assistants_tasks_fields_v1":                                 autopilotV1.ResourceAssistantsTasksFields(),
-			"twilio_autopilot_assistants_field_types_v1":                                  autopilotV1.ResourceAssistantsFieldTypes(),
-			"twilio_autopilot_assistants_field_types_field_values_v1":                     autopilotV1.ResourceAssistantsFieldTypesFieldValues(),
-			"twilio_autopilot_assistants_model_builds_v1":                                 autopilotV1.ResourceAssistantsModelBuilds(),
-			"twilio_autopilot_assistants_queries_v1":                                      autopilotV1.ResourceAssistantsQueries(),
-			"twilio_autopilot_assistants_tasks_samples_v1":                                autopilotV1.ResourceAssistantsTasksSamples(),
-			"twilio_autopilot_assistants_tasks_v1":                                        autopilotV1.ResourceAssistantsTasks(),
-			"twilio_autopilot_assistants_webhooks_v1":                                     autopilotV1.ResourceAssistantsWebhooks(),
 			"twilio_chat_services_channels_v1":                                            chatV1.ResourceServicesChannels(),
 			"twilio_chat_credentials_v1":                                                  chatV1.ResourceCredentials(),
 			"twilio_chat_services_channels_invites_v1":                                    chatV1.ResourceServicesChannelsInvites(),

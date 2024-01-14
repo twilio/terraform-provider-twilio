@@ -32,18 +32,6 @@
 * [twilio_api_accounts_sip_ip_access_control_lists_ip_addresses](api/v2010/README.md#twilio_api_accounts_sip_ip_access_control_lists_ip_addresses)
 * [twilio_api_accounts_usage_triggers](api/v2010/README.md#twilio_api_accounts_usage_triggers)
 
-## autopilot v1
-
-* [twilio_autopilot_assistants_v1](autopilot/v1/README.md#twilio_autopilot_assistants_v1)
-* [twilio_autopilot_assistants_tasks_fields_v1](autopilot/v1/README.md#twilio_autopilot_assistants_tasks_fields_v1)
-* [twilio_autopilot_assistants_field_types_v1](autopilot/v1/README.md#twilio_autopilot_assistants_field_types_v1)
-* [twilio_autopilot_assistants_field_types_field_values_v1](autopilot/v1/README.md#twilio_autopilot_assistants_field_types_field_values_v1)
-* [twilio_autopilot_assistants_model_builds_v1](autopilot/v1/README.md#twilio_autopilot_assistants_model_builds_v1)
-* [twilio_autopilot_assistants_queries_v1](autopilot/v1/README.md#twilio_autopilot_assistants_queries_v1)
-* [twilio_autopilot_assistants_tasks_samples_v1](autopilot/v1/README.md#twilio_autopilot_assistants_tasks_samples_v1)
-* [twilio_autopilot_assistants_tasks_v1](autopilot/v1/README.md#twilio_autopilot_assistants_tasks_v1)
-* [twilio_autopilot_assistants_webhooks_v1](autopilot/v1/README.md#twilio_autopilot_assistants_webhooks_v1)
-
 ## chat v1
 
 * [twilio_chat_services_channels_v1](chat/v1/README.md#twilio_chat_services_channels_v1)

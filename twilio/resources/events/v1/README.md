@@ -18,7 +18,7 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **subscription_sid** | string | **Required** | The unique SID identifier of the Subscription.
 **type** | string | **Required** | Type of event being subscribed to.
-**schema_version** | int | Optional | The schema version that the Subscription should use.
+**schema_version** | int | Optional | The schema version that the subscription should use.
 
 ## twilio_events_subscriptions_v1
 

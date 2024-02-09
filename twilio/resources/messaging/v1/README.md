@@ -53,6 +53,38 @@ Name | Type | Requirement | Description
 **short_code_sid** | string | **Required** | The SID of the ShortCode resource being added to the Service.
 **sid** | string | *Computed* | The SID of the ShortCode resource to fetch.
 
+## twilio_messaging_tollfree_verifications_v1
+
+### Parameters
+
+Name | Type | Requirement | Description
+--- | --- | --- | ---
+**business_name** | string | **Required** | The name of the business or organization using the Tollfree number.
+**business_website** | string | **Required** | The website of the business or organization using the Tollfree number.
+**notification_email** | string | **Required** | The email address to receive the notification about the verification result. .
+**use_case_categories** | list(string) | **Required** | The category of the use case for the Tollfree Number. List as many are applicable..
+**use_case_summary** | string | **Required** | Use this to further explain how messaging is used by the business or organization.
+**production_message_sample** | string | **Required** | An example of message content, i.e. a sample message.
+**opt_in_image_urls** | list(string) | **Required** | Link to an image that shows the opt-in workflow. Multiple images allowed and must be a publicly hosted URL.
+**opt_in_type** | string | **Required** | 
+**message_volume** | string | **Required** | Estimate monthly volume of messages from the Tollfree Number.
+**tollfree_phone_number_sid** | string | **Required** | The SID of the Phone Number associated with the Tollfree Verification.
+**customer_profile_sid** | string | Optional | Customer's Profile Bundle BundleSid.
+**business_street_address** | string | Optional | The address of the business or organization using the Tollfree number.
+**business_street_address2** | string | Optional | The address of the business or organization using the Tollfree number.
+**business_city** | string | Optional | The city of the business or organization using the Tollfree number.
+**business_state_province_region** | string | Optional | The state/province/region of the business or organization using the Tollfree number.
+**business_postal_code** | string | Optional | The postal code of the business or organization using the Tollfree number.
+**business_country** | string | Optional | The country of the business or organization using the Tollfree number.
+**additional_information** | string | Optional | Additional information to be provided for verification.
+**business_contact_first_name** | string | Optional | The first name of the contact for the business or organization using the Tollfree number.
+**business_contact_last_name** | string | Optional | The last name of the contact for the business or organization using the Tollfree number.
+**business_contact_email** | string | Optional | The email address of the contact for the business or organization using the Tollfree number.
+**business_contact_phone** | string | Optional | The phone number of the contact for the business or organization using the Tollfree number.
+**external_reference_id** | string | Optional | An optional external reference ID supplied by customer and echoed back on status retrieval.
+**sid** | string | *Computed* | The unique string to identify Tollfree Verification.
+**edit_reason** | string | Optional | Describe why the verification is being edited. If the verification was rejected because of a technical issue, such as the website being down, and the issue has been resolved this parameter should be set to something similar to 'Website fixed'.
+
 ## twilio_messaging_services_compliance_usa2p_v1
 
 ### Parameters
@@ -73,5 +105,8 @@ Name | Type | Requirement | Description
 **opt_in_keywords** | list(string) | Optional | If end users can text in a keyword to start receiving messages from this campaign, those keywords must be provided. This field is required if end users can text in a keyword to start receiving messages from this campaign. Values must be alphanumeric. 255 character maximum.
 **opt_out_keywords** | list(string) | Optional | End users should be able to text in a keyword to stop receiving messages from this campaign. Those keywords must be provided. This field is required if managing opt out keywords yourself (i.e. not using Twilio's Default or Advanced Opt Out features). Values must be alphanumeric. 255 character maximum.
 **help_keywords** | list(string) | Optional | End users should be able to text in a keyword to receive help. Those keywords must be provided as part of the campaign registration request. This field is required if managing help keywords yourself (i.e. not using Twilio's Default or Advanced Opt Out features). Values must be alphanumeric. 255 character maximum.
-**sid** | string | *Computed* | The SID of the US A2P Compliance resource to fetch `QE2c6890da8086d771620e9b13fadeba0b`.
+**subscriber_opt_in** | bool | Optional | A boolean that specifies whether campaign has Subscriber Optin or not.
+**age_gated** | bool | Optional | A boolean that specifies whether campaign is age gated or not.
+**direct_lending** | bool | Optional | A boolean that specifies whether campaign allows direct lending or not.
+**sid** | string | *Computed* | The SID of the US A2P Compliance resource to update `QE2c6890da8086d771620e9b13fadeba0b`.
 

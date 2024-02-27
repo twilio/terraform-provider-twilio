@@ -11,7 +11,6 @@
 * [twilio_api_accounts_addresses](api/v2010/README.md#twilio_api_accounts_addresses)
 * [twilio_api_accounts_applications](api/v2010/README.md#twilio_api_accounts_applications)
 * [twilio_api_accounts_calls](api/v2010/README.md#twilio_api_accounts_calls)
-* [twilio_api_accounts_calls_feedback_summary](api/v2010/README.md#twilio_api_accounts_calls_feedback_summary)
 * [twilio_api_accounts_calls_recordings](api/v2010/README.md#twilio_api_accounts_calls_recordings)
 * [twilio_api_accounts_incoming_phone_numbers](api/v2010/README.md#twilio_api_accounts_incoming_phone_numbers)
 * [twilio_api_accounts_incoming_phone_numbers_assigned_add_ons](api/v2010/README.md#twilio_api_accounts_incoming_phone_numbers_assigned_add_ons)

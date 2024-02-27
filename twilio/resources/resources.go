@@ -55,7 +55,6 @@ func NewTwilioResources() *TwilioResources {
 			"twilio_api_accounts_addresses":                                               api.ResourceAccountsAddresses(),
 			"twilio_api_accounts_applications":                                            api.ResourceAccountsApplications(),
 			"twilio_api_accounts_calls":                                                   api.ResourceAccountsCalls(),
-			"twilio_api_accounts_calls_feedback_summary":                                  api.ResourceAccountsCallsFeedbackSummary(),
 			"twilio_api_accounts_calls_recordings":                                        api.ResourceAccountsCallsRecordings(),
 			"twilio_api_accounts_incoming_phone_numbers":                                  api.ResourceAccountsIncomingPhoneNumbers(),
 			"twilio_api_accounts_incoming_phone_numbers_assigned_add_ons":                 api.ResourceAccountsIncomingPhoneNumbersAssignedAddOns(),

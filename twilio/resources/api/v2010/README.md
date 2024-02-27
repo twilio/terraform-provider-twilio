@@ -88,20 +88,6 @@ Name | Type | Requirement | Description
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Call resource to update
 **status** | string | Optional | 
 
-## twilio_api_accounts_calls_feedback_summary
-
-### Parameters
-
-Name | Type | Requirement | Description
---- | --- | --- | ---
-**start_date** | string | **Required** | Only include feedback given on or after this date. Format is `YYYY-MM-DD` and specified in UTC.
-**end_date** | string | **Required** | Only include feedback given on or before this date. Format is `YYYY-MM-DD` and specified in UTC.
-**path_account_sid** | string | Optional | The unique id of the [Account](https://www.twilio.com/docs/iam/api/account) responsible for this resource.
-**include_subaccounts** | bool | Optional | Whether to also include Feedback resources from all subaccounts. `true` includes feedback from all subaccounts and `false`, the default, includes feedback from only the specified account.
-**status_callback** | string | Optional | The URL that we will request when the feedback summary is complete.
-**status_callback_method** | string | Optional | The HTTP method (`GET` or `POST`) we use to make the request to the `StatusCallback` URL.
-**sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
-
 ## twilio_api_accounts_calls_recordings
 
 ### Parameters

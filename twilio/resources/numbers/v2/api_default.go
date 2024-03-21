@@ -26,6 +26,99 @@ import (
 	. "github.com/twilio/twilio-go/rest/numbers/v2"
 )
 
+func ResourceHostedNumberAuthorizationDocuments() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createHostedNumberAuthorizationDocuments,
+		ReadContext:   readHostedNumberAuthorizationDocuments,
+		DeleteContext: deleteHostedNumberAuthorizationDocuments,
+		Schema: map[string]*schema.Schema{
+			"address_sid":              AsString(SchemaForceNewRequired),
+			"email":                    AsString(SchemaForceNewRequired),
+			"contact_phone_number":     AsString(SchemaForceNewRequired),
+			"hosted_number_order_sids": AsList(AsString(SchemaForceNewRequired), SchemaForceNewRequired),
+			"contact_title":            AsString(SchemaForceNewOptional),
+			"cc_emails":                AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"sid":                      AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseHostedNumberAuthorizationDocumentsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createHostedNumberAuthorizationDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateAuthorizationDocumentParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.NumbersV2.CreateAuthorizationDocument(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteHostedNumberAuthorizationDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.NumbersV2.DeleteAuthorizationDocument(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readHostedNumberAuthorizationDocuments(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NumbersV2.FetchAuthorizationDocument(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseHostedNumberAuthorizationDocumentsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func ResourceRegulatoryComplianceBundles() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createRegulatoryComplianceBundles,
@@ -251,6 +344,109 @@ func updateRegulatoryComplianceEndUsers(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
+func ResourceHostedNumberOrders() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createHostedNumberOrders,
+		ReadContext:   readHostedNumberOrders,
+		DeleteContext: deleteHostedNumberOrders,
+		Schema: map[string]*schema.Schema{
+			"phone_number":           AsString(SchemaForceNewRequired),
+			"contact_phone_number":   AsString(SchemaForceNewRequired),
+			"address_sid":            AsString(SchemaForceNewRequired),
+			"email":                  AsString(SchemaForceNewRequired),
+			"account_sid":            AsString(SchemaForceNewOptional),
+			"friendly_name":          AsString(SchemaForceNewOptional),
+			"cc_emails":              AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"sms_url":                AsString(SchemaForceNewOptional),
+			"sms_method":             AsString(SchemaForceNewOptional),
+			"sms_fallback_url":       AsString(SchemaForceNewOptional),
+			"sms_capability":         AsBool(SchemaForceNewOptional),
+			"sms_fallback_method":    AsString(SchemaForceNewOptional),
+			"status_callback_url":    AsString(SchemaForceNewOptional),
+			"status_callback_method": AsString(SchemaForceNewOptional),
+			"sms_application_sid":    AsString(SchemaForceNewOptional),
+			"contact_title":          AsString(SchemaForceNewOptional),
+			"sid":                    AsString(SchemaComputed),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseHostedNumberOrdersImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createHostedNumberOrders(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateHostedNumberOrderParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.NumbersV2.CreateHostedNumberOrder(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteHostedNumberOrders(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.NumbersV2.DeleteHostedNumberOrder(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readHostedNumberOrders(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.NumbersV2.FetchHostedNumberOrder(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseHostedNumberOrdersImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
 func ResourceRegulatoryComplianceBundlesItemAssignments() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createRegulatoryComplianceBundlesItemAssignments,

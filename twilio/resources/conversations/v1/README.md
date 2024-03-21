@@ -30,11 +30,13 @@ Name | Type | Requirement | Description
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource's `sid` in the URL.
 **date_created** | string | Optional | The date that this resource was created.
 **date_updated** | string | Optional | The date that this resource was last updated.
-**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/sms/services/api) this conversation belongs to.
+**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/api/service-resource) this conversation belongs to.
 **attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
 **state** | string | Optional | 
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to `inactive` state. Minimum value for this timer is 1 minute.
 **timers_closed** | string | Optional | ISO8601 duration when conversation will be switched to `closed` state. Minimum value for this timer is 10 minutes.
+**bindings_email_address** | string | Optional | The default email address that will be used when sending outbound emails in this conversation.
+**bindings_email_name** | string | Optional | The default name that will be used when sending outbound emails in this conversation.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource. Can also be the `unique_name` of the Conversation.
 
 ## twilio_conversations_conversations_messages_v1
@@ -51,8 +53,9 @@ Name | Type | Requirement | Description
 **date_updated** | string | Optional | The date that this resource was last updated. `null` if the message has not been edited.
 **attributes** | string | Optional | A string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
 **media_sid** | string | Optional | The Media SID to be attached to the new Message.
-**content_sid** | string | Optional | The unique ID of the multi-channel [Rich Content](https://www.twilio.com/docs/content-api) template, required for template-generated messages.  **Note** that if this field is set, `Body` and `MediaSid` parameters are ignored.
+**content_sid** | string | Optional | The unique ID of the multi-channel [Rich Content](https://www.twilio.com/docs/content) template, required for template-generated messages.  **Note** that if this field is set, `Body` and `MediaSid` parameters are ignored.
 **content_variables** | string | Optional | A structurally valid JSON string that contains values to resolve Rich Content template variables.
+**subject** | string | Optional | The subject of the message, can be up to 256 characters long.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 
 ## twilio_conversations_conversations_participants_v1
@@ -137,12 +140,14 @@ Name | Type | Requirement | Description
 **friendly_name** | string | Optional | The human-readable name of this conversation, limited to 256 characters. Optional.
 **unique_name** | string | Optional | An application-defined string that uniquely identifies the resource. It can be used to address the resource in place of the resource's `sid` in the URL.
 **attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
-**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/sms/services/api) this conversation belongs to.
+**messaging_service_sid** | string | Optional | The unique ID of the [Messaging Service](https://www.twilio.com/docs/messaging/api/service-resource) this conversation belongs to.
 **date_created** | string | Optional | The date that this resource was created.
 **date_updated** | string | Optional | The date that this resource was last updated.
 **state** | string | Optional | 
 **timers_inactive** | string | Optional | ISO8601 duration when conversation will be switched to `inactive` state. Minimum value for this timer is 1 minute.
 **timers_closed** | string | Optional | ISO8601 duration when conversation will be switched to `closed` state. Minimum value for this timer is 10 minutes.
+**bindings_email_address** | string | Optional | The default email address that will be used when sending outbound emails in this conversation.
+**bindings_email_name** | string | Optional | The default name that will be used when sending outbound emails in this conversation.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource. Can also be the `unique_name` of the Conversation.
 
 ## twilio_conversations_services_conversations_messages_v1
@@ -160,8 +165,9 @@ Name | Type | Requirement | Description
 **date_updated** | string | Optional | The date that this resource was last updated. `null` if the message has not been edited.
 **attributes** | string | Optional | A string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
 **media_sid** | string | Optional | The Media SID to be attached to the new Message.
-**content_sid** | string | Optional | The unique ID of the multi-channel [Rich Content](https://www.twilio.com/docs/content-api) template, required for template-generated messages.  **Note** that if this field is set, `Body` and `MediaSid` parameters are ignored.
+**content_sid** | string | Optional | The unique ID of the multi-channel [Rich Content](https://www.twilio.com/docs/content) template, required for template-generated messages.  **Note** that if this field is set, `Body` and `MediaSid` parameters are ignored.
 **content_variables** | string | Optional | A structurally valid JSON string that contains values to resolve Rich Content template variables.
+**subject** | string | Optional | The subject of the message, can be up to 256 characters long.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 
 ## twilio_conversations_services_conversations_participants_v1
@@ -173,13 +179,13 @@ Name | Type | Requirement | Description
 **chat_service_sid** | string | **Required** | The SID of the [Conversation Service](https://www.twilio.com/docs/conversations/api/service-resource) the Participant resource is associated with.
 **conversation_sid** | string | **Required** | The unique ID of the [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) for this participant.
 **x_twilio_webhook_enabled** | string | Optional | The X-Twilio-Webhook-Enabled HTTP request header
-**identity** | string | Optional | A unique string identifier for the conversation participant as [Conversation User](https://www.twilio.com/docs/conversations/api/user-resource). This parameter is non-null if (and only if) the participant is using the Conversation SDK to communicate. Limited to 256 characters.
-**messaging_binding_address** | string | Optional | The address of the participant's device, e.g. a phone or WhatsApp number. Together with the Proxy address, this determines a participant uniquely. This field (with proxy_address) is only null when the participant is interacting from an SDK endpoint (see the 'identity' field).
-**messaging_binding_proxy_address** | string | Optional | The address of the Twilio phone number (or WhatsApp number) that the participant is in contact with. This field, together with participant address, is only null when the participant is interacting from an SDK endpoint (see the 'identity' field).
-**date_created** | string | Optional | The date that this resource was created.
-**date_updated** | string | Optional | The date that this resource was last updated.
-**attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set \\\"{}\\\" will be returned.
-**messaging_binding_projected_address** | string | Optional | The address of the Twilio phone number that is used in Group MMS. Communication mask for the Conversation participant with Identity.
+**identity** | string | Optional | A unique string identifier for the conversation participant as [Conversation User](https://www.twilio.com/docs/conversations/api/user-resource). This parameter is non-null if (and only if) the participant is using the [Conversation SDK](https://www.twilio.com/docs/conversations/sdk-overview) to communicate. Limited to 256 characters.
+**messaging_binding_address** | string | Optional | The address of the participant's device, e.g. a phone or WhatsApp number. Together with the Proxy address, this determines a participant uniquely. This field (with `proxy_address`) is only null when the participant is interacting from an SDK endpoint (see the `identity` field).
+**messaging_binding_proxy_address** | string | Optional | The address of the Twilio phone number (or WhatsApp number) that the participant is in contact with. This field, together with participant address, is only null when the participant is interacting from an SDK endpoint (see the `identity` field).
+**date_created** | string | Optional | The date on which this resource was created.
+**date_updated** | string | Optional | The date on which this resource was last updated.
+**attributes** | string | Optional | An optional string metadata field you can use to store any data you wish. The string value must contain structurally valid JSON if specified.  **Note** that if the attributes are not set `{}` will be returned.
+**messaging_binding_projected_address** | string | Optional | The address of the Twilio phone number that is used in Group MMS.
 **role_sid** | string | Optional | The SID of a conversation-level [Role](https://www.twilio.com/docs/conversations/api/role-resource) to assign to the participant.
 **sid** | string | *Computed* | A 34 character string that uniquely identifies this resource.
 **last_read_message_index** | int | Optional | Index of last “read” message in the [Conversation](https://www.twilio.com/docs/conversations/api/conversation-resource) for the Participant.

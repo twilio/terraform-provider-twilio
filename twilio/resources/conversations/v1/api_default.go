@@ -164,6 +164,8 @@ func ResourceConversations() *schema.Resource {
 			"state":                    AsString(SchemaComputedOptional),
 			"timers_inactive":          AsString(SchemaComputedOptional),
 			"timers_closed":            AsString(SchemaComputedOptional),
+			"bindings_email_address":   AsString(SchemaComputedOptional),
+			"bindings_email_name":      AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -287,6 +289,7 @@ func ResourceConversationsMessages() *schema.Resource {
 			"media_sid":                AsString(SchemaForceNewOptional),
 			"content_sid":              AsString(SchemaForceNewOptional),
 			"content_variables":        AsString(SchemaForceNewOptional),
+			"subject":                  AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -983,6 +986,8 @@ func ResourceServicesConversations() *schema.Resource {
 			"state":                    AsString(SchemaComputedOptional),
 			"timers_inactive":          AsString(SchemaComputedOptional),
 			"timers_closed":            AsString(SchemaComputedOptional),
+			"bindings_email_address":   AsString(SchemaComputedOptional),
+			"bindings_email_name":      AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{
@@ -1113,6 +1118,7 @@ func ResourceServicesConversationsMessages() *schema.Resource {
 			"media_sid":                AsString(SchemaForceNewOptional),
 			"content_sid":              AsString(SchemaForceNewOptional),
 			"content_variables":        AsString(SchemaForceNewOptional),
+			"subject":                  AsString(SchemaComputedOptional),
 			"sid":                      AsString(SchemaComputed),
 		},
 		Importer: &schema.ResourceImporter{

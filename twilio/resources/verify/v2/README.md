@@ -28,7 +28,7 @@ Name | Type | Requirement | Description
 --- | --- | --- | ---
 **service_sid** | string | **Required** | The SID of the [Service](https://www.twilio.com/docs/verify/api/service) that the resource is associated with.
 **country** | string | **Required** | The [ISO-3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code of the country this configuration will be applied to. If this is a global configuration, Country will take the value `all`.
-**messaging_service_sid** | string | **Required** | The SID of the [Messaging Service](https://www.twilio.com/docs/sms/services/api) to be used to send SMS to the country of this configuration.
+**messaging_service_sid** | string | **Required** | The SID of the [Messaging Service](https://www.twilio.com/docs/messaging/api/service-resource) to be used to send SMS to the country of this configuration.
 
 ## twilio_verify_services_entities_factors_v2
 
@@ -97,6 +97,7 @@ Name | Type | Requirement | Description
 **totp_code_length** | int | Optional | Optional configuration for the TOTP factors. Number of digits for generated TOTP codes. Must be between 3 and 8, inclusive. Defaults to 6
 **totp_skew** | int | Optional | Optional configuration for the TOTP factors. The number of time-steps, past and future, that are valid for validation of TOTP codes. Must be between 0 and 2, inclusive. Defaults to 1
 **default_template_sid** | string | Optional | The default message [template](https://www.twilio.com/docs/verify/api/templates). Will be used for all SMS verifications unless explicitly overriden. SMS channel only.
+**verify_event_subscription_enabled** | bool | Optional | Whether to allow verifications from the service to reach the stream-events sinks if configured
 **sid** | string | *Computed* | The Twilio-provided string that uniquely identifies the Service resource to update.
 
 ## twilio_verify_services_webhooks_v2

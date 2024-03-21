@@ -438,107 +438,6 @@ func updateAccountsCalls(ctx context.Context, d *schema.ResourceData, m interfac
 	return nil
 }
 
-func ResourceAccountsCallsFeedbackSummary() *schema.Resource {
-	return &schema.Resource{
-		CreateContext: createAccountsCallsFeedbackSummary,
-		ReadContext:   readAccountsCallsFeedbackSummary,
-		DeleteContext: deleteAccountsCallsFeedbackSummary,
-		Schema: map[string]*schema.Schema{
-			"start_date":             AsString(SchemaForceNewRequired),
-			"end_date":               AsString(SchemaForceNewRequired),
-			"path_account_sid":       AsString(SchemaForceNewOptional),
-			"include_subaccounts":    AsBool(SchemaForceNewOptional),
-			"status_callback":        AsString(SchemaForceNewOptional),
-			"status_callback_method": AsString(SchemaForceNewOptional),
-			"sid":                    AsString(SchemaComputed),
-		},
-		Importer: &schema.ResourceImporter{
-			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
-				err := parseAccountsCallsFeedbackSummaryImportId(d.Id(), d)
-				if err != nil {
-					return nil, err
-				}
-
-				return []*schema.ResourceData{d}, nil
-			},
-		},
-	}
-}
-
-func createAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := CreateCallFeedbackSummaryParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	r, err := m.(*client.Config).Client.Api.CreateCallFeedbackSummary(&params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	idParts := []string{}
-	idParts = append(idParts, (*r.Sid))
-	d.SetId(strings.Join(idParts, "/"))
-
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
-}
-
-func deleteAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := DeleteCallFeedbackSummaryParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	err := m.(*client.Config).Client.Api.DeleteCallFeedbackSummary(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	d.SetId("")
-
-	return nil
-}
-
-func readAccountsCallsFeedbackSummary(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	params := FetchCallFeedbackSummaryParams{}
-	if err := UnmarshalSchema(&params, d); err != nil {
-		return diag.FromErr(err)
-	}
-
-	sid := d.Get("sid").(string)
-
-	r, err := m.(*client.Config).Client.Api.FetchCallFeedbackSummary(sid, &params)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	err = MarshalSchema(d, r)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	return nil
-}
-
-func parseAccountsCallsFeedbackSummaryImportId(importId string, d *schema.ResourceData) error {
-	importParts := strings.Split(importId, "/")
-	errStr := "invalid import ID (%q), expected sid"
-
-	if len(importParts) != 1 {
-		return fmt.Errorf(errStr, importId)
-	}
-
-	d.Set("sid", importParts[0])
-
-	return nil
-}
 func ResourceAccountsCallsRecordings() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createAccountsCallsRecordings,
@@ -934,12 +833,13 @@ func ResourceAccountsMessages() *schema.Resource {
 			"schedule_type":         AsString(SchemaForceNewOptional),
 			"send_at":               AsString(SchemaForceNewOptional),
 			"send_as_mms":           AsBool(SchemaForceNewOptional),
-			"content_sid":           AsString(SchemaForceNewOptional),
 			"content_variables":     AsString(SchemaForceNewOptional),
+			"risk_check":            AsString(SchemaForceNewOptional),
 			"from":                  AsString(SchemaForceNewOptional),
 			"messaging_service_sid": AsString(SchemaForceNewOptional),
 			"body":                  AsString(SchemaComputedOptional),
 			"media_url":             AsList(AsString(SchemaForceNewOptional), SchemaForceNewOptional),
+			"content_sid":           AsString(SchemaForceNewOptional),
 			"sid":                   AsString(SchemaComputed),
 			"status":                AsString(SchemaComputedOptional),
 		},
@@ -1341,6 +1241,8 @@ func ResourceAccountsConferencesParticipants() *schema.Resource {
 			"machine_detection_silence_timeout":      AsInt(SchemaForceNewOptional),
 			"amd_status_callback":                    AsString(SchemaForceNewOptional),
 			"amd_status_callback_method":             AsString(SchemaForceNewOptional),
+			"trim":                                   AsString(SchemaForceNewOptional),
+			"call_token":                             AsString(SchemaForceNewOptional),
 			"call_sid":                               AsString(SchemaComputed),
 			"hold":                                   AsBool(SchemaComputedOptional),
 			"hold_url":                               AsString(SchemaComputedOptional),

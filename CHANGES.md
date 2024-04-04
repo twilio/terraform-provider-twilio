@@ -1,5 +1,50 @@
 terraform-provider-twilio changelog
 ====================
+[2024-04-04] Version 0.18.43
+----------------------------
+**Api**
+- Correct conference filtering by date_created and date_updated documentation, clarifying that times are UTC.
+- Add property `queue_time` to conference participant resource
+- Update RiskCheck documentation
+- Correct call filtering by start and end time documentation, clarifying that times are UTC.
+
+**Flex**
+- Remove optional parameter from `plugins` and it to `plugin_versions`
+- Adding optional parameter to `plugins`
+
+**Lookups**
+- Add new `pre_fill` package to the lookup response
+
+**Media**
+- Remove API: MediaProcessor
+
+**Messaging**
+- Cleanup api.messaging.next-gen from Messaging Services endpoints
+- Readd Sending-Window after fixing test failure
+- Remove Sending-Window due to test failure
+- Add Sending-Window as a response property to Messaging Services, gated by a beta feature flag
+
+**Numbers**
+- Correct valid_until_date field to be visible in Bundles resource
+- Adding port_in_status field to the Port In resource and phone_number_status and sid fields to the Port In Phone Number resource
+
+**Oauth**
+- Modified token endpoint response
+- Added refresh_token and scope as optional parameter to token endpoint
+- Add new APIs for vendor authorize and token endpoints
+
+**Trusthub**
+- Add update inquiry endpoint in compliance_registration.
+- Add new field in themeSetId in compliance_registration.
+
+**Verify**
+- Add `whatsapp.msg_service_sid` and `whatsapp.from` parameters to create, update, get and list of services endpoints
+
+**Voice**
+- Correct conference filtering by date_created and date_updated documentation, clarifying that times are UTC.
+- Correct call filtering by start and end time documentation, clarifying that times are UTC.
+
+
 [2024-03-12] Version 0.18.42
 ----------------------------
 **Api**

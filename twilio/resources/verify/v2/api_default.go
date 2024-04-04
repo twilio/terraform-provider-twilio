@@ -722,6 +722,8 @@ func ResourceServices() *schema.Resource {
 			"totp_code_length":                  AsInt(SchemaComputedOptional),
 			"totp_skew":                         AsInt(SchemaComputedOptional),
 			"default_template_sid":              AsString(SchemaComputedOptional),
+			"whatsapp_msg_service_sid":          AsString(SchemaComputedOptional),
+			"whatsapp_from":                     AsString(SchemaComputedOptional),
 			"verify_event_subscription_enabled": AsBool(SchemaComputedOptional),
 			"sid":                               AsString(SchemaComputed),
 		},

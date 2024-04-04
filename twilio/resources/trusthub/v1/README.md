@@ -62,10 +62,10 @@ Name | Type | Requirement | Description
 Name | Type | Requirement | Description
 --- | --- | --- | ---
 **friendly_name** | string | **Required** | The string that you assigned to describe the resource.
-**email** | string | **Required** | The email address that will receive updates when the Customer-Profile resource changes status.
-**policy_sid** | string | **Required** | The unique string of a policy that is associated to the Customer-Profile resource.
+**email** | string | **Required** | The email address that will receive updates when the Trust Product resource changes status.
+**policy_sid** | string | **Required** | The unique string of a policy that is associated to the Trust Product resource.
 **status_callback** | string | Optional | The URL we call to inform your application of status changes.
-**sid** | string | *Computed* | The unique string that we created to identify the Customer-Profile resource.
+**sid** | string | *Computed* | The unique string that we created to identify the Trust Product resource.
 **status** | string | Optional | 
 
 ## twilio_trusthub_trust_products_channel_endpoint_assignments_v1

@@ -87,6 +87,8 @@
 
 ## intelligence v2
 
+* [twilio_intelligence_operators_custom_v2](intelligence/v2/README.md#twilio_intelligence_operators_custom_v2)
+* [twilio_intelligence_services_operators_v2](intelligence/v2/README.md#twilio_intelligence_services_operators_v2)
 * [twilio_intelligence_services_v2](intelligence/v2/README.md#twilio_intelligence_services_v2)
 * [twilio_intelligence_transcripts_v2](intelligence/v2/README.md#twilio_intelligence_transcripts_v2)
 

@@ -23,6 +23,9 @@ Name | Type | Requirement | Description
 **workflow_sid** | string | Optional | The SID of the Workflow that you would like to handle routing for the new Task. If there is only one Workflow defined for the Workspace that you are posting the new task to, this parameter is optional.
 **attributes** | string | Optional | A URL-encoded JSON string with the attributes of the new task. This value is passed to the Workflow's `assignment_callback_url` when the Task is assigned to a Worker. For example: `{ \\\"task_type\\\": \\\"call\\\", \\\"twilio_call_sid\\\": \\\"CAxxx\\\", \\\"customer_ticket_number\\\": \\\"12345\\\" }`.
 **virtual_start_time** | string | Optional | The virtual start time to assign the new task and override the default. When supplied, the new task will have this virtual start time. When not supplied, the new task will have the virtual start time equal to `date_created`. Value can't be in the future.
+**routing_target** | string | Optional | A SID of a Worker, Queue, or Workflow to route a Task to
+**ignore_capacity** | string | Optional | A boolean indicating if a new task should respect a worker's capacity during assignment
+**task_queue_sid** | string | Optional | The SID of the TaskQueue in which the Task belongs
 **sid** | string | *Computed* | The SID of the Task resource to update.
 **if_match** | string | Optional | If provided, applies this mutation if (and only if) the [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) header of the Task matches the provided value. This matches the semantics of (and is implemented with) the HTTP [If-Match header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match).
 **assignment_status** | string | Optional | 

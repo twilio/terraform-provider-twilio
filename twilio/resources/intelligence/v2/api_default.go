@@ -26,6 +26,207 @@ import (
 	. "github.com/twilio/twilio-go/rest/intelligence/v2"
 )
 
+func ResourceOperatorsCustom() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createOperatorsCustom,
+		ReadContext:   readOperatorsCustom,
+		UpdateContext: updateOperatorsCustom,
+		DeleteContext: deleteOperatorsCustom,
+		Schema: map[string]*schema.Schema{
+			"friendly_name": AsString(SchemaRequired),
+			"operator_type": AsString(SchemaForceNewRequired),
+			"config":        AsString(SchemaRequired),
+			"sid":           AsString(SchemaComputed),
+			"if_match":      AsString(SchemaComputedOptional),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseOperatorsCustomImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createOperatorsCustom(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := CreateCustomOperatorParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	r, err := m.(*client.Config).Client.IntelligenceV2.CreateCustomOperator(&params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{}
+	idParts = append(idParts, (*r.Sid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteOperatorsCustom(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	err := m.(*client.Config).Client.IntelligenceV2.DeleteCustomOperator(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readOperatorsCustom(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.IntelligenceV2.FetchCustomOperator(sid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseOperatorsCustomImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("sid", importParts[0])
+
+	return nil
+}
+func updateOperatorsCustom(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	params := UpdateCustomOperatorParams{}
+	if err := UnmarshalSchema(&params, d); err != nil {
+		return diag.FromErr(err)
+	}
+
+	sid := d.Get("sid").(string)
+
+	r, err := m.(*client.Config).Client.IntelligenceV2.UpdateCustomOperator(sid, &params)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func ResourceServicesOperators() *schema.Resource {
+	return &schema.Resource{
+		CreateContext: createServicesOperators,
+		ReadContext:   readServicesOperators,
+		DeleteContext: deleteServicesOperators,
+		Schema: map[string]*schema.Schema{
+			"service_sid":  AsString(SchemaForceNewRequired),
+			"operator_sid": AsString(SchemaForceNewRequired),
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+				err := parseServicesOperatorsImportId(d.Id(), d)
+				if err != nil {
+					return nil, err
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
+	}
+}
+
+func createServicesOperators(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	operatorSid := d.Get("operator_sid").(string)
+
+	r, err := m.(*client.Config).Client.IntelligenceV2.CreateOperatorAttachment(serviceSid, operatorSid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	idParts := []string{serviceSid, operatorSid}
+	idParts = append(idParts, (*r.ServiceSid))
+	d.SetId(strings.Join(idParts, "/"))
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func deleteServicesOperators(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+	operatorSid := d.Get("operator_sid").(string)
+
+	err := m.(*client.Config).Client.IntelligenceV2.DeleteOperatorAttachment(serviceSid, operatorSid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+
+func readServicesOperators(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+	serviceSid := d.Get("service_sid").(string)
+
+	r, err := m.(*client.Config).Client.IntelligenceV2.FetchOperatorAttachments(serviceSid)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	err = MarshalSchema(d, r)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
+}
+
+func parseServicesOperatorsImportId(importId string, d *schema.ResourceData) error {
+	importParts := strings.Split(importId, "/")
+	errStr := "invalid import ID (%q), expected service_sid"
+
+	if len(importParts) != 1 {
+		return fmt.Errorf(errStr, importId)
+	}
+
+	d.Set("service_sid", importParts[0])
+
+	return nil
+}
 func ResourceServices() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: createServices,
@@ -37,7 +238,7 @@ func ResourceServices() *schema.Resource {
 			"auto_transcribe":     AsBool(SchemaComputedOptional),
 			"data_logging":        AsBool(SchemaComputedOptional),
 			"friendly_name":       AsString(SchemaComputedOptional),
-			"language_code":       AsString(SchemaComputedOptional),
+			"language_code":       AsString(SchemaForceNewOptional),
 			"auto_redaction":      AsBool(SchemaComputedOptional),
 			"media_redaction":     AsBool(SchemaComputedOptional),
 			"webhook_url":         AsString(SchemaComputedOptional),

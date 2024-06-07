@@ -88,7 +88,7 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2.5.0
         with:
-          version: latest
+          version: '~> v1'
           args: release --clean
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
